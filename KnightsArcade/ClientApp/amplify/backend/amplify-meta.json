@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/lientpp-20190206204505-deployment/amplify-cfn-templates/auth/cognitod5ccb08d-cloudformation-template.yml",
 				"logicalId": "authcognitod5ccb08d"
 			},
-			"lastPushTimeStamp": "2019-02-23T21:04:37.471Z",
+			"lastPushTimeStamp": "2019-03-05T05:42:07.722Z",
 			"output": {
 				"AppClientSecret": "fntumnd0cfiueq3b26d2ugn1ef5ls8o06fs1pdvv211g8nall40",
 				"UserPoolId": "us-east-2_6Izn99otx",
@@ -29,7 +29,23 @@
 				"IdentityPoolName": "cognitod5ccb08d_identitypool_d5ccb08d",
 				"UserPoolName": "cognitod5ccb08d_userpool_d5ccb08d"
 			},
-			"lastPushDirHash": "azk3CyoIyt5JYsvx9H3BsIMkdXU="
+			"lastPushDirHash": "mklm4P3bdkewl7NZe+KUhEvlHkY="
+		}
+	},
+	"storage": {
+		"amplifys3storage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/lientpp-20190206204505-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storageamplifys3storage"
+			},
+			"lastPushTimeStamp": "2019-03-05T05:42:07.727Z",
+			"output": {
+				"BucketName": "knightsarcades3",
+				"Region": "us-east-2"
+			},
+			"lastPushDirHash": "zH6MRZy+esj8uWYUxk6owyWhJxw="
 		}
 	}
 }

@@ -1,0 +1,13 @@
+{
+    "bucketName": "knightsarcades3",
+    "authPolicyName": "s3_amplify_54e5ce27",
+    "unauthPolicyName": "s3_amplify_54e5ce27",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}
