@@ -21,6 +21,10 @@ namespace KnightsArcade.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets info of controller.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("info")]
         public IActionResult GetInfo()
         {

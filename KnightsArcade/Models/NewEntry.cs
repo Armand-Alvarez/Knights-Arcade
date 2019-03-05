@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KnightsArcade.Models
+﻿namespace KnightsArcade.Models
 {
     public class NewEntry
     {
@@ -15,10 +10,6 @@ namespace KnightsArcade.Models
         public string GameVideoLink { get; set; }
         public string GameGenres { get; set; }
         public string GamePath { get; set; }
-        public string GameImage0 { get; set; }
-        public string GameImage1 { get; set; }
-        public string GameImage2 { get; set; }
-        public string GameImage3 { get; set; }
-        public string GameImage4 { get; set; }
+        public string[] GameImg { get; set; }
     }
 }

@@ -64,6 +64,13 @@ namespace KnightsArcade
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KnightsArcade Database API");
+                c.RoutePrefix = "swagger";
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -85,12 +92,7 @@ namespace KnightsArcade
                 }
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KnightsArcade Database API");
-                c.RoutePrefix = "swagger";
-            });
+            
         }
     }
 }

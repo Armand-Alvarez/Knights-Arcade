@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KnightsArcade.Infrastructure.Logic;
 using KnightsArcade.Models;
+using KnightsArcade.Models.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,10 @@ namespace KnightsArcade.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get info of controller.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("info")]
         public IActionResult GetInfo()
         {
@@ -96,7 +101,7 @@ namespace KnightsArcade.Controllers
         [HttpPut("rds/games/game")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult PutGames([FromBody] Games game)
+        public IActionResult PutGames([FromBody] GamesEntry game)
         {
             try
             {
@@ -247,11 +252,11 @@ namespace KnightsArcade.Controllers
         [HttpPut("rds/testsqueue/testqueue")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult PutTestsQueue(int gameId)
+        public IActionResult PutTestsQueue(TestsQueue testsQueue)
         {
             try
             {
-                _rdsLogic.PutTestsQueue(gameId);
+                _rdsLogic.PutTestsQueue((int)testsQueue.GameId);
                 return Ok();
             }
             catch (Exception e)

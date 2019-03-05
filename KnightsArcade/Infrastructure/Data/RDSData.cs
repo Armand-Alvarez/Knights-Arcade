@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KnightsArcade.Infrastructure.Data.Interface;
-using KnightsArcade.Models;
+﻿using KnightsArcade.Infrastructure.Data.Interface;
+using KnightsArcade.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KnightsArcade.Infrastructure.Data
 {
