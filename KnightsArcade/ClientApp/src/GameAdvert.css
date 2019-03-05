@@ -1,0 +1,25 @@
+.GameAdSlides{ 
+    width: 896px;
+    height: 504px;
+}
+
+.GameAdDiv{
+    width: 100%;
+}
+
+.GameAdPanel{
+    width: 67%;
+    margin: 0% auto;
+    padding: 0;
+}
+
+.Check{
+    font-size: 3em;
+    color: #33A033;
+}
+
+.GameAdDownload{
+    padding-top: 5em auto;
+    margin-top: 5em auto;
+    vertical-align: bottom;
+}
