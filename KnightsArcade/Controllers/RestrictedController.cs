@@ -50,8 +50,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                _rdsLogic.PostNewEntry(newEntry);
-                return StatusCode(201);
+                return StatusCode(201, _rdsLogic.PostNewEntry(newEntry));
             }
             catch (Exception e)
             {
@@ -245,7 +244,7 @@ namespace KnightsArcade.Controllers
         /// <remarks>
         /// Only updates the retryCount column by one.
         /// </remarks>
-        /// <param name="gameId"></param>
+        /// <param name="testsQueue"></param>
         /// <returns></returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  

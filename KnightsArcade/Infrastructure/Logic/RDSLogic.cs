@@ -18,7 +18,7 @@ namespace KnightsArcade.Infrastructure.Logic
             _logger = logger;
         }
 
-        public void PostNewEntry(NewEntry newEntry)
+        public Games PostNewEntry(NewEntry newEntry)
         {
             Games newGame = new Games()
             {
@@ -75,7 +75,7 @@ namespace KnightsArcade.Infrastructure.Logic
 
             _rdsData.PostTests(newTest);
 
-            return;
+            return newGame;
         }
 
         ///////
