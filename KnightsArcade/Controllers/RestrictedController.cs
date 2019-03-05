@@ -41,16 +41,23 @@ namespace KnightsArcade.Controllers
         /// </remarks>
         /// <param name="newEntry"></param>
         /// <returns></returns>
-        /// <response code="201"></response>
-        /// <response code="500"></response>  
+        /// <response code="201">Created.</response>
+        /// <response code="409">Duplicate gameName entry.</response>  
+        /// <response code="500">Error.</response>  
         [HttpPost("rds/newentry")]
         [ProducesResponseType(201)]
+        [ProducesResponseType(409)]
         [ProducesResponseType(500)]
         public IActionResult PostNewEntry([FromBody] NewEntry newEntry)
         {
             try
             {
-                return StatusCode(201, _rdsLogic.PostNewEntry(newEntry));
+                Tuple<Games, int> tuple = _rdsLogic.PostNewEntry(newEntry);
+                if(tuple.Item2 == 1)
+                {
+                    return StatusCode(409, "That game name already exists.");
+                }
+                return StatusCode(201, tuple.Item1);
             }
             catch (Exception e)
             {
@@ -122,14 +129,14 @@ namespace KnightsArcade.Controllers
         /// <response code="200"></response>
         /// <response code="500"></response>  
         [HttpDelete("rds/games/game")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
         [ProducesResponseType(500)]
         public IActionResult DeleteGames(int gameId)
         {
             try
             {
                 _rdsLogic.DeleteGames(gameId);
-                return Ok();
+                return NoContent();
             }
             catch (Exception e)
             {
@@ -215,30 +222,6 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
-        /// Deletes the object in the Tests database table.
-        /// </summary>
-        /// <param name="gameId"></param>
-        /// <returns></returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
-        [HttpDelete("rds/tests/test")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
-        public IActionResult DeleteTests(int gameId)
-        {
-            try
-            {
-                _rdsLogic.DeleteTests(gameId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return StatusCode(500, e.Message);
-            }
-        }
-
-        /// <summary>
         /// Updates the object retryCount column by one in the TestsQueue database table.
         /// </summary>
         /// <remarks>
@@ -273,14 +256,14 @@ namespace KnightsArcade.Controllers
         /// <response code="200"></response>
         /// <response code="500"></response>  
         [HttpDelete("rds/testsqueue/testqueue")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
         [ProducesResponseType(500)]
         public IActionResult DeleteTestsQueue(int gameId)
         {
             try
             {
                 _rdsLogic.DeleteTestsQueue(gameId);
-                return Ok();
+                return NoContent();
             }
             catch (Exception e)
             {

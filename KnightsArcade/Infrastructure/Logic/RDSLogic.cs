@@ -18,7 +18,7 @@ namespace KnightsArcade.Infrastructure.Logic
             _logger = logger;
         }
 
-        public Games PostNewEntry(NewEntry newEntry)
+        public Tuple<Games, int> PostNewEntry(NewEntry newEntry)
         {
             Games newGame = new Games()
             {
@@ -40,6 +40,10 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameSubmissionDateUtc = DateTime.UtcNow
             };
 
+            if(_rdsData.GetGames(newGame.GameName) != null)
+            {
+                return Tuple.Create<Games, int>(null, 1);
+            }
             _rdsData.PostGames(newGame);
             Games postedGame = _rdsData.GetGames(newGame.GameName);
 
@@ -75,7 +79,7 @@ namespace KnightsArcade.Infrastructure.Logic
 
             _rdsData.PostTests(newTest);
 
-            return newGame;
+            return Tuple.Create(newGame, 0);
         }
 
         ///////
