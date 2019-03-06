@@ -1,10 +1,5 @@
 {
     "projectName": "ClientApp",
-    "projectPath": "C:\\Users\\Drew\\Desktop\\SD2\\ucfarcade\\KnightArcade\\ClientApp",
-    "defaultEditor": "sublime",
-    "frontendHandler": {
-        "javascript": "C:\\Users\\Drew\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-frontend-javascript"
-    },
     "javascript": {
         "framework": "react",
         "config": {
@@ -14,7 +9,9 @@
             "StartCommand": "npm.cmd run-script start"
         }
     },
-    "providers": {
-        "awscloudformation": "C:\\Users\\Drew\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-provider-awscloudformation"
-    }
+    "providers": [
+        "awscloudformation"
+    ],
+    "frontend": "javascript",
+    "version": "2.0"
 }

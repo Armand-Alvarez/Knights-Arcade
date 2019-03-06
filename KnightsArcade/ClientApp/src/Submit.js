@@ -3,6 +3,7 @@ import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Chec
 import NaviBar from './Components/NavBar';
 import './Submit.css';
 import axios from 'axios';
+import { Storage } from 'aws-amplify';
 
 class Submit extends Component {
   constructor(props, context) {
@@ -18,6 +19,10 @@ class Submit extends Component {
     this.handleG3 = this.handleG3.bind(this);
     this.handleG4 = this.handleG4.bind(this);
     this.handleG5 = this.handleG5.bind(this);
+    this.handleImg0Change = this.handleImg0Change.bind(this);
+    this.saveImg0 = this.saveImg0.bind(this);
+    this.handleGameFileChange = this.handleGameFileChange.bind(this);
+    this.saveGame = this.saveGame.bind(this);
 
     this.state = {
       titleValue: "",
@@ -28,7 +33,25 @@ class Submit extends Component {
       genre2: false,
       genre3: false,
       genre4: false,
-      genre5: false
+      genre5: false,
+      gameURL: "",
+      gameFile: "",
+      gameFileName: "",
+      img0URL: "",
+      img0File: "",
+      img0FileName: "",
+      img1URL: "",
+      img1File: "",
+      img1FileName: "",
+      img2URL: "",
+      img2File: "",
+      img2FileName: "",
+      img3URL: "",
+      img3File: "",
+      img3FileName: "",
+      img4URL: "",
+      img4File: "",
+      img4FileName: "",
     };
   }
 
@@ -82,11 +105,131 @@ class Submit extends Component {
     this.setState({ genre5: !this.state.genre5 });
   }
 
+  handleGameFileChange(e) {
+    const file = e.target.files[0]
+    this.setState({
+      gameURL: URL.createObjectURL(file),
+      gameFile: file,
+      gameFileName: file.name
+    });
+  }
+
+  handleImg0Change(e) {
+    const file = e.target.files[0]
+    this.setState({
+      img0URL: URL.createObjectURL(file),
+      img0File: file,
+      img0FileName: file.name
+    });
+  }
+
+  handleImg1Change(e) {
+    const file = e.target.files[1]
+    this.setState({
+      img1URL: URL.createObjectURL(file),
+      img1File: file,
+      img1FileName: file.name
+    });
+  }
+
+  handleImg2Change(e) {
+    const file = e.target.files[2]
+    this.setState({
+      img2URL: URL.createObjectURL(file),
+      img2File: file,
+      img2FileName: file.name
+    });
+  }
+
+  handleImg3Change(e) {
+    const file = e.target.files[3]
+    this.setState({
+      img3URL: URL.createObjectURL(file),
+      img3File: file,
+      img3FileName: file.name
+    });
+  }
+
+  handleImg4Change(e) {
+    const file = e.target.files[4]
+    this.setState({
+      img4URL: URL.createObjectURL(file),
+      img4File: file,
+      img4FileName: file.name
+    });
+  }
+
+  saveGame() {
+    Storage.put(this.state.gameFileName, this.state.gameFile)
+      .then(() => {
+        console.log('successfully saved file!')
+        this.setState({gameURL: "", gameFile: "", gameFileName: ""})
+      })
+      .catch(err => {
+        console.log('error uploading game file!', err)
+      })
+  }
+
+  saveImg0() {
+    Storage.put(this.state.img0FileName, this.state.img0File)
+      .then(() => {
+        console.log('successfully saved file!')
+        this.setState({img0URL: "", img0File: "", img0FileName: ""})
+      })
+      .catch(err => {
+        console.log('error uploading image0 file!', err)
+      })
+  }
+
+  saveImg1() {
+    Storage.put(this.state.img1FileName, this.state.img1File)
+      .then(() => {
+        console.log('successfully saved file!')
+        this.setState({img1URL: "", img1File: "", img1FileName: ""})
+      })
+      .catch(err => {
+        console.log('error uploading file!', err)
+      })
+  }
+
+  saveImg2() {
+    Storage.put(this.state.img2FileName, this.state.img2File)
+      .then(() => {
+        console.log('successfully saved file!')
+        this.setState({img2URL: "", img2File: "", img2FileName: ""})
+      })
+      .catch(err => {
+        console.log('error uploading file!', err)
+      })
+  }
+
+  saveImg3() {
+    Storage.put(this.state.img3FileName, this.state.img3File)
+      .then(() => {
+        console.log('successfully saved file!')
+        this.setState({img3URL: "", img3File: "", img3FileName: ""})
+      })
+      .catch(err => {
+        console.log('error uploading file!', err)
+      })
+  }
+
+  saveImg4() {
+    Storage.put(this.state.img4FileName, this.state.img4File)
+      .then(() => {
+        console.log('successfully saved file!')
+        this.setState({img4URL: "", img4File: "", img4FileName: ""})
+      })
+      .catch(err => {
+        console.log('error uploading file!', err)
+      })
+  }
+
   handleSubmit(e) {
 
     e.preventDefault();
 
-    const data = {
+    {/*const data = {
       
       title: this.state.titleValue,
       description: this.state.descriptionValue,
@@ -98,15 +241,35 @@ class Submit extends Component {
       genre4: this.state.genre4,
       genre5: this.state.genre5
 
+    };*/}
+
+    const data = {
+
+      gameName: this.state.titleValue,
+      gameCreatorName: "testnamesincenotdone",
+      gameCreatorId: 0,
+      gameDescription: this.state.descriptionValue,
+      gameControls: this.state.controlsValue,
+      gameVideoLink: this.state.videoLinkValue,
+      gameGenres: "notdone",
+      gamePath: this.state.gameFileName,
+      gameImage0: this.state.img0FileName,
+      gameImage1: "string",
+      gameImage2: "string",
+      gameImage3: "string",
+      gameImage4: "string"
+
     };
 
-    axios.post( '/api/v1/infrastructure/rds/gamesdata', data)
+    axios.post( '/api/v1/Restricted/rds/newentry', data)
     .then(function(res){
-      console.log(res.data);
+      console.log(res);
     })
     .catch(function(){
       console.log('FAILURE!!');
     });
+    this.saveGame();
+    this.saveImg0();
   }
 
   render() {
@@ -153,6 +316,7 @@ class Submit extends Component {
             <ControlLabel className = 'text'>Game Files (Zip)</ControlLabel>
             <FormControl
               type="file"
+              onChange={this.handleGameFileChange}
             />
           </FormGroup>
 
@@ -160,6 +324,7 @@ class Submit extends Component {
             <ControlLabel className = 'text'>Default Display Image</ControlLabel>
             <FormControl
               type="file"
+              onChange={this.handleImg0Change}
             />
           </FormGroup>
 
