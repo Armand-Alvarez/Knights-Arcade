@@ -159,118 +159,147 @@ class Submit extends Component {
     });
   }
 
-  saveGame() {
-    Storage.put(this.state.gameFileName, this.state.gameFile)
-      .then(() => {
-        console.log('successfully saved file!')
-        this.setState({gameURL: "", gameFile: "", gameFileName: ""})
-      })
-      .catch(err => {
-        console.log('error uploading game file!', err)
-      })
-  }
+    saveGame() {
+        Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
+        .then(() => {
+            console.log('successfully saved game file!');
+            //this.setState({ gameURL: "", gameFile: "", gameFileName: "" })
+        })
+        .catch(err => {
+            console.log('error uploading game file!', err);
+            throw (err);
+            })
+        return;
+    }
 
-  saveImg0() {
-    Storage.put(this.state.img0FileName, this.state.img0File)
-      .then(() => {
-        console.log('successfully saved file!')
-        this.setState({img0URL: "", img0File: "", img0FileName: ""})
-      })
-      .catch(err => {
-        console.log('error uploading image0 file!', err)
-      })
-  }
+    saveImg0() {
+        Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File)
+        .then(() => {
+            console.log('successfully saved file!');
+            //this.setState({img0URL: "", img0File: "", img0FileName: ""})
+        })
+        .catch(err => {
+            console.log('error uploading image0 file!', err);
+            throw (err);
+            })
+        return;
+    }
 
-  saveImg1() {
-    Storage.put(this.state.img1FileName, this.state.img1File)
-      .then(() => {
-        console.log('successfully saved file!')
-        this.setState({img1URL: "", img1File: "", img1FileName: ""})
-      })
-      .catch(err => {
-        console.log('error uploading file!', err)
-      })
-  }
+    saveImg1() {
+        Storage.put(this.state.titleValue + "/" + this.state.img1FileName, this.state.img1File)
+        .then(() => {
+            console.log('successfully saved file!');
+            //this.setState({img1URL: "", img1File: "", img1FileName: ""})
+        })
+        .catch(err => {
+            console.log('error uploading file!', err);
+            throw (err);
+            })
+        return;
+    }
 
-  saveImg2() {
-    Storage.put(this.state.img2FileName, this.state.img2File)
-      .then(() => {
-        console.log('successfully saved file!')
-        this.setState({img2URL: "", img2File: "", img2FileName: ""})
-      })
-      .catch(err => {
-        console.log('error uploading file!', err)
-      })
-  }
+    saveImg2() {
+        Storage.put(this.state.titleValue + "/" + this.state.img2FileName, this.state.img2File)
+        .then(() => {
+            console.log('successfully saved file!');
+            //this.setState({img2URL: "", img2File: "", img2FileName: ""})
+        })
+        .catch(err => {
+            console.log('error uploading file!', err);
+            throw (err);
+            })
+        return;
+    }
 
-  saveImg3() {
-    Storage.put(this.state.img3FileName, this.state.img3File)
-      .then(() => {
-        console.log('successfully saved file!')
-        this.setState({img3URL: "", img3File: "", img3FileName: ""})
-      })
-      .catch(err => {
-        console.log('error uploading file!', err)
-      })
-  }
+    saveImg3() {
+        Storage.put(this.state.titleValue + "/" + this.state.img3FileName, this.state.img3File)
+        .then(() => {
+            console.log('successfully saved file!');
+            //this.setState({img3URL: "", img3File: "", img3FileName: ""})
+        })
+        .catch(err => {
+            console.log('error uploading file!', err);
+            throw (err);
+            })
+        return;
+    }
 
-  saveImg4() {
-    Storage.put(this.state.img4FileName, this.state.img4File)
-      .then(() => {
-        console.log('successfully saved file!')
-        this.setState({img4URL: "", img4File: "", img4FileName: ""})
-      })
-      .catch(err => {
-        console.log('error uploading file!', err)
-      })
-  }
+    saveImg4() {
+        Storage.put(this.state.titleValue + "/" + this.state.img4FileName, this.state.img4File)
+        .then(() => {
+            console.log('successfully saved file!');
+            //this.setState({img4URL: "", img4File: "", img4FileName: ""})
+        })
+        .catch(err => {
+            console.log('error uploading file!', err);
+            throw (err);
+            })
+        return;
+    }
 
-  handleSubmit(e) {
+    postNewEntry() {
+        const data = {
 
-    e.preventDefault();
+            gameName: this.state.titleValue,
+            gameCreatorName: "testnamesincenotdone",
+            gameCreatorId: 0,
+            gameDescription: this.state.descriptionValue,
+            gameControls: this.state.controlsValue,
+            gameVideoLink: this.state.videoLinkValue,
+            gameGenres: "notdone",
+            gamePath: this.state.titleValue + "/" + this.state.gameFileName,
+            gameImg: [
+                this.state.titleValue + "/" + this.state.img0FileName,
+                this.state.titleValue + "/" + this.state.img1FileName,
+                this.state.titleValue + "/" + this.state.img2FileName,
+                this.state.titleValue + "/" + this.state.img3FileName,
+                this.state.titleValue + "/" + this.state.img4FileName
+            ]
+        };
 
-    {/*const data = {
-      
-      title: this.state.titleValue,
-      description: this.state.descriptionValue,
-      controls: this.state.controlsValue,
-      video: this.state.videoLinkValue,
-      genre1: this.state.genre1,
-      genre2: this.state.genre2,
-      genre3: this.state.genre3,
-      genre4: this.state.genre4,
-      genre5: this.state.genre5
+        axios.post('/api/v1/Restricted/rds/newentry', data)
+            .then(function (res) {
+                console.log(res);
+                if (res.status != 201) {
+                    console.log('Unable to create database entry');
+                    throw ('Unable to create database entry');
+                }
+            })
+            .catch(function () {
+                console.log('FAILURE!!');
+                throw ('Failed to post to API');
+            });
+    }
 
-    };*/}
+    handleSubmit(e) {
 
-    const data = {
-
-      gameName: this.state.titleValue,
-      gameCreatorName: "testnamesincenotdone",
-      gameCreatorId: 0,
-      gameDescription: this.state.descriptionValue,
-      gameControls: this.state.controlsValue,
-      gameVideoLink: this.state.videoLinkValue,
-      gameGenres: "notdone",
-      gamePath: this.state.gameFileName,
-      gameImage0: this.state.img0FileName,
-      gameImage1: "string",
-      gameImage2: "string",
-      gameImage3: "string",
-      gameImage4: "string"
-
-    };
-
-    axios.post( '/api/v1/Restricted/rds/newentry', data)
-    .then(function(res){
-      console.log(res);
-    })
-    .catch(function(){
-      console.log('FAILURE!!');
-    });
-    this.saveGame();
-    this.saveImg0();
-  }
+        e.preventDefault();
+        
+        try {
+            this.saveImg0();
+            if (this.state.img1FileName !== "") {
+                this.saveImg1();
+            }
+            if (this.state.img2FileName !== "") {
+                this.saveImg2();
+            }
+            if (this.state.img3FileName !== "") {
+                this.saveImg3();
+            }
+            if (this.state.img4FileName !== "") {
+                this.saveImg4();
+            }
+            this.saveGame();
+            this.postNewEntry();
+        }
+        catch (error) {
+            console.log("removing from s3");
+            Storage.remove(this.state.titleValue)
+                .then(result => console.log(result))
+                .catch(err => console.log(err));
+        }
+    
+    }
 
   render() {
     return (
