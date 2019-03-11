@@ -26,7 +26,16 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameCreatorId = newEntry.GameCreatorId,
                 GameCreatorName = newEntry.GameCreatorName,
                 GameDescription = newEntry.GameDescription,
-                GameGenres = newEntry.GameGenres,
+                GameGenreAction = newEntry.GameGenreAction,
+                GameGenreAdventure = newEntry.GameGenreAdventure,
+                GameGenreFighting = newEntry.GameGenreFighting,
+                GameGenrePuzzle = newEntry.GameGenrePuzzle,
+                GameGenreRacing = newEntry.GameGenreRacing,
+                GameGenreRpg = newEntry.GameGenreRpg,
+                GameGenreShooter = newEntry.GameGenreShooter,
+                GameGenreSports = newEntry.GameGenreSports,
+                GameGenreStrategy = newEntry.GameGenreStrategy,
+                GameGenreSurvival = newEntry.GameGenreSurvival,
                 GameImage0 = newEntry.GameImg[0] ?? null,
                 GameImage1 = newEntry.GameImg[1] ?? null,
                 GameImage2 = newEntry.GameImg[2] ?? null,
@@ -260,7 +269,16 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameCreatorId = game.GameCreatorId,
                 GameCreatorName = game.GameCreatorName,
                 GameDescription = game.GameDescription,
-                GameGenres = game.GameGenres,
+                GameGenreSurvival = game.GameGenreSurvival,
+                GameGenreStrategy = game.GameGenreStrategy,
+                GameGenreSports = game.GameGenreSports,
+                GameGenreAction = game.GameGenreAction,
+                GameGenreAdventure = game.GameGenreAdventure,
+                GameGenreFighting = game.GameGenreFighting,
+                GameGenrePuzzle = game.GameGenrePuzzle,
+                GameGenreRacing = game.GameGenreRacing,
+                GameGenreRpg = game.GameGenreRpg,
+                GameGenreShooter = game.GameGenreShooter,
                 GameId = game.GameId,
                 GameName = game.GameName,
                 GameOnArcade = game.GameOnArcade,
@@ -283,7 +301,16 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameCreatorId = gameEntry.GameCreatorId,
                 GameCreatorName = gameEntry.GameCreatorName,
                 GameDescription = gameEntry.GameDescription,
-                GameGenres = gameEntry.GameGenres,
+                GameGenreSurvival = gameEntry.GameGenreSurvival,
+                GameGenreStrategy = gameEntry.GameGenreStrategy,
+                GameGenreSports = gameEntry.GameGenreSports,
+                GameGenreAction = gameEntry.GameGenreAction,
+                GameGenreAdventure = gameEntry.GameGenreAdventure,
+                GameGenreFighting = gameEntry.GameGenreFighting,
+                GameGenrePuzzle = gameEntry.GameGenrePuzzle,
+                GameGenreRacing = gameEntry.GameGenreRacing,
+                GameGenreRpg = gameEntry.GameGenreRpg,
+                GameGenreShooter = gameEntry.GameGenreShooter,
                 GameId = gameEntry.GameId,
                 GameName = gameEntry.GameName,
                 GameOnArcade = gameEntry.GameOnArcade,
@@ -305,41 +332,41 @@ namespace KnightsArcade.Infrastructure.Logic
         public string[] ValidGameImageURLs(Games game)
         {
             int count = 1;
-            if (game.GameImage0 != null && game.GameImage0 != "null")
+            if (game.GameImage0 != null && game.GameImage0 != "null" && game.GameImage0 != "")
             { count++; }
-            if (game.GameImage1 != null && game.GameImage1 != "null")
+            if (game.GameImage1 != null && game.GameImage1 != "null" && game.GameImage1 != "")
             { count++; }
-            if (game.GameImage2 != null && game.GameImage2 != "null")
+            if (game.GameImage2 != null && game.GameImage2 != "null" && game.GameImage2 != "")
             { count++; }
-            if (game.GameImage3 != null && game.GameImage3 != "null")
+            if (game.GameImage3 != null && game.GameImage3 != "null" && game.GameImage3 != "")
             { count++; }
-            if (game.GameImage4 != null && game.GameImage4 != "null")
+            if (game.GameImage4 != null && game.GameImage4 != "null" && game.GameImage4 != "")
             { count++; }
 
             string[] stringArr = new string[count];
 
             count = 0;
-            if (game.GameImage0 != null && game.GameImage0 != "null")
+            if (game.GameImage0 != null && game.GameImage0 != "null" && game.GameImage0 != "")
             {
                 stringArr[count] = game.GameImage0;
                 count++;
             }
-            if (game.GameImage1 != null && game.GameImage1 != "null")
+            if (game.GameImage1 != null && game.GameImage1 != "null" && game.GameImage1 != "")
             {
                 stringArr[count] = game.GameImage1;
                 count++;
             }
-            if (game.GameImage2 != null && game.GameImage2 != "null")
+            if (game.GameImage2 != null && game.GameImage2 != "null" && game.GameImage2 != "")
             {
                 stringArr[count] = game.GameImage2;
                 count++;
             }
-            if (game.GameImage3 != null && game.GameImage3 != "null")
+            if (game.GameImage3 != null && game.GameImage3 != "null" && game.GameImage3 != "")
             {
                 stringArr[count] = game.GameImage3;
                 count++;
             }
-            if (game.GameImage4 != null && game.GameImage4 != "null")
+            if (game.GameImage4 != null && game.GameImage4 != "null" && game.GameImage4 != "")
             {
                 stringArr[count] = game.GameImage4;
                 count++;
