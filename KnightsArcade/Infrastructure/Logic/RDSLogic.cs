@@ -4,6 +4,7 @@ using KnightsArcade.Models.Database;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KnightsArcade.Infrastructure.Logic
 {
@@ -114,6 +115,17 @@ namespace KnightsArcade.Infrastructure.Logic
             List<Games> games = _rdsData.GetAllGames();
             List<GamesEntry> gamesEntry = new List<GamesEntry>();
             foreach(Games game in games)
+            {
+                gamesEntry.Add(GamesToGamesEntry(game));
+            }
+            return gamesEntry;
+        }
+
+        public List<GamesEntry> GetAllGamesOnArcadeMachine()
+        {
+            IEnumerable<Games> games = _rdsData.GetAllGames().Where(x => x.GameOnArcade == true);
+            List<GamesEntry> gamesEntry = new List<GamesEntry>();
+            foreach (Games game in games)
             {
                 gamesEntry.Add(GamesToGamesEntry(game));
             }

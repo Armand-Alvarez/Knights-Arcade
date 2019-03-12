@@ -100,6 +100,28 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
+        /// Get all games from the Games database table.
+        /// </summary>
+        /// <returns>All game entries from the Games database table that are marked true for arcade machine.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/allgamesonarcademachine")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllGamesOnArcadeMachine()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGamesOnArcadeMachine());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
         /// Get a single game from the Submissions table by id.
         /// </summary>
         /// <param name="gameId"></param>
