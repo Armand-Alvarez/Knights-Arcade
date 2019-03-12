@@ -47,7 +47,7 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.GameCreatorId)
                     .HasColumnName("game_creator_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.GameCreatorName)
                     .IsRequired()
@@ -189,7 +189,7 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.CreatorId)
                     .HasColumnName("creator_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
             });
 
             modelBuilder.Entity<Tests>(entity =>
