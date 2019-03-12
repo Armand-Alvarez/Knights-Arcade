@@ -5,6 +5,11 @@
 
 }
 
+
 /*.text {
     color: white;
 }*/
+
+.Submit .filepond--root {
+	font-size: 11pt;
+}

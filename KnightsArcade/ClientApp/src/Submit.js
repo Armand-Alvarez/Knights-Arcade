@@ -4,6 +4,8 @@ import NaviBar from './Components/NavBar';
 import './Submit.css';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
 
 class Submit extends Component {
   constructor(props, context) {
@@ -303,7 +305,8 @@ class Submit extends Component {
 
   render() {
     return (
-      <div className = 'FullPage'>
+      
+      <div className = "Submit">
         <NaviBar/>
         <div className="Header">
         <h1 className = 'text '>Submit a Game</h1>
@@ -341,57 +344,58 @@ class Submit extends Component {
             />
           </FormGroup>
 
+          
+          <Row>
+            <Col md={6}>
+              <FormGroup>
+                <ControlLabel className = 'text'>Game Files (Zip)</ControlLabel>
+                <FormControl
+                  type="file"
+                  onChange={this.handleGameFileChange}
+                />
+              </FormGroup>
+            </Col>
+            <Col md={6}>
+              <FormGroup>
+                <ControlLabel className = 'text'>Default Display Image</ControlLabel>
+                <FormControl
+                  type="file"
+                  onChange={this.handleImg0Change}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+
           <FormGroup>
-            <ControlLabel className = 'text'>Game Files (Zip)</ControlLabel>
-            <FormControl
-              type="file"
-              onChange={this.handleGameFileChange}
+            <ControlLabel className = 'text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
+            <FilePond
+              className="file-pond"
+              maxFiles={4}
             />
           </FormGroup>
 
-          <FormGroup>
-            <ControlLabel className = 'text'>Default Display Image</ControlLabel>
-            <FormControl
-              type="file"
-              onChange={this.handleImg0Change}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <ControlLabel className = 'text'>Slideshow Image 1 (Optional)</ControlLabel>
-            <FormControl
-              type="file"
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <ControlLabel className = 'text'>Slideshow Image 2 (Optional)</ControlLabel>
-            <FormControl
-              type="file"
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <ControlLabel className = 'text'>Slideshow Image 3 (Optional)</ControlLabel>
-            <FormControl
-              type="file"
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <ControlLabel className = 'text'>Slideshow Image 4 (Optional)</ControlLabel>
-            <FormControl
-              type="file"
-            />
-          </FormGroup>
-
-          <FormGroup>
-              <Checkbox className = 'text' onChange={this.handleG1}>Genre 1</Checkbox>
-              <Checkbox className = 'text' onChange={this.handleG2}>Genre 2</Checkbox>
-              <Checkbox className = 'text' onChange={this.handleG3}>Genre 3</Checkbox>
-              <Checkbox className = 'text' onChange={this.handleG4}>Genre 4</Checkbox>
-              <Checkbox className = 'text' onChange={this.handleG5}>Genre 5</Checkbox>
-          </FormGroup>
+          <Row>
+            <Col md={3}>
+              <FormGroup>
+                <ControlLabel className = 'text'>Genres</ControlLabel>
+                <Checkbox className = 'text' onChange={this.handleG1}>Action</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG2}>Adventure</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG3}>Racing</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG4}>RPG</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG5}>Sports</Checkbox>
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <ControlLabel className = 'text'></ControlLabel>
+                <Checkbox className = 'text' onChange={this.handleG1}>Strategy</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG2}>Shooter</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG3}>Puzzle</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG4}>Survival</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleG5}>Fighting</Checkbox>
+              </FormGroup>
+            </Col>
+          </Row>
 
           <FormGroup>
               <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
