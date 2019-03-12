@@ -126,7 +126,7 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="500"></response>  
         [HttpDelete("rds/games/game")]
         [ProducesResponseType(204)]
