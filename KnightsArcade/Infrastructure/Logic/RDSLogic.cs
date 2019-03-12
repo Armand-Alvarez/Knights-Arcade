@@ -37,11 +37,6 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameGenreSports = newEntry.GameGenreSports,
                 GameGenreStrategy = newEntry.GameGenreStrategy,
                 GameGenreSurvival = newEntry.GameGenreSurvival,
-                GameImage0 = newEntry.GameImg[0] ?? null,
-                GameImage1 = newEntry.GameImg[1] ?? null,
-                GameImage2 = newEntry.GameImg[2] ?? null,
-                GameImage3 = newEntry.GameImg[3] ?? null,
-                GameImage4 = newEntry.GameImg[4] ?? null,
                 GameName = newEntry.GameName,
                 GamePath = newEntry.GamePath,
                 GameVideolink = newEntry.GameVideoLink,
@@ -49,6 +44,8 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameStatus = "t",
                 GameSubmissionDateUtc = DateTime.UtcNow
             };
+
+            newGame = InsertArrayToColumn(newGame, newEntry);
 
             if(_rdsData.GetGames(newGame.GameName) != null)
             {
@@ -341,9 +338,45 @@ namespace KnightsArcade.Infrastructure.Logic
             return game;
         }
 
+        public Games InsertArrayToColumn(Games game, NewEntry newEntry)
+        {
+            int size = newEntry.GameImg.Count();
+            switch (size)
+            {
+                case 1:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    break;
+                case 2:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    break;
+                case 3:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    break;
+                case 4:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    game.GameImage3 = newEntry.GameImg[3];
+                    break;
+                case 5:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    game.GameImage3 = newEntry.GameImg[3];
+                    game.GameImage4 = newEntry.GameImg[4];
+                    break;
+                default:
+                    break;
+            }
+            return game;
+        }
+
         public string[] ValidGameImageURLs(Games game)
         {
-            int count = 1;
+            int count = 0;
             if (game.GameImage0 != null && game.GameImage0 != "null" && game.GameImage0 != "")
             { count++; }
             if (game.GameImage1 != null && game.GameImage1 != "null" && game.GameImage1 != "")
