@@ -19,6 +19,7 @@
         public bool GameGenreAdventure { get; set; }
         public bool GameGenreAction { get; set; }
         public bool GameGenreRhythm { get; set; }
+        public bool GameGenrePlatformer { get; set; }
         public string GamePath { get; set; }
         public string[] GameImg { get; set; }
     }

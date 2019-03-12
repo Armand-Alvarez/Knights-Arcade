@@ -16,6 +16,7 @@ namespace KnightsArcade.Models
         public bool? GameGenreSurvival { get; set; }
         public bool? GameGenreFighting { get; set; }
         public bool? GameGenrePuzzle { get; set; }
+        public bool? GameGenrePlatformer { get; set; }
         public bool? GameGenreShooter { get; set; }
         public bool? GameGenreStrategy { get; set; }
         public bool? GameGenreSports { get; set; }

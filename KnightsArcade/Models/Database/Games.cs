@@ -24,6 +24,7 @@ namespace KnightsArcade.Models.Database
         public bool? GameGenreAdventure { get; set; }
         public bool? GameGenreAction { get; set; }
         public bool? GameGenreRhythm { get; set; }
+        public bool? GameGenrePlatformer { get; set; }
         public string GameStatus { get; set; }
         public bool GameOnArcade { get; set; }
         public string GamePath { get; set; }
