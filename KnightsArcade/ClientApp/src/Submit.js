@@ -307,7 +307,7 @@ class Submit extends Component {
         const data = {
           gameName: this.state.titleValue,
           gameCreatorName: this.state.username,
-          gameCreatorId: 0,
+          gameCreatorId: "idkifweneedthis",
           gameDescription: this.state.descriptionValue,
           gameControls: this.state.controlsValue,
           gameVideoLink: this.state.videoLinkValue,
