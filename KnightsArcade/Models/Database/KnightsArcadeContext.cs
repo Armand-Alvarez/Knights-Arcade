@@ -83,6 +83,10 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("game_genre_rpg")
                     .HasColumnType("bit(1)");
 
+                entity.Property(e => e.GameGenreRhythm)
+                    .HasColumnName("game_genre_rhythm")
+                    .HasColumnType("bit(1)");
+
                 entity.Property(e => e.GameGenreShooter)
                     .HasColumnName("game_genre_shooter")
                     .HasColumnType("bit(1)");

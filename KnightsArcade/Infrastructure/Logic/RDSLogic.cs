@@ -32,6 +32,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameGenreFighting = newEntry.GameGenreFighting,
                 GameGenrePuzzle = newEntry.GameGenrePuzzle,
                 GameGenreRacing = newEntry.GameGenreRacing,
+                GameGenreRhythm = newEntry.GameGenreRhythm,
                 GameGenreRpg = newEntry.GameGenreRpg,
                 GameGenreShooter = newEntry.GameGenreShooter,
                 GameGenreSports = newEntry.GameGenreSports,
@@ -287,6 +288,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameGenrePuzzle = game.GameGenrePuzzle,
                 GameGenreRacing = game.GameGenreRacing,
                 GameGenreRpg = game.GameGenreRpg,
+                GameGenreRhythm = game.GameGenreRhythm,
                 GameGenreShooter = game.GameGenreShooter,
                 GameId = game.GameId,
                 GameName = game.GameName,
@@ -319,6 +321,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameGenrePuzzle = gameEntry.GameGenrePuzzle,
                 GameGenreRacing = gameEntry.GameGenreRacing,
                 GameGenreRpg = gameEntry.GameGenreRpg,
+                GameGenreRhythm = gameEntry.GameGenreRhythm,
                 GameGenreShooter = gameEntry.GameGenreShooter,
                 GameId = gameEntry.GameId,
                 GameName = gameEntry.GameName,
@@ -338,6 +341,7 @@ namespace KnightsArcade.Infrastructure.Logic
             return game;
         }
 
+        /// Helper functions
         public Games InsertArrayToColumn(Games game, NewEntry newEntry)
         {
             int size = newEntry.GameImg.Count();

@@ -27,6 +27,7 @@ class Submit extends Component {
     this.handlePuzzle = this.handlePuzzle.bind(this);
     this.handleSurvival = this.handleSurvival.bind(this);
     this.handleFighting = this.handleFighting.bind(this);
+    this.handleRhythm = this.handleRhythm.bind(this);
     this.handleImg0Change = this.handleImg0Change.bind(this);
     this.saveImg0 = this.saveImg0.bind(this);
     this.handleGameFileChange = this.handleGameFileChange.bind(this);
@@ -48,6 +49,7 @@ class Submit extends Component {
       Puzzle: false,
       Survival: false,
       Fighting: false,
+      Rhythm: false,
       gameURL: "",
       gameFile: "",
       gameFileName: "",
@@ -153,6 +155,10 @@ class Submit extends Component {
 
   handleFighting() {
     this.setState({ Fighting: !this.state.Fighting });
+  }
+
+  handleRhythm() {
+    this.setState({ Rhythm: !this.state.Rhythm });
   }
 
   handleGameFileChange(e) {
@@ -321,6 +327,7 @@ class Submit extends Component {
           gameGenreRacing: this.state.Racing,
           gameGenreAdventure: this.state.Adventure,
           gameGenreAction: this.state.Action,
+          gameGenreRhythm: this.state.Rhythm,
           gamePath: this.state.titleValue + "/" + this.state.gameFileName,
           gameImg: imgNames
         }
@@ -453,19 +460,25 @@ class Submit extends Component {
                 <ControlLabel className = 'text'>Genres</ControlLabel>
                 <Checkbox className = 'text' onChange={this.handleAction}>Action</Checkbox>
                 <Checkbox className = 'text' onChange={this.handleAdventure}>Adventure</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleRacing}>Racing</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleRPG}>RPG</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleSports}>Sports</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleFighting}>Fighting</Checkbox>
+                <Checkbox className = 'text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
               </FormGroup>
             </Col>
             <Col md={3}>
               <FormGroup>
                 <ControlLabel className = 'text'></ControlLabel>
-                <Checkbox className = 'text' onChange={this.handleStrategy}>Strategy</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleRacing}>Racing</Checkbox>
+                <Checkbox className=  'text' onChange={this.handleRhythm}>Rhythm</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleRPG}>RPG</Checkbox>
                 <Checkbox className = 'text' onChange={this.handleShooter}>Shooter</Checkbox>
-                <Checkbox className = 'text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleSurvival}>Survival</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleFighting}>Fighting</Checkbox>
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <ControlLabel className='text'></ControlLabel>
+                <Checkbox className='text' onChange={this.handleSports}>Sports</Checkbox>
+                <Checkbox className='text' onChange={this.handleStrategy}>Strategy</Checkbox>
+                <Checkbox className='text' onChange={this.handleSurvival}>Survival</Checkbox>
               </FormGroup>
             </Col>
           </Row>

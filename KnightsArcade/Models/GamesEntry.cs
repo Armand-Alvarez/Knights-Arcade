@@ -23,6 +23,7 @@ namespace KnightsArcade.Models
         public bool? GameGenreRacing { get; set; }
         public bool? GameGenreAdventure { get; set; }
         public bool? GameGenreAction { get; set; }
+        public bool? GameGenreRhythm { get; set; }
         public string GameStatus { get; set; }
         public bool GameOnArcade { get; set; }
         public string GamePath { get; set; }
