@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Storage } from 'aws-amplify';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
+import { Auth } from 'aws-amplify';
 
 class Submit extends Component {
   constructor(props, context) {
@@ -16,29 +17,43 @@ class Submit extends Component {
     this.handleControlsChange = this.handleControlsChange.bind(this);
     this.handleVideoLinkChange = this.handleVideoLinkChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleG1 = this.handleG1.bind(this);
-    this.handleG2 = this.handleG2.bind(this);
-    this.handleG3 = this.handleG3.bind(this);
-    this.handleG4 = this.handleG4.bind(this);
-    this.handleG5 = this.handleG5.bind(this);
+    this.handleAction = this.handleAction.bind(this);
+    this.handleAdventure = this.handleAdventure.bind(this);
+    this.handleRacing = this.handleRacing.bind(this);
+    this.handleRPG = this.handleRPG.bind(this);
+    this.handleSports = this.handleSports.bind(this);
+    this.handleStrategy = this.handleStrategy.bind(this);
+    this.handleShooter = this.handleShooter.bind(this);
+    this.handlePuzzle = this.handlePuzzle.bind(this);
+    this.handleSurvival = this.handleSurvival.bind(this);
+    this.handleFighting = this.handleFighting.bind(this);
     this.handleImg0Change = this.handleImg0Change.bind(this);
     this.saveImg0 = this.saveImg0.bind(this);
     this.handleGameFileChange = this.handleGameFileChange.bind(this);
     this.saveGame = this.saveGame.bind(this);
+    this.handleUpdateFiles = this.handleUpdateFiles.bind(this);
 
     this.state = {
       titleValue: "",
       descriptionValue: "",
       controlsValue: "",
       videoLinkValue: "",
-      genre1: false,
-      genre2: false,
-      genre3: false,
-      genre4: false,
-      genre5: false,
+      Action: false,
+      Adventure: false,
+      Racing: false,
+      RPG: false,
+      Sports: false,
+      Strategy: false,
+      Shooter: false,
+      Puzzle: false,
+      Survival: false,
+      Fighting: false,
       gameURL: "",
       gameFile: "",
       gameFileName: "",
+      imgFiles: [],
+      username: "",
+      userID: "",
       img0URL: "",
       img0File: "",
       img0FileName: "",
@@ -55,6 +70,19 @@ class Submit extends Component {
       img4File: "",
       img4FileName: "",
     };
+  }
+
+  componentDidMount() {
+
+    Auth.currentAuthenticatedUser({
+        bypassCache: false
+    }).then(user => {
+      this.setState({ username: user.username});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
   }
 
   getValidationState() {
@@ -87,24 +115,44 @@ class Submit extends Component {
     this.setState({ videoLinkValue: e.target.value });
   }
 
-  handleG1() {
-    this.setState({ genre1: !this.state.genre1 });
+  handleAction() {
+    this.setState({ Action: !this.state.Action });
   }
 
-  handleG2() {
-    this.setState({ genre2: !this.state.genre2 });
+  handleAdventure() {
+    this.setState({ Adventure: !this.state.Adventure });
   }
 
-  handleG3() {
-    this.setState({ genre3: !this.state.genre3 });
+  handleRacing() {
+    this.setState({ Racing: !this.state.Racing });
   }
 
-  handleG4() {
-    this.setState({ genre4: !this.state.genre4 });
+  handleRPG() {
+    this.setState({ RPG: !this.state.RPG });
   }
 
-  handleG5() {
-    this.setState({ genre5: !this.state.genre5 });
+  handleSports() {
+    this.setState({ Sports: !this.state.Sports });
+  }
+
+  handleStrategy() {
+    this.setState({ Strategy: !this.state.Strategy });
+  }
+
+  handleShooter() {
+    this.setState({ Shooter: !this.state.Shooter });
+  }
+
+  handlePuzzle() {
+    this.setState({ Puzzle: !this.state.Puzzle });
+  }
+
+  handleSurvival() {
+    this.setState({ Survival: !this.state.Survival });
+  }
+
+  handleFighting() {
+    this.setState({ Fighting: !this.state.Fighting });
   }
 
   handleGameFileChange(e) {
@@ -158,6 +206,12 @@ class Submit extends Component {
       img4URL: URL.createObjectURL(file),
       img4File: file,
       img4FileName: file.name
+    });
+  }
+
+  handleUpdateFiles(items) {
+    this.setState({
+      imgFiles: items.map(item => item.file)
     });
   }
 
@@ -240,24 +294,36 @@ class Submit extends Component {
     }
 
     postNewEntry() {
-        const data = {
+        
+        const imgNames = [];
 
-            gameName: this.state.titleValue,
-            gameCreatorName: "testnamesincenotdone",
-            gameCreatorId: 0,
-            gameDescription: this.state.descriptionValue,
-            gameControls: this.state.controlsValue,
-            gameVideoLink: this.state.videoLinkValue,
-            gameGenres: "notdone",
-            gamePath: this.state.titleValue + "/" + this.state.gameFileName,
-            gameImg: [
-                this.state.titleValue + "/" + this.state.img0FileName,
-                this.state.titleValue + "/" + this.state.img1FileName,
-                this.state.titleValue + "/" + this.state.img2FileName,
-                this.state.titleValue + "/" + this.state.img3FileName,
-                this.state.titleValue + "/" + this.state.img4FileName
-            ]
-        };
+        imgNames.push(this.state.titleValue + "/" + this.state.img0FileName);
+
+        for(var i = 0; i < this.state.imgFiles.length; i++)
+        {
+          imgNames.push(this.state.titleValue + "/" + this.state.imgFiles[i].name);
+        }
+
+        const data = {
+          gameName: this.state.titleValue,
+          gameCreatorName: this.state.username,
+          gameCreatorId: 0,
+          gameDescription: this.state.descriptionValue,
+          gameControls: this.state.controlsValue,
+          gameVideoLink: this.state.videoLinkValue,
+          gameGenreSurvival: this.state.Survival,
+          gameGenreFighting: this.state.Fighting,
+          gameGenrePuzzle: this.state.Puzzle,
+          gameGenreShooter: this.state.Shooter,
+          gameGenreStrategy: this.state.Strategy,
+          gameGenreSports: this.state.Sports,
+          gameGenreRpg: this.state.RPG,
+          gameGenreRacing: this.state.Racing,
+          gameGenreAdventure: this.state.Adventure,
+          gameGenreAction: this.state.Action,
+          gamePath: this.state.titleValue + "/" + this.state.gameFileName,
+          gameImg: imgNames
+        }
 
         axios.post('/api/v1/Restricted/rds/newentry', data)
             .then(function (res) {
@@ -277,6 +343,11 @@ class Submit extends Component {
 
         e.preventDefault();
         
+        for(var i = 0; i < this.state.imgFiles.length; i++)
+        {
+          console.log(this.state.imgFiles[i].name);
+        }
+
         try {
             this.saveImg0();
             if (this.state.img1FileName !== "") {
@@ -370,7 +441,9 @@ class Submit extends Component {
             <ControlLabel className = 'text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
             <FilePond
               className="file-pond"
+              allowMultiple={true}
               maxFiles={4}
+              onupdatefiles={this.handleUpdateFiles}
             />
           </FormGroup>
 
@@ -378,21 +451,21 @@ class Submit extends Component {
             <Col md={3}>
               <FormGroup>
                 <ControlLabel className = 'text'>Genres</ControlLabel>
-                <Checkbox className = 'text' onChange={this.handleG1}>Action</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG2}>Adventure</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG3}>Racing</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG4}>RPG</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG5}>Sports</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleAction}>Action</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleAdventure}>Adventure</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleRacing}>Racing</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleRPG}>RPG</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleSports}>Sports</Checkbox>
               </FormGroup>
             </Col>
             <Col md={3}>
               <FormGroup>
                 <ControlLabel className = 'text'></ControlLabel>
-                <Checkbox className = 'text' onChange={this.handleG1}>Strategy</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG2}>Shooter</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG3}>Puzzle</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG4}>Survival</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleG5}>Fighting</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleStrategy}>Strategy</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleShooter}>Shooter</Checkbox>
+                <Checkbox className = 'text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleSurvival}>Survival</Checkbox>
+                <Checkbox className = 'text' onChange={this.handleFighting}>Fighting</Checkbox>
               </FormGroup>
             </Col>
           </Row>
