@@ -6,11 +6,15 @@
     "aws-amplify": "^1.1.19",
     "aws-amplify-react": "^2.3.0",
     "axios": "^0.18.0",
+    "filepond": "^4.2.0",
+    "filepond-plugin-image-exif-orientation": "^1.0.4",
+    "filepond-plugin-image-preview": "^4.0.3",
     "react": "^16.7.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.7.0",
+    "react-filepond": "^7.0.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^2.1.8",
     "reactstrap": "^7.1.0"
   },
   "scripts": {

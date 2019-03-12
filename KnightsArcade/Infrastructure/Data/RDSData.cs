@@ -70,7 +70,16 @@ namespace KnightsArcade.Infrastructure.Data
 
             if (game.GameControls != null) { updatedGame.GameControls = game.GameControls; }
             if (game.GameDescription != null) { updatedGame.GameDescription = game.GameDescription; }
-            if (game.GameGenres != null) { updatedGame.GameGenres = game.GameGenres; }
+            if (game.GameGenreAction != null) { updatedGame.GameGenreAction = game.GameGenreAction; }
+            if (game.GameGenreAdventure != null) { updatedGame.GameGenreAdventure = game.GameGenreAdventure; }
+            if (game.GameGenreFighting != null) { updatedGame.GameGenreFighting = game.GameGenreFighting; }
+            if (game.GameGenrePuzzle != null) { updatedGame.GameGenrePuzzle = game.GameGenrePuzzle; }
+            if (game.GameGenreRacing != null) { updatedGame.GameGenreRacing = game.GameGenreRacing; }
+            if (game.GameGenreRpg != null) { updatedGame.GameGenreRpg = game.GameGenreRpg; }
+            if (game.GameGenreShooter != null) { updatedGame.GameGenreShooter = game.GameGenreShooter; }
+            if (game.GameGenreSports != null) { updatedGame.GameGenreSports = game.GameGenreSports; }
+            if (game.GameGenreStrategy != null) { updatedGame.GameGenreStrategy = game.GameGenreStrategy; }
+            if (game.GameGenreSurvival != null) { updatedGame.GameGenreSurvival = game.GameGenreSurvival; }
             if (game.GameImage0 != null) { updatedGame.GameImage0 = game.GameImage0; }
             if (game.GameImage1 != null) { updatedGame.GameImage1 = game.GameImage1; }
             if (game.GameImage2 != null) { updatedGame.GameImage2 = game.GameImage2; }

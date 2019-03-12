@@ -4,6 +4,7 @@ using KnightsArcade.Models.Database;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KnightsArcade.Infrastructure.Logic
 {
@@ -26,12 +27,16 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameCreatorId = newEntry.GameCreatorId,
                 GameCreatorName = newEntry.GameCreatorName,
                 GameDescription = newEntry.GameDescription,
-                GameGenres = newEntry.GameGenres,
-                GameImage0 = newEntry.GameImg[0] ?? null,
-                GameImage1 = newEntry.GameImg[1] ?? null,
-                GameImage2 = newEntry.GameImg[2] ?? null,
-                GameImage3 = newEntry.GameImg[3] ?? null,
-                GameImage4 = newEntry.GameImg[4] ?? null,
+                GameGenreAction = newEntry.GameGenreAction,
+                GameGenreAdventure = newEntry.GameGenreAdventure,
+                GameGenreFighting = newEntry.GameGenreFighting,
+                GameGenrePuzzle = newEntry.GameGenrePuzzle,
+                GameGenreRacing = newEntry.GameGenreRacing,
+                GameGenreRpg = newEntry.GameGenreRpg,
+                GameGenreShooter = newEntry.GameGenreShooter,
+                GameGenreSports = newEntry.GameGenreSports,
+                GameGenreStrategy = newEntry.GameGenreStrategy,
+                GameGenreSurvival = newEntry.GameGenreSurvival,
                 GameName = newEntry.GameName,
                 GamePath = newEntry.GamePath,
                 GameVideolink = newEntry.GameVideoLink,
@@ -39,6 +44,8 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameStatus = "t",
                 GameSubmissionDateUtc = DateTime.UtcNow
             };
+
+            newGame = InsertArrayToColumn(newGame, newEntry);
 
             if(_rdsData.GetGames(newGame.GameName) != null)
             {
@@ -105,6 +112,17 @@ namespace KnightsArcade.Infrastructure.Logic
             List<Games> games = _rdsData.GetAllGames();
             List<GamesEntry> gamesEntry = new List<GamesEntry>();
             foreach(Games game in games)
+            {
+                gamesEntry.Add(GamesToGamesEntry(game));
+            }
+            return gamesEntry;
+        }
+
+        public List<GamesEntry> GetAllGamesOnArcadeMachine()
+        {
+            IEnumerable<Games> games = _rdsData.GetAllGames().Where(x => x.GameOnArcade == true);
+            List<GamesEntry> gamesEntry = new List<GamesEntry>();
+            foreach (Games game in games)
             {
                 gamesEntry.Add(GamesToGamesEntry(game));
             }
@@ -260,7 +278,16 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameCreatorId = game.GameCreatorId,
                 GameCreatorName = game.GameCreatorName,
                 GameDescription = game.GameDescription,
-                GameGenres = game.GameGenres,
+                GameGenreSurvival = game.GameGenreSurvival,
+                GameGenreStrategy = game.GameGenreStrategy,
+                GameGenreSports = game.GameGenreSports,
+                GameGenreAction = game.GameGenreAction,
+                GameGenreAdventure = game.GameGenreAdventure,
+                GameGenreFighting = game.GameGenreFighting,
+                GameGenrePuzzle = game.GameGenrePuzzle,
+                GameGenreRacing = game.GameGenreRacing,
+                GameGenreRpg = game.GameGenreRpg,
+                GameGenreShooter = game.GameGenreShooter,
                 GameId = game.GameId,
                 GameName = game.GameName,
                 GameOnArcade = game.GameOnArcade,
@@ -283,7 +310,16 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameCreatorId = gameEntry.GameCreatorId,
                 GameCreatorName = gameEntry.GameCreatorName,
                 GameDescription = gameEntry.GameDescription,
-                GameGenres = gameEntry.GameGenres,
+                GameGenreSurvival = gameEntry.GameGenreSurvival,
+                GameGenreStrategy = gameEntry.GameGenreStrategy,
+                GameGenreSports = gameEntry.GameGenreSports,
+                GameGenreAction = gameEntry.GameGenreAction,
+                GameGenreAdventure = gameEntry.GameGenreAdventure,
+                GameGenreFighting = gameEntry.GameGenreFighting,
+                GameGenrePuzzle = gameEntry.GameGenrePuzzle,
+                GameGenreRacing = gameEntry.GameGenreRacing,
+                GameGenreRpg = gameEntry.GameGenreRpg,
+                GameGenreShooter = gameEntry.GameGenreShooter,
                 GameId = gameEntry.GameId,
                 GameName = gameEntry.GameName,
                 GameOnArcade = gameEntry.GameOnArcade,
@@ -302,44 +338,80 @@ namespace KnightsArcade.Infrastructure.Logic
             return game;
         }
 
+        public Games InsertArrayToColumn(Games game, NewEntry newEntry)
+        {
+            int size = newEntry.GameImg.Count();
+            switch (size)
+            {
+                case 1:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    break;
+                case 2:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    break;
+                case 3:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    break;
+                case 4:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    game.GameImage3 = newEntry.GameImg[3];
+                    break;
+                case 5:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    game.GameImage3 = newEntry.GameImg[3];
+                    game.GameImage4 = newEntry.GameImg[4];
+                    break;
+                default:
+                    break;
+            }
+            return game;
+        }
+
         public string[] ValidGameImageURLs(Games game)
         {
-            int count = 1;
-            if (game.GameImage0 != null && game.GameImage0 != "null")
+            int count = 0;
+            if (game.GameImage0 != null && game.GameImage0 != "null" && game.GameImage0 != "")
             { count++; }
-            if (game.GameImage1 != null && game.GameImage1 != "null")
+            if (game.GameImage1 != null && game.GameImage1 != "null" && game.GameImage1 != "")
             { count++; }
-            if (game.GameImage2 != null && game.GameImage2 != "null")
+            if (game.GameImage2 != null && game.GameImage2 != "null" && game.GameImage2 != "")
             { count++; }
-            if (game.GameImage3 != null && game.GameImage3 != "null")
+            if (game.GameImage3 != null && game.GameImage3 != "null" && game.GameImage3 != "")
             { count++; }
-            if (game.GameImage4 != null && game.GameImage4 != "null")
+            if (game.GameImage4 != null && game.GameImage4 != "null" && game.GameImage4 != "")
             { count++; }
 
             string[] stringArr = new string[count];
 
             count = 0;
-            if (game.GameImage0 != null && game.GameImage0 != "null")
+            if (game.GameImage0 != null && game.GameImage0 != "null" && game.GameImage0 != "")
             {
                 stringArr[count] = game.GameImage0;
                 count++;
             }
-            if (game.GameImage1 != null && game.GameImage1 != "null")
+            if (game.GameImage1 != null && game.GameImage1 != "null" && game.GameImage1 != "")
             {
                 stringArr[count] = game.GameImage1;
                 count++;
             }
-            if (game.GameImage2 != null && game.GameImage2 != "null")
+            if (game.GameImage2 != null && game.GameImage2 != "null" && game.GameImage2 != "")
             {
                 stringArr[count] = game.GameImage2;
                 count++;
             }
-            if (game.GameImage3 != null && game.GameImage3 != "null")
+            if (game.GameImage3 != null && game.GameImage3 != "null" && game.GameImage3 != "")
             {
                 stringArr[count] = game.GameImage3;
                 count++;
             }
-            if (game.GameImage4 != null && game.GameImage4 != "null")
+            if (game.GameImage4 != null && game.GameImage4 != "null" && game.GameImage4 != "")
             {
                 stringArr[count] = game.GameImage4;
                 count++;

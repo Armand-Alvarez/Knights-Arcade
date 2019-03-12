@@ -21,8 +21,7 @@ namespace KnightsArcade.Models.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-            }
+            { }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,7 +47,7 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.GameCreatorId)
                     .HasColumnName("game_creator_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.GameCreatorName)
                     .IsRequired()
@@ -60,10 +59,45 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("game_description")
                     .HasColumnType("text");
 
-                entity.Property(e => e.GameGenres)
-                    .IsRequired()
-                    .HasColumnName("game_genres")
-                    .HasColumnType("varchar(32)");
+                entity.Property(e => e.GameGenreAction)
+                    .HasColumnName("game_genre_action")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreAdventure)
+                    .HasColumnName("game_genre_adventure")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreFighting)
+                    .HasColumnName("game_genre_fighting")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenrePuzzle)
+                    .HasColumnName("game_genre_puzzle")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreRacing)
+                    .HasColumnName("game_genre_racing")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreRpg)
+                    .HasColumnName("game_genre_rpg")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreShooter)
+                    .HasColumnName("game_genre_shooter")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreSports)
+                    .HasColumnName("game_genre_sports")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreStrategy)
+                    .HasColumnName("game_genre_strategy")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameGenreSurvival)
+                    .HasColumnName("game_genre_survival")
+                    .HasColumnType("bit(1)");
 
                 entity.Property(e => e.GameImage0)
                     .IsRequired()
@@ -155,7 +189,7 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.CreatorId)
                     .HasColumnName("creator_id")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(255)");
             });
 
             modelBuilder.Entity<Tests>(entity =>
