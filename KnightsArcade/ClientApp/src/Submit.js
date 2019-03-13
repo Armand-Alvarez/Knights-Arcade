@@ -28,6 +28,7 @@ class Submit extends Component {
     this.handleSurvival = this.handleSurvival.bind(this);
     this.handleFighting = this.handleFighting.bind(this);
     this.handleRhythm = this.handleRhythm.bind(this);
+    this.handlePlatformer = this.handlePlatformer.bind(this)
     this.handleImg0Change = this.handleImg0Change.bind(this);
     this.saveImg0 = this.saveImg0.bind(this);
     this.handleGameFileChange = this.handleGameFileChange.bind(this);
@@ -50,6 +51,7 @@ class Submit extends Component {
       Survival: false,
       Fighting: false,
       Rhythm: false,
+      Platformer: false,
       gameURL: "",
       gameFile: "",
       gameFileName: "",
@@ -161,6 +163,10 @@ class Submit extends Component {
     this.setState({ Rhythm: !this.state.Rhythm });
   }
 
+  handlePlatformer() {
+    this.setState({ Platformer: !this.state.Platformer });
+  }
+
   handleGameFileChange(e) {
     const file = e.target.files[0]
     this.setState({
@@ -176,42 +182,6 @@ class Submit extends Component {
       img0URL: URL.createObjectURL(file),
       img0File: file,
       img0FileName: file.name
-    });
-  }
-
-  handleImg1Change(e) {
-    const file = e.target.files[1]
-    this.setState({
-      img1URL: URL.createObjectURL(file),
-      img1File: file,
-      img1FileName: file.name
-    });
-  }
-
-  handleImg2Change(e) {
-    const file = e.target.files[2]
-    this.setState({
-      img2URL: URL.createObjectURL(file),
-      img2File: file,
-      img2FileName: file.name
-    });
-  }
-
-  handleImg3Change(e) {
-    const file = e.target.files[3]
-    this.setState({
-      img3URL: URL.createObjectURL(file),
-      img3File: file,
-      img3FileName: file.name
-    });
-  }
-
-  handleImg4Change(e) {
-    const file = e.target.files[4]
-    this.setState({
-      img4URL: URL.createObjectURL(file),
-      img4File: file,
-      img4FileName: file.name
     });
   }
 
@@ -247,56 +217,18 @@ class Submit extends Component {
         return;
     }
 
-    saveImg1() {
-        Storage.put(this.state.titleValue + "/" + this.state.img1FileName, this.state.img1File)
-        .then(() => {
-            console.log('successfully saved file!');
-            //this.setState({img1URL: "", img1File: "", img1FileName: ""})
-        })
-        .catch(err => {
-            console.log('error uploading file!', err);
-            throw (err);
-            })
-        return;
+    saveAdditionalImages() {
+      for(var i = 0; i < this.state.imgFiles.length; i++) {
+        Storage.put(this.state.titleValue + "/" + this.state.imgFiles[i].name, this.state.imgFiles[i])
+          .then (result => console.log("img saved to S3!")) // {key: "test.txt"}
+          .catch(err => console.log(err));
+      }
     }
 
-    saveImg2() {
-        Storage.put(this.state.titleValue + "/" + this.state.img2FileName, this.state.img2File)
-        .then(() => {
-            console.log('successfully saved file!');
-            //this.setState({img2URL: "", img2File: "", img2FileName: ""})
-        })
-        .catch(err => {
-            console.log('error uploading file!', err);
-            throw (err);
-            })
-        return;
-    }
-
-    saveImg3() {
-        Storage.put(this.state.titleValue + "/" + this.state.img3FileName, this.state.img3File)
-        .then(() => {
-            console.log('successfully saved file!');
-            //this.setState({img3URL: "", img3File: "", img3FileName: ""})
-        })
-        .catch(err => {
-            console.log('error uploading file!', err);
-            throw (err);
-            })
-        return;
-    }
-
-    saveImg4() {
-        Storage.put(this.state.titleValue + "/" + this.state.img4FileName, this.state.img4File)
-        .then(() => {
-            console.log('successfully saved file!');
-            //this.setState({img4URL: "", img4File: "", img4FileName: ""})
-        })
-        .catch(err => {
-            console.log('error uploading file!', err);
-            throw (err);
-            })
-        return;
+    postToS3() {
+      this.saveImg0();
+      this.saveAdditionalImages();
+      this.saveGame();
     }
 
     postNewEntry() {
@@ -313,7 +245,7 @@ class Submit extends Component {
         const data = {
           gameName: this.state.titleValue,
           gameCreatorName: this.state.username,
-          gameCreatorId: "idkifweneedthis",
+          gameCreatorId: "",
           gameDescription: this.state.descriptionValue,
           gameControls: this.state.controlsValue,
           gameVideoLink: this.state.videoLinkValue,
@@ -328,56 +260,35 @@ class Submit extends Component {
           gameGenreAdventure: this.state.Adventure,
           gameGenreAction: this.state.Action,
           gameGenreRhythm: this.state.Rhythm,
+          gameGenrePlatformer: this.state.Platformer,
           gamePath: this.state.titleValue + "/" + this.state.gameFileName,
           gameImg: imgNames
         }
 
+        var self = this;
+
         axios.post('/api/v1/Restricted/rds/newentry', data)
             .then(function (res) {
                 console.log(res);
+                self.postToS3();
                 if (res.status != 201) {
                     console.log('Unable to create database entry');
                     throw ('Unable to create database entry');
                 }
             })
-            .catch(function () {
-                console.log('FAILURE!!');
-                throw ('Failed to post to API');
+            .catch(function (error) {
+                if(error.response.status == 409) {
+                  console.log("dup game name");
+                  throw ('Failed to post to API');
+                }
             });
     }
 
     handleSubmit(e) {
 
         e.preventDefault();
-        
-        for(var i = 0; i < this.state.imgFiles.length; i++)
-        {
-          console.log(this.state.imgFiles[i].name);
-        }
 
-        try {
-            this.saveImg0();
-            if (this.state.img1FileName !== "") {
-                this.saveImg1();
-            }
-            if (this.state.img2FileName !== "") {
-                this.saveImg2();
-            }
-            if (this.state.img3FileName !== "") {
-                this.saveImg3();
-            }
-            if (this.state.img4FileName !== "") {
-                this.saveImg4();
-            }
-            this.saveGame();
-            this.postNewEntry();
-        }
-        catch (error) {
-            console.log("removing from s3");
-            Storage.remove(this.state.titleValue)
-                .then(result => console.log(result))
-                .catch(err => console.log(err));
-        }
+        this.postNewEntry();
     
     }
 
@@ -479,6 +390,7 @@ class Submit extends Component {
                 <Checkbox className='text' onChange={this.handleSports}>Sports</Checkbox>
                 <Checkbox className='text' onChange={this.handleStrategy}>Strategy</Checkbox>
                 <Checkbox className='text' onChange={this.handleSurvival}>Survival</Checkbox>
+                <Checkbox className='text' onChange={this.handlePlatformer}>Platformer</Checkbox>
               </FormGroup>
             </Col>
           </Row>
