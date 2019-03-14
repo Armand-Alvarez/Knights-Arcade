@@ -46,6 +46,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameStatus = "t",
                 GameSubmissionDateUtc = DateTime.UtcNow
             };
+            char[] s = new char[6];
 
             newGame = InsertArrayToColumn(newGame, newEntry);
 
