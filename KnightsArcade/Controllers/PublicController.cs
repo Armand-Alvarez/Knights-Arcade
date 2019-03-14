@@ -100,7 +100,7 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
-        /// Get all games from the Games database table.
+        /// Get all approved games for the arcade machine from the Games database table.
         /// </summary>
         /// <returns>All game entries from the Games database table that are marked true for arcade machine.</returns>
         /// <response code="200"></response>
@@ -113,6 +113,94 @@ namespace KnightsArcade.Controllers
             try
             {
                 return Ok(_rdsLogic.GetAllGamesOnArcadeMachine());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all accepted games from the Games database table.
+        /// </summary>
+        /// <returns>All game entries from the Games database table that are marked "a" on game_status column for Accepted.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/allgamesapproved")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllApprovedGames()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "a"));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all pending games from the Games database table.
+        /// </summary>
+        /// <returns>All game entries from the Games database table that are marked "p" on game_status column for Pending.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/allgamespending")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllPendingGames()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "p"));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all testing games from the Games database table.
+        /// </summary>
+        /// <returns>All game entries from the Games database table that are marked "t" on game_status column for Testing.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/allgamestesting")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllTestingGames()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "t"));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all rejected games from the Games database table.
+        /// </summary>
+        /// <returns>All game entries from the Games database table that are marked "r" on game_status column for Rejected.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/allgamesrejected")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllRejectedGames()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "r"));
             }
             catch (Exception e)
             {
