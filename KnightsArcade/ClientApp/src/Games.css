@@ -1,8 +1,30 @@
-.col{
-	padding: 0px;
-	margin: 0px;
+.games-page {
+
 }
 
-.panel{
-	margin: 0px;
+.games-page__form-container {
+	display: flex;
+	flex-direction: column;
+	//justify-content: space-around;
+	//background-color: coral;
+}
+
+.games-page__search-row {
+	display: flex;
+	flex-direction: row;
+	background-color: coral;
+}
+
+.games-page__sort {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+
+.games-page__sort-label {
+	flex-grow: 1;
+}
+
+.games-page__inline-form {
+	flex-grow: 1;
 }
