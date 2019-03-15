@@ -5,10 +5,14 @@ import { Jumbotron, Button, Carousel, Grid, Row, Col } from 'react-bootstrap';
 import GameSlides from './Components/GameSlides';
 import Amplify from 'aws-amplify';
 import awsmobile from './aws-exports';
+import axios from 'axios';
 import { withAuthenticator } from 'aws-amplify-react';
 Amplify.configure(awsmobile);
 
+
+
 class Home extends Component {
+
   render() {
     return (
       <div className="App">

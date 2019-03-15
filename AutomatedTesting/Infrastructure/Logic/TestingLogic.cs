@@ -128,7 +128,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-               testProcess.GameProcess = Process.Start(exeFile);
+               //testProcess.GameProcess = Process.Start(exeFile);
 
                 return Process.GetProcessesByName(exeFile)
                     .FirstOrDefault(p => p.MainModule.FileName.StartsWith(@"c:\loc1")) != default(Process);
@@ -164,7 +164,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-                testProcess.GameProcess.Close();
+                //testProcess.GameProcess.Close();
                 Thread.Sleep(18000);
 
                 return Process.GetProcessesByName(exeFile)
