@@ -335,17 +335,50 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameStatus = gameEntry.GameStatus,
                 GameSubmissionDateUtc = gameEntry.GameSubmissionDateUtc,
                 GameVideolink = gameEntry.GameVideolink,
-                GameImage0 = gameEntry.GameImg[0] ?? null,
-                GameImage1 = gameEntry.GameImg[1] ?? null,
-                GameImage2 = gameEntry.GameImg[2] ?? null,
-                GameImage3 = gameEntry.GameImg[3] ?? null,
-                GameImage4 = gameEntry.GameImg[4] ?? null,
             };
+
+            game = InsertArrayToColumn(game, gameEntry);
 
             return game;
         }
 
         public Games InsertArrayToColumn(Games game, NewEntry newEntry)
+        {
+            int size = newEntry.GameImg.Count();
+            switch (size)
+            {
+                case 1:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    break;
+                case 2:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    break;
+                case 3:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    break;
+                case 4:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    game.GameImage3 = newEntry.GameImg[3];
+                    break;
+                case 5:
+                    game.GameImage0 = newEntry.GameImg[0];
+                    game.GameImage1 = newEntry.GameImg[1];
+                    game.GameImage2 = newEntry.GameImg[2];
+                    game.GameImage3 = newEntry.GameImg[3];
+                    game.GameImage4 = newEntry.GameImg[4];
+                    break;
+                default:
+                    break;
+            }
+            return game;
+        }
+
+        public Games InsertArrayToColumn(Games game, GamesEntry newEntry)
         {
             int size = newEntry.GameImg.Count();
             switch (size)
