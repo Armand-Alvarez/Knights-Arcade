@@ -80,10 +80,10 @@ namespace KnightsArcade.Infrastructure.Logic
             Tests newTest = new Tests()
             {
                 GameId = postedGame.GameId,
-                Test5min = 0,
-                TestCloses = 0,
-                TestOpens = 0,
-                TestRandombuttons = 0,
+                Test5min = false,
+                TestCloses = false,
+                TestOpens = false,
+                TestRandombuttons = false,
                 TestAttempts = 0
             };
 
