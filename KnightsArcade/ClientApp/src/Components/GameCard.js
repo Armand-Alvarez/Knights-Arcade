@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, Modal, Button, FormGroup, FormControl, ControlLabel, NavDropdown, MenuItem, Panel, Grid, Row, Col, Image, Popover, OverlayTrigger} from 'react-bootstrap';
+import { Image, Popover, OverlayTrigger} from 'react-bootstrap';
 import './GameCard.css';
-import { Auth } from 'aws-amplify';
 import { Storage } from 'aws-amplify';
 
 export default class GameCard extends Component {
@@ -33,40 +32,40 @@ export default class GameCard extends Component {
 		const date = new Date(gameData.gameSubmissionDateUtc);
 		const genres = [];
 
-		if(gameData.gameGenreAction == true) {
+		if(gameData.gameGenreAction === true) {
 			genres.push("Action");
 		}
-		if(gameData.gameGenreAdventure == true) {
+		if(gameData.gameGenreAdventure === true) {
 			genres.push("Adventure");
 		}
-		if(gameData.gameGenreFighting == true) {
+		if(gameData.gameGenreFighting === true) {
 			genres.push("Fighting");
 		}
-		if(gameData.gameGenrePlatformer == true) {
+		if(gameData.gameGenrePlatformer === true) {
 			genres.push("Platformer");
 		}
-		if(gameData.gameGenrePuzzle == true) {
+		if(gameData.gameGenrePuzzle === true) {
 			genres.push("Puzzle");
 		}
-		if(gameData.gameGenreRPG == true) {
+		if(gameData.gameGenreRPG === true) {
 			genres.push("RPG");
 		}
-		if(gameData.gameGenreRacing == true) {
+		if(gameData.gameGenreRacing === true) {
 			genres.push("Racing");
 		}
-		if(gameData.gameGenreRhythm == true) {
+		if(gameData.gameGenreRhythm === true) {
 			genres.push("Rhythm");
 		}
-		if(gameData.gameGenreShooter == true) {
+		if(gameData.gameGenreShooter === true) {
 			genres.push("Shooter");
 		}
-		if(gameData.gameGenreSports == true) {
+		if(gameData.gameGenreSports === true) {
 			genres.push("Sports");
 		}
-		if(gameData.gameGenreStrategy == true) {
+		if(gameData.gameGenreStrategy === true) {
 			genres.push("Strategy");
 		}
-		if(gameData.gameGenreSurvival == true) {
+		if(gameData.gameGenreSurvival === true) {
 			genres.push("Survival");
 		}
 

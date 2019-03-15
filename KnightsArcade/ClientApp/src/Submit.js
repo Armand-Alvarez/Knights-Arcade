@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Checkbox, Panel, Grid, Row} from 'react-bootstrap';
+import {FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row} from 'react-bootstrap';
 import NaviBar from './Components/NavBar';
 import './Submit.css';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
-import { FilePond, registerPlugin } from 'react-filepond';
+import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import { Auth } from 'aws-amplify';
 
@@ -271,15 +271,15 @@ class Submit extends Component {
             .then(function (res) {
                 console.log(res);
                 self.postToS3();
-                if (res.status != 201) {
+                if (res.status !== 201) {
                     console.log('Unable to create database entry');
-                    throw ('Unable to create database entry');
+                    throw ("Unable to create database entry");
                 }
             })
             .catch(function (error) {
-                if(error.response.status == 409) {
+                if(error.response.status === 409) {
                   console.log("dup game name");
-                  throw ('Failed to post to API');
+                  throw ("Failed to post to API");
                 }
             });
     }
