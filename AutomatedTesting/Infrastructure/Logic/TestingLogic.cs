@@ -1,4 +1,5 @@
 ﻿using AutomatedTesting.Infrastructure.Data.Infrastructure;
+using AutomatedTesting.Infrastructure.Data.Interface;
 using AutomatedTesting.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,13 +18,15 @@ namespace AutomatedTesting.Infrastructure.Logic
         private readonly ILogger<TestingLogic> _logger;
         private readonly IS3Data _s3Data;
         private readonly Object _sync = new Object();
-        public TestingVariables testProcess = new TestingVariables();
+        private readonly IWebData _webData;
+        public Tests testProcess = new Tests();
 
 
-        public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data)
+        public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData)
         {
             _logger = logger;
             _s3Data = s3Data;
+            _webData = webData;
         }
 
         public void Start()
@@ -32,47 +35,55 @@ namespace AutomatedTesting.Infrastructure.Logic
             {
                 lock(_sync)
                 {
-                    //string debugFilePath = null;
-                    //string localFilePath = null;
-                    string debugKey = "arcade_games/AlienDefense5(Final).zip";
-                    string fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
+                    TestsQueue testsQueue = _webData.GetFirstTestQueue();
 
-                    //Variables for each test
-                    bool startTest;
-                    bool sleepTest;
-                    bool stopTest;
-
-                    //get s3 and download zip file, return file location
-
-                    //Point variable to folder which contains .exe file
-                    fileLocation = FindSubDir(fileLocation);
-
-                    //Find .exe file path
-                    string exeFile = FindExe(fileLocation);
-
-                    //start .exe, check to see if it started
-                    startTest = StartFile(exeFile);
-
-                    //Quit out of tests if process does not start
-                    if (!startTest)
+                    while (testsQueue.RetryCount < 3)
                     {
-                        sleepTest = false;
-                        stopTest = false;
-                        return;
+
+                        _webData.PutTestsQueue(testsQueue);
+
+                        Games myGame = _webData.GetGamesByID(testsQueue.GameId);
+
+                        string debugKey = myGame.GamePath;
+                        string fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
+
+                        //Variables for each test
+                        bool startTest;
+                        bool sleepTest;
+                        bool stopTest;
+
+                        //Point variable to folder which contains .exe file
+                        fileLocation = FindSubDir(fileLocation);
+
+                        //Find .exe file path
+                        string exeFile = FindExe(fileLocation);
+
+                        //start .exe, check to see if it started
+                        startTest = StartFile(exeFile);
+
+                        //Quit out of tests if process does not start
+                        if (!startTest)
+                        {
+                            sleepTest = false;
+                            stopTest = false;
+                            return;
+                        }
+
+                        //Thread.Sleep(5000);
+                        sleepTest = SleepFile(exeFile);
+
+                        //Quit out of tests if process does not stay open for 5 min
+                        if (!sleepTest)
+                        {
+                            stopTest = false;
+                            return;
+                        }
+
+                        //stop .exe, check to see if it stopped
+                        stopTest = StopFile(exeFile);
                     }
 
-                    //Thread.Sleep(5000);
-                    sleepTest = SleepFile(exeFile);
-
-                    //Quit out of tests if process does not stay open for 5 min
-                    if (!sleepTest)
-                    {
-                        stopTest = false;
-                        return;
-                    }
-
-                    //stop .exe, check to see if it stopped
-                    stopTest = StopFile(exeFile);
+                    
                 }
             }
 
