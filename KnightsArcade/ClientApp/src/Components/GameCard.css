@@ -8,12 +8,13 @@
 	border-width: 0.5px;
 	display: flex;
 	flex-direction: row;
+	margin-bottom: 5px;
 }
 
 .game-card__info-container {
 	display: flex;
 	flex-direction: column;
-	//flex-grow: 1;
+	flex-grow: 1;
 	padding-left: 20px;
 	padding-right: 20px;
 	justify-content: space-around;

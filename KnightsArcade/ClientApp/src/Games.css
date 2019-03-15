@@ -12,19 +12,23 @@
 .games-page__search-row {
 	display: flex;
 	flex-direction: row;
-	background-color: coral;
-}
-
-.games-page__sort {
-	display: flex;
-	flex-direction: row;
+	justify-content: space-between;
+	//background-color: coral;
 	align-items: baseline;
 }
 
+.games-page__sort {
+
+}
+
 .games-page__sort-label {
-	flex-grow: 1;
+
 }
 
 .games-page__inline-form {
-	flex-grow: 1;
+
+}
+
+.games-page__game-list {
+	margin-top: 10px;
 }
