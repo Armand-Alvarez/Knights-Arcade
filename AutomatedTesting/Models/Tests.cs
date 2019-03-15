@@ -10,10 +10,10 @@ namespace AutomatedTesting.Models
     {
         [Required]
         public int? GameId { get; set; }
-        public sbyte? TestOpens { get; set; }
-        public sbyte? Test5min { get; set; }
-        public sbyte? TestCloses { get; set; }
-        public sbyte? TestRandombuttons { get; set; }
+        public bool TestOpens { get; set; }
+        public bool Test5min { get; set; }
+        public bool TestCloses { get; set; }
+        public bool TestRandombuttons { get; set; }
         public int? TestAttempts { get; set; }
     }
 }
