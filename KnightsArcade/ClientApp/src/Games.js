@@ -3,7 +3,7 @@ import axios from 'axios';
 import NaviBar from './Components/NavBar';
 import GameCard from './Components/GameCard';
 import './Games.css';
-import {Panel, Grid, Row, Col, FormGroup, FormControl, InputGroup, DropdownButton, MenuItem, Form, ControlLabel, Jumbotron} from 'react-bootstrap';
+import { Grid, Row, Col, FormGroup, FormControl, InputGroup, DropdownButton, MenuItem, Form, Jumbotron} from 'react-bootstrap';
 
 class Games extends Component {
   

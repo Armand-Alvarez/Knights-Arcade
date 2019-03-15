@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Button, Carousel, Grid, Row, Col } from 'react-bootstrap';
+import { Carousel, Grid, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
 import '../App.css';
@@ -70,7 +70,7 @@ export class GameSlides extends Component {
                 return response.data;
             })
             .then(async (data) => {
-                if (data.length == random) {
+                if (data.length === random) {
                     this.setState({ GameOneTitle: data[0].gameName })
                     this.setState({ GameOneDescription: data[0].gameDescription })
                     this.setState({ GameOneImage: await Storage.get(data[0].gameImg[0]) })
