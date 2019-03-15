@@ -47,11 +47,6 @@ namespace AutomatedTesting.Infrastructure.Logic
                         string debugKey = myGame.GamePath;
                         string fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
 
-                        //Variables for each test
-                        bool startTest;
-                        bool sleepTest;
-                        bool stopTest;
-
                         //Point variable to folder which contains .exe file
                         fileLocation = FindSubDir(fileLocation);
 
@@ -59,28 +54,28 @@ namespace AutomatedTesting.Infrastructure.Logic
                         string exeFile = FindExe(fileLocation);
 
                         //start .exe, check to see if it started
-                        startTest = StartFile(exeFile);
+                        testProcess.TestOpens = StartFile(exeFile);
 
                         //Quit out of tests if process does not start
-                        if (!startTest)
+                        if (!testProcess.TestOpens)
                         {
-                            sleepTest = false;
-                            stopTest = false;
-                            return;
+                            testProcess.Test5min = false;
+                            testProcess.TestCloses = false;
+                            continue;
                         }
 
                         //Thread.Sleep(5000);
-                        sleepTest = SleepFile(exeFile);
+                        testProcess.Test5min = SleepFile(exeFile);
 
                         //Quit out of tests if process does not stay open for 5 min
-                        if (!sleepTest)
+                        if (!testProcess.Test5min)
                         {
-                            stopTest = false;
-                            return;
+                            testProcess.TestCloses = false;
+                            continue;
                         }
 
                         //stop .exe, check to see if it stopped
-                        stopTest = StopFile(exeFile);
+                        testProcess.TestCloses = StopFile(exeFile);
                     }
 
                     
