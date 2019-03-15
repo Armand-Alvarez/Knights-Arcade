@@ -58,7 +58,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                string json = JsonConvert.SerializeObject(myTest);
+                //string json = JsonConvert.SerializeObject(myTest);
                 HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", myTest).Result;
 
                 if (response.StatusCode.ToString() == "200")
@@ -101,9 +101,9 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.DeleteAsync("http://localhost:52445/api/v1/restricted/rds/testsqueue/testsqueue?gameId=" + gameID).Result;
+                HttpResponseMessage response = client.DeleteAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue?gameId=" + gameID).Result;
 
-                if (response.StatusCode.ToString() == "200")
+                if (response.StatusCode.ToString() == "204")
                 {
                     return true;
                 }

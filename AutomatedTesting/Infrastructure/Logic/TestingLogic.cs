@@ -57,7 +57,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         testProcess.TestOpens = StartFile(exeFile);
 
                         //Quit out of tests if process does not start
-                        if (!testProcess.TestOpens)
+                        if (!(bool)testProcess.TestOpens)
                         {
                             testProcess.Test5min = false;
                             testProcess.TestCloses = false;
@@ -68,7 +68,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         testProcess.Test5min = SleepFile(exeFile);
 
                         //Quit out of tests if process does not stay open for 5 min
-                        if (!testProcess.Test5min)
+                        if ((bool)!testProcess.Test5min)
                         {
                             testProcess.TestCloses = false;
                             continue;
@@ -78,7 +78,8 @@ namespace AutomatedTesting.Infrastructure.Logic
                         testProcess.TestCloses = StopFile(exeFile);
                     }
 
-                    
+                    _webData.DeleteTestQueue(testsQueue.GameId);
+                    _webData.PutTests(testProcess);
                 }
             }
 
