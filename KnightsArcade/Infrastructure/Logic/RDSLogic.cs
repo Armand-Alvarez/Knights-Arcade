@@ -345,7 +345,6 @@ namespace KnightsArcade.Infrastructure.Logic
             return game;
         }
 
-        /// Helper functions
         public Games InsertArrayToColumn(Games game, NewEntry newEntry)
         {
             int size = newEntry.GameImg.Count();
@@ -426,6 +425,20 @@ namespace KnightsArcade.Infrastructure.Logic
             }
 
             return stringArr;
+        }
+
+        public IEnumerable<GamesEntry> GetRandomApprovedGames(int random)
+        {
+            List<GamesEntry> games = GetAllGames().Where(x => x.GameStatus == "a").ToList();
+            List<GamesEntry> randomGames = new List<GamesEntry>();
+            Random rand = new Random();
+            for(int i = 0; i < random; i ++)
+            {
+                int j = rand.Next(games.Count());
+                randomGames.Add(games[j]);
+                games.RemoveAt(j);
+            }
+            return randomGames;
         }
     }
 }

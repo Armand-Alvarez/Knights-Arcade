@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KnightsArcade.Infrastructure.Logic;
+using KnightsArcade.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -135,6 +136,28 @@ namespace KnightsArcade.Controllers
             try
             {
                 return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "a"));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get random accepted games from the Games database table.
+        /// </summary>
+        /// <returns>Get random game entries from the Games database table that are marked "a" on game_status column for Accepted.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/randomgamesapproved")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetRandomApprovedGames(int random)
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetRandomApprovedGames(random));
             }
             catch (Exception e)
             {
