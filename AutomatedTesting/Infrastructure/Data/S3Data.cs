@@ -3,6 +3,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using AutomatedTesting.Infrastructure.Data.Infrastructure;
+using AutomatedTesting.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,14 +20,16 @@ namespace AutomatedTesting.Infrastructure.Data
     {
         private readonly ILogger<S3Data> _logger;
         private readonly IAmazonS3 _s3Client;
+        private readonly IConfiguration _configuration;
         private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast1;
 
         //ToDo: Put credentials in a secret location
         public S3Data(ILogger<S3Data> logger, IConfiguration config)
         {
             _logger = logger;
+            _configuration = config;
             _s3Client = new AmazonS3Client(config.GetSection("AWSCredentials:AWSAccessKey").Value,
-                config.GetSection("AWSCredentials:AWSSecretKey").Value, bucketRegion);
+                config.GetSection("AWSCredentials:AWSSecretKey").Value, bucketRegion); 
         }
 
         public async Task<string> ReadObjectDataAsync(string key)
