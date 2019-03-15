@@ -12,7 +12,9 @@ export default class NaviBar extends Component {
 	    this.state = {
 	      loggedIn: false,
 	      username: ""
-	    };
+        };
+
+        document.title = "Knights Arcade";
 	}
 
 	componentDidMount() {
@@ -27,6 +29,7 @@ export default class NaviBar extends Component {
 			console.log(err);
 			this.setState({ loggedIn: false });
 		});
+        
 
 	}
 

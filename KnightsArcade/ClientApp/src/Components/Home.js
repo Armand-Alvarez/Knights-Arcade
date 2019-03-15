@@ -4,6 +4,9 @@ import NaviBar from './Components/NavBar';
 import { Jumbotron, Button } from 'react-bootstrap';
 
 class Home extends Component {
+    constructor() {
+        document.title = "Knights Arcade";
+    }
   render() {
     return (
       <div className="App">
