@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
 import './GameAdvert.css';
-import GameSlides from './Components/GameSlides';
 import GameAdSlides from './Components/GameAdSlides';
-import {Panel, Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
 
 class GameAdvert extends Component {
   render() {

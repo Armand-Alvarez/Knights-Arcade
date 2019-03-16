@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Button, Carousel, Grid, Row, Col } from 'react-bootstrap';
+import { Carousel, Grid, Row, Col } from 'react-bootstrap';
 import '../App.css';
 
 export class GameSlides extends Component {

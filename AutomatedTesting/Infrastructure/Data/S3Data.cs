@@ -28,8 +28,8 @@ namespace AutomatedTesting.Infrastructure.Data
         {
             _logger = logger;
             _configuration = config;
-            _s3Client = new AmazonS3Client(config.GetSection("AWSCredentials:AWSAccessKey").Value,
-                config.GetSection("AWSCredentials:AWSSecretKey").Value, bucketRegion); 
+            _s3Client = new AmazonS3Client(config.GetSection("ConnectionString:AWSAccessKey").Value,
+                config.GetSection("ConnectionString:AWSSecretKey").Value, bucketRegion); 
         }
 
         public async Task<string> ReadObjectDataAsync(string key)

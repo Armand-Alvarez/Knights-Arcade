@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, Modal, Button, FormGroup, FormControl, ControlLabel, NavDropdown, MenuItem} from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import './NavBar.css';
 import { Auth } from 'aws-amplify';
 
