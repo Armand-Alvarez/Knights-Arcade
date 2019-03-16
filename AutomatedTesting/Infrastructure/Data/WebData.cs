@@ -58,7 +58,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                //string json = JsonConvert.SerializeObject(myTest);
+                string json = JsonConvert.SerializeObject(myTest);
                 HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", myTest).Result;
 
                 if (response.StatusCode.ToString() == "200")
