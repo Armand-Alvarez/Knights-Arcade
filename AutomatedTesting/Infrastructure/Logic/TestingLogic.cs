@@ -44,6 +44,14 @@ namespace AutomatedTesting.Infrastructure.Logic
 
                         Games myGame = _webData.GetGamesByID(testsQueue.GameId);
 
+                        if (myGame == null)
+                        {
+                            testProcess.TestOpens = false;
+                            testProcess.Test5min = false;
+                            testProcess.TestCloses = false;
+                            continue;
+                        }
+
                         string debugKey = myGame.GamePath;
                         string fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
 
