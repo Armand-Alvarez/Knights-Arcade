@@ -39,7 +39,7 @@ namespace AutomatedTesting.Infrastructure.Data
             {
                 GetObjectRequest request = new GetObjectRequest
                 {
-                    BucketName = "arcadegrassproject",
+                    BucketName = "knightsarcades3",
                     Key = key
                 };
 

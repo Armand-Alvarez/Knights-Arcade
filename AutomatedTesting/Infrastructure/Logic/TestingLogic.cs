@@ -40,10 +40,11 @@ namespace AutomatedTesting.Infrastructure.Logic
                     while (testsQueue.RetryCount < 3)
                     {
 
-                        _webData.PutTestsQueue(testsQueue);
+                        //_webData.PutTestsQueue(testsQueue);
 
                         Games myGame = _webData.GetGamesByID(testsQueue.GameId);
 
+                        //Retry to pull game if it failed the first time
                         if (myGame == null)
                         {
                             testProcess.TestOpens = false;
@@ -52,7 +53,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                             continue;
                         }
 
-                        string debugKey = myGame.GamePath;
+                        string debugKey = "public/" + myGame.GamePath;
                         string fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
 
                         //Point variable to folder which contains .exe file
@@ -64,7 +65,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         //start .exe, check to see if it started
                         testProcess.TestOpens = StartFile(exeFile);
 
-                        //Quit out of tests if process does not start
+                        //Retry tests if process does not start
                         if (!(bool)testProcess.TestOpens)
                         {
                             testProcess.Test5min = false;
@@ -72,10 +73,10 @@ namespace AutomatedTesting.Infrastructure.Logic
                             continue;
                         }
 
-                        //Thread.Sleep(5000);
+                        //Check to see if game still running after 5 min
                         testProcess.Test5min = SleepFile(exeFile);
 
-                        //Quit out of tests if process does not stay open for 5 min
+                        //Retry tests if process does not stay open for 5 min
                         if ((bool)!testProcess.Test5min)
                         {
                             testProcess.TestCloses = false;
@@ -84,6 +85,10 @@ namespace AutomatedTesting.Infrastructure.Logic
 
                         //stop .exe, check to see if it stopped
                         testProcess.TestCloses = StopFile(exeFile);
+
+                        //If all tests passed, stop rechecking
+                        if ((bool)testProcess.TestOpens && (bool)testProcess.Test5min && (bool)testProcess.TestCloses)
+                            break;
                     }
 
                     _webData.DeleteTestQueue(testsQueue.GameId);
@@ -136,10 +141,9 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-               //testProcess.GameProcess = Process.Start(exeFile);
+               testProcess.GameProcess = Process.Start(exeFile);
 
-                return Process.GetProcessesByName(exeFile)
-                    .FirstOrDefault(p => p.MainModule.FileName.StartsWith(@"c:\loc1")) != default(Process);
+                return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
             }
 
             catch(Exception e)
@@ -154,10 +158,9 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-                Thread.Sleep(300000);
+                //Thread.Sleep(300000);
 
-                return Process.GetProcessesByName(exeFile)
-                   .FirstOrDefault(p => p.MainModule.FileName.StartsWith(@"c:\loc1")) != default(Process);
+                return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
             }
 
             catch(Exception e)
@@ -172,11 +175,10 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-                //testProcess.GameProcess.Close();
-                Thread.Sleep(18000);
+                testProcess.GameProcess.Kill();
+                Thread.Sleep(3000);
 
-                return Process.GetProcessesByName(exeFile)
-                   .FirstOrDefault(p => p.MainModule.FileName.StartsWith(@"c:\loc1")) != default(Process);
+                return !(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
             }
 
             catch(Exception e)
