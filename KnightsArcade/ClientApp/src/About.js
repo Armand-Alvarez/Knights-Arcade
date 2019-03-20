@@ -14,13 +14,19 @@ class About extends Component {
           <Row>
             <Col md={6} mdPush={6}>
               <p className = 'text'>
-                Insert info here. Section 1 / 2
+                SVAD Mission:
               </p>
               <p className = 'text'>
-                Culpa eiusmod laborum quis occaecat. Reprehenderit non dolor cillum elit eiusmod culpa ut qui cillum ea anim. Anim deserunt aliqua commodo nostrud sunt. Est exercitation deserunt nisi nulla mollit enim enim ut minim. Eiusmod aliquip nulla quis occaecat nulla voluptate dolor proident sunt ut mollit do eiusmod. Tempor excepteur ullamco quis nostrud commodo ex dolore occaecat officia et fugiat veniam laborum officia. Dolore Lorem nisi nostrud labore nisi veniam est ex Lorem non ex amet ullamco nisi.
+              "UCF's School of Visual Arts and Design unites arts, emerging media, 
+              photography, art history, and architecture. We encourage the creative and 
+              inventive efforts of individuals and groups who investigate and value the past, 
+              who explore and engage in the present, and who critically design an innovative 
+              future."
               </p>
               <p className = 'text'>
-                Amet irure nisi dolor sint enim do nulla laborum aliquip incididunt. Magna reprehenderit laboris amet enim ea labore anim aute anim ullamco elit esse irure fugiat. Fugiat velit laborum veniam pariatur laborum cillum nostrud minim est ullamco nostrud non. Dolor et sint consequat occaecat nisi esse reprehenderit mollit sunt id. Labore exercitation officia deserunt minim est consequat labore laborum et velit sint consequat duis fugiat.
+              The SVAD arcade machines are located around the University of Central Florida campus.
+              All games on these machines are developed by UCF students. 
+
               </p>
             </Col>
             <Col md={6} mdPull={6}>
@@ -34,14 +40,15 @@ class About extends Component {
             </Col>
               <Col md={6} mdPull={6}>
                 <p className = 'text'>
-                  Insert info here. Section 2 / 2
+                  Group Members:
                 </p>
                 <p className = 'text'>
-                  Culpa eiusmod laborum quis occaecat. Reprehenderit non dolor cillum elit eiusmod culpa ut qui cillum ea anim. Anim deserunt aliqua commodo nostrud sunt. Est exercitation deserunt nisi nulla mollit enim enim ut minim. Eiusmod aliquip nulla quis occaecat nulla voluptate dolor proident sunt ut mollit do eiusmod. Tempor excepteur ullamco quis nostrud commodo ex dolore occaecat officia et fugiat veniam laborum officia. Dolore Lorem nisi nostrud labore nisi veniam est ex Lorem non ex amet ullamco nisi.
+                  Armand Alvarez, Scott Kramarz, Jon Navas, Yitzak Hernandez, Drew Corbeil
                 </p>
                 <p className = 'text'>
-                  Amet irure nisi dolor sint enim do nulla laborum aliquip incididunt. Magna reprehenderit laboris amet enim ea labore anim aute anim ullamco elit esse irure fugiat. Fugiat velit laborum veniam pariatur laborum cillum nostrud minim est ullamco nostrud non. Dolor et sint consequat occaecat nisi esse reprehenderit mollit sunt id. Labore exercitation officia deserunt minim est consequat labore laborum et velit sint consequat duis fugiat.
-                </p>              </Col>
+                  Sponser: Peter Smith
+                </p>
+          </Col>
           </Row>
         </Grid>
       </div>
