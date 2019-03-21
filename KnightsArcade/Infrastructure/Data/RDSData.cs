@@ -322,5 +322,100 @@ namespace KnightsArcade.Infrastructure.Data
             knightsContext.Testsqueue.Remove(testsQueue);
             knightsContext.SaveChanges();
         }
+
+        ///////
+        //// Users
+        ///////
+
+        public Users GetUser(string username)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            Users user = knightsContext.Users.Find(username);
+            return user;
+        }
+
+        public void PostUser(Users user)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            knightsContext.Users.Add(user);
+            knightsContext.SaveChanges();
+        }
+
+        public void PutUser(Users updatedUserInfo)
+        {
+            Users currentUserInfo = GetUser(updatedUserInfo.Username);
+
+            if(updatedUserInfo.UserMajor != null)
+            {
+                currentUserInfo.UserMajor = updatedUserInfo.UserMajor;
+            }
+            if (updatedUserInfo.UserLastName != null)
+            {
+                currentUserInfo.UserLastName = updatedUserInfo.UserLastName;
+            }
+            if (updatedUserInfo.UserFirstName != null)
+            {
+                currentUserInfo.UserFirstName = updatedUserInfo.UserFirstName;
+            }
+            if (updatedUserInfo.UserImagePath != null)
+            {
+                currentUserInfo.UserImagePath = updatedUserInfo.UserImagePath;
+            }
+
+            DeleteUser(currentUserInfo.Username);
+            PostUser(currentUserInfo);
+        }
+
+        public void DeleteUser(string username)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            Users user = knightsContext.Users.Find(username);
+            knightsContext.Users.Remove(user);
+            knightsContext.SaveChanges();
+        }
+
+        ///////
+        //// TestingLog
+        ///////
+
+        public List<TestingLog> GetAllTestingLogs()
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            List<TestingLog> testingLogs = knightsContext.TestingLog.ToList();
+            return testingLogs;
+        }
+
+        public List<TestingLog> GetTestingLog(int gameId)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            List<TestingLog> testingLogs = knightsContext.TestingLog.Where(x => x.GameId == gameId).ToList();
+            return testingLogs;
+        }
+
+        public void PostTestingLog(TestingLog testingLog)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            knightsContext.TestingLog.Add(testingLog);
+            knightsContext.SaveChanges();
+        }
     }
+
 }

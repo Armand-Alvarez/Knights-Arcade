@@ -62,7 +62,7 @@ export default class NaviBar extends Component {
 			    	{this.state.loggedIn ?
 
 			    		<NavDropdown eventKey={3} title={this.state.username} id="basic-nav-dropdown">
-					        <MenuItem eventKey={3.2} href="Submit">Submit a game</MenuItem>
+					        <MenuItem eventKey={3.2} href="Submit">Submit A Game</MenuItem>
 					        <MenuItem eventKey={3.3} href="MyProfile">My Account</MenuItem>
 					        <MenuItem divider />
 					        <MenuItem eventKey={3.3} href="/" onClick={this.handleLogOut}>Log Out</MenuItem>

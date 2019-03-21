@@ -33,7 +33,7 @@ class Games extends Component {
 
   componentDidMount() {
 
-    axios.get(`api/v1/Public/rds/games/allgames`)
+    axios.get(`api/v1/Public/rds/games/allapprovedgames`)
       .then(res => {
         const games = res.data;
         this.setState({ games: games });

@@ -30,5 +30,14 @@ namespace KnightsArcade.Infrastructure.Data.Interface
         void PostTestsQueue(TestsQueue test);
         void PutTestsQueue(int gameId);
         void DeleteTestsQueue(int gameId);
+
+        Users GetUser(string username);
+        void PostUser(Users user);
+        void PutUser(Users user);
+        void DeleteUser(string username);
+
+        List<TestingLog> GetAllTestingLogs();
+        List<TestingLog> GetTestingLog(int gameId);
+        void PostTestingLog(TestingLog testingLog);
     }
 }
