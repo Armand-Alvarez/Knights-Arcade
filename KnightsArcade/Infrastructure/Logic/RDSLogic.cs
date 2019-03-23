@@ -64,7 +64,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 SubmissionImage0 = postedGame.GameImage0,
                 SubmissionName = postedGame.GameName,
                 SubmissionStatus = postedGame.GameStatus,
-                CreatorName = postedGame.GameCreatorId
+                CreatorName = postedGame.GameCreatorName
             };
 
             _rdsData.PostSubmissions(newSubmission);

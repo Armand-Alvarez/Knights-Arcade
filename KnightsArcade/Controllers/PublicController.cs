@@ -280,17 +280,17 @@ namespace KnightsArcade.Controllers
         /// <summary>
         /// Get all developer/creator submissions from the Submissions database table.
         /// </summary>
-        /// <returns>All game entries from the Submissions database table that are marked with the given creator name on game_creator_name column for Accepted.</returns>
+        /// <returns>All game entries from the Submissions database table that are marked with the given creator name on creator_name column.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
         [HttpGet("rds/submissions/allcreatorsubmissions")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult GetAllCreatorGames(string developerName)
+        public IActionResult GetAllCreatorSubmissions(string developerName)
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameCreatorName == developerName));
+                return Ok(_rdsLogic.GetAllSubmissions().Where(x => x.CreatorName == developerName));
             }
             catch (Exception e)
             {
