@@ -1,43 +1,95 @@
 import React, { Component } from 'react'
 import { Carousel, Grid, Row, Col } from 'react-bootstrap';
+import { Storage } from 'aws-amplify';
 import '../App.css';
 
 export class GameSlides extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Grid>
-        <Row>
-        <Col md={8} mdOffset={0}>
-        <Carousel>
-        <Carousel.Item>
-            <img width={896} height={504} alt="896x504" src={require('../slideTest.png')} />
-            <Carousel.Caption>
-            <h3>Game 1</h3>
-            <p>Game 1 description bla bla ba</p>
-            </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-            <img width={896} height={504} alt="896x504" src={require('../slideTest.png')} />
-            <Carousel.Caption>
-            <h3>Game 2</h3>
-            <p>Game 2 description bla bla bla bla bla bla</p>
-            </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-            <img width={896} height={504} alt="896x504" src={require('../slideTest.png')} />
-            <Carousel.Caption>
-            <h3>Game 3</h3>
-            <p>Game 3 description bla bla bla... you get the point</p>
-            </Carousel.Caption>
-        </Carousel.Item>
-        </Carousel>
-        </Col>
-        </Row>
-        </Grid>
-      </div>
-    )
-  }
+    constructor(props) {
+        super(props);
+    }
+
+
+    render(props) {
+        var slideshow;
+      switch (this.props.numItems) {
+          case 2:
+              slideshow =
+                  <Carousel>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide0} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide1} />
+                      </Carousel.Item>
+                  </Carousel>
+              break;
+
+          case 3:
+              slideshow =
+                  <Carousel>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide0} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide1} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide2} />
+                      </Carousel.Item>
+                  </Carousel>
+              break;
+          case 4:
+              slideshow =
+                  <Carousel>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide0} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide1} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide2} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide3} />
+                      </Carousel.Item>
+                  </Carousel>
+              break;
+          case 5:
+              slideshow =
+                  <Carousel>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide0} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide1} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide2} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide3} />
+                      </Carousel.Item>
+                      <Carousel.Item>
+                          <img width={896} height={504} alt="896x504" src={this.props.gameSlide4} />
+                      </Carousel.Item>
+                  </Carousel>
+              break;
+      }
+      return (
+              
+        <div className="App">
+            <Grid>
+                <Row>
+                    <Col md={8} mdOffset={0}>
+                          {slideshow}
+                      </Col>
+                 </Row>
+             </Grid>
+         </div>
+
+     )
+   }
 }
 
 export default GameSlides
