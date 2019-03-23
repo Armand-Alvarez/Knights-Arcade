@@ -36,3 +36,8 @@
 .game-card__dev {
 	//align-self: baseline;
 }
+
+.status-icon {
+    width: 12%;
+    float: right;
+}
