@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedTesting.Models
 {
@@ -16,6 +11,5 @@ namespace AutomatedTesting.Models
         public bool? TestCloses { get; set; }
         public bool? TestRandombuttons { get; set; }
         public int? TestAttempts { get; set; }
-        public Process GameProcess { get; set; }
     }
 }

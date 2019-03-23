@@ -59,7 +59,7 @@ namespace AutomatedTesting.Infrastructure.Data
             {
                 HttpClient client = new HttpClient();
                 string json = JsonConvert.SerializeObject(myTest);
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", myTest).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", json).Result;
 
                 if (response.StatusCode.ToString() == "200")
                 {
@@ -124,7 +124,8 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/tests/test", myTest).Result;
+                string json = JsonConvert.SerializeObject(myTest);
+                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/tests/test", json).Result;
                
                 if (response.StatusCode.ToString() == "200" )
                 {
@@ -140,6 +141,31 @@ namespace AutomatedTesting.Infrastructure.Data
                 return false;
             }
         }
-       
-    }
+
+        public bool PostTestingLog(TestingLog testLog)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                string json = JsonConvert.SerializeObject(testLog);
+                HttpResponseMessage response = client.PostAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testinglog/testinglog", json).Result;
+
+                if (response.StatusCode.ToString() == "200")
+                {
+                    return true;
+                }
+
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return false;
+            }
+
+        }
+    } 
 }
+
+

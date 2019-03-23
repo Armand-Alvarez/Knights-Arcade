@@ -12,6 +12,7 @@ namespace AutomatedTesting.Infrastructure.Data.Interface
         bool PutTestsQueue(TestsQueue myTest);
         bool PutTests(Tests myTest);
         bool DeleteTestQueue(int? gameID);
+        bool PostTestingLog(TestingLog testLog);
         TestsQueue GetFirstTestQueue();
         Games GetGamesByID(int? gameID);
     }
