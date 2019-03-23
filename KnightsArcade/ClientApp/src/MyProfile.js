@@ -5,6 +5,8 @@ import './MyProfile.css';
 import { Auth } from 'aws-amplify';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
+import { InputGroup, DropdownButton, MenuItem, Jumbotron } from 'react-bootstrap';
+import SubmissionCard from './Components/SubmissionCard';
 
 class MyProfile extends Component {
   
@@ -26,8 +28,24 @@ class MyProfile extends Component {
       imgURL: "",
       imgFile:"",
       imgName:"",
-      games: []
-    };
+        games: [],
+        currentGenre: "All Genres",
+        AllGenres: true,
+        Action: false,
+        Adventure: false,
+        Fighting: false,
+        Platformer: false,
+        Puzzle: false,
+        RPG: false,
+        Racing: false,
+        Rhythm: false,
+        Shooter: false,
+        Sports: false,
+        Strategy: false,
+        Survival: false,
+      };
+
+      this.handleGenreSelect = this.handleGenreSelect.bind(this);
 
       Auth.currentAuthenticatedUser({
           bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
@@ -47,7 +65,8 @@ class MyProfile extends Component {
                         userImagePath: "USERS/default/defaultAvatar.png",
                         userMajor: "Major"
                     }
-                    axios.post('/api/v1/Restricted/rds/users/user', user).catch(err => console.log(err));
+                    axios.post('/api/v1/Restricted/rds/users/user', user).catch(err => console.log(err))
+                        .then(() => window.location.reload());
                 }
                 else if (response.status === 200) {
                     this.setState({
@@ -61,10 +80,11 @@ class MyProfile extends Component {
             });
         })
           .then(() => {
-              axios.get('/api/v1/Public/rds/games/allcreatorgames?developerName=' + this.state.username)
+              axios.get('/api/v1/Public/rds/submissions/allcreatorsubmissions?developerName=' + this.state.username)
                   .catch()
                   .then((response) => {
-                      this.setState({games: response.data}); 
+                      this.setState({ games: response.data });
+                      console.log(this.state.games);
                   });
           })
           .catch(err => console.log(err))
@@ -122,7 +142,6 @@ class MyProfile extends Component {
           .catch((err) => {
               console.log(err);
           });
-      
   }
 
   handleSaveImg()
@@ -137,7 +156,107 @@ class MyProfile extends Component {
               throw (err);
           })
       return;
-  }
+    }
+
+    handleGenreSelect(eventKey) {
+
+        this.setState({
+            AllGenres: false,
+            Action: false,
+            Adventure: false,
+            Fighting: false,
+            Platformer: false,
+            Puzzle: false,
+            RPG: false,
+            Racing: false,
+            Rhythm: false,
+            Shooter: false,
+            Sports: false,
+            Strategy: false,
+            Survival: false,
+        });
+
+        switch (eventKey) {
+            case 0:
+                this.setState({
+                    AllGenres: true,
+                    currentGenre: "All Genres"
+                });
+                break;
+            case 1:
+                this.setState({
+                    Action: true,
+                    currentGenre: "Action"
+                });
+                break;
+            case 2:
+                this.setState({
+                    Adventure: true,
+                    currentGenre: "Adventure"
+                });
+                break;
+            case 3:
+                this.setState({
+                    Fighting: true,
+                    currentGenre: "Fighting"
+                });
+                break;
+            case 4:
+                this.setState({
+                    Platformer: true,
+                    currentGenre: "Platformer"
+                });
+                break;
+            case 5:
+                this.setState({
+                    Puzzle: true,
+                    currentGenre: "Puzzle"
+                });
+                break;
+            case 6:
+                this.setState({
+                    RPG: true,
+                    currentGenre: "RPG"
+                });
+                break;
+            case 7:
+                this.setState({
+                    Racing: true,
+                    currentGenre: "Racing"
+                });
+                break;
+            case 8:
+                this.setState({
+                    Rhythm: true,
+                    currentGenre: "Rhythm"
+                });
+                break;
+            case 9:
+                this.setState({
+                    Shooter: true,
+                    currentGenre: "Shooter"
+                });
+                break;
+            case 10:
+                this.setState({
+                    Sports: true,
+                    currentGenre: "Sports"
+                });
+                break;
+            case 11:
+                this.setState({
+                    Strategy: true,
+                    currentGenre: "Strategy"
+                });
+                break;
+            case 12:
+                this.setState({
+                    Survival: true,
+                    currentGenre: "Survival"
+                });
+                break;
+        }
+    }
 
   render() {
     return (
@@ -151,7 +270,7 @@ class MyProfile extends Component {
         <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <h2><b>Profile</b></h2>
+              <h1><b>Profile</b></h1>
             </Col>
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -194,7 +313,6 @@ class MyProfile extends Component {
               </Panel>
             </Col>
           </Row>
-
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <hr className="my-profile__hr" />
@@ -295,6 +413,21 @@ class MyProfile extends Component {
               <hr className="my-profile__hr" />
             </Col>
           </Row>
+          <Row style={{ marginLeft: 0, marginRight: 0 }}>
+            <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+              <h3><b>My Games</b></h3>
+            </Col>
+          </Row>
+            <Row>
+                <div className="games-page__game-list">
+                    {
+                        this.state.games.map((game) => {
+                            return <SubmissionCard gameData={game} />
+                        })
+                    }
+                </div>
+            </Row>
+
         </Grid>
         </Panel.Body>
         </Panel>
