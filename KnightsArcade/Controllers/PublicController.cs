@@ -145,28 +145,6 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
-        /// Get all developer/creator games from the Games database table.
-        /// </summary>
-        /// <returns>All game entries from the Games database table that are marked with the given creator name on game_creator_name column for Accepted.</returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
-        [HttpGet("rds/games/allcreatorgames")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
-        public IActionResult GetAllCreatorGames(string developerName)
-        {
-            try
-            {
-                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameCreatorName == developerName));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return StatusCode(500, e.Message);
-            }
-        }
-
-        /// <summary>
         /// Get random accepted games from the Games database table.
         /// </summary>
         /// <returns>Get random game entries from the Games database table that are marked "a" on game_status column for Accepted.</returns>
@@ -291,6 +269,28 @@ namespace KnightsArcade.Controllers
             try
             {
                 return Ok(_rdsLogic.GetAllSubmissions());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all developer/creator submissions from the Submissions database table.
+        /// </summary>
+        /// <returns>All game entries from the Submissions database table that are marked with the given creator name on game_creator_name column for Accepted.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/submissions/allcreatorsubmissions")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllCreatorGames(string developerName)
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameCreatorName == developerName));
             }
             catch (Exception e)
             {

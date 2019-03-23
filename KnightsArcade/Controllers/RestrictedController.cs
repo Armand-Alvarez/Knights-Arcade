@@ -234,7 +234,7 @@ namespace KnightsArcade.Controllers
         [HttpPut("rds/testsqueue/testqueue")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult PutTestsQueue(TestsQueue testsQueue)
+        public IActionResult PutTestsQueue([FromBody] TestsQueue testsQueue)
         {
             try
             {
