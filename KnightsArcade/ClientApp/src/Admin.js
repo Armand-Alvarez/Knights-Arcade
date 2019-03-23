@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import './Admin.css';
-import NaviBar from '../Components/NavBar';
-import RevComp from '../Components/ReviewComponent';
-import MangGamesComp from '../Components/ManageGamesComponent';
-import MangUsersComp from '../Components/ManageUsersComponent';
+import NaviBar from './Components/NavBar';
+import RevComp from './Components/ReviewComponent';
+import MangGamesComp from './Components/ManageGamesComponent';
+import MangUsersComp from './Components/ManageUsersComponent';
 import {Tabs, Tab, ListGroup, ListGroupItem} from 'react-bootstrap';
 import axios from 'axios'
 

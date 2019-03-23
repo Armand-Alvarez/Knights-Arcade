@@ -8,6 +8,7 @@ import About from './About';
 import Submit from './Submit';
 import GameAdvert from './GameAdvert';
 import Login from './Login';
+import Admin from './Admin';
 import GameCard from './Components/GameCard';
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
           <Route path="/GameAdvert" component={GameAdvert}/>
           <Route path="/Login" component={Login}/>
           <Route path="/GameCard" component={GameCard}/>
+          <Route path="/Admin" component={Admin}/>
         </Switch>
       </BrowserRouter>
     )
