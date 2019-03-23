@@ -17,6 +17,8 @@ namespace KnightsArcade.Models.Database
         public virtual DbSet<Submissions> Submissions { get; set; }
         public virtual DbSet<Tests> Tests { get; set; }
         public virtual DbSet<TestsQueue> Testsqueue { get; set; }
+        public virtual DbSet<TestingLog> TestingLog { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,6 +28,57 @@ namespace KnightsArcade.Models.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TestingLog>(entity =>
+            {
+                entity.HasKey(e => new { e.GameId, e.TestlogAttempt });
+
+                entity.ToTable("testinglog");
+
+                entity.Property(e => e.GameId)
+                    .HasColumnName("game_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.TestlogAttempt)
+                    .HasColumnName("testlog_attempt")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.TestlogDatetimeUtc)
+                    .HasColumnName("testlog_datetime_utc")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
+
+                entity.Property(e => e.TestlogLog)
+                    .HasColumnName("testlog_log")
+                    .HasColumnType("varchar(255)");
+            });
+
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.HasKey(e => e.Username);
+
+                entity.ToTable("users");
+
+                entity.Property(e => e.Username)
+                    .HasColumnName("username")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.UserFirstName)
+                    .HasColumnName("user_firstname")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.UserImagePath)
+                    .HasColumnName("user_image_path")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.UserLastName)
+                    .HasColumnName("user_lastname")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.UserMajor)
+                    .HasColumnName("user_major")
+                    .HasColumnType("varchar(45)");
+            });
+
             modelBuilder.Entity<Games>(entity =>
             {
                 entity.HasKey(e => e.GameId);

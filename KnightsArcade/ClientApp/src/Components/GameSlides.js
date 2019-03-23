@@ -105,22 +105,22 @@ export class GameSlides extends Component {
         <Carousel.Item>
             <img width={900} height={500} alt="900x500" src={this.state.GameOneImage} />
             <Carousel.Caption>
-            <h3>{this.state.GameOneTitle}</h3>
-            <p>{this.state.GameOneDescription}</p>
+            <h3 className="Slideshowtext">{this.state.GameOneTitle}</h3>
+            <p className="Slideshowtext">{this.state.GameOneDescription}</p>
             </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
             <img width={900} height={500} alt="900x500" src={this.state.GameTwoImage} />
             <Carousel.Caption>
-            <h3>{this.state.GameTwoTitle}</h3>
-            <p>{this.state.GameTwoDescription}</p>
+            <h3 className="Slideshowtext">{this.state.GameTwoTitle}</h3>
+            <p className="Slideshowtext">{this.state.GameTwoDescription}</p>
             </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
             <img width={900} height={500} alt="900x500" src={this.state.GameThreeImage} />
             <Carousel.Caption>
-            <h3>{this.state.GameThreeTitle}</h3>
-            <p>{this.state.GameThreeDescription}</p>
+            <h3 className="Slideshowtext">{this.state.GameThreeTitle}</h3>
+            <p className="Slideshowtext">{this.state.GameThreeDescription}</p>
             </Carousel.Caption>
         </Carousel.Item>
         </Carousel>

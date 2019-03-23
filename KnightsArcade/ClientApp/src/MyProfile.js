@@ -2,25 +2,72 @@ import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
 import { Button, Grid, Row, Col, Image, FormGroup, FormControl, ControlLabel, Panel, Form, ButtonToolbar } from 'react-bootstrap';
 import './MyProfile.css';
+import { Auth } from 'aws-amplify';
+import axios from 'axios';
+import { Storage } from 'aws-amplify';
 
 class MyProfile extends Component {
   
   constructor(props, context) {
     super(props, context);
 
-    this.handleEditUsername = this.handleEditUsername.bind(this);
     this.handleEditName = this.handleEditName.bind(this);
     this.handleEditMajor = this.handleEditMajor.bind(this);
 
     this.state = {
-      usernameOpen: false,
+      username:"",
       nameOpen: false,
-      majorOpen: false
+      fullName:"",
+      firstName:"",
+      lastName:"",
+      majorOpen: false,
+      major:"",
+      imgOpen: false,
+      imgURL: "",
+      imgFile:"",
+      imgName:"",
+      games: []
     };
-  }
 
-  handleEditUsername() {
-      this.setState({ usernameOpen: !this.state.usernameOpen });
+      Auth.currentAuthenticatedUser({
+          bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+      }).then((response) => {
+          this.setState({ username: response.username })
+      }).then(() => {
+            axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)
+                .catch(err => console.log(err))
+                .then(async (response) => {
+                console.log('/api/v1/Public/rds/users/user?username=' + this.state.username)
+                console.log(response)
+                if (response.status === 204) {
+                    const user = {
+                        username: this.state.username,
+                        userFirstName: "First Name",
+                        userLastName: "Last Name",
+                        userImagePath: "USERS/default/defaultAvatar.png",
+                        userMajor: "Major"
+                    }
+                    axios.post('/api/v1/Restricted/rds/users/user', user).catch(err => console.log(err));
+                }
+                else if (response.status === 200) {
+                    this.setState({
+                        firstName: response.data.userFirstName,
+                        lastName: response.data.userLastName,
+                        fullName: response.data.userFirstName + " " + response.data.userLastName,
+                        major: response.data.userMajor,
+                        imgURL: await Storage.get(response.data.userImagePath)
+                    })
+                }
+            });
+        })
+          .then(() => {
+              axios.get('/api/v1/Public/rds/games/allcreatorgames?developerName=' + this.state.username)
+                  .catch()
+                  .then((response) => {
+                      this.setState({games: response.data}); 
+                  });
+          })
+          .catch(err => console.log(err))
   }
 
   handleEditName() {
@@ -29,6 +76,67 @@ class MyProfile extends Component {
 
   handleEditMajor() {
       this.setState({ majorOpen: !this.state.majorOpen });
+  }
+
+  handleEditImg()
+  {
+      this.setState({ imgOpen: !this.state.imgOpen });
+  }
+
+  handleFirstNameChange(e){
+      console.log(e.target);
+      this.setState({ firstName: e.target.value });
+  }
+
+  handleLastNameChange(e){
+      this.setState({ lastName: e.target.value });
+  }
+
+  handleMajorNameChange(e){
+      this.setState({ major: e.target.value });
+  }
+
+  handleImgPathChange(e){
+    const file = e.target.files[0]
+    this.setState({ 
+        imgFile: file,
+        imgName: file.name,
+        imgURL: "USERS/" + this.state.username + "/" + file.name
+    });
+  }
+
+  handleSave() {
+      console.log(this.state.username)
+      const user = {
+          username: this.state.username,
+          userFirstName: this.state.firstName,
+          userLastName: this.state.lastName,
+          userImagePath: this.state.imgURL,
+          userMajor: this.state.major
+      }
+      axios.put('/api/v1/Restricted/rds/users/user', user)
+          .then((response) => {
+              console.log(response);
+          })
+          .then(() => { window.location.reload(); })
+          .catch((err) => {
+              console.log(err);
+          });
+      
+  }
+
+  handleSaveImg()
+  {
+      Storage.put(this.state.imgURL, this.state.imgFile)
+          .then(() => {
+              console.log('successfully saved file!');
+              this.handleSave();
+          })
+          .catch(err => {
+              console.log('error uploading image0 file!', err);
+              throw (err);
+          })
+      return;
   }
 
   render() {
@@ -43,7 +151,7 @@ class MyProfile extends Component {
         <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <h2><b>Profile Settings</b></h2>
+              <h2><b>Profile</b></h2>
             </Col>
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -53,49 +161,30 @@ class MyProfile extends Component {
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col className="my-profile__avatar-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <Image className="my-profile__avatar" src={require('./avatarTest.png')}/>
+              <Image className="my-profile__avatar" src={this.state.imgURL}/>
             </Col>
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col className="my-profile__file-chooser-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <Button className="my-profile__pic-button" bsSize="small" bsStyle="primary"><b>Change Profile Picture</b></Button>
+              <Button className="my-profile__pic-button" bsSize="small" onClick={this.handleEditImg.bind(this)} bsStyle="primary"><b>Change Profile Picture</b></Button>
             </Col>
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <hr className="my-profile__hr" />
-            </Col>
-          </Row>
-          <Row style={{ marginLeft: 0, marginRight: 0 }}>
-            <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <h5 className="my-profile__variable-name"><b>Username</b></h5>
-            </Col>
-            <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <h5 className="my-profile__variable-val"><b>DrewIsSuperKOOL</b></h5>
-            </Col>
-            <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <Button bsStyle="link" bsSize="medium" onClick={this.handleEditUsername}>Edit</Button>
-            </Col>
-          </Row>
-          <Row style={{ marginLeft: 0, marginRight: 0 }}>
-            <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.usernameOpen}>
+              <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.imgOpen}>
                 <Panel.Collapse>
                   <Panel.Body>
                     <Form horizontal>
                       <FormGroup controlId="formHorizontalEmail">
-                        <Col componentClass={ControlLabel} sm={2} smOffset={3}>
-                          Username
-                        </Col>
                         <Col sm={4}>
-                          <FormControl type="text" placeholder="New Username" />
+                          <ControlLabel className = 'text'>Upload Profile Picture</ControlLabel>
+                          <FormControl placeholder="Profile Icon" type="file" onChange={this.handleImgPathChange.bind(this)} />
                         </Col>
                       </FormGroup>
                       <FormGroup>
                         <Col smOffset={5} sm={6}>
                            <ButtonToolbar>
-                              <Button bsStyle="primary">Save</Button>
-                              <Button>Cancel</Button>
+                              <Button bsStyle="primary" onClick={this.handleSaveImg.bind(this)}>Save</Button>
                             </ButtonToolbar>
                         </Col>
                       </FormGroup>
@@ -105,12 +194,26 @@ class MyProfile extends Component {
               </Panel>
             </Col>
           </Row>
+
+          <Row style={{ marginLeft: 0, marginRight: 0 }}>
+            <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+              <hr className="my-profile__hr" />
+            </Col>
+          </Row>
+          <Row style={{ marginLeft: 0, marginRight: 0 }}>
+            <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+              <h5 className="my-profile__variable-name"><b>Developer Name</b></h5>
+            </Col>
+            <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
+              <h5 className="my-profile__variable-val"><b>{this.state.username}</b></h5>
+            </Col>
+          </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <h5 className="my-profile__variable-name"><b>Name</b></h5>
             </Col>
             <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <h5 className="my-profile__variable-val"><b>Drew Corbeil</b></h5>
+              <h5 className="my-profile__variable-val"><b>{this.state.fullName}</b></h5>
             </Col>
             <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <Button bsStyle="link" bsSize="medium" onClick={this.handleEditName}>Edit</Button>
@@ -127,7 +230,7 @@ class MyProfile extends Component {
                           First
                         </Col>
                         <Col sm={4}>
-                          <FormControl type="text" placeholder="First Name" />
+                          <FormControl type="text" placeholder="First Name" onChange={this.handleFirstNameChange.bind(this)}/>
                         </Col>
                       </FormGroup>
                       <FormGroup controlId="formHorizontalEmail">
@@ -135,14 +238,13 @@ class MyProfile extends Component {
                           Last
                         </Col>
                         <Col sm={4}>
-                          <FormControl type="text" placeholder="Last Name" />
+                          <FormControl type="text" placeholder="Last Name" onChange={this.handleLastNameChange.bind(this)}/>
                         </Col>
                       </FormGroup>
                       <FormGroup>
                         <Col smOffset={5} sm={6}>
                            <ButtonToolbar>
-                              <Button bsStyle="primary">Save</Button>
-                              <Button>Cancel</Button>
+                              <Button bsStyle="primary" onClick={this.handleSave.bind(this)}>Save</Button>
                             </ButtonToolbar>
                         </Col>
                       </FormGroup>
@@ -157,7 +259,7 @@ class MyProfile extends Component {
               <h5 className="my-profile__variable-name"><b>Major</b></h5>
             </Col>
             <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <h5 className="my-profile__variable-val"><b>Computer Science</b></h5>
+              <h5 className="my-profile__variable-val"><b>{this.state.major}</b></h5>
             </Col>
             <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <Button bsStyle="link" bsSize="medium" onClick={this.handleEditMajor}>Edit</Button>
@@ -169,21 +271,15 @@ class MyProfile extends Component {
                 <Panel.Collapse>
                   <Panel.Body>
                     <Form horizontal>
-                      <FormGroup controlId="formControlsSelect">
-                        <Col sm={1} smOffset={2}>
-                          <ControlLabel>Major</ControlLabel>
-                        </Col>
-                        <Col sm={7}>
-                          <FormControl componentClass="select" placeholder="select">
-                            <option value="select">select</option>
-                            <option value="other">...</option>
-                          </FormControl>
+                      <FormGroup controlId="formHorizontalEmail">
+                        <Col sm={4}>
+                          <FormControl type="text" placeholder="Major" onChange={this.handleMajorNameChange.bind(this)}/>
                         </Col>
                       </FormGroup>
                       <FormGroup>
                         <Col smOffset={5} sm={6}>
                            <ButtonToolbar>
-                              <Button bsStyle="primary">Save</Button>
+                              <Button bsStyle="primary" onClick={this.handleSave.bind(this)}>Save</Button>
                               <Button>Cancel</Button>
                             </ButtonToolbar>
                         </Col>

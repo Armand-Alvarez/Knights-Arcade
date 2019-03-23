@@ -253,7 +253,7 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="500"></response>  
         [HttpDelete("rds/testsqueue/testqueue")]
         [ProducesResponseType(204)]
@@ -264,6 +264,78 @@ namespace KnightsArcade.Controllers
             {
                 _rdsLogic.DeleteTestsQueue(gameId);
                 return NoContent();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds the user to the users table.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <response code="201"></response>
+        /// <response code="500"></response>  
+        [HttpPost("rds/users/user")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(500)]
+        public IActionResult PostUser([FromBody] Users user)
+        {
+            try
+            {
+                _rdsLogic.PostUser(user);
+                return StatusCode(201);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates the user to the users table.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpPut("rds/users/user")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult PutUser([FromBody] Users user)
+        {
+            try
+            {
+                _rdsLogic.PutUser(user);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds the testing log to the testing log table.
+        /// </summary>
+        /// <param name="testingLog"></param>
+        /// <returns></returns>
+        /// <response code="201"></response>
+        /// <response code="500"></response>  
+        [HttpPost("rds/testinglog/testinglog")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult PostTestingLog([FromBody] TestingLog testingLog)
+        {
+            try
+            {
+                _rdsLogic.PostTestingLog(testingLog);
+                return StatusCode(201);
             }
             catch (Exception e)
             {

@@ -271,6 +271,48 @@ namespace KnightsArcade.Infrastructure.Logic
             return;
         }
 
+        ///////
+        //// Users
+        ///////
+         
+        public Users GetUser(string username)
+        {
+            return _rdsData.GetUser(username);
+        }
+
+        public void PostUser(Users user)
+        {
+            _rdsData.PostUser(user);
+            return;
+        }
+
+        public void PutUser(Users user)
+        {
+            _rdsData.PutUser(user);
+            return;
+        }
+
+        ///////
+        //// TestingLog
+        ///////
+
+        public List<TestingLog> GetAllTestingLogs()
+        {
+            return _rdsData.GetAllTestingLogs();
+        }
+
+        public List<TestingLog> GetTestingLog(int gameId)
+        {
+            return _rdsData.GetTestingLog(gameId);
+        }
+
+        public void PostTestingLog(TestingLog testingLog)
+        {
+            _rdsData.PostTestingLog(testingLog);
+            return;
+        }
+
+
         ///Helper functions///
 
         public GamesEntry GamesToGamesEntry(Games game)

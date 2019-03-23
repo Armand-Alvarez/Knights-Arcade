@@ -128,7 +128,7 @@ namespace KnightsArcade.Controllers
         /// <returns>All game entries from the Games database table that are marked "a" on game_status column for Accepted.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
-        [HttpGet("rds/games/allgamesapproved")]
+        [HttpGet("rds/games/allapprovedgames")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetAllApprovedGames()
@@ -136,6 +136,28 @@ namespace KnightsArcade.Controllers
             try
             {
                 return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "a"));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all developer/creator games from the Games database table.
+        /// </summary>
+        /// <returns>All game entries from the Games database table that are marked with the given creator name on game_creator_name column for Accepted.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/games/allcreatorgames")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllCreatorGames(string developerName)
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameCreatorName == developerName));
             }
             catch (Exception e)
             {
@@ -172,7 +194,7 @@ namespace KnightsArcade.Controllers
         /// <returns>All game entries from the Games database table that are marked "p" on game_status column for Pending.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
-        [HttpGet("rds/games/allgamespending")]
+        [HttpGet("rds/games/allpendinggames")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetAllPendingGames()
@@ -194,7 +216,7 @@ namespace KnightsArcade.Controllers
         /// <returns>All game entries from the Games database table that are marked "t" on game_status column for Testing.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
-        [HttpGet("rds/games/allgamestesting")]
+        [HttpGet("rds/games/alltestinggames")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetAllTestingGames()
@@ -383,6 +405,72 @@ namespace KnightsArcade.Controllers
                 return Ok(_rdsLogic.GetAllTestsQueue());
             }
             catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get a user profile info.
+        /// </summary>
+        /// <returns>A user profile info.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/users/user")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetUser(string username)
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetUser(username));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get a testing log for a specific game.
+        /// </summary>
+        /// <returns>A user profile info.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [HttpGet("rds/testinglog/testinglog")]
+        public IActionResult GetTestingLog(int gameId)
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetTestingLog(gameId));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get all testing logs.
+        /// </summary>
+        /// <returns>A user profile info.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [HttpGet("rds/testinglog/alltestinglogs")]
+        public IActionResult GetAllTestingLogs()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllTestingLogs());
+            }
+            catch(Exception e)
             {
                 _logger.LogError(e.Message, e);
                 return StatusCode(500, e.Message);
