@@ -77,7 +77,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                             testProcess.Test5min = false;
                             testProcess.TestCloses = false;
                             testLog.TestlogLog = "game failed start test";
-                            testLog.TestlogDatetimeUtc = DateTime.Now.ToUniversalTime();
+                            testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
                             _webData.PostTestingLog(testLog);
                             continue;

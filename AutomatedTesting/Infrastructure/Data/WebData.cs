@@ -147,10 +147,9 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                string json = JsonConvert.SerializeObject(testLog);
-                HttpResponseMessage response = client.PostAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testinglog/testinglog", json).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testinglog/testinglog", testLog).Result;
 
-                if (response.StatusCode.ToString() == "200")
+                if (response.StatusCode.ToString() == "201")
                 {
                     return true;
                 }
