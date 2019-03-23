@@ -1,19 +1,42 @@
 import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
+import axios from 'axios';
 import './GameAdvert.css';
 import GameAdSlides from './Components/GameAdSlides';
 import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
 
 class GameAdvert extends Component {
-  render() {
+
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            gamedata: []
+        };
+    }
+
+
+    componentDidMount() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlGameid = urlParams.get('gameId');
+        var getRequest = `api/v1/Public/rds/games/gamesbyid?gameId=` + urlGameid;
+        axios.get(getRequest)
+            .then(res => {
+                const gamedata = res.data;
+                this.setState({ gamedata: gamedata });
+            })
+    }
+
+
+    render() {
     return (
       <div className = 'FullPage'>
         <NaviBar/>
         <div className = 'GameAdDiv'>
             <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                    <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                      <h1>Game Name</h1>
+                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <h1>{this.state.gamedata.gameName}</h1>
                     </Col>
                 </Row>
                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -27,11 +50,11 @@ class GameAdvert extends Component {
                         <Form>
                           <FormGroup>
                             <ControlLabel>Creator</ControlLabel>
-                            <FormControl.Static>Terry Crews</FormControl.Static>
+                            <FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static>
                           </FormGroup>
                           <FormGroup>
                             <ControlLabel>Date Published</ControlLabel>
-                            <FormControl.Static>11-11-2019</FormControl.Static>
+                            <FormControl.Static>{this.state.gamedata.gameSubmissionDateUtc}</FormControl.Static>
                           </FormGroup>
                           <FormGroup>
                             <ControlLabel>Genres</ControlLabel>
@@ -51,12 +74,12 @@ class GameAdvert extends Component {
                 </Row>
                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
                   <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <h3>About the game</h3>
-                    <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAAA AAAAAAAAAA AAAAAAA AAAAAAA AAAAAAAAAAAAa AAAAAAAAAAAAA AAAAAAAAAAA AAAAAAAAA AAAAAAAA AAAAAAAAAAAAAA  AAAAAAAAAAA AaAAAAAAAAAAAA AAAAAAAAAA AA AAAAAAAAAAAA AAAAA AAAAAAAAAAAA AA AAAAAAAAAAAAa AAAAAAAAAAAAAA AAAAAAAAAA  AAAAAAAAAA AAAAAAA AAAAA AAAAAAAAA AAA AAAAAAAAAa</p>
+                            <h3>About the game</h3>
+                            <p>{this.state.gamedata.gameDescription}</p>
                   </Col>
                   <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                  <h3>Controls</h3>
-                  <p>fddgffhgfghfgf\nghg hghgfgfhgfhgfghfhgf hgfghfhfhgfghfghfhg gf hgf hgf hgfhgf hgf hgf hgfhgf hggfhg fghf hgf hgfgh hgfhgf hgf hgf hgf hgf hgfhg hgfhgf hgfhgfhgf hgf hfghfhgf ghf hg fh</p>
+                            <h3>Controls</h3>
+                            <p>{this.state.gamedata.gameControls}</p>
                   </Col>
                 </Row>
 		          </Grid>
