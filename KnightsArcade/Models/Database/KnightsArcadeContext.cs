@@ -248,8 +248,8 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("submission_status")
                     .HasColumnType("varchar(1)");
 
-                entity.Property(e => e.CreatorId)
-                    .HasColumnName("creator_id")
+                entity.Property(e => e.CreatorName)
+                    .HasColumnName("creator_name")
                     .HasColumnType("varchar(255)");
             });
 
