@@ -164,6 +164,28 @@ namespace AutomatedTesting.Infrastructure.Data
             }
 
         }
+
+        public bool PutGames(Games myGame)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/games/game", myGame).Result;
+
+                if (response.StatusCode.ToString() == "200")
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return false;
+            }
+        }
     } 
 }
 

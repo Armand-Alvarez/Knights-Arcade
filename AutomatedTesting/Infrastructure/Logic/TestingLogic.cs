@@ -91,7 +91,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         {
                             testProcess.TestCloses = false;
                             testLog.TestlogLog = "Game Failed Sleep Test";
-                            testLog.TestlogDatetimeUtc = DateTime.Now;
+                            testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
                             _webData.PostTestingLog(testLog);
                             continue;
@@ -103,20 +103,28 @@ namespace AutomatedTesting.Infrastructure.Logic
                         if ((bool)!testProcess.TestCloses)
                         {
                             testLog.TestlogLog = "Game Failed Stop Test";
-                            testLog.TestlogDatetimeUtc = DateTime.Now;
+                            testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
                             _webData.PostTestingLog(testLog);
                             continue;
                         }
 
-                        //If all tests passed, stop rechecking
+                        //If all tests passed, update game object and stop rechecking
                         if ((bool)testProcess.TestOpens && (bool)testProcess.Test5min && (bool)testProcess.TestCloses)
+                        {
+                            myGame.GameReviewDateUtc = DateTime.UtcNow;
+                            myGame.GameStatus = "p";
+                            _webData.PutGames(myGame);
+
                             break;
+                        }
                     }
 
                     //Delete game from test queue and push the test results to database
                     //_webData.DeleteTestQueue(testsQueue.GameId);
                     _webData.PutTests(testProcess);
+
+                
                 }
             }
 
