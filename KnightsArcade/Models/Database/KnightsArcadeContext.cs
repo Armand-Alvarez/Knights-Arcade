@@ -30,7 +30,7 @@ namespace KnightsArcade.Models.Database
         {
             modelBuilder.Entity<TestingLog>(entity =>
             {
-                entity.HasKey(e => new { e.GameId, e.TestlogAttempt });
+                entity.HasKey(e => new { e.TestlogDatetimeUtc });
 
                 entity.ToTable("testinglog");
 
