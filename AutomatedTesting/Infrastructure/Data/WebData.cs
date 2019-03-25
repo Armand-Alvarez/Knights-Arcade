@@ -61,7 +61,7 @@ namespace AutomatedTesting.Infrastructure.Data
                 string json = JsonConvert.SerializeObject(myTest);
                 HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", json).Result;
 
-                if (response.StatusCode.ToString() == "200")
+                if (response.StatusCode.ToString() == "OK")
                 {
                     return true;
                 }
@@ -77,14 +77,14 @@ namespace AutomatedTesting.Infrastructure.Data
         
         }
         
-        public Games GetGamesByID(int? gameID)
+        public GamesEntry GetGamesByID(int? gameID)
         {
             try
             {
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Public/rds/games/gamesbyid?gameId=" + gameID).Result;
                 string json = response.Content.ReadAsStringAsync().Result;
-                Games games = JsonConvert.DeserializeObject<Games>(json);
+                GamesEntry games = JsonConvert.DeserializeObject<GamesEntry>(json);
 
                 return games;
             }
@@ -103,7 +103,7 @@ namespace AutomatedTesting.Infrastructure.Data
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = client.DeleteAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue?gameId=" + gameID).Result;
 
-                if (response.StatusCode.ToString() == "204")
+                if (response.StatusCode.ToString() == "NoContent")
                 {
                     return true;
                 }
@@ -127,7 +127,7 @@ namespace AutomatedTesting.Infrastructure.Data
                 string json = JsonConvert.SerializeObject(myTest);
                 HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/tests/test", json).Result;
                
-                if (response.StatusCode.ToString() == "200" )
+                if (response.StatusCode.ToString() == "OK" )
                 {
                     return true;
                 }
@@ -149,7 +149,7 @@ namespace AutomatedTesting.Infrastructure.Data
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = client.PostAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testinglog/testinglog", testLog).Result;
 
-                if (response.StatusCode.ToString() == "201")
+                if (response.StatusCode.ToString() == "Created")
                 {
                     return true;
                 }
@@ -165,14 +165,15 @@ namespace AutomatedTesting.Infrastructure.Data
 
         }
 
-        public bool PutGames(Games myGame)
+        public bool PutGames(GamesEntry myGame)
         {
             try
             {
                 HttpClient client = new HttpClient();
+
                 HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/games/game", myGame).Result;
 
-                if (response.StatusCode.ToString() == "200")
+                if (response.StatusCode.ToString() == "OK")
                 {
                     return true;
                 }
