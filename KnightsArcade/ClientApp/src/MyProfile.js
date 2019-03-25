@@ -27,25 +27,10 @@ class MyProfile extends Component {
       imgOpen: false,
       imgURL: "",
       imgFile:"",
-      imgName:"",
+        imgName: "",
+      imgSrc: "",
         games: [],
-        currentGenre: "All Genres",
-        AllGenres: true,
-        Action: false,
-        Adventure: false,
-        Fighting: false,
-        Platformer: false,
-        Puzzle: false,
-        RPG: false,
-        Racing: false,
-        Rhythm: false,
-        Shooter: false,
-        Sports: false,
-        Strategy: false,
-        Survival: false,
       };
-
-      this.handleGenreSelect = this.handleGenreSelect.bind(this);
 
       Auth.currentAuthenticatedUser({
           bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
@@ -60,7 +45,7 @@ class MyProfile extends Component {
                 if (response.status === 204) {
                     const user = {
                         username: this.state.username,
-                        userFirstName: "First Name",
+                        userFirstName: "First ",
                         userLastName: "Last Name",
                         userImagePath: "USERS/default/defaultAvatar.png",
                         userMajor: "Major"
@@ -74,7 +59,8 @@ class MyProfile extends Component {
                         lastName: response.data.userLastName,
                         fullName: response.data.userFirstName + " " + response.data.userLastName,
                         major: response.data.userMajor,
-                        imgURL: await Storage.get(response.data.userImagePath)
+                        imgSrc: await Storage.get(response.data.userImagePath),
+                        imgURL: response.data.userImagePath
                     })
                 }
             });
@@ -125,7 +111,8 @@ class MyProfile extends Component {
     });
   }
 
-  handleSave() {
+    handleSave() {
+        document.body.style.cursor = 'wait'
       console.log(this.state.username)
       const user = {
           username: this.state.username,
@@ -158,106 +145,6 @@ class MyProfile extends Component {
       return;
     }
 
-    handleGenreSelect(eventKey) {
-
-        this.setState({
-            AllGenres: false,
-            Action: false,
-            Adventure: false,
-            Fighting: false,
-            Platformer: false,
-            Puzzle: false,
-            RPG: false,
-            Racing: false,
-            Rhythm: false,
-            Shooter: false,
-            Sports: false,
-            Strategy: false,
-            Survival: false,
-        });
-
-        switch (eventKey) {
-            case 0:
-                this.setState({
-                    AllGenres: true,
-                    currentGenre: "All Genres"
-                });
-                break;
-            case 1:
-                this.setState({
-                    Action: true,
-                    currentGenre: "Action"
-                });
-                break;
-            case 2:
-                this.setState({
-                    Adventure: true,
-                    currentGenre: "Adventure"
-                });
-                break;
-            case 3:
-                this.setState({
-                    Fighting: true,
-                    currentGenre: "Fighting"
-                });
-                break;
-            case 4:
-                this.setState({
-                    Platformer: true,
-                    currentGenre: "Platformer"
-                });
-                break;
-            case 5:
-                this.setState({
-                    Puzzle: true,
-                    currentGenre: "Puzzle"
-                });
-                break;
-            case 6:
-                this.setState({
-                    RPG: true,
-                    currentGenre: "RPG"
-                });
-                break;
-            case 7:
-                this.setState({
-                    Racing: true,
-                    currentGenre: "Racing"
-                });
-                break;
-            case 8:
-                this.setState({
-                    Rhythm: true,
-                    currentGenre: "Rhythm"
-                });
-                break;
-            case 9:
-                this.setState({
-                    Shooter: true,
-                    currentGenre: "Shooter"
-                });
-                break;
-            case 10:
-                this.setState({
-                    Sports: true,
-                    currentGenre: "Sports"
-                });
-                break;
-            case 11:
-                this.setState({
-                    Strategy: true,
-                    currentGenre: "Strategy"
-                });
-                break;
-            case 12:
-                this.setState({
-                    Survival: true,
-                    currentGenre: "Survival"
-                });
-                break;
-        }
-    }
-
   render() {
     return (
       <div className = 'FullPage'>
@@ -280,7 +167,7 @@ class MyProfile extends Component {
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
             <Col className="my-profile__avatar-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-              <Image className="my-profile__avatar" src={this.state.imgURL}/>
+              <Image className="my-profile__avatar" src={this.state.imgSrc}/>
             </Col>
           </Row>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -397,7 +284,7 @@ class MyProfile extends Component {
                       <FormGroup>
                         <Col smOffset={5} sm={6}>
                            <ButtonToolbar>
-                              <Button bsStyle="primary" onClick={this.handleSave.bind(this)}>Save</Button>
+                              <Button bsStyle="primary" onClick={this.handleSave.bind(this)} >Save</Button>
                               <Button>Cancel</Button>
                             </ButtonToolbar>
                         </Col>

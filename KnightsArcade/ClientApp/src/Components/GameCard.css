@@ -38,10 +38,9 @@
 }
 
 .submission-card-info {
-    width: 80%;
-    display:inline-block;
+    width: calc(100% - 50px);
+    display: inline-block;
     float: left;
-
 }
 
 .submission-card-icon {
