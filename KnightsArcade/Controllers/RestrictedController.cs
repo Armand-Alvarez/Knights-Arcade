@@ -328,7 +328,7 @@ namespace KnightsArcade.Controllers
         /// <response code="201"></response>
         /// <response code="500"></response>  
         [HttpPost("rds/testinglog/testinglog")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(500)]
         public IActionResult PostTestingLog([FromBody] TestingLog testingLog)
         {

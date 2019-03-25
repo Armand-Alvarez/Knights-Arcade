@@ -20,6 +20,8 @@ namespace AutomatedTesting.Infrastructure.Logic
         private readonly Object _sync = new Object();
         private readonly IWebData _webData;
         public Tests testProcess = new Tests();
+        public TestingLog testLog = new TestingLog();
+        public Process gameProcess;
 
 
         public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData)
@@ -36,9 +38,12 @@ namespace AutomatedTesting.Infrastructure.Logic
                 lock(_sync)
                 {
                     TestsQueue testsQueue = _webData.GetFirstTestQueue();
+                    testProcess.GameId = testsQueue.GameId;
+                    testLog.GameId = (int)testsQueue.GameId;
 
                     while (testsQueue.RetryCount < 3)
                     {
+                        testLog.TestlogAttempt = (int)testsQueue.RetryCount;
 
                         //_webData.PutTestsQueue(testsQueue);
 
@@ -50,6 +55,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                             testProcess.TestOpens = false;
                             testProcess.Test5min = false;
                             testProcess.TestCloses = false;
+
                             continue;
                         }
 
@@ -70,6 +76,10 @@ namespace AutomatedTesting.Infrastructure.Logic
                         {
                             testProcess.Test5min = false;
                             testProcess.TestCloses = false;
+                            testLog.TestlogLog = "game failed start test";
+                            testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+                            _webData.PostTestingLog(testLog);
                             continue;
                         }
 
@@ -80,19 +90,41 @@ namespace AutomatedTesting.Infrastructure.Logic
                         if ((bool)!testProcess.Test5min)
                         {
                             testProcess.TestCloses = false;
+                            testLog.TestlogLog = "Game Failed Sleep Test";
+                            testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+                            _webData.PostTestingLog(testLog);
                             continue;
                         }
 
                         //stop .exe, check to see if it stopped
                         testProcess.TestCloses = StopFile(exeFile);
 
-                        //If all tests passed, stop rechecking
+                        if ((bool)!testProcess.TestCloses)
+                        {
+                            testLog.TestlogLog = "Game Failed Stop Test";
+                            testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+                            _webData.PostTestingLog(testLog);
+                            continue;
+                        }
+
+                        //If all tests passed, update game object and stop rechecking
                         if ((bool)testProcess.TestOpens && (bool)testProcess.Test5min && (bool)testProcess.TestCloses)
+                        {
+                            myGame.GameReviewDateUtc = DateTime.UtcNow;
+                            myGame.GameStatus = "p";
+                            _webData.PutGames(myGame);
+
                             break;
+                        }
                     }
 
-                    _webData.DeleteTestQueue(testsQueue.GameId);
+                    //Delete game from test queue and push the test results to database
+                    //_webData.DeleteTestQueue(testsQueue.GameId);
                     _webData.PutTests(testProcess);
+
+                
                 }
             }
 
@@ -141,7 +173,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-               testProcess.GameProcess = Process.Start(exeFile);
+               gameProcess = Process.Start(exeFile);
 
                 return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
             }
@@ -175,7 +207,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-                testProcess.GameProcess.Kill();
+                gameProcess.Kill();
                 Thread.Sleep(3000);
 
                 return !(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);

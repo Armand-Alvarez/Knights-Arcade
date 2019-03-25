@@ -47,6 +47,8 @@ class GameAdvert extends Component {
         const genres = [];
         var glyph;
         var slideshow;
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
 
         if (this.state.gamedata.gameGenreAction === true) {
             genres.push("Action");
@@ -146,15 +148,7 @@ class GameAdvert extends Component {
                     <Grid>
                       <Row> 
                       <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
-
-                                        {slideshow}
-                      {/*<GameAdSlides numImages = {this.state.numImages}
-                                    gameSlide0 = {this.state.gameImage0} 
-                                    gameSlide1 = {this.state.gameImage1}
-                                    gameSlide2 = {this.state.gameImage2}
-                                    gameSlide3 = {this.state.gameImage3}
-                                    gameSlide4 = {this.state.gameImage4}/>
-                                    */}
+                      {slideshow}
                      </Col>
                      <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
                         <Form>
@@ -164,7 +158,7 @@ class GameAdvert extends Component {
                           </FormGroup>
                           <FormGroup>
                             <ControlLabel>Date Published</ControlLabel>
-                            <FormControl.Static>{this.state.gamedata.gameSubmissionDateUtc}</FormControl.Static>
+                            <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
                           </FormGroup>
                           <FormGroup>
                             <ControlLabel>Genres</ControlLabel>
