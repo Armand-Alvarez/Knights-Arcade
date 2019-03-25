@@ -195,7 +195,7 @@ class Submit extends Component {
         Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
         .then(() => {
             console.log('successfully saved game file!');
-            //this.setState({ gameURL: "", gameFile: "", gameFileName: "" })
+            window.location.href = 'MyProfile';
         })
         .catch(err => {
             console.log('error uploading game file!', err);
@@ -208,7 +208,6 @@ class Submit extends Component {
         Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File)
         .then(() => {
             console.log('successfully saved file!');
-            //this.setState({img0URL: "", img0File: "", img0FileName: ""})
         })
         .catch(err => {
             console.log('error uploading image0 file!', err);
@@ -229,6 +228,41 @@ class Submit extends Component {
       this.saveImg0();
       this.saveAdditionalImages();
       this.saveGame();
+    }
+
+    checkState() {
+        if (!this.state.titleValue) {
+            document.body.style.cursor = 'auto'
+            alert("Please input a valid game title for submission.");
+            throw ("Invalid game title");
+        }
+        if (!this.state.descriptionValue) {
+            document.body.style.cursor = 'auto'
+            alert("Please input a valid game description for submission.");
+            throw ("Invalid game description");
+        }
+        if (!this.state.controlsValue) {
+            document.body.style.cursor = 'auto'
+            alert("Please input valid game controls for submission.");
+            throw ("Invalid game controls");
+        }
+        if (!this.state.img0File) {
+            document.body.style.cursor = 'auto'
+            alert("Please input at least one image for submission.");
+            throw ("Invalid image");
+        }
+        if (!this.state.gameFile) {
+            document.body.style.cursor = 'auto'
+            alert("Please input a game file for submission.");
+            throw ("Invalid game file");
+        }
+        if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
+            !this.state.Rhythm && !this.state.Sports && !this.state.Shooter && !this.state.Puzzle &&
+            !this.state.Survival && !this.state.Fighting && !this.state.Platformer && !this.state.Strategy) {
+            document.body.style.cursor = 'auto'
+            alert("Please select at least one genre.");
+            throw ("No genres selected");
+        }
     }
 
     postNewEntry() {
@@ -266,30 +300,36 @@ class Submit extends Component {
         }
 
         var self = this;
-
         axios.post('/api/v1/Restricted/rds/newentry', data)
             .then(function (res) {
-                console.log(res);
-                self.postToS3();
-                if (res.status !== 201) {
+                if (res.status === 201) {
+                    console.log(res);
+                    self.postToS3();
+                }
+                else if (res.status === 409)
+                {
+                    console.log("Duplicate name.");
+                    alert("That game name already exists.");
+                    throw ("duplicate name");
+                }
+                else {
                     console.log('Unable to create database entry');
                     throw ("Unable to create database entry");
                 }
             })
-            .catch(function (error) {
-                if(error.response.status === 409) {
-                  console.log("dup game name");
-                  throw ("Failed to post to API");
-                }
+            .catch(error => {
+                document.body.style.cursor = 'auto'
+                console.log(error);
+                throw ("Failed to post to API");
             });
     }
 
     handleSubmit(e) {
+        document.body.style.cursor = 'wait'
 
         e.preventDefault();
-
+        this.checkState();
         this.postNewEntry();
-    
     }
 
   render() {

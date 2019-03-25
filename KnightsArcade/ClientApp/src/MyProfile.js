@@ -6,7 +6,7 @@ import { Auth } from 'aws-amplify';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
 import { InputGroup, DropdownButton, MenuItem, Jumbotron } from 'react-bootstrap';
-import SubmissionCard from './Components/SubmissionCard';
+import ProfileSubmissionCard from './Components/ProfileSubmissionCard';
 
 class MyProfile extends Component {
   
@@ -309,7 +309,7 @@ class MyProfile extends Component {
                 <div className="games-page__game-list">
                     {
                         this.state.games.map((game) => {
-                            return <SubmissionCard gameData={game} />
+                            return <ProfileSubmissionCard gameData={game} />
                         })
                     }
                 </div>
