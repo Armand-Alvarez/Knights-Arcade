@@ -47,7 +47,7 @@ namespace AutomatedTesting.Infrastructure.Logic
 
                         //_webData.PutTestsQueue(testsQueue);
 
-                        Games myGame = _webData.GetGamesByID(testsQueue.GameId);
+                        GamesEntry myGame = _webData.GetGamesByID(testsQueue.GameId);
 
                         //Retry to pull game if it failed the first time
                         if (myGame == null)
@@ -114,6 +114,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         {
                             myGame.GameReviewDateUtc = DateTime.UtcNow;
                             myGame.GameStatus = "p";
+
                             _webData.PutGames(myGame);
 
                             break;
@@ -121,7 +122,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                     }
 
                     //Delete game from test queue and push the test results to database
-                    //_webData.DeleteTestQueue(testsQueue.GameId);
+                    _webData.DeleteTestQueue(testsQueue.GameId);
                     _webData.PutTests(testProcess);
 
                 
