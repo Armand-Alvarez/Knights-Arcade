@@ -39,14 +39,14 @@ namespace KnightsArcade.Controllers
         /// <returns>Single game entry from the Games database table.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
-        [HttpGet("rds/games/gamesbyid")]
+        [HttpGet("rds/games/games byid")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetGamesById(int gameId)
         {
             try
             {
-                return Ok(_rdsLogic.GetGames(gameId));
+                return Ok(_rdsLogic.GetGamesEntry(gameId));
             }
             catch (Exception e)
             {
@@ -69,7 +69,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetGames(gameName));
+                return Ok(_rdsLogic.GetGamesEntry(gameName));
             }
             catch (Exception e)
             {
@@ -91,7 +91,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGames());
+                return Ok(_rdsLogic.GetAllGamesEntry().OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -113,7 +113,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGamesOnArcadeMachine());
+                return Ok(_rdsLogic.GetAllGamesEntryOnArcadeMachine().OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -135,7 +135,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "a"));
+                return Ok(_rdsLogic.GetAllGamesEntry().Where(x => x.GameStatus == "a").OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -157,7 +157,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetRandomApprovedGames(random));
+                return Ok(_rdsLogic.GetRandomApprovedGames(random).OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -179,7 +179,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "p"));
+                return Ok(_rdsLogic.GetAllGamesEntry().Where(x => x.GameStatus == "p").OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -201,7 +201,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "t"));
+                return Ok(_rdsLogic.GetAllGamesEntry().Where(x => x.GameStatus == "t").OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -223,7 +223,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGames().Where(x => x.GameStatus == "r"));
+                return Ok(_rdsLogic.GetAllGamesEntry().Where(x => x.GameStatus == "r").OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
@@ -268,7 +268,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllSubmissions());
+                return Ok(_rdsLogic.GetAllSubmissions().OrderBy(x => x.SubmissionName));
             }
             catch (Exception e)
             {
@@ -290,7 +290,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                return Ok(_rdsLogic.GetAllSubmissions().Where(x => x.CreatorName == developerName));
+                return Ok(_rdsLogic.GetAllSubmissions().Where(x => x.CreatorName == developerName).OrderBy(x => x.SubmissionStatus).ThenBy(x => x.SubmissionName));
             }
             catch (Exception e)
             {

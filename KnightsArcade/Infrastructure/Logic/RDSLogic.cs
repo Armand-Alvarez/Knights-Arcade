@@ -96,21 +96,21 @@ namespace KnightsArcade.Infrastructure.Logic
         //// Games Table
         ///////
 
-        public GamesEntry GetGames(int gameId)
+        public GamesEntry GetGamesEntry(int gameId)
         {
             Games game = _rdsData.GetGames(gameId);
             GamesEntry gameEntry = GamesToGamesEntry(game);
             return gameEntry;
         }
 
-        public GamesEntry GetGames(string gameName)
+        public GamesEntry GetGamesEntry(string gameName)
         {
             Games game = _rdsData.GetGames(gameName);
             GamesEntry gameEntry = GamesToGamesEntry(game);
             return gameEntry;
         }
 
-        public List<GamesEntry> GetAllGames()
+        public List<GamesEntry> GetAllGamesEntry()
         {
             List<Games> games = _rdsData.GetAllGames();
             List<GamesEntry> gamesEntry = new List<GamesEntry>();
@@ -121,7 +121,7 @@ namespace KnightsArcade.Infrastructure.Logic
             return gamesEntry;
         }
 
-        public List<GamesEntry> GetAllGamesOnArcadeMachine()
+        public List<GamesEntry> GetAllGamesEntryOnArcadeMachine()
         {
             IEnumerable<Games> games = _rdsData.GetAllGames().Where(x => x.GameOnArcade == true);
             List<GamesEntry> gamesEntry = new List<GamesEntry>();
@@ -132,7 +132,7 @@ namespace KnightsArcade.Infrastructure.Logic
             return gamesEntry;
         }
 
-        public void PutGames(GamesEntry gameEntry)
+        public void PutGamesEntry(GamesEntry gameEntry)
         {
             Games game = GamesEntryToGames(gameEntry);
             _rdsData.PutGames(game);
@@ -157,7 +157,7 @@ namespace KnightsArcade.Infrastructure.Logic
             return;
         }
 
-        public void DeleteGames(int gameId)
+        public void DeleteGamesEntry(int gameId)
         {
             _rdsData.DeleteGames(gameId);
             return;
@@ -504,7 +504,7 @@ namespace KnightsArcade.Infrastructure.Logic
 
         public IEnumerable<GamesEntry> GetRandomApprovedGames(int random)
         {
-            List<GamesEntry> games = GetAllGames().Where(x => x.GameStatus == "a").ToList();
+            List<GamesEntry> games = GetAllGamesEntry().Where(x => x.GameStatus == "a").ToList();
             List<GamesEntry> randomGames = new List<GamesEntry>();
             Random rand = new Random();
             for(int i = 0; i < random; i ++)

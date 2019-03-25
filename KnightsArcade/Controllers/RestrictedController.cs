@@ -111,7 +111,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                _rdsLogic.PutGames(game);
+                _rdsLogic.PutGamesEntry(game);
                 return Ok();
             }
             catch (Exception e)
@@ -135,7 +135,7 @@ namespace KnightsArcade.Controllers
         {
             try
             {
-                _rdsLogic.DeleteGames(gameId);
+                _rdsLogic.DeleteGamesEntry(gameId);
                 return NoContent();
             }
             catch (Exception e)

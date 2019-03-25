@@ -37,7 +37,18 @@
 	//align-self: baseline;
 }
 
+.submission-card-info {
+    width: 80%;
+    display:inline-block;
+    float: left;
+
+}
+
+.submission-card-icon {
+    display: inline-block;
+    margin: auto;
+}
+
 .status-icon {
-    width: 12%;
-    float: right;
+    width: 50px;
 }
