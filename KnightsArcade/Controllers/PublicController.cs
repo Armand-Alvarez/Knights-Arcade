@@ -39,7 +39,7 @@ namespace KnightsArcade.Controllers
         /// <returns>Single game entry from the Games database table.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
-        [HttpGet("rds/games/games byid")]
+        [HttpGet("rds/games/gamesbyid")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetGamesById(int gameId)
