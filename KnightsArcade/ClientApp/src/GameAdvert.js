@@ -18,7 +18,8 @@ class GameAdvert extends Component {
             gameImage1: "",
             gameImage2: "",
             gameImage3: "",
-            gameImage4: ""
+            gameImage4: "",
+            file: ""
         };
     }
 
@@ -26,7 +27,7 @@ class GameAdvert extends Component {
     componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
         const urlGameid = urlParams.get('gameId');
-        const getRequest = `api/v1/Public/rds/games/gamesbyid?gameId=` + urlGameid;
+        const getRequest = `api/v1/Public/rds/games/gamesbyid?gameid=` + urlGameid;
         axios.get(getRequest)
             .then(res => {
                 const gamedata = res.data;
@@ -39,6 +40,7 @@ class GameAdvert extends Component {
                 this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2]) })
                 this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3]) })
                 this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4]) })
+                this.setState({ file: await Storage.get(this.state.gamedata.gamePath) })
             })
     }
 
@@ -47,6 +49,7 @@ class GameAdvert extends Component {
         const genres = [];
         var glyph;
         var slideshow;
+        const link = "https://s3.us-east-2.amazonaws.com/arcadegrassproject/" + this.state.gamedata.gamePath;
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
 
@@ -168,7 +171,9 @@ class GameAdvert extends Component {
                             <ControlLabel>Available On Arcade Machines</ControlLabel>
                             {glyph}
                             </FormGroup>
+                          <a href={this.state.file} download>
                           <Button bsStyle='link'>Download Game</Button>
+                          </a>
                         </Form>
                       </Col>
                       </Row>  
