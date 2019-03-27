@@ -337,6 +337,16 @@ namespace KnightsArcade.Infrastructure.Data
             return user;
         }
 
+        public List<Users> GetAllUsers()
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            List<Users> users = knightsContext.Users.ToList();
+            return users;
+        }
+
         public void PostUser(Users user)
         {
             DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();

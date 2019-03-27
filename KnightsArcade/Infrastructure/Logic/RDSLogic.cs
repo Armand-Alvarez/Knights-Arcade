@@ -280,6 +280,11 @@ namespace KnightsArcade.Infrastructure.Logic
             return _rdsData.GetUser(username);
         }
 
+        public List<Users> GetAllUsers()
+        {
+            return _rdsData.GetAllUsers();
+        }
+
         public void PostUser(Users user)
         {
             _rdsData.PostUser(user);

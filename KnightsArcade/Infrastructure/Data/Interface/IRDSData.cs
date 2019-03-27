@@ -32,6 +32,7 @@ namespace KnightsArcade.Infrastructure.Data.Interface
         void DeleteTestsQueue(int gameId);
 
         Users GetUser(string username);
+        List<Users> GetAllUsers();
         void PostUser(Users user);
         void PutUser(Users user);
         void DeleteUser(string username);
