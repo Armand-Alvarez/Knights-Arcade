@@ -285,7 +285,6 @@ class MyProfile extends Component {
                         <Col smOffset={5} sm={6}>
                            <ButtonToolbar>
                               <Button bsStyle="primary" onClick={this.handleSave.bind(this)} >Save</Button>
-                              <Button>Cancel</Button>
                             </ButtonToolbar>
                         </Col>
                       </FormGroup>

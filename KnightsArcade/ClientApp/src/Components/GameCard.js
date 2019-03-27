@@ -13,19 +13,34 @@ export default class GameCard extends Component {
 	}
 
 	componentDidMount() {
-
 		const imgPath = this.props.gameData.gameImg[0];
 		Storage.get(imgPath)
 		    .then(result => {
-		    	this.setState({
+                this.setState({
+                    imgName: this.props.gameData.gameImg[0],
 		    		imgUrl: result
 		    	});
 		    })
 		    .catch(err => console.log(err));
 
-	}
+    }
 
-	render(props) {
+    updateImage() {
+        const imgPath = this.props.gameData.gameImg[0];
+        Storage.get(imgPath)
+            .then(result => {
+                this.setState({
+                    imgName: this.props.gameData.gameImg[0],
+                    imgUrl: result
+                });
+            })
+            .catch(err => console.log(err));
+    }
+
+    render(props) {
+        if (this.props.gameData.gameImg[0] !== this.state.imgName) {
+            this.updateImage();
+        }
 		const gameData = this.props.gameData;
 		const options = { year: 'numeric', month: 'long', day: 'numeric' };
 		const date = new Date(gameData.gameSubmissionDateUtc);
@@ -86,7 +101,6 @@ export default class GameCard extends Component {
             >
             <a href={link}>
 			<div className="game-card__card">
-
 				<Image width={240} height={135} src={this.state.imgUrl} />
 				<div className="game-card__info-container">
 					<div className="game-card__info-row-1">

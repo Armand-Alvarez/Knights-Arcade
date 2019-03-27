@@ -3,7 +3,9 @@ import axios from 'axios';
 import NaviBar from './Components/NavBar';
 import GameCard from './Components/GameCard';
 import './Games.css';
-import { Grid, Row, Col, FormGroup, FormControl, InputGroup, DropdownButton, MenuItem, Form, Jumbotron} from 'react-bootstrap';
+import {
+    Grid, Row, Col, FormGroup, FormControl, InputGroup, DropdownButton, MenuItem, Form, Jumbotron, Button, ButtonToolbar, ControlLabel
+} from 'react-bootstrap';
 
 class Games extends Component {
   
@@ -11,9 +13,13 @@ class Games extends Component {
     super(props);
 
     this.handleGenreSelect = this.handleGenreSelect.bind(this);
+    this.handleSortBySelect = this.handleSortBySelect.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
 
     this.state = {
       games: [],
+      gamesList: [],
+      currentSortBy: "Game Title",
       currentGenre: "All Genres",
       AllGenres: true,
       Action: false,
@@ -28,6 +34,7 @@ class Games extends Component {
       Sports: false,
       Strategy: false,
       Survival: false,
+      searchValue:""
     };
   }
 
@@ -35,11 +42,41 @@ class Games extends Component {
 
     axios.get(`api/v1/Public/rds/games/allapprovedgames`)
       .then(res => {
-        const games = res.data;
-        this.setState({ games: games });
+          const games = res.data;
+          this.setState({
+              games: games,
+              gamesList: games
+          });
       })
 
-  }
+    }
+
+    handleSearchChange(e) {
+        this.setState({ searchValue: e.target.value });
+        try {
+            if (this.state.searchValue === "" || this.state.searchValue === null) {
+                this.setState({
+                    gamesList: this.state.games
+                });
+            }
+            var tempGameList = []
+            for (var index = 0; index < this.state.games.length; index++) {
+                if (this.state.games[index].gameName.toLowerCase().search(this.state.searchValue.toLowerCase()) >= 0) {
+                    tempGameList.push(this.state.games[index]);
+                }
+            }
+            this.setState({
+                gamesList: tempGameList
+            });
+        }
+        catch
+        {
+            this.setState({
+                gamesList: this.state.games
+            });
+        }
+    }
+
 
   handleGenreSelect(eventKey) {
     
@@ -58,88 +95,141 @@ class Games extends Component {
       Strategy: false,
       Survival: false,
     });
-
-    switch(eventKey) {
+      console.log(eventKey);
+    switch (eventKey) {
       case 0:
         this.setState({
           AllGenres: true,
-          currentGenre: "All Genres"
+          currentGenre: "All Genres",
+          gamesList: this.state.games
         });
         break;
       case 1:
         this.setState({
           Action: true,
-          currentGenre: "Action"
+          currentGenre: "Action",
+          gamesList: this.state.games.filter(x => x.gameGenreAction == true)
         });
         break;
       case 2:
         this.setState({
           Adventure: true,
-          currentGenre: "Adventure"
+          currentGenre: "Adventure",
+          gamesList: this.state.games.filter(x => x.gameGenreAdventure == true)
         });
         break;
       case 3:
         this.setState({
           Fighting: true,
-          currentGenre: "Fighting"
+          currentGenre: "Fighting",
+          gamesList: this.state.games.filter(x => x.gameGenreFighting == true)
         });
         break;
       case 4:
         this.setState({
           Platformer: true,
-          currentGenre: "Platformer"
+          currentGenre: "Platformer",
+          gamesList: this.state.games.filter(x => x.gameGenrePlatformer == true)
         });
         break;
       case 5:
         this.setState({
           Puzzle: true,
-          currentGenre: "Puzzle"
+          currentGenre: "Puzzle",
+          gamesList: this.state.games.filter(x => x.gameGenrePuzzle == true)
         });
         break;
       case 6:
         this.setState({
           RPG: true,
-          currentGenre: "RPG"
+          currentGenre: "RPG",
+          gamesList: this.state.games.filter(x => x.gameGenreRPG == true)
         });
         break;
       case 7:
         this.setState({
           Racing: true,
-          currentGenre: "Racing"
+          currentGenre: "Racing",
+          gamesList: this.state.games.filter(x => x.gameGenreRacing == true)
         });
         break;
       case 8:
         this.setState({
           Rhythm: true,
-          currentGenre: "Rhythm"
+          currentGenre: "Rhythm",
+          gamesList: this.state.games.filter(x => x.gameGenreRhythm == true)
         });
         break;
       case 9:
         this.setState({
           Shooter: true,
-          currentGenre: "Shooter"
+          currentGenre: "Shooter",
+          gamesList: this.state.games.filter(x => x.gameGenreShooter == true)
         });
         break;
       case 10:
         this.setState({
           Sports: true,
-          currentGenre: "Sports"
+          currentGenre: "Sports",
+          gamesList: this.state.games.filter(x => x.gameGenreSports == true)
         });
         break;
       case 11:
         this.setState({
           Strategy: true,
-          currentGenre: "Strategy"
+          currentGenre: "Strategy",
+          gamesList: this.state.games.filter(x => x.gameGenreStrategy == true)
         });
         break;
       case 12:
         this.setState({
           Survival: true,
-          currentGenre: "Survival"
+          currentGenre: "Survival",
+          gamesList: this.state.games.filter(x => x.gameGenreSurvival == true)
         });
         break;
+      }
+      console.log("asasas");
     }
-  }
+
+    handleSortBySelect(eventKey) {
+        console.log(eventKey.target.value);
+        switch (eventKey.target.value) {
+            case "Game Title":
+                this.setState({
+                    gamesList: this.state.gamesList.sort(function (a, b) {
+                        if (a.gameName < b.gameName)
+                            return -1;
+                        else if (a.gameName > b.gameName)
+                            return 1;
+                        else
+                            return 0;
+                    }),
+                });
+            break;
+            case "Developer Name":
+                this.setState({
+                    gamesList: this.state.gamesList.sort(function (a, b) {
+                        if (a.gameCreatorName < b.gameCreatorName)
+                            return -1;
+                        else if (a.gameCreatorName > b.gameCreatorName)
+                            return 1;
+                        else
+                            return 0;
+                    }),
+                    currentSortBy: "Developer Name"
+                });
+            break;
+            case "Release Date":
+                this.setState({
+                    gamesList: this.state.gamesList.sort(function (a, b) {
+                        return new Date(b.gameReviewDateUtc) - new Date(a.gameReviewDateUtc);
+                    }),
+                    currentSortBy: "Release Date"
+                });
+            break;
+        }
+    }
 
   render() {
     return (
@@ -164,12 +254,11 @@ class Games extends Component {
       <Row>
       <Col sm={6} smOffset={3}>
       <div className="games-page__form-container">
-        
         <div className="games-page__search-row">
-          <Form style={{flexGrow: 1, alignSelf: "flex-start"}}>
-            <FormGroup style={{marginBottom: 0}}>
+          <div style={{flexGrow: 1, alignSelf: "flex-start"}}>
+            <div style={{marginBottom: 0}}>
               <InputGroup>
-                <FormControl type="text" placeholder="Search"/>
+                <FormControl as="textarea" placeholder="Search" onChange={this.handleSearchChange}/>
                 <DropdownButton
                   componentClass={InputGroup.Button}
                   id="input-dropdown-addon"
@@ -190,23 +279,24 @@ class Games extends Component {
                   <MenuItem eventKey={12} onSelect={this.handleGenreSelect} disabled={this.state.Survival}>Survival</MenuItem>
                 </DropdownButton>
               </InputGroup>
-            </FormGroup>
-          </Form>
-          <p style={{marginBottom:0, fontWeight: "bold", marginLeft: 20, marginRight: 15}}>Sort by</p>
-          <Form>
+            </div>
+        </div>
+        <p style={{ marginBottom: 0, fontWeight: "bold", marginLeft: 20, marginRight: 15 }}>Sort by</p>
+        <Form>
             <FormGroup style={{marginBottom: 0}}>
-              <FormControl componentClass="select" placeholder="select">
-                <option value="select">Game Title</option>
-                <option value="other">Developer Name</option>
-                <option value="other">Release Date</option>
+              <FormControl onChange={this.handleSortBySelect} componentClass="select" placeholder="select">
+                <option>Game Title</option>
+                <option>Developer Name</option>
+                <option>Release Date</option>
               </FormControl>
             </FormGroup>
           </Form>
+          
         </div>
         
         <div className="games-page__game-list">
           {
-            this.state.games.map((game) => {
+            this.state.gamesList.map((game) => {
               return <GameCard gameData={game} /> 
               })
           }
