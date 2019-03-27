@@ -4,38 +4,39 @@ import RevComp from './Components/ReviewComponent';
 import MangGamesComp from './Components/ManageGamesComponent';
 import MangUsersComp from './Components/ManageUsersComponent';
 import {Tabs, Tab, ListGroup, ListGroupItem} from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
 
 
 export class Admin extends Component {
-  constructor () {
-    super()
-    this.test = {
-      one: 0,
-      two: '',
-      three: true
 
-    }
+  constructor (props) {
+    super(props);
+
     this.state = {
-      username: '',
-      array: [],
-      array2: []
-    }
-
-    this.handleClick = this.handleClick.bind(this)
+      submissions: [],
+      games: [],  
+      users: [],
+    };
   }
 
-  
+  componentDidMount() {
 
-  handleClick () {
-    axios.get('http://localhost:5002/api/v1/infrastructure/info')
-      .then(response => this.setState({username: response.data}))
-
-    axios.get('http://localhost:5002/api/v1/infrastructure/info2')
-      .then(response => this.setState({array: response.data}))  
-
-    }
-
+    // Get all submissions pending review
+    axios.get('/api/v1/Public/rds/games/allpendinggames')
+      .then(res => {
+        const submissions = res.data;
+        this.setState({ submissions: submissions });
+      })
+    
+    // Get all published games (whether on/off arcade machines)
+    axios.get('/api/v1/Public/rds/games/allapprovedgames')
+      .then(res => {
+        const games = res.data;
+        this.setState({ games: games});
+      })
+    
+    // todo: Get all users
+  }
 
   render() {
 
@@ -46,26 +47,20 @@ export class Admin extends Component {
             <h1 className = 'text'>Admin Page</h1>
         </div>
 
-        <div className='button__container'>
-      <button className='button' onClick={this.handleClick}>
-        Click Me
-      </button>
-      <p>{this.state.username}</p>
-      <p>{this.state.array}</p>
-      <p>{this.state.array2}</p>
-    </div>
-
         <Tabs defaultActiveKey="ReviewSubmissiions" id="Admin-tabs">
           <Tab eventKey="ReviewSubmissions" title="Review Submissions">
             <ListGroup>
-              <ListGroupItem><RevComp/></ListGroupItem>
-              <ListGroupItem><RevComp/></ListGroupItem>
-              <ListGroupItem><RevComp/></ListGroupItem>
+              <ListGroupItem> {
+                this.state.submissions.map((submission) => {
+                return <RevComp submissionData={submission}/>
+              })    
+              }
+              </ListGroupItem>
             </ListGroup>
           </Tab>
           <Tab eventKey="ManageGames" title="Manage Games">
             <ListGroup>
-              <ListGroupItem><MangGamesComp/></ListGroupItem>
+            <ListGroupItem><MangGamesComp/></ListGroupItem>
               <ListGroupItem><MangGamesComp/></ListGroupItem>
               <ListGroupItem><MangGamesComp/></ListGroupItem>
             </ListGroup>         
@@ -79,7 +74,6 @@ export class Admin extends Component {
           </Tab>
         </Tabs>
 
-        
       </div>
     )
   }
