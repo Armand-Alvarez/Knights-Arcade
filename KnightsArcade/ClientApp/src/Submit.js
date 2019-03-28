@@ -542,9 +542,9 @@ class Submit extends Component {
                 else {
                     console.log("Other");
                     this.setState({ loadingModal: false });
-                    this.setState({ errorAlertMessage: "There was an error with you submission. Please reload and try again." });
+                    this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
                     this.setState({ errorAlert: true });
-                    throw ("There was an error with you submission. Please reload and try again.");
+                    throw ("There was an error with your submission. Please reload and try again.");
                 }
             }).catch(error => {
                 console.log(error);
@@ -553,7 +553,7 @@ class Submit extends Component {
                 if (error.message.substring(0, errorDupMessage.length) === errorDupMessage)
                     this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
                 else
-                    this.setState({ errorAlertMessage: "There was an error with you submission. Please reload and try again." });
+                    this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
 
                 this.setState({ loadingModal: false });
                 this.setState({ errorAlert: true });;
@@ -573,7 +573,7 @@ class Submit extends Component {
             if (e === "That game name already exists. Please use another.")
                 this.setState({ errorAlertMessage: e });
             else
-                this.setState({ errorAlertMessage: "There was an error with you submission. Please reload and try again." });
+                this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
 
             this.setState({ loadingModal: false });
             this.setState({ errorAlert: true });
