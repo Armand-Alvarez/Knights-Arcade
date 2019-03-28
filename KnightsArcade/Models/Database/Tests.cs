@@ -11,5 +11,6 @@ namespace KnightsArcade.Models.Database
         public bool? TestCloses { get; set; }
         public bool? TestRandombuttons { get; set; }
         public int? TestAttempts { get; set; }
+        public string TestAverageRam { get; set; }
     }
 }

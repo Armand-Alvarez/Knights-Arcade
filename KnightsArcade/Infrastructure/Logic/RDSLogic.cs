@@ -84,7 +84,8 @@ namespace KnightsArcade.Infrastructure.Logic
                 TestCloses = false,
                 TestOpens = false,
                 TestRandombuttons = false,
-                TestAttempts = 0
+                TestAttempts = 0,
+                TestAverageRam = null
             };
 
             _rdsData.PostTests(newTest);

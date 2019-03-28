@@ -283,6 +283,10 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("test_randombuttons")
                     .HasColumnType("tinyint(4)");
 
+                entity.Property(e => e.TestAverageRam)
+                    .HasColumnName("test_average_ram")
+                    .HasColumnType("varchar(100)");
+
             });
 
             modelBuilder.Entity<TestsQueue>(entity =>

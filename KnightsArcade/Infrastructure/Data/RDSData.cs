@@ -238,6 +238,10 @@ namespace KnightsArcade.Infrastructure.Data
             {
                 updatedTest.TestRandombuttons = test.TestRandombuttons;
             }
+            if (test.TestAverageRam != null)
+            {
+                updatedTest.TestAverageRam = test.TestAverageRam;
+            }
 
             DeleteTests((int)test.GameId);
             PostTests(updatedTest);
