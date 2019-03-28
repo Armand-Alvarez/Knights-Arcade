@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Image, Row, Col, Grid } from 'react-bootstrap';
+import { Image, Row, Col, Grid, OverlayTrigger, Popover } from 'react-bootstrap';
 import './GameCard.css';
 import { Storage } from 'aws-amplify';
 
@@ -55,13 +55,21 @@ export default class GameCard extends Component {
     }
 
     render(props) {
-
+        const popoverHoverFocus = (
+            <Popover id="popover-trigger-hover-focus" title={this.props.gameData.submissionName}>
+                {this.state.status}
+            </Popover>
+        );
         const gameData = this.props.gameData;
-        console.log(gameData);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(gameData.submissionDateUtc);
 
         return (
+            <OverlayTrigger
+                trigger={['hover', 'focus']}
+                placement="right"
+                overlay={popoverHoverFocus}
+            >
             <div className="game-card__card">
                 <Image width={240} height={135} src={this.state.imgUrl} />
                 <div className="game-card__info-container">
@@ -79,6 +87,7 @@ export default class GameCard extends Component {
                     </div>
                 </div>
             </div>
+            </OverlayTrigger>
         );
     }
 }

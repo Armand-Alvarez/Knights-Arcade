@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row} from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row, HelpBlock} from 'react-bootstrap';
 import NaviBar from './Components/NavBar';
 import './Submit.css';
 import axios from 'axios';
@@ -37,8 +37,11 @@ class Submit extends Component {
 
     this.state = {
       titleValue: "",
+      titleValidation: false,
       descriptionValue: "",
+      descriptionValidation: false,
       controlsValue: "",
+      controlValidation: false,
       videoLinkValue: "",
       Action: false,
       Adventure: false,
@@ -52,15 +55,18 @@ class Submit extends Component {
       Fighting: false,
       Rhythm: false,
       Platformer: false,
+      genreValidation: false,
       gameURL: "",
       gameFile: "",
       gameFileName: "",
+      gameFileValidation: false,
       imgFiles: [],
       username: "",
       userID: "",
       img0URL: "",
       img0File: "",
       img0FileName: "",
+      imgValidation: false,
       img1URL: "",
       img1File: "",
       img1FileName: "",
@@ -73,6 +79,8 @@ class Submit extends Component {
       img4URL: "",
       img4File: "",
       img4FileName: "",
+      imagesValidation: false
+
     };
   }
 
@@ -89,30 +97,146 @@ class Submit extends Component {
 
   }
 
-  getValidationState() {
-    const length = this.state.value.length;
-    if (length >= 1) return 'success';
-
+  getValidationStateTitle() {
+    const length = this.state.titleValue.length;
+      if (length >= 1) {
+          return 'success';
+      }
     return null;
   }
+
   getValidationStateDesc() {
-    const length = this.state.value.length;
-    if (length >= 100) return 'success';
-    else if (length >= 1) return 'warning';
+      const length = this.state.descriptionValue.length;
+      if (length >= 100) {
+          return 'success';
+      }
+      else if (length >= 25) {
+          return 'warning';
+      }
+      else if (length >= 1) {
+          return 'error';
+      }
 
-    return null;
+      return null;
   }
+
+  getValidationStateControls() {
+    const length = this.state.controlsValue.length;
+      if (length >= 30) {
+          return 'success';
+      }
+      else if (length >= 10) {
+          return 'warning';
+      }
+      else if (length >= 1) {
+          return 'error';
+      }
+      return null;
+  }
+
+  getValidationStateZip() {
+      var validExtensions = ".zip";
+      var fileName = this.state.gameFileName;
+      if (!fileName) {
+          return null;
+      }
+      else {
+          if (fileName.substring(fileName.length - 4, fileName.length).toLowerCase() === validExtensions) {
+              return 'success';
+          }
+          return 'error';
+      }
+      return null;
+  }
+
+  getValidationStateImg() {
+      var validExtensions = [".png", ".jpg", ".jpeg"];
+      var imgName = this.state.img0FileName;
+      if (!imgName) {
+          return null;
+      }
+      else {
+          for (var index = 0; index < validExtensions.length; index++) {
+              if (imgName.substring(imgName.length - validExtensions[index].length, imgName.length).toLowerCase() === validExtensions[index]) {
+                  return 'success';
+              }
+          }
+          return 'error';
+      }
+      return null;
+  }
+
+    getValidationStateImages() {
+        var validExtensions = [".png", ".jpg", ".jpeg"];
+        var imgNames = this.state.imgFiles;
+
+        var result = 'error'; 
+        if (!imgNames[0]) {
+            return null;
+        }
+        else {
+            for (var indexI = 0; indexI < imgNames.length; indexI++) {
+                result = 'error';
+
+                var imgName = imgNames[indexI];
+                for (var indexJ = 0; indexJ < validExtensions.length; indexJ++) {
+                    if (imgName.name.substring(imgName.name.length - validExtensions[indexJ].length, imgName.name.length).toLowerCase() === validExtensions[indexJ]) {
+                        result = 'success';
+                    }
+                }
+                if (result != 'success') {
+                    return 'error';
+                }
+            }
+            return 'success';
+        }
+        return null;
+  }
+
+  getValidationStateGenre() {
+      if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
+          !this.state.Rhythm && !this.state.Sports && !this.state.Shooter && !this.state.Puzzle &&
+          !this.state.Survival && !this.state.Fighting && !this.state.Platformer && !this.state.Strategy) {
+          return null;
+      }
+      else {
+          return 'success';
+      }
+      return null;
+  }
+
 
   handleTitleChange(e) {
-    this.setState({ titleValue: e.target.value });
+      this.setState({ titleValue: e.target.value });
+
+      const length = this.state.titleValue.length;
+      if (length >= 1) {
+          this.setState({ titleValidation: true });
+          return;
+      }
+      this.setState({ titleValidation: false });
   }
 
   handleDescriptionChange(e) {
-    this.setState({ descriptionValue: e.target.value });
+      this.setState({ descriptionValue: e.target.value });
+
+      const length = this.state.descriptionValue.length;
+      if (length >= 100) {
+          this.setState({ descriptionValidation: true });
+          return;
+      }
+      this.setState({ descriptionValidation: false });
   }
 
   handleControlsChange(e) {
-    this.setState({ controlsValue: e.target.value });
+      this.setState({ controlsValue: e.target.value });
+
+      const length = this.state.controlsValue.length;
+      if (length >= 30) {
+          this.setState({ controlValidation: true });
+          return;
+      }
+      this.setState({ controlValidation: false });
   }
 
   handleVideoLinkChange(e) {
@@ -168,27 +292,107 @@ class Submit extends Component {
   }
 
   handleGameFileChange(e) {
-    const file = e.target.files[0]
-    this.setState({
-      gameURL: URL.createObjectURL(file),
-      gameFile: file,
-      gameFileName: file.name
-    });
+      try {
+          console.log(e.target.files[0]);
+          const file = e.target.files[0]
+          this.setState({
+              gameURL: URL.createObjectURL(file),
+              gameFile: file,
+              gameFileName: file.name
+          });
+
+          var validExtensions = ".zip";
+          var fileName = e.target.files[0].name;
+          if (!fileName) {
+              this.setState({ gameFileValidation: false });
+              return;
+          }
+          else {
+              if (fileName.substring(fileName.length - 4, fileName.length).toLowerCase() === validExtensions) {
+                  this.setState({ gameFileValidation: true });
+                  return;
+              }
+              this.setState({ gameFileValidation: false });
+              return;
+          }
+          this.setState({ gameFileValidation: false });
+          return;
+      }
+      catch (e)
+      {
+          this.setState({
+              gameURL: null,
+              gameFile: null,
+              gameFileName: null
+          });
+          this.setState({ gameFileValidation: false });
+          console.log(e);
+          return;
+      }
   }
 
   handleImg0Change(e) {
-    const file = e.target.files[0]
-    this.setState({
-      img0URL: URL.createObjectURL(file),
-      img0File: file,
-      img0FileName: file.name
-    });
+      const file = e.target.files[0]
+      this.setState({
+        img0URL: URL.createObjectURL(file),
+        img0File: file,
+        img0FileName: file.name
+      });
+
+      var validExtensions = [".png", ".jpg", ".jpeg"];
+      var imgName = e.target.files[0].name;
+      if (!imgName) {
+          this.setState({ imgValidation: false });
+          return;
+      }
+      else {
+          for (var index = 0; index < validExtensions.length; index++) {
+              if (imgName.substring(imgName.length - validExtensions[index].length, imgName.length).toLowerCase() === validExtensions[index]) {
+                  this.setState({ imgValidation: true });
+                  return;
+              }
+          }
+          this.setState({ imgValidation: false });
+          return;
+      }
+      this.setState({ imgValidation: false });
+      return;
   }
 
   handleUpdateFiles(items) {
-    this.setState({
-      imgFiles: items.map(item => item.file)
-    });
+      this.setState({
+        imgFiles: items.map(item => item.file)
+      });
+
+      var validExtensions = [".png", ".jpg", ".jpeg"];
+      var imgNames = items.map(item => item.file);
+      console.log(imgNames[0]);
+
+      var result = 'error';
+      if (!imgNames[0]) {
+          this.setState({ imagesValidation: true });
+          return;
+      }
+      else {
+          for (var indexI = 0; indexI < imgNames.length; indexI++) {
+              result = 'error';
+
+              var imgName = imgNames[indexI];
+              for (var indexJ = 0; indexJ < validExtensions.length; indexJ++) {
+                  if (imgName.name.substring(imgName.name.length - validExtensions[indexJ].length, imgName.name.length).toLowerCase() === validExtensions[indexJ]) {
+                      result = 'success';
+                  }
+              }
+              if (result != 'success') {
+                  this.setState({ imagesValidation: false });
+                  return;
+              }
+          }
+          this.setState({ imagesValidation: true });
+          return;
+      }
+      this.setState({ imagesValidation: true });
+      return;
   }
 
     saveGame() {
@@ -236,25 +440,25 @@ class Submit extends Component {
             alert("Please input a valid game title for submission.");
             throw ("Invalid game title");
         }
-        if (!this.state.descriptionValue) {
+        if (!this.state.descriptionValue || !this.state.descriptionValidation) {
             document.body.style.cursor = 'auto'
             alert("Please input a valid game description for submission.");
             throw ("Invalid game description");
         }
-        if (!this.state.controlsValue) {
+        if (!this.state.controlsValue || !this.state.controlValidation) {
             document.body.style.cursor = 'auto'
             alert("Please input valid game controls for submission.");
             throw ("Invalid game controls");
         }
-        if (!this.state.img0File) {
+        if (!this.state.gameFile || !this.state.gameFileValidation) {
             document.body.style.cursor = 'auto'
-            alert("Please input at least one image for submission.");
-            throw ("Invalid image");
-        }
-        if (!this.state.gameFile) {
-            document.body.style.cursor = 'auto'
-            alert("Please input a game file for submission.");
+            alert("Please input a valid game file for submission.");
             throw ("Invalid game file");
+        }
+        if (!this.state.img0File || !this.state.imgValidation || !this.state.imagesValidation) {
+            document.body.style.cursor = 'auto'
+            alert("Please input valid image(s) for submission.");
+            throw ("Invalid image");
         }
         if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
             !this.state.Rhythm && !this.state.Sports && !this.state.Shooter && !this.state.Puzzle &&
@@ -334,18 +538,16 @@ class Submit extends Component {
 
   render() {
     return (
-      
       <div className = "Submit">
         <NaviBar/>
         <div className="Header">
         <h1 className = 'text '>Submit a Game</h1>
         </div>
-
         <Grid>
         <Row>
         <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
         <Form>
-          <FormGroup>
+          <FormGroup validationState={this.getValidationStateTitle()}>
             <ControlLabel className = 'text'>Title of the Game</ControlLabel>
             <FormControl
               type="text"
@@ -354,14 +556,16 @@ class Submit extends Component {
             />
           </FormGroup>
 
-          <FormGroup controlId="formControlsTextarea">
+          <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
             <ControlLabel className = 'text'>Description</ControlLabel>
             <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange}/>
+            <HelpBlock>Must be at least 100 characters.</HelpBlock>
           </FormGroup>
 
-          <FormGroup controlId="formControlsTextarea">
+          <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
             <ControlLabel className = 'text'>Controls</ControlLabel>
             <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange}/>
+            <HelpBlock>Must be at least 30 characters.</HelpBlock>
           </FormGroup>
 
           <FormGroup>
@@ -376,7 +580,7 @@ class Submit extends Component {
           
           <Row>
             <Col md={6}>
-              <FormGroup>
+              <FormGroup validationState={this.getValidationStateZip()}>
                 <ControlLabel className = 'text'>Game Files (Zip)</ControlLabel>
                 <FormControl
                   type="file"
@@ -385,8 +589,8 @@ class Submit extends Component {
               </FormGroup>
             </Col>
             <Col md={6}>
-              <FormGroup>
-                <ControlLabel className = 'text'>Default Display Image</ControlLabel>
+              <FormGroup validationState={this.getValidationStateImg()}>
+                <ControlLabel className = 'text'>Default Display Image (JPG, JPEG, PNG)</ControlLabel>
                 <FormControl
                   type="file"
                   onChange={this.handleImg0Change}
@@ -395,7 +599,7 @@ class Submit extends Component {
             </Col>
           </Row>
 
-          <FormGroup>
+          <FormGroup validationState={this.getValidationStateImages()}>
             <ControlLabel className = 'text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
             <FilePond
               className="file-pond"
@@ -403,38 +607,41 @@ class Submit extends Component {
               maxFiles={4}
               onupdatefiles={this.handleUpdateFiles}
             />
+            <HelpBlock>All images must be either .jpg, .jpeg, or .png</HelpBlock>
           </FormGroup>
 
           <Row>
-            <Col md={3}>
-              <FormGroup>
-                <ControlLabel className = 'text'>Genres</ControlLabel>
-                <Checkbox className = 'text' onChange={this.handleAction}>Action</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleAdventure}>Adventure</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleFighting}>Fighting</Checkbox>
-                <Checkbox className = 'text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
-              </FormGroup>
-            </Col>
-            <Col md={3}>
-              <FormGroup>
-                <ControlLabel className = 'text'></ControlLabel>
-                <Checkbox className = 'text' onChange={this.handleRacing}>Racing</Checkbox>
-                <Checkbox className=  'text' onChange={this.handleRhythm}>Rhythm</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleRPG}>RPG</Checkbox>
-                <Checkbox className = 'text' onChange={this.handleShooter}>Shooter</Checkbox>
-              </FormGroup>
-            </Col>
-            <Col md={3}>
-              <FormGroup>
-                <ControlLabel className='text'></ControlLabel>
-                <Checkbox className='text' onChange={this.handleSports}>Sports</Checkbox>
-                <Checkbox className='text' onChange={this.handleStrategy}>Strategy</Checkbox>
-                <Checkbox className='text' onChange={this.handleSurvival}>Survival</Checkbox>
-                <Checkbox className='text' onChange={this.handlePlatformer}>Platformer</Checkbox>
-              </FormGroup>
-            </Col>
+            <FormGroup validationState={this.getValidationStateGenre()}>
+                <Col md={3}>
+                    <FormGroup>
+                    <ControlLabel className = 'text'>Genres</ControlLabel>
+                    <Checkbox className = 'text' onChange={this.handleAction}>Action</Checkbox>
+                    <Checkbox className = 'text' onChange={this.handleAdventure}>Adventure</Checkbox>
+                    <Checkbox className = 'text' onChange={this.handleFighting}>Fighting</Checkbox>
+                    <Checkbox className = 'text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
+                    </FormGroup>
+                </Col>
+                <Col md={3}>
+                    <FormGroup>
+                    <ControlLabel className = 'text'></ControlLabel>
+                    <Checkbox className = 'text' onChange={this.handleRacing}>Racing</Checkbox>
+                    <Checkbox className=  'text' onChange={this.handleRhythm}>Rhythm</Checkbox>
+                    <Checkbox className = 'text' onChange={this.handleRPG}>RPG</Checkbox>
+                    <Checkbox className = 'text' onChange={this.handleShooter}>Shooter</Checkbox>
+                    </FormGroup>
+                </Col>
+                <Col md={3}>
+                    <FormGroup>
+                    <ControlLabel className='text'></ControlLabel>
+                    <Checkbox className='text' onChange={this.handleSports}>Sports</Checkbox>
+                    <Checkbox className='text' onChange={this.handleStrategy}>Strategy</Checkbox>
+                    <Checkbox className='text' onChange={this.handleSurvival}>Survival</Checkbox>
+                    <Checkbox className='text' onChange={this.handlePlatformer}>Platformer</Checkbox>
+                    </FormGroup>
+                </Col>
+            </FormGroup>
           </Row>
-
+          <HelpBlock>Must choose at least one.</HelpBlock>
           <FormGroup>
               <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
           </FormGroup>
