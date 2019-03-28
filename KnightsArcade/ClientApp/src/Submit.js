@@ -7,6 +7,9 @@ import { Storage } from 'aws-amplify';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import { Auth } from 'aws-amplify';
+import Popup from 'reactjs-popup';
+import { css } from '@emotion/core';
+import { ClipLoader, PacmanLoader } from 'react-spinners';
 
 class Submit extends Component {
   constructor(props, context) {
@@ -34,6 +37,7 @@ class Submit extends Component {
     this.handleGameFileChange = this.handleGameFileChange.bind(this);
     this.saveGame = this.saveGame.bind(this);
     this.handleUpdateFiles = this.handleUpdateFiles.bind(this);
+    this.handleCloseErrorAlert = this.handleCloseErrorAlert.bind(this);
 
     this.state = {
       titleValue: "",
@@ -79,9 +83,17 @@ class Submit extends Component {
       img4URL: "",
       img4File: "",
       img4FileName: "",
-      imagesValidation: false
+      imagesValidation: true,
+      loadingModal: false,
+      errorAlert: false,
+      errorAlertMessage:""
 
-    };
+      };
+      const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
   }
 
   componentDidMount() {
@@ -237,7 +249,11 @@ class Submit extends Component {
           return;
       }
       this.setState({ controlValidation: false });
-  }
+    }
+
+    handleCloseErrorAlert(e) {
+        this.setState({ errorAlert: false });
+    }
 
   handleVideoLinkChange(e) {
     this.setState({ videoLinkValue: e.target.value });
@@ -436,35 +452,41 @@ class Submit extends Component {
 
     checkState() {
         if (!this.state.titleValue) {
-            document.body.style.cursor = 'auto'
-            alert("Please input a valid game title for submission.");
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Please input a valid game title for submission." });
+            this.setState({ errorAlert: true });
             throw ("Invalid game title");
         }
         if (!this.state.descriptionValue || !this.state.descriptionValidation) {
-            document.body.style.cursor = 'auto'
-            alert("Please input a valid game description for submission.");
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Please input a valid game description for submission." });
+            this.setState({ errorAlert: true });
             throw ("Invalid game description");
         }
         if (!this.state.controlsValue || !this.state.controlValidation) {
-            document.body.style.cursor = 'auto'
-            alert("Please input valid game controls for submission.");
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Please input valid game controls for submission." });
+            this.setState({ errorAlert: true });
             throw ("Invalid game controls");
         }
         if (!this.state.gameFile || !this.state.gameFileValidation) {
-            document.body.style.cursor = 'auto'
-            alert("Please input a valid game file for submission.");
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Please input a valid game file for submission." });
+            this.setState({ errorAlert: true });
             throw ("Invalid game file");
         }
         if (!this.state.img0File || !this.state.imgValidation || !this.state.imagesValidation) {
-            document.body.style.cursor = 'auto'
-            alert("Please input valid image(s) for submission.");
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Please input valid image(s) for submission." });
+            this.setState({ errorAlert: true });
             throw ("Invalid image");
         }
         if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
             !this.state.Rhythm && !this.state.Sports && !this.state.Shooter && !this.state.Puzzle &&
             !this.state.Survival && !this.state.Fighting && !this.state.Platformer && !this.state.Strategy) {
-            document.body.style.cursor = 'auto'
-            alert("Please select at least one genre.");
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Please select at least one genre." });
+            this.setState({ errorAlert: true });
             throw ("No genres selected");
         }
     }
@@ -502,38 +524,60 @@ class Submit extends Component {
           gamePath: this.state.titleValue + "/" + this.state.gameFileName,
           gameImg: imgNames
         }
-
         var self = this;
         axios.post('/api/v1/Restricted/rds/newentry', data)
-            .then(function (res) {
+            .then(function (res, error) {
                 if (res.status === 201) {
                     console.log(res);
                     self.postToS3();
                 }
                 else if (res.status === 409)
                 {
-                    console.log("Duplicate name.");
-                    alert("That game name already exists.");
-                    throw ("duplicate name");
+                    console.log("409");
+                    this.setState({ loadingModal: false });
+                    this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
+                    this.setState({ errorAlert: true });
+                    throw ("That game name already exists. Please use another.");
                 }
                 else {
-                    console.log('Unable to create database entry');
-                    throw ("Unable to create database entry");
+                    console.log("Other");
+                    this.setState({ loadingModal: false });
+                    this.setState({ errorAlertMessage: "There was an error with you submission. Please reload and try again." });
+                    this.setState({ errorAlert: true });
+                    throw ("There was an error with you submission. Please reload and try again.");
                 }
-            })
-            .catch(error => {
-                document.body.style.cursor = 'auto'
+            }).catch(error => {
                 console.log(error);
-                throw ("Failed to post to API");
+                var errorDupMessage = "Request failed with status code 409";
+                console.log(error.message);
+                if (error.message.substring(0, errorDupMessage.length) === errorDupMessage)
+                    this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
+                else
+                    this.setState({ errorAlertMessage: "There was an error with you submission. Please reload and try again." });
+
+                this.setState({ loadingModal: false });
+                this.setState({ errorAlert: true });;
             });
     }
 
     handleSubmit(e) {
-        document.body.style.cursor = 'wait'
+        try {
+            this.setState({ loadingModal: true });
 
-        e.preventDefault();
-        this.checkState();
-        this.postNewEntry();
+            e.preventDefault();
+            this.checkState();
+            this.postNewEntry();
+        }
+        catch (e)
+        {
+            if (e === "That game name already exists. Please use another.")
+                this.setState({ errorAlertMessage: e });
+            else
+                this.setState({ errorAlertMessage: "There was an error with you submission. Please reload and try again." });
+
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlert: true });
+        }
     }
 
   render() {
@@ -649,6 +693,38 @@ class Submit extends Component {
         </Col>
         </Row>
         </Grid>
+            <Popup
+                open={this.state.loadingModal}
+                modal
+                closeOnDocumentClick={false}
+                lockScroll={true}
+            >
+                <div className='sweet-loading'>
+                    <PacmanLoader
+                        css={css`
+                            display: block;
+                            margin: 0 auto;
+                            position: relative;
+                            right: 40px;
+                            `}
+                        sizeUnit={"px"}
+                        size={25}
+                        color={'#F5A623'}
+                        loading={true}
+                    />
+                </div>
+            </Popup>
+            <Popup
+                open={this.state.errorAlert}
+                modal
+                closeOnDocumentClick={false}
+                lockScroll={true}
+            >
+                <div className="error-alert-modal">
+                    <span>{this.state.errorAlertMessage}</span>
+                </div>
+                <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{cursor:'pointer'}}>X</Button>
+            </Popup>
       </div>
     )
   }
