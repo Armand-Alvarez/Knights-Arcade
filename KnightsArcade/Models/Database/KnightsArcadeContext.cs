@@ -251,6 +251,10 @@ namespace KnightsArcade.Models.Database
                 entity.Property(e => e.CreatorName)
                     .HasColumnName("creator_name")
                     .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.SubmissionReviewComments)
+                    .HasColumnName("submission_reviewcomments")
+                    .HasColumnType("text");
             });
 
             modelBuilder.Entity<Tests>(entity =>
