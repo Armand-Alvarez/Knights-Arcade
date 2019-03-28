@@ -84,7 +84,8 @@ namespace KnightsArcade.Infrastructure.Logic
                 TestCloses = false,
                 TestOpens = false,
                 TestRandombuttons = false,
-                TestAttempts = 0
+                TestAttempts = 0,
+                TestAverageRam = null
             };
 
             _rdsData.PostTests(newTest);
@@ -278,6 +279,11 @@ namespace KnightsArcade.Infrastructure.Logic
         public Users GetUser(string username)
         {
             return _rdsData.GetUser(username);
+        }
+
+        public List<Users> GetAllUsers()
+        {
+            return _rdsData.GetAllUsers();
         }
 
         public void PostUser(Users user)

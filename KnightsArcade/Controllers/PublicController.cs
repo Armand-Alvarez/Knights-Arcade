@@ -434,6 +434,28 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
+        /// Get a user profile info.
+        /// </summary>
+        /// <returns>A user profile info.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [HttpGet("rds/users/allusers")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllUsers());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
         /// Get a testing log for a specific game.
         /// </summary>
         /// <returns>A user profile info.</returns>
