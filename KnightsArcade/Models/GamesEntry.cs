@@ -29,7 +29,7 @@ namespace KnightsArcade.Models
         public bool GameOnArcade { get; set; }
         public string GamePath { get; set; }
         public string[] GameImg { get; set; }
-        public DateTime GameSubmissionDateUtc { get; set; }
+        public DateTime? GameSubmissionDateUtc { get; set; }
         public DateTime? GameReviewDateUtc { get; set; }
     }
 }
