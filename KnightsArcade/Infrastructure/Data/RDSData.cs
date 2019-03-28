@@ -160,6 +160,10 @@ namespace KnightsArcade.Infrastructure.Data
             {
                 updatedSubmission.SubmissionStatus = submission.SubmissionStatus;
             }
+            if (updatedSubmission.SubmissionReviewComments != null)
+            {
+                updatedSubmission.SubmissionReviewComments = submission.SubmissionReviewComments;
+            }
 
             DeleteSubmissions((int)submission.GameId);
             PostSubmissions(updatedSubmission);

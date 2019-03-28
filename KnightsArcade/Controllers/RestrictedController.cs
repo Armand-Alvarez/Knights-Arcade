@@ -164,7 +164,8 @@ namespace KnightsArcade.Controllers
         ///     "submissionStatus" : null,
         ///     "submissionImage0" : "somefakeurl.com/image_of_cat.png",
         ///     "submissionDateUtc" : "2009-06-01T13:45:30",
-        ///     "submissionReviewDateUtc" : null
+        ///     "submissionReviewDateUtc" : null,
+        ///     "submissionReviewComments" : null
         /// }
         /// -- In this example only the submissionImage0 column will be updated for the entry in the database.
         /// </remarks>
