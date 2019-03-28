@@ -11,7 +11,7 @@ namespace KnightsArcade.Models.Database
         public string SubmissionName { get; set; }
         public string SubmissionStatus { get; set; }
         public string SubmissionImage0 { get; set; }
-        public DateTime SubmissionDateUtc { get; set; }
+        public DateTime? SubmissionDateUtc { get; set; }
         public DateTime? SubmissionReviewDateUtc { get; set; }
         public string SubmissionReviewComments { get; set; }
     }

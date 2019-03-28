@@ -29,6 +29,7 @@ namespace KnightsArcade.Controllers
         [HttpGet("info")]
         public IActionResult GetInfo()
         {
+
             return Ok("Knights Arcade Public");
         }
 
@@ -492,7 +493,7 @@ namespace KnightsArcade.Controllers
             {
                 return Ok(_rdsLogic.GetAllTestingLogs());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
                 return StatusCode(500, e.Message);
