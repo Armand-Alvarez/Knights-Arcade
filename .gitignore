@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /AutomatedTesting/appsettings.json
+/KnightsArcade.zip
+/KnightsArcade/appsettings.json
