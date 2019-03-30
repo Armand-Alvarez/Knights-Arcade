@@ -45,6 +45,8 @@ export class Admin extends Component {
 
   render() {
 
+    var activeTab = "ReviewSubmissions";
+
     return (
       <div className = 'Fullpage'>
         <NaviBar/>
@@ -52,7 +54,7 @@ export class Admin extends Component {
             <h1 className = 'text'>Admin Page</h1>
         </div>
 
-        <Tabs defaultActiveKey="ReviewSubmissions" id="Admin-tabs">
+        <Tabs defaultActiveKey= {activeTab} id="Admin-tabs">
           <Tab eventKey="ReviewSubmissions" title="Review Submissions">
             <ListGroup>
               <ListGroupItem> {

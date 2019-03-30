@@ -30,7 +30,7 @@ export class ManageGamesComponent extends Component {
   }
 
   handlePush() {
-    var game = {
+    const game = {
       gameId : this.state.gameId,
       gameName : null,
       gameCreatorId	: null,
@@ -62,7 +62,7 @@ export class ManageGamesComponent extends Component {
   }
 
   handlePull() {
-    var game = {
+    const game = {
       gameId : this.props.gameData.gameId,
       gameName : null,
       gameCreatorId	: null,
