@@ -14,15 +14,15 @@ namespace AutomatedTesting.Controllers
     {
         private readonly ILogger<AutomatedTestingController> _logger;
 
-        public AutomatedTestingController(ILogger<AutomatedTestingController> logger, TestingLogic testingLogic)
+        public AutomatedTestingController(ILogger<AutomatedTestingController> logger)
         {
             _logger = logger;
-
         }
 
         [HttpGet("info")]
         public IActionResult Get()
         {
+            //_testingLogic.RunAllEntryTests();
             return Ok("Runs automated testing for Knights Arcade games.");
         }
     }

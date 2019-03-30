@@ -20,6 +20,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         private readonly IS3Data _s3Data;
         private readonly IWebData _webData;
         private readonly object _sync;
+        public Process gameProcess;
 
         public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData)
         {
@@ -67,7 +68,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                 {
                     testLog.TestlogAttempt = (int)testsQueue.RetryCount;
 
-                    _webData.PutTestsQueue(testsQueue);
+                    //_webData.PutTestsQueue(testsQueue);
 
                     GamesEntry myGame = _webData.GetGamesByID(testsQueue.GameId);
 
@@ -91,17 +92,17 @@ namespace AutomatedTesting.Infrastructure.Logic
                     string exeFile = FindExe(fileLocation);
 
 
-                    Process gameProcess = new Process();
+                    gameProcess = new Process();
 
                     //start .exe, check to see if it started
-                    testProcess.TestOpens = StartFile(exeFile, gameProcess);
+                    testProcess.TestOpens = StartFile(exeFile);
 
                     //Retry tests if process does not start
                     if (!(bool)testProcess.TestOpens)
                     {
                         testProcess.Test5min = false;
                         testProcess.TestCloses = false;
-                        testLog.TestlogLog = "game failed start test";
+                        testLog.TestlogLog = "Game Failed Start Test";
                         testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
                         _webData.PostTestingLog(testLog);
@@ -123,10 +124,10 @@ namespace AutomatedTesting.Infrastructure.Logic
                     }
 
                     //Store memory usage by game process
-                    testProcess.TestAverageRam = RamFile(exeFile, gameProcess);
+                    testProcess.TestAverageRam = RamFile(exeFile);
 
                     //stop .exe, check to see if it stopped
-                    testProcess.TestCloses = StopFile(exeFile, gameProcess);
+                    testProcess.TestCloses = StopFile(exeFile);
 
                     if ((bool)!testProcess.TestCloses)
                     {
@@ -195,7 +196,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         }
 
         //Starts .exe file and checks to see whether the process is running
-        public bool StartFile(string exeFile, Process gameProcess)
+        public bool StartFile(string exeFile)
         {
             try
             {
@@ -229,18 +230,28 @@ namespace AutomatedTesting.Infrastructure.Logic
         }
 
         //Records memory usage by game process
-        public string RamFile(string exeFile, Process gameProcess)
-        {
-            long gameRAM = gameProcess.WorkingSet64;
-
-            return gameRAM.ToString();
-        }
-
-        //Kills process and then checks to see if process has succesfully been closed
-        public bool StopFile(string exeFile, Process gameProcess)
+        public string RamFile(string exeFile)
         {
             try
             {
+                long gameRAM = gameProcess.WorkingSet64;
+
+                return gameRAM.ToString();
+            }
+
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return null;
+            }
+        }
+
+        //Kills process and then checks to see if process has succesfully been closed
+        public bool StopFile(string exeFile)
+        {
+            try
+            {
+                Thread.Sleep(5000);
                 gameProcess.Kill();
 
                 Thread.Sleep(3000);

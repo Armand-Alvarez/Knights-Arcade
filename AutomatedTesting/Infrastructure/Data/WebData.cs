@@ -77,7 +77,7 @@ namespace AutomatedTesting.Infrastructure.Data
             {
                 HttpClient client = new HttpClient();
                 string json = JsonConvert.SerializeObject(myTest);
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", json).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", myTest).Result;
 
                 if (response.StatusCode.ToString() == "OK")
                 {
@@ -142,8 +142,9 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
+
                 string json = JsonConvert.SerializeObject(myTest);
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/tests/test", json).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/tests/test", myTest).Result;
                
                 if (response.StatusCode.ToString() == "OK" )
                 {
@@ -211,8 +212,9 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
+                bool i = false;
 
-                HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Restricted/aws/ec2/stop").Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/aws/ec2/stop", i).Result;
 
                 if (response.StatusCode.ToString() == "OK")
                 {

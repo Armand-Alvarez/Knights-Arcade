@@ -269,7 +269,7 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.Test5min)
                     .HasColumnName("test_5min")
-                    .HasColumnType("tinyint(4)");
+                    .HasColumnType("bit(1)");
 
                 entity.Property(e => e.TestAttempts)
                     .HasColumnName("test_attempts")
@@ -277,15 +277,15 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.TestCloses)
                     .HasColumnName("test_closes")
-                    .HasColumnType("tinyint(4)");
+                    .HasColumnType("bit(1)");
 
                 entity.Property(e => e.TestOpens)
                     .HasColumnName("test_opens")
-                    .HasColumnType("tinyint(4)");
+                    .HasColumnType("bit(1)");
 
                 entity.Property(e => e.TestRandombuttons)
                     .HasColumnName("test_randombuttons")
-                    .HasColumnType("tinyint(4)");
+                    .HasColumnType("bit(1)");
 
                 entity.Property(e => e.TestAverageRam)
                     .HasColumnName("test_average_ram")
