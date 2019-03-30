@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +23,6 @@ namespace AutomatedTesting.Infrastructure.Logic
         public Tests testProcess = new Tests();
         public TestingLog testLog = new TestingLog();
         public Process gameProcess;
-
 
         public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData)
         {
@@ -203,12 +203,20 @@ namespace AutomatedTesting.Infrastructure.Logic
             }
         }
 
+        public bool ramFile(string exeFile)
+        {
+            long gameRAM = gameProcess.PeakWorkingSet64;
+
+            return gameRAM < 6000000000;
+        }
+
         //Kills process and then checks to see if process has succesfully been closed
         public bool StopFile(string exeFile)
         {
             try
             {
                 gameProcess.Kill();
+
                 Thread.Sleep(3000);
 
                 return !(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
