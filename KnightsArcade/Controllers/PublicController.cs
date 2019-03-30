@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.EC2;
+using Amazon.EC2.Model;
+using Amazon.Runtime;
 using KnightsArcade.Infrastructure.Logic;
 using KnightsArcade.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +32,6 @@ namespace KnightsArcade.Controllers
         [HttpGet("info")]
         public IActionResult GetInfo()
         {
-
             return Ok("Knights Arcade Public");
         }
 
