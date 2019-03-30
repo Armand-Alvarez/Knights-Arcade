@@ -137,7 +137,7 @@ class ReviewPage extends Component {
     }
 
     render(props) {
-
+        const creatorLink = "/games?search=" + this.state.gamedata.gameCreatorName;
         const genres = [];
         var glyph;
         var status;
@@ -276,7 +276,7 @@ class ReviewPage extends Component {
                                             <Form>
                                                 <FormGroup>
                                                     <ControlLabel>Creator</ControlLabel>
-                                                    <FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static>
+                                                    <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <ControlLabel>Date Published</ControlLabel>
@@ -291,7 +291,7 @@ class ReviewPage extends Component {
                                                     {glyph}
                                                 </FormGroup>
                                                 <a href={this.state.file} download>
-                                                    <Button bsStyle='link'>Download Game</Button>
+                                                    <Button bsStyle='info'>Download Game</Button>
                                                 </a>
                                             </Form>
                                         </Col>
