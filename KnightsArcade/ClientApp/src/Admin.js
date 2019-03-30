@@ -52,7 +52,7 @@ export class Admin extends Component {
             <h1 className = 'text'>Admin Page</h1>
         </div>
 
-        <Tabs defaultActiveKey="ReviewSubmissiions" id="Admin-tabs">
+        <Tabs defaultActiveKey="ReviewSubmissions" id="Admin-tabs">
           <Tab eventKey="ReviewSubmissions" title="Review Submissions">
             <ListGroup>
               <ListGroupItem> {
