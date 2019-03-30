@@ -4,7 +4,7 @@ import axios from 'axios';
 import './GameAdvert.css';
 import { Storage } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, Jumbotron } from 'react-bootstrap';
 
 class GameAdvert extends Component {
 
@@ -150,12 +150,16 @@ class GameAdvert extends Component {
                 <div className='FullPage'>
                     <NaviBar />
                     <div className='GameAdDiv'>
+                        <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                            <Grid fluid>
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <h1 className="GameTitle">{this.state.gamedata.gameName}</h1>
+                                    </Col>
+                                </Row>
+                            </Grid>
+                        </Jumbotron>
                         <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h1>{this.state.gamedata.gameName}</h1>
-                                </Col>
-                            </Row>
                             <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                 <Col>
                                     <Grid>
