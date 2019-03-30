@@ -427,37 +427,45 @@ namespace KnightsArcade.Infrastructure.Logic
 
         public Games InsertArrayToColumn(Games game, GamesEntry newEntry)
         {
-            int size = newEntry.GameImg.Count();
-            switch (size)
+            try
             {
-                case 1:
-                    game.GameImage0 = newEntry.GameImg[0];
-                    break;
-                case 2:
-                    game.GameImage0 = newEntry.GameImg[0];
-                    game.GameImage1 = newEntry.GameImg[1];
-                    break;
-                case 3:
-                    game.GameImage0 = newEntry.GameImg[0];
-                    game.GameImage1 = newEntry.GameImg[1];
-                    game.GameImage2 = newEntry.GameImg[2];
-                    break;
-                case 4:
-                    game.GameImage0 = newEntry.GameImg[0];
-                    game.GameImage1 = newEntry.GameImg[1];
-                    game.GameImage2 = newEntry.GameImg[2];
-                    game.GameImage3 = newEntry.GameImg[3];
-                    break;
-                case 5:
-                    game.GameImage0 = newEntry.GameImg[0];
-                    game.GameImage1 = newEntry.GameImg[1];
-                    game.GameImage2 = newEntry.GameImg[2];
-                    game.GameImage3 = newEntry.GameImg[3];
-                    game.GameImage4 = newEntry.GameImg[4];
-                    break;
-                default:
-                    break;
+                int size = newEntry.GameImg.Count();
+                switch (size)
+                {
+                    case 1:
+                        game.GameImage0 = newEntry.GameImg[0];
+                        break;
+                    case 2:
+                        game.GameImage0 = newEntry.GameImg[0];
+                        game.GameImage1 = newEntry.GameImg[1];
+                        break;
+                    case 3:
+                        game.GameImage0 = newEntry.GameImg[0];
+                        game.GameImage1 = newEntry.GameImg[1];
+                        game.GameImage2 = newEntry.GameImg[2];
+                        break;
+                    case 4:
+                        game.GameImage0 = newEntry.GameImg[0];
+                        game.GameImage1 = newEntry.GameImg[1];
+                        game.GameImage2 = newEntry.GameImg[2];
+                        game.GameImage3 = newEntry.GameImg[3];
+                        break;
+                    case 5:
+                        game.GameImage0 = newEntry.GameImg[0];
+                        game.GameImage1 = newEntry.GameImg[1];
+                        game.GameImage2 = newEntry.GameImg[2];
+                        game.GameImage3 = newEntry.GameImg[3];
+                        game.GameImage4 = newEntry.GameImg[4];
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch(Exception e)
+            {
+                _logger.LogCritical(e.Message, e);
+            }
+
             return game;
         }
 
