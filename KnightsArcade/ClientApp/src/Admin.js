@@ -17,6 +17,8 @@ export class Admin extends Component {
       games: [],  
       users: [],
     };
+
+    this.updateList = this.updateList.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +43,20 @@ export class Admin extends Component {
         const users = res.data;
         this.setState({ users: users });
       })
+  }
+
+  updateList(gameId) {
+    const temp = this.state.games;
+
+    for(var i = 0; i < temp.length; i++) {
+      if(temp[i].gameId === gameId) {
+        temp.splice(i, 1);
+        break;
+      }
+    }
+
+    this.setState({games: temp});
+    
   }
 
   render() {
@@ -69,7 +85,7 @@ export class Admin extends Component {
             <ListGroup>
               <ListGroupItem> {
                 this.state.games.map((game) => {
-                  return <MangGamesComp gameData={game}/>
+                  return <MangGamesComp updateFunc={this.updateList} gameData={game}/>
                 })
               }</ListGroupItem>
             </ListGroup>         

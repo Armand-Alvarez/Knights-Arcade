@@ -95,6 +95,8 @@ export class ManageGamesComponent extends Component {
 
   handleDelete() {
     axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId)
+
+    this.props.updateFunc(this.props.gameData.gameId);
   }
 
 
