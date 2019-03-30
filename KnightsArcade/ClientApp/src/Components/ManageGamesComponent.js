@@ -102,13 +102,9 @@ export class ManageGamesComponent extends Component {
   }
 
   handleDelete() {
-<<<<<<< HEAD
     axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId)
 
     this.props.updateFunc(this.props.gameData.gameId);
-=======
-      axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId)
->>>>>>> acc7bca2a181bbaf301aeaaf3215f9ffda303797
   }
 
 
