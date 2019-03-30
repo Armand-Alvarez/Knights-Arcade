@@ -32,10 +32,15 @@ export class Admin extends Component {
     axios.get('/api/v1/Public/rds/games/allapprovedgames')
       .then(res => {
         const games = res.data;
-        this.setState({ games: games});
+        this.setState({ games: games });
       })
     
     // todo: Get all users
+    axios.get('/api/v1/Public/rds/users/allusers')
+      .then(res => {
+        const users = res.data;
+        this.setState({ users: users });
+      })
   }
 
   render() {
@@ -60,16 +65,20 @@ export class Admin extends Component {
           </Tab>
           <Tab eventKey="ManageGames" title="Manage Games">
             <ListGroup>
-            <ListGroupItem><MangGamesComp/></ListGroupItem>
-              <ListGroupItem><MangGamesComp/></ListGroupItem>
-              <ListGroupItem><MangGamesComp/></ListGroupItem>
+              <ListGroupItem> {
+                this.state.games.map((game) => {
+                  return <MangGamesComp gameData={game}/>
+                })
+              }</ListGroupItem>
             </ListGroup>         
           </Tab>
           <Tab eventKey="ManageUsers" title="Manage Users">
             <ListGroup>
-              <ListGroupItem><MangUsersComp/></ListGroupItem>
-              <ListGroupItem><MangUsersComp/></ListGroupItem>
-              <ListGroupItem><MangUsersComp/></ListGroupItem>
+              <ListGroupItem> {
+                this.state.users.map((user) => {
+                  return <MangUsersComp userData={user}/>
+                })
+              }</ListGroupItem>
             </ListGroup>
           </Tab>
         </Tabs>

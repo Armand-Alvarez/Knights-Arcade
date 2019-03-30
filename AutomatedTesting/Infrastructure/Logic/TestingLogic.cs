@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +20,6 @@ namespace AutomatedTesting.Infrastructure.Logic
         private readonly IS3Data _s3Data;
         private readonly IWebData _webData;
         private readonly object _sync;
-
 
         public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData)
         {
@@ -92,6 +92,7 @@ namespace AutomatedTesting.Infrastructure.Logic
 
 
                     Process gameProcess = new Process();
+
                     //start .exe, check to see if it started
                     testProcess.TestOpens = StartFile(exeFile, gameProcess);
 
@@ -120,6 +121,9 @@ namespace AutomatedTesting.Infrastructure.Logic
                         _webData.PostTestingLog(testLog);
                         continue;
                     }
+
+                    //Store memory usage by game process
+                    testProcess.TestAverageRam = RamFile(exeFile, gameProcess);
 
                     //stop .exe, check to see if it stopped
                     testProcess.TestCloses = StopFile(exeFile, gameProcess);
@@ -224,12 +228,21 @@ namespace AutomatedTesting.Infrastructure.Logic
             }
         }
 
+        //Records memory usage by game process
+        public string RamFile(string exeFile, Process gameProcess)
+        {
+            long gameRAM = gameProcess.WorkingSet64;
+
+            return gameRAM.ToString();
+        }
+
         //Kills process and then checks to see if process has succesfully been closed
         public bool StopFile(string exeFile, Process gameProcess)
         {
             try
             {
                 gameProcess.Kill();
+
                 Thread.Sleep(3000);
 
                 return !(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
