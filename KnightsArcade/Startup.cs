@@ -29,7 +29,8 @@ namespace KnightsArcade
         {
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<RDSLogic>().AddScoped<IRDSData, RDSData>();
+            services.AddScoped<RDSLogic>().AddScoped<EC2Logic>()
+                .AddScoped<IRDSData, RDSData>().AddScoped<IEC2Data, EC2Data>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info

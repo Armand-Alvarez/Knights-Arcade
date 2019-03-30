@@ -318,7 +318,6 @@ namespace KnightsArcade.Infrastructure.Logic
             return;
         }
 
-
         ///Helper functions///
 
         public GamesEntry GamesToGamesEntry(Games game)

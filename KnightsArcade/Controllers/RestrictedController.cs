@@ -15,12 +15,14 @@ namespace KnightsArcade.Controllers
     public class RestrictedController : Controller
     {
         private readonly RDSLogic _rdsLogic;
+        private readonly EC2Logic _ec2Logic;
         private readonly ILogger<RestrictedController> _logger;
 
-        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger)
+        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic)
         {
             _rdsLogic = rdsLogic;
             _logger = logger;
+            _ec2Logic = ec2Logic;
         }
 
         /// <summary>
@@ -31,6 +33,48 @@ namespace KnightsArcade.Controllers
         public IActionResult GetInfo()
         {
             return Ok("Knights Arcade Restricted");
+        }
+
+        /// <summary>
+        /// Start EC2 for automated testing.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Success.</response>  
+        /// <response code="500">Error starting EC2.</response> 
+        [HttpPut("aws/ec2/start")]
+        public IActionResult PutStartAutomatedTestingEC2(bool start)
+        {
+            try
+            {
+                _ec2Logic.StartAutomatedTestingEC2();
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
+        }
+
+        /// <summary>
+        /// Stop EC2 for automated testing.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Success.</response>  
+        /// <response code="500">Error stopping EC2.</response> 
+        [HttpPut("aws/ec2/stop")]
+        public IActionResult PutStopAutomatedTestingEC2(bool stop)
+        {
+            try
+            {
+                _ec2Logic.StopAutomatedTestingEC2();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500);
+            }
         }
 
         /// <summary>
@@ -57,6 +101,7 @@ namespace KnightsArcade.Controllers
                 {
                     return StatusCode(409, "That game name already exists.");
                 }
+                _ec2Logic.StartAutomatedTestingEC2();
                 return StatusCode(201, tuple.Item1);
             }
             catch (Exception e)
