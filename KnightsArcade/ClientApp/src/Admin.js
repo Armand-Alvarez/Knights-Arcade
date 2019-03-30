@@ -17,6 +17,8 @@ export class Admin extends Component {
       games: [],  
       users: [],
     };
+
+    this.updateList = this.updateList.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +45,23 @@ export class Admin extends Component {
       })
   }
 
+  updateList(gameId) {
+    const temp = this.state.games;
+
+    for(var i = 0; i < temp.length; i++) {
+      if(temp[i].gameId === gameId) {
+        temp.splice(i, 1);
+        break;
+      }
+    }
+
+    this.setState({games: temp});
+    
+  }
+
   render() {
+
+    var activeTab = "ReviewSubmissions";
 
     return (
       <div className = 'Fullpage'>
@@ -52,7 +70,7 @@ export class Admin extends Component {
             <h1 className = 'text'>Admin Page</h1>
         </div>
 
-        <Tabs defaultActiveKey="ReviewSubmissiions" id="Admin-tabs">
+        <Tabs defaultActiveKey= {activeTab} id="Admin-tabs">
           <Tab eventKey="ReviewSubmissions" title="Review Submissions">
             <ListGroup>
               <ListGroupItem> {
@@ -67,7 +85,7 @@ export class Admin extends Component {
             <ListGroup>
               <ListGroupItem> {
                 this.state.games.map((game) => {
-                  return <MangGamesComp gameData={game}/>
+                  return <MangGamesComp updateFunc={this.updateList} gameData={game}/>
                 })
               }</ListGroupItem>
             </ListGroup>         

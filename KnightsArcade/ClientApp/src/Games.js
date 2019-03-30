@@ -16,6 +16,9 @@ class Games extends Component {
     this.handleSortBySelect = this.handleSortBySelect.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlSearch = urlParams.get('search');
+
     this.state = {
       games: [],
       gamesList: [],
@@ -34,7 +37,7 @@ class Games extends Component {
       Sports: false,
       Strategy: false,
       Survival: false,
-      searchValue:""
+      searchValue: urlSearch
     };
   }
 
@@ -47,8 +50,30 @@ class Games extends Component {
               games: games,
               gamesList: games
           });
-      })
+        })
+        .then(any => {
+            this.initialSearch();
+        })
+    }
 
+    initialSearch() {
+        try {
+            var tempGameList = []
+            this.state.games.map((game) => {
+                if (game.gameName.toLowerCase().search(this.state.searchValue.toLowerCase()) >= 0 || game.gameCreatorName.toLowerCase().search(this.state.searchValue.toLowerCase()) >= 0) {
+                    tempGameList.push(game);
+                }
+            })
+            this.setState({
+                gamesList: tempGameList
+            });
+        }
+        catch
+        {
+            this.setState({
+                gamesList: this.state.games
+            });
+        }
     }
 
     handleSearchChange(e) {
@@ -60,11 +85,11 @@ class Games extends Component {
                 });
             }
             var tempGameList = []
-            for (var index = 0; index < this.state.games.length; index++) {
-                if (this.state.games[index].gameName.toLowerCase().search(this.state.searchValue.toLowerCase()) >= 0) {
-                    tempGameList.push(this.state.games[index]);
+                this.state.games.map((game) => {
+                if (game.gameName.toLowerCase().search(this.state.searchValue.toLowerCase()) >= 0  || game.gameCreatorName.toLowerCase().search(this.state.searchValue.toLowerCase()) >= 0) {
+                    tempGameList.push(game);
                 }
-            }
+            })
             this.setState({
                 gamesList: tempGameList
             });
@@ -231,7 +256,8 @@ class Games extends Component {
         }
     }
 
-  render() {
+    render() {
+
     return (
       <div className="games-page">
       
@@ -258,7 +284,7 @@ class Games extends Component {
           <div style={{flexGrow: 1, alignSelf: "flex-start"}}>
             <div style={{marginBottom: 0}}>
               <InputGroup>
-                <FormControl as="textarea" placeholder="Search" onChange={this.handleSearchChange}/>
+                <FormControl as="textarea" placeholder="Search" value={this.state.searchValue} onChange={this.handleSearchChange}></FormControl>
                 <DropdownButton
                   componentClass={InputGroup.Button}
                   id="input-dropdown-addon"
@@ -307,7 +333,7 @@ class Games extends Component {
       </Row>
       </Grid>
       </div>
-    )
+        )
   }
 }
 

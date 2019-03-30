@@ -5,7 +5,7 @@ import './GameAdvert.css';
 import { Storage } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 
 class ReviewPage extends Component {
 
@@ -20,9 +20,11 @@ class ReviewPage extends Component {
         this.state = {
             errorAlertMessage: "",
             errorAlert: false,
+            denyConfirm: false,
             reviewModal: false,
+            buttonStatus: "disabled",
             reviewMessage: "",
-            reviewComments: "",
+            reviewCommentsValue: "",
             gamedata: [],
             numImages: 0,
             gameImage0: "",
@@ -55,10 +57,6 @@ class ReviewPage extends Component {
             })
     }
 
-    handleReviewCommentsChange(e) {
-        this.setState({ reviewComments: e.target.value });
-    }
-
     handleAccept(e) {
         try {
             e.preventDefault();
@@ -72,13 +70,14 @@ class ReviewPage extends Component {
             this.setState({ errorAlert: true });
         }
     }
+
     handleDeny(e) {
         try {
-
+            this.setState({ denyConfirm: false })
             e.preventDefault();
             this.submitReview("d");
             this.setState({ reviewModal: true });
-            this.setState({ reviewMessage: "The game has been denied successfully"})
+            this.setState({ reviewMessage: "The game has been denied successfully" })
         }
         catch (e) {
             this.setState({ reviewModal: false })
@@ -86,6 +85,7 @@ class ReviewPage extends Component {
             this.setState({ errorAlert: true });
         }
     }
+
     handleResubmit(e) {
         try {
 
@@ -99,6 +99,16 @@ class ReviewPage extends Component {
             this.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
             this.setState({ errorAlert: true });
         }
+    }
+
+    handleReviewCommentsChange(e) {
+        this.setState({ reviewCommentsValue: e.target.value });
+        var length = this.state.reviewCommentsValue.length;
+        if (length > 0) {
+            this.state.buttonStatus = false;
+            return;
+        }
+            this.state.buttonStatus = true;
     }
 
     submitReview(reviewType) {
@@ -127,7 +137,7 @@ class ReviewPage extends Component {
     }
 
     render(props) {
-
+        const creatorLink = "/games?search=" + this.state.gamedata.gameCreatorName;
         const genres = [];
         var glyph;
         var status;
@@ -266,7 +276,7 @@ class ReviewPage extends Component {
                                             <Form>
                                                 <FormGroup>
                                                     <ControlLabel>Creator</ControlLabel>
-                                                    <FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static>
+                                                    <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <ControlLabel>Date Published</ControlLabel>
@@ -281,7 +291,7 @@ class ReviewPage extends Component {
                                                     {glyph}
                                                 </FormGroup>
                                                 <a href={this.state.file} download>
-                                                    <Button bsStyle='link'>Download Game</Button>
+                                                    <Button bsStyle='info'>Download Game</Button>
                                                 </a>
                                             </Form>
                                         </Col>
@@ -305,20 +315,21 @@ class ReviewPage extends Component {
                                 <Form>
                                     <FormGroup controlId="reviewComments">
                                         <ControlLabel>Review Comments</ControlLabel>
-                                        <FormControl componentClass="textarea" onChange={this.handleReviewCommentsChange} />
+                                        <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
+                                        <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
                                     </FormGroup>
                                 </Form>
                             </Col>
                         </Row>
                         <Row>
                             <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                <Button onClick={this.handleAccept}>Accept Game</Button>
+                                <Button disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
                             </Col>
                             <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                <Button onClick={this.handleDeny}>Deny Game</Button>
+                                <Button disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
                             </Col>
                             <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                <Button onClick={this.handleResubmit}>Require Changes</Button>
+                                <Button disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
                             </Col>
                         </Row>
                     </Grid>

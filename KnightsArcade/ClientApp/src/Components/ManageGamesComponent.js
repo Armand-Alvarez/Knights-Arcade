@@ -30,7 +30,7 @@ export class ManageGamesComponent extends Component {
   }
 
   handlePush() {
-    var game = {
+    const game = {
       gameId : this.state.gameId,
       gameName : null,
       gameCreatorId	: null,
@@ -57,12 +57,16 @@ export class ManageGamesComponent extends Component {
       gameSubmissionDateUtc	: null,
       gameReviewDateUtc	: null
 
-    }
-    axios.put('/api/v1/Restricted/rds/games/game', game)
+      }
+      axios.put('/api/v1/Restricted/rds/games/game', game)
+          .then(res => {
+              this.setState({ onArcadeMachine: true });
+              this.forceUpdate();
+          })
   }
 
   handlePull() {
-    var game = {
+    const game = {
       gameId : this.props.gameData.gameId,
       gameName : null,
       gameCreatorId	: null,
@@ -89,13 +93,19 @@ export class ManageGamesComponent extends Component {
       gameSubmissionDateUtc	: null,
       gameReviewDateUtc	: null
 
-    }
-    axios.put('/api/v1/Restricted/rds/games/game', game)
+      }
+      axios.put('/api/v1/Restricted/rds/games/game', game)
+          .then(res => {
+              this.setState({ onArcadeMachine: false });
+              this.forceUpdate();
+          })
   }
 
   handleDelete() {
-    console.log("I am deleting -test-" + this.props.gameData.gameId)
     axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId)
+        .then(res => {
+            this.props.updateFunc(this.props.gameData.gameId);
+        })
   }
 
 
@@ -103,6 +113,12 @@ export class ManageGamesComponent extends Component {
   render(props) {
     const gameData = this.props.gameData;
     const link = "/game?gameId=" + gameData.gameId;
+    var arcadeStatus;
+
+    if (this.state.onArcadeMachine)
+      arcadeStatus = <Label bsStyle="success">On Arcade Machines</Label>
+    else
+      arcadeStatus = <Label bsStyle="danger">Not On Arcade Machines</Label>
 
     return (
       <div>
@@ -132,7 +148,7 @@ export class ManageGamesComponent extends Component {
           </Panel.Body>
           <Panel.Footer>
               {/*Label that is only activated if game IS on the arcade machine */}
-              <Label bsStyle="success">On Arcade Machines</Label>
+              {arcadeStatus}
           </Panel.Footer>
         </Panel>
       </div>

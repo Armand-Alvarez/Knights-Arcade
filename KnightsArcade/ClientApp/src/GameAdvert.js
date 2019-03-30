@@ -56,10 +56,10 @@ class GameAdvert extends Component {
             )
         }
         else {
+            const creatorLink = "/games?search=" + this.state.gamedata.gameCreatorName;
             const genres = [];
             var glyph;
             var slideshow;
-            const link = "https://s3.us-east-2.amazonaws.com/arcadegrassproject/" + this.state.gamedata.gamePath;
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
 
@@ -171,7 +171,7 @@ class GameAdvert extends Component {
                                                 <Form>
                                                     <FormGroup>
                                                         <ControlLabel>Creator</ControlLabel>
-                                                        <FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static>
+                                                        <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
                                                     </FormGroup>
                                                     <FormGroup>
                                                         <ControlLabel>Date Published</ControlLabel>
@@ -186,7 +186,7 @@ class GameAdvert extends Component {
                                                         {glyph}
                                                     </FormGroup>
                                                     <a href={this.state.file} download>
-                                                        <Button bsStyle='link'>Download Game</Button>
+                                                        <Button bsStyle='info'>Download Game</Button>
                                                     </a>
                                                 </Form>
                                             </Col>
