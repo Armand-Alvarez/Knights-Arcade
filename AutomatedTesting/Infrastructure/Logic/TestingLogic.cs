@@ -92,6 +92,7 @@ namespace AutomatedTesting.Infrastructure.Logic
 
 
                     Process gameProcess = new Process();
+
                     //start .exe, check to see if it started
                     testProcess.TestOpens = StartFile(exeFile, gameProcess);
 
@@ -120,6 +121,9 @@ namespace AutomatedTesting.Infrastructure.Logic
                         _webData.PostTestingLog(testLog);
                         continue;
                     }
+
+                    //Store memory usage by game process
+                    testProcess.TestAverageRam = RamFile(exeFile, gameProcess);
 
                     //stop .exe, check to see if it stopped
                     testProcess.TestCloses = StopFile(exeFile, gameProcess);
@@ -224,11 +228,12 @@ namespace AutomatedTesting.Infrastructure.Logic
             }
         }
 
-        public bool ramFile(string exeFile)
+        //Records memory usage by game process
+        public string RamFile(string exeFile, Process gameProcess)
         {
-            long gameRAM = gameProcess.PeakWorkingSet64;
+            long gameRAM = gameProcess.WorkingSet64;
 
-            return gameRAM < 6000000000;
+            return gameRAM.ToString();
         }
 
         //Kills process and then checks to see if process has succesfully been closed
