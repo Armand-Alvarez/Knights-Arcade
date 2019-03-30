@@ -10,6 +10,7 @@ import GameAdvert from './GameAdvert';
 import Login from './Login';
 import Admin from './Admin';
 import GameCard from './Components/GameCard';
+import ReviewPage from './ReviewPage';
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
           <Route path="/Login" component={Login}/>
           <Route path="/GameCard" component={GameCard}/>
           <Route path="/Admin" component={Admin}/>
+          <Route path="/Review" component={ReviewPage}/>
         </Switch>
       </BrowserRouter>
     )

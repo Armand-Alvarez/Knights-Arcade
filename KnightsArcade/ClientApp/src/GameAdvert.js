@@ -46,156 +46,167 @@ class GameAdvert extends Component {
 
 
     render(props) {
-        const genres = [];
-        var glyph;
-        var slideshow;
-        const link = "https://s3.us-east-2.amazonaws.com/arcadegrassproject/" + this.state.gamedata.gamePath;
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
-
-        if (this.state.gamedata.gameGenreAction === true) {
-            genres.push("Action");
-        }
-        if (this.state.gamedata.gameGenreAdventure === true) {
-            genres.push("Adventure");
-        }
-        if (this.state.gamedata.gameGenreFighting === true) {
-            genres.push("Fighting");
-        }
-        if (this.state.gamedata.gameGenrePlatformer === true) {
-            genres.push("Platformer");
-        }
-        if (this.state.gamedata.gameGenrePuzzle === true) {
-            genres.push("Puzzle");
-        }
-        if (this.state.gamedata.gameGenreRPG === true) {
-            genres.push("RPG");
-        }
-        if (this.state.gamedata.gameGenreRacing === true) {
-            genres.push("Racing");
-        }
-        if (this.state.gamedata.gameGenreRhythm === true) {
-            genres.push("Rhythm");
-        }
-        if (this.state.gamedata.gameGenreShooter === true) {
-            genres.push("Shooter");
-        }
-        if (this.state.gamedata.gameGenreSports === true) {
-            genres.push("Sports");
-        }
-        if (this.state.gamedata.gameGenreStrategy === true) {
-            genres.push("Strategy");
-        }
-        if (this.state.gamedata.gameGenreSurvival === true) {
-            genres.push("Survival");
-        }
-
-        const genreList = genres.join(", ");
-
-        if (this.state.gamedata.gameOnArcade === true) {
-            glyph = <Glyphicon className='Check' glyph='ok'></Glyphicon>;
+        if (this.state.gamedata.gameStatus != 'a') {
+            return (
+                <div className='FullPage'>
+                    <NaviBar />
+                    <h2>This is not the game you are looking for</h2>
+                </div>
+                               
+            )
         }
         else {
-            glyph = <Glyphicon className='Nocheck' glyph='remove'></Glyphicon>;
-        }
+            const genres = [];
+            var glyph;
+            var slideshow;
+            const link = "https://s3.us-east-2.amazonaws.com/arcadegrassproject/" + this.state.gamedata.gamePath;
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
 
-        switch (this.state.numImages) {
-            case 1:
-                slideshow = <img width={896} height={504} src={this.state.gameImage0} />;
-                break;
-            case 2:
-                slideshow = <GameAdSlides numImages={this.state.numImages}
-                    numItems={2}
-                    gameSlide0={this.state.gameImage0}
-                    gameSlide1={this.state.gameImage1} />
-                break;
-            case 3:
-                slideshow = <GameAdSlides numImages={this.state.numImages}
-                    numItems={3}
-                    gameSlide0={this.state.gameImage0}
-                    gameSlide1={this.state.gameImage1}
-                    gameSlide2={this.state.gameImage2} />
-                break;
-            case 4:
-                slideshow = <GameAdSlides numImages={this.state.numImages}
-                    numItems={4}
-                    gameSlide0={this.state.gameImage0}
-                    gameSlide1={this.state.gameImage1}
-                    gameSlide2={this.state.gameImage2}
-                    gameSlide3={this.state.gameImage3} />
-                break;
-            case 5:
-                slideshow = <GameAdSlides numImages={this.state.numImages}
-                    numItems={5}
-                    gameSlide0={this.state.gameImage0}
-                    gameSlide1={this.state.gameImage1}
-                    gameSlide2={this.state.gameImage2}
-                    gameSlide3={this.state.gameImage3}
-                    gameSlide4={this.state.gameImage4} />
-                break;
-        }
+            if (this.state.gamedata.gameGenreAction === true) {
+                genres.push("Action");
+            }
+            if (this.state.gamedata.gameGenreAdventure === true) {
+                genres.push("Adventure");
+            }
+            if (this.state.gamedata.gameGenreFighting === true) {
+                genres.push("Fighting");
+            }
+            if (this.state.gamedata.gameGenrePlatformer === true) {
+                genres.push("Platformer");
+            }
+            if (this.state.gamedata.gameGenrePuzzle === true) {
+                genres.push("Puzzle");
+            }
+            if (this.state.gamedata.gameGenreRPG === true) {
+                genres.push("RPG");
+            }
+            if (this.state.gamedata.gameGenreRacing === true) {
+                genres.push("Racing");
+            }
+            if (this.state.gamedata.gameGenreRhythm === true) {
+                genres.push("Rhythm");
+            }
+            if (this.state.gamedata.gameGenreShooter === true) {
+                genres.push("Shooter");
+            }
+            if (this.state.gamedata.gameGenreSports === true) {
+                genres.push("Sports");
+            }
+            if (this.state.gamedata.gameGenreStrategy === true) {
+                genres.push("Strategy");
+            }
+            if (this.state.gamedata.gameGenreSurvival === true) {
+                genres.push("Survival");
+            }
 
-        
-    return (
-      <div className = 'FullPage'>
-        <NaviBar/>
-        <div className = 'GameAdDiv'>
-            <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <h1>{this.state.gamedata.gameName}</h1>
-                    </Col>
-                </Row>
-                <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                  <Col>
-                    <Grid>
-                      <Row> 
-                      <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                      {slideshow}
-                     </Col>
-                     <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <Form>
-                          <FormGroup>
-                            <ControlLabel>Creator</ControlLabel>
-                            <FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static>
-                          </FormGroup>
-                          <FormGroup>
-                            <ControlLabel>Date Published</ControlLabel>
-                            <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
-                          </FormGroup>
-                          <FormGroup>
-                            <ControlLabel>Genres</ControlLabel>
-                            <FormControl.Static>{genreList}</FormControl.Static>
-                          </FormGroup>
-                          <FormGroup>
-                            <ControlLabel>Available On Arcade Machines</ControlLabel>
-                            {glyph}
-                            </FormGroup>
-                          <a href={this.state.file} download>
-                          <Button bsStyle='link'>Download Game</Button>
-                          </a>
-                        </Form>
-                      </Col>
-                      </Row>  
-                    </Grid>
-                    
-                  </Col>
-                </Row>
-                <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                  <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <h3>About the game</h3>
-                            <p>{this.state.gamedata.gameDescription}</p>
-                  </Col>
-                  <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <h3>Controls</h3>
-                            <p>{this.state.gamedata.gameControls}</p>
-                  </Col>
-                </Row>
-		          </Grid>
-        </div>
-      </div>
-    )
-  }
+            const genreList = genres.join(", ");
+
+            if (this.state.gamedata.gameOnArcade === true) {
+                glyph = <Glyphicon className='Check' glyph='ok'></Glyphicon>;
+            }
+            else {
+                glyph = <Glyphicon className='Nocheck' glyph='remove'></Glyphicon>;
+            }
+
+            switch (this.state.numImages) {
+                case 1:
+                    slideshow = <img width={896} height={504} src={this.state.gameImage0} />;
+                    break;
+                case 2:
+                    slideshow = <GameAdSlides numImages={this.state.numImages}
+                        numItems={2}
+                        gameSlide0={this.state.gameImage0}
+                        gameSlide1={this.state.gameImage1} />
+                    break;
+                case 3:
+                    slideshow = <GameAdSlides numImages={this.state.numImages}
+                        numItems={3}
+                        gameSlide0={this.state.gameImage0}
+                        gameSlide1={this.state.gameImage1}
+                        gameSlide2={this.state.gameImage2} />
+                    break;
+                case 4:
+                    slideshow = <GameAdSlides numImages={this.state.numImages}
+                        numItems={4}
+                        gameSlide0={this.state.gameImage0}
+                        gameSlide1={this.state.gameImage1}
+                        gameSlide2={this.state.gameImage2}
+                        gameSlide3={this.state.gameImage3} />
+                    break;
+                case 5:
+                    slideshow = <GameAdSlides numImages={this.state.numImages}
+                        numItems={5}
+                        gameSlide0={this.state.gameImage0}
+                        gameSlide1={this.state.gameImage1}
+                        gameSlide2={this.state.gameImage2}
+                        gameSlide3={this.state.gameImage3}
+                        gameSlide4={this.state.gameImage4} />
+                    break;
+            }
+
+
+            return (
+                <div className='FullPage'>
+                    <NaviBar />
+                    <div className='GameAdDiv'>
+                        <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h1>{this.state.gamedata.gameName}</h1>
+                                </Col>
+                            </Row>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col>
+                                    <Grid>
+                                        <Row>
+                                            <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                {slideshow}
+                                            </Col>
+                                            <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <Form>
+                                                    <FormGroup>
+                                                        <ControlLabel>Creator</ControlLabel>
+                                                        <FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <ControlLabel>Date Published</ControlLabel>
+                                                        <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <ControlLabel>Genres</ControlLabel>
+                                                        <FormControl.Static>{genreList}</FormControl.Static>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <ControlLabel>Available On Arcade Machines</ControlLabel>
+                                                        {glyph}
+                                                    </FormGroup>
+                                                    <a href={this.state.file} download>
+                                                        <Button bsStyle='link'>Download Game</Button>
+                                                    </a>
+                                                </Form>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+
+                                </Col>
+                            </Row>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h3>About the game</h3>
+                                    <p>{this.state.gamedata.gameDescription}</p>
+                                </Col>
+                                <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h3>Controls</h3>
+                                    <p>{this.state.gamedata.gameControls}</p>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </div>
+                </div>
+            )
+        }
+    }
 }
 
 export default GameAdvert;

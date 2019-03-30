@@ -37,11 +37,10 @@ class MyProfile extends Component {
       }).then((response) => {
           this.setState({ username: response.username })
       }).then(() => {
+            //Checks to make sure the user is in the database. First database input is done on NavBar.
             axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)
                 .catch(err => console.log(err))
                 .then(async (response) => {
-                console.log('/api/v1/Public/rds/users/user?username=' + this.state.username)
-                console.log(response)
                 if (response.status === 204) {
                     const user = {
                         username: this.state.username,
@@ -70,7 +69,6 @@ class MyProfile extends Component {
                   .catch()
                   .then((response) => {
                       this.setState({ games: response.data });
-                      console.log(this.state.games);
                   });
           })
           .catch(err => console.log(err))
@@ -90,7 +88,6 @@ class MyProfile extends Component {
   }
 
   handleFirstNameChange(e){
-      console.log(e.target);
       this.setState({ firstName: e.target.value });
   }
 
@@ -113,7 +110,6 @@ class MyProfile extends Component {
 
     handleSave() {
         document.body.style.cursor = 'wait'
-      console.log(this.state.username)
       const user = {
           username: this.state.username,
           userFirstName: this.state.firstName,
@@ -123,7 +119,6 @@ class MyProfile extends Component {
       }
       axios.put('/api/v1/Restricted/rds/users/user', user)
           .then((response) => {
-              console.log(response);
           })
           .then(() => { window.location.reload(); })
           .catch((err) => {

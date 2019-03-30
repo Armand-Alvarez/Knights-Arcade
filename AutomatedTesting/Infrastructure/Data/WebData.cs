@@ -53,6 +53,24 @@ namespace AutomatedTesting.Infrastructure.Data
             }
         }
 
+        public List<TestsQueue> GetAllTestsQueue()
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Public/rds/testsqueue/alltestsqueue").Result;
+                string json = response.Content.ReadAsStringAsync().Result;
+                List<TestsQueue> test = JsonConvert.DeserializeObject<List<TestsQueue>>(json);
+
+                return test;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return null;
+            }
+        }
+
         public bool PutTestsQueue(TestsQueue myTest)
         {
             try
@@ -172,6 +190,29 @@ namespace AutomatedTesting.Infrastructure.Data
                 HttpClient client = new HttpClient();
 
                 HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/games/game", myGame).Result;
+
+                if (response.StatusCode.ToString() == "OK")
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return false;
+            }
+        }
+
+        public bool StopAutomatedTestingEC2()
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+
+                HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Restricted/aws/ec2/stop").Result;
 
                 if (response.StatusCode.ToString() == "OK")
                 {

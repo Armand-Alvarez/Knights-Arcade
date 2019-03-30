@@ -45,6 +45,7 @@ namespace AutomatedTesting
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
         }
     }
 

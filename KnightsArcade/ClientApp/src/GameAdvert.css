@@ -28,3 +28,17 @@
     margin-top: 5em auto;
     vertical-align: bottom;
 }
+
+.GameStatusText{
+    color: red;
+}
+
+.ReviewModal{
+    text-align: center;
+    font-size: 2em;
+}
+
+.ErrorModal{
+    text-align: center;
+    font-size: 2em;
+}

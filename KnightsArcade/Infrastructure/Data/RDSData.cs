@@ -148,20 +148,24 @@ namespace KnightsArcade.Infrastructure.Data
 
             Submissions updatedSubmission = GetSubmissions((int)submission.GameId);
 
-            if (updatedSubmission.SubmissionImage0 != null)
+            if (submission.SubmissionImage0 != null)
             {
                 updatedSubmission.SubmissionImage0 = submission.SubmissionImage0;
             }
-            if (updatedSubmission.SubmissionReviewDateUtc != null)
+            if (submission.SubmissionReviewDateUtc != null)
             {
                 updatedSubmission.SubmissionReviewDateUtc = submission.SubmissionReviewDateUtc;
             }
-            if (updatedSubmission.SubmissionStatus != null)
+            if (submission.SubmissionStatus != null)
             {
                 updatedSubmission.SubmissionStatus = submission.SubmissionStatus;
             }
+            if (submission.SubmissionReviewComments != null)
+            {
+                updatedSubmission.SubmissionReviewComments = submission.SubmissionReviewComments;
+            }
 
-            DeleteSubmissions((int)submission.GameId);
+            DeleteSubmissions((int)updatedSubmission.GameId);
             PostSubmissions(updatedSubmission);
         }
 

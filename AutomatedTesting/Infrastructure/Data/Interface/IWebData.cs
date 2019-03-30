@@ -14,7 +14,9 @@ namespace AutomatedTesting.Infrastructure.Data.Interface
         bool DeleteTestQueue(int? gameID);
         bool PostTestingLog(TestingLog testLog);
         bool PutGames(GamesEntry myGame);
+        bool StopAutomatedTestingEC2();
         TestsQueue GetFirstTestQueue();
+        List<TestsQueue> GetAllTestsQueue();
         GamesEntry GetGamesByID(int? gameID);
     }
 }

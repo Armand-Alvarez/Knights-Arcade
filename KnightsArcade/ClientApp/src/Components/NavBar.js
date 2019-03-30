@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
+import axios from 'axios';
 import './NavBar.css';
 import { Auth } from 'aws-amplify';
 
@@ -25,6 +26,25 @@ export default class NaviBar extends Component {
 			this.setState({ loggedIn: true });
 			this.setState({ username: user.username});
 		})
+        .then(() => {
+            axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)
+                .then(async (response) => {
+                    console.log(response);
+                    if (response.status === 204) {
+                        const user = {
+                            username: this.state.username,
+                            userFirstName: "First ",
+                            userLastName: "Last Name",
+                            userImagePath: "USERS/default/defaultAvatar.png",
+                            userMajor: "Major"
+                        }
+                        axios.post('/api/v1/Restricted/rds/users/user', user);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        })
 		.catch(err => {
 			console.log(err);
 			this.setState({ loggedIn: false });

@@ -33,7 +33,7 @@ namespace KnightsArcade.Models.Database
         public string GameImage2 { get; set; }
         public string GameImage3 { get; set; }
         public string GameImage4 { get; set; }
-        public DateTime GameSubmissionDateUtc { get; set; }
+        public DateTime? GameSubmissionDateUtc { get; set; }
         public DateTime? GameReviewDateUtc { get; set; }
     }
 }
