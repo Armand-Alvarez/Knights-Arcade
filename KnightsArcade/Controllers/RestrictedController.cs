@@ -152,7 +152,7 @@ namespace KnightsArcade.Controllers
         [HttpPut("rds/games/game")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult PutGames([FromBody] GamesEntry game)
+        public IActionResult PutGames(GamesEntry game)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace KnightsArcade.Controllers
         [HttpPut("rds/tests/test")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult PutTests([FromBody] Tests test)
+        public IActionResult PutTests(Tests test)
         {
             try
             {
@@ -280,7 +280,7 @@ namespace KnightsArcade.Controllers
         [HttpPut("rds/testsqueue/testqueue")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult PutTestsQueue([FromBody] TestsQueue testsQueue)
+        public IActionResult PutTestsQueue(TestsQueue testsQueue)
         {
             try
             {
@@ -376,7 +376,7 @@ namespace KnightsArcade.Controllers
         [HttpPost("rds/testinglog/testinglog")]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
-        public IActionResult PostTestingLog([FromBody] TestingLog testingLog)
+        public IActionResult PostTestingLog(TestingLog testingLog)
         {
             try
             {

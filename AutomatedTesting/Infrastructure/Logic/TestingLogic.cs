@@ -68,7 +68,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                 {
                     testLog.TestlogAttempt = (int)testsQueue.RetryCount;
 
-                    //_webData.PutTestsQueue(testsQueue);
+                    _webData.PutTestsQueue(testsQueue);
 
                     GamesEntry myGame = _webData.GetGamesByID(testsQueue.GameId);
 
@@ -125,6 +125,17 @@ namespace AutomatedTesting.Infrastructure.Logic
 
                     //Store memory usage by game process
                     testProcess.TestAverageRam = RamFile(exeFile);
+
+                    //Retry tests if the program is unable to record the game's RAM usage
+                    if (testProcess.TestAverageRam == null)
+                    {
+                        testProcess.TestCloses = false;
+                        testLog.TestlogLog = "Game RAM Test Failed";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+                        _webData.PostTestingLog(testLog);
+                        continue;
+                    }
 
                     //stop .exe, check to see if it stopped
                     testProcess.TestCloses = StopFile(exeFile);
@@ -251,7 +262,6 @@ namespace AutomatedTesting.Infrastructure.Logic
         {
             try
             {
-                Thread.Sleep(5000);
                 gameProcess.Kill();
 
                 Thread.Sleep(3000);
