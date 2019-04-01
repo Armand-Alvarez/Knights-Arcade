@@ -60,17 +60,8 @@ class GameAdvert extends Component {
             const genres = [];
             var glyph;
             var slideshow;
-            var download;
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
-
-            if (this.state.gamedata.gameAvailableToDownload) {
-                download = (
-                    < a href = { this.state.file } download >
-                        <Button bsStyle='info'>Download Game</Button>
-                    </a >
-                    )
-            }
 
             if (this.state.gamedata.gameGenreAction === true) {
                 genres.push("Action");
@@ -194,7 +185,9 @@ class GameAdvert extends Component {
                                                         <ControlLabel>Available On Arcade Machines</ControlLabel>
                                                         {glyph}
                                                     </FormGroup>
-                                                    {download}
+                                                    <a href={this.state.file} download>
+                                                        <Button bsStyle='info'>Download Game</Button>
+                                                    </a>
                                                 </Form>
                                             </Col>
                                         </Row>

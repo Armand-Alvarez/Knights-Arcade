@@ -47,21 +47,3 @@
     text-align: start;
     font-size: 4em;
 }
-
-.testColumnTop {
-    border-top: 0.1em;
-    border-left: 0.1em;
-    border-right: 0.1em;
-    border-bottom: 0.1em;
-    border-style: solid;
-    border-color: black;
-}
-
-.testColumnBottom {
-    border-top: 0;
-    border-left: 0.1em;
-    border-right: 0.1em;
-    border-bottom: 0.1em;
-    border-style: solid;
-    border-color: black;
-}

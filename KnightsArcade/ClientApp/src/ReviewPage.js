@@ -5,7 +5,7 @@ import './GameAdvert.css';
 import { Storage } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Panel } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 
 class ReviewPage extends Component {
 
@@ -141,7 +141,6 @@ class ReviewPage extends Component {
         const genres = [];
         var glyph;
         var status;
-        var willBeDownloadable;
         var slideshow;
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
@@ -171,11 +170,6 @@ class ReviewPage extends Component {
                 </Row>;
         }
 
-        if (this.state.gamedata.gameAvailableToDownload != true) {
-            willBeDownloadable = (
-                <p>The author has opted out of web download availability</p>
-                )
-        }
 
         if (this.state.gamedata.gameGenreAction === true) {
             genres.push("Action");
@@ -299,7 +293,6 @@ class ReviewPage extends Component {
                                                 <a href={this.state.file} download>
                                                     <Button bsStyle='info'>Download Game</Button>
                                                 </a>
-                                                {willBeDownloadable}
                                             </Form>
                                         </Col>
                                     </Row>
@@ -315,52 +308,6 @@ class ReviewPage extends Component {
                             <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                 <h3>Controls</h3>
                                 <p>{this.state.gamedata.gameControls}</p>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className="testColumnTop" md={1} mdOffset={2}>
-                                <span> Test 1 </span>
-                            </Col>
-                            <Col className="testColumnTop" md={1}>
-                                <span> Test 1 </span>
-                            </Col>
-                            <Col className="testColumnTop" md={1}>
-                                <span> Test 1 </span>
-                            </Col>
-                            <Col className="testColumnTop" md={1}>
-                                <span> Test 1 </span>
-                            </Col>
-                            <Col className="testColumnTop" md={1}>
-                                <span> Test 1 </span>
-                            </Col>
-                            <Col className="testColumnTop" md={1}>
-                                <span> Test 1 </span>
-                            </Col>
-                            <Col className="testColumnTop" md={1}>
-                                <span> Test 1 </span>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className="testColumnBottom" md={1} mdOffset={2}>
-                                <span> Results 1 </span>
-                            </Col>
-                            <Col className="testColumnBottom" md={1}>
-                                <span> Results 1 </span>
-                            </Col>
-                            <Col className="testColumnBottom" md={1}>
-                                <span> Results 1 </span>
-                            </Col>
-                            <Col className="testColumnBottom" md={1}>
-                                <span> Results 1 </span>
-                            </Col>
-                            <Col className="testColumnBottom" md={1}>
-                                <span> Results 1 </span>
-                            </Col>
-                            <Col className="testColumnBottom" md={1}>
-                                <span> Results 1 </span>
-                            </Col>
-                            <Col className="testColumnBottom" md={1}>
-                                <span> Results 1 </span>
                             </Col>
                         </Row>
                         <Row>
