@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
 
 namespace AutomatedTesting.Infrastructure.Logic
 {
@@ -148,6 +149,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         _webData.PostTestingLog(testLog);
                         continue;
                     }
+
 
                     //If all tests passed, update game object and stop rechecking
                     if ((bool)testProcess.TestOpens && (bool)testProcess.Test5min && (bool)testProcess.TestCloses)
