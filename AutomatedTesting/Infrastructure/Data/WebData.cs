@@ -13,9 +13,12 @@ namespace AutomatedTesting.Infrastructure.Data
     public class WebData : IWebData
     {
         private readonly ILogger<WebData> _logger;
+        private readonly string _host;
+
         public WebData(ILogger<WebData> logger)
         {
             _logger = logger;
+            _host = "www.knightsarcade.com";
         }
 
         public bool SendWebMessage(string url, object data)
@@ -39,7 +42,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Public/rds/testsqueue/firsttestsqueue").Result;
+                HttpResponseMessage response = client.GetAsync("http://" + _host + "/api/v1/Public/rds/testsqueue/firsttestsqueue").Result;
                 string json = response.Content.ReadAsStringAsync().Result;
                 TestsQueue test = JsonConvert.DeserializeObject<TestsQueue>(json);
 
@@ -58,7 +61,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Public/rds/testsqueue/alltestsqueue").Result;
+                HttpResponseMessage response = client.GetAsync("http://" + _host + "/api/v1/Public/rds/testsqueue/alltestsqueue").Result;
                 string json = response.Content.ReadAsStringAsync().Result;
                 List<TestsQueue> test = JsonConvert.DeserializeObject<List<TestsQueue>>(json);
 
@@ -77,7 +80,7 @@ namespace AutomatedTesting.Infrastructure.Data
             {
                 HttpClient client = new HttpClient();
 
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue", myTest).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://" + _host + "/api/v1/Restricted/rds/testsqueue/testqueue", myTest).Result;
 
                 if (response.StatusCode.ToString() == "OK")
                 {
@@ -100,7 +103,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.GetAsync("http://localhost:52445/api/v1/Public/rds/games/gamesbyid?gameId=" + gameID).Result;
+                HttpResponseMessage response = client.GetAsync("http://" + _host + "/api/v1/Public/rds/games/gamesbyid?gameId=" + gameID).Result;
                 string json = response.Content.ReadAsStringAsync().Result;
                 GamesEntry games = JsonConvert.DeserializeObject<GamesEntry>(json);
 
@@ -119,7 +122,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.DeleteAsync("http://localhost:52445/api/v1/Restricted/rds/testsqueue/testqueue?gameId=" + gameID).Result;
+                HttpResponseMessage response = client.DeleteAsync("http://" + _host + "/api/v1/Restricted/rds/testsqueue/testqueue?gameId=" + gameID).Result;
 
                 if (response.StatusCode.ToString() == "NoContent")
                 {
@@ -143,7 +146,7 @@ namespace AutomatedTesting.Infrastructure.Data
             {
                 HttpClient client = new HttpClient();
 
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/tests/test", myTest).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://" + _host + "/api/v1/Restricted/rds/tests/test", myTest).Result;
                
                 if (response.StatusCode.ToString() == "OK" )
                 {
@@ -165,7 +168,7 @@ namespace AutomatedTesting.Infrastructure.Data
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.PostAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/testinglog/testinglog", testLog).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync("http://" + _host + "/api/v1/Restricted/rds/testinglog/testinglog", testLog).Result;
 
                 if (response.StatusCode.ToString() == "Created")
                 {
@@ -189,7 +192,7 @@ namespace AutomatedTesting.Infrastructure.Data
             {
                 HttpClient client = new HttpClient();
 
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/rds/games/game", myGame).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://" + _host + "/api/v1/Restricted/rds/games/game", myGame).Result;
 
                 if (response.StatusCode.ToString() == "OK")
                 {
@@ -213,7 +216,7 @@ namespace AutomatedTesting.Infrastructure.Data
                 HttpClient client = new HttpClient();
                 bool i = false;
 
-                HttpResponseMessage response = client.PutAsJsonAsync("http://localhost:52445/api/v1/Restricted/aws/ec2/stop", i).Result;
+                HttpResponseMessage response = client.PutAsJsonAsync("http://" + _host + "/api/v1/Restricted/aws/ec2/stop", i).Result;
 
                 if (response.StatusCode.ToString() == "OK")
                 {

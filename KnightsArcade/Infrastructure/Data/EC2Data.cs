@@ -22,8 +22,8 @@ namespace KnightsArcade.Infrastructure.Data
         {
             _logger = logger;
             _configuration = config;
-            _ec2Client = new AmazonEC2Client(config.GetSection("ConnectionStrings:AWSAccessKey").Value,
-                config.GetSection("ConnectionStrings:AWSSecretKey").Value, ec2Region);
+            _ec2Client = new AmazonEC2Client(config.GetSection("ConnectionStrings:AWSAK").Value,
+                config.GetSection("ConnectionStrings:AWSSK").Value, ec2Region);
         }
 
         public void StartAutomatedTestingEC2()
@@ -32,7 +32,7 @@ namespace KnightsArcade.Infrastructure.Data
             {
                 List<string> instanceIds = new List<string>()
                 {
-                    _configuration.GetConnectionString("EC2InstanceId")
+                    _configuration.GetConnectionString("EC2ID")
                 };
                 StartInstancesRequest startInstanceRequest = new StartInstancesRequest(instanceIds);
                 StartInstancesResponse x = _ec2Client.StartInstancesAsync(startInstanceRequest).Result;
@@ -49,7 +49,7 @@ namespace KnightsArcade.Infrastructure.Data
             {
                 List<string> instanceIds = new List<string>()
                 {
-                    _configuration.GetConnectionString("EC2InstanceId")
+                    _configuration.GetConnectionString("EC2ID")
                 };
                 StopInstancesRequest stopInstanceRequest = new StopInstancesRequest(instanceIds);
                 StopInstancesResponse x = _ec2Client.StopInstancesAsync(stopInstanceRequest).Result;
