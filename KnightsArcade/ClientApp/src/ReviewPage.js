@@ -142,6 +142,7 @@ class ReviewPage extends Component {
         var glyph;
         var status;
         var slideshow;
+        var downloadable;
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
 
@@ -170,6 +171,11 @@ class ReviewPage extends Component {
                 </Row>;
         }
 
+        if (this.state.gamedata.gameAvailableToDownload != true) {
+            downloadable = (
+                <p>The author has opted for this game to not be available for web download</p>
+                )
+        }
 
         if (this.state.gamedata.gameGenreAction === true) {
             genres.push("Action");
@@ -293,6 +299,7 @@ class ReviewPage extends Component {
                                                 <a href={this.state.file} download>
                                                     <Button bsStyle='info'>Download Game</Button>
                                                 </a>
+                                                {downloadable}
                                             </Form>
                                         </Col>
                                     </Row>
