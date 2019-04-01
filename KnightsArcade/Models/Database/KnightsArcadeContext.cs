@@ -98,10 +98,6 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("game_controls")
                     .HasColumnType("text");
 
-                entity.Property(e => e.GameCreatorId)
-                    .HasColumnName("game_creator_id")
-                    .HasColumnType("varchar(255)");
-
                 entity.Property(e => e.GameCreatorName)
                     .IsRequired()
                     .HasColumnName("game_creatorname")
@@ -188,6 +184,10 @@ namespace KnightsArcade.Models.Database
 
                 entity.Property(e => e.GameOnArcade)
                     .HasColumnName("game_onarcade")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.GameAvailableToDownload)
+                    .HasColumnName("game_availabletodownload")
                     .HasColumnType("bit(1)");
 
                 entity.Property(e => e.GamePath)

@@ -24,7 +24,6 @@ namespace KnightsArcade.Infrastructure.Logic
             Games newGame = new Games()
             {
                 GameControls = newEntry.GameControls,
-                GameCreatorId = newEntry.GameCreatorId,
                 GameCreatorName = newEntry.GameCreatorName,
                 GameDescription = newEntry.GameDescription,
                 GameGenreAction = newEntry.GameGenreAction,
@@ -44,7 +43,8 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameVideolink = newEntry.GameVideoLink,
                 GameOnArcade = false,
                 GameStatus = "t",
-                GameSubmissionDateUtc = DateTime.UtcNow
+                GameSubmissionDateUtc = DateTime.UtcNow,
+                GameAvailableToDownload = newEntry.GameAvailableToDownload
             };
             char[] s = new char[6];
 
@@ -325,7 +325,6 @@ namespace KnightsArcade.Infrastructure.Logic
             GamesEntry gameEntry = new GamesEntry()
             {
                 GameControls = game.GameControls,
-                GameCreatorId = game.GameCreatorId,
                 GameCreatorName = game.GameCreatorName,
                 GameDescription = game.GameDescription,
                 GameGenreSurvival = game.GameGenreSurvival,
@@ -348,7 +347,8 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameStatus = game.GameStatus,
                 GameSubmissionDateUtc = game.GameSubmissionDateUtc,
                 GameVideolink = game.GameVideolink,
-                GameImg = ValidGameImageURLs(game)
+                GameImg = ValidGameImageURLs(game),
+                GameAvailableToDownload = game.GameAvailableToDownload
             };
 
             return gameEntry;
@@ -359,7 +359,6 @@ namespace KnightsArcade.Infrastructure.Logic
             Games game = new Games()
             {
                 GameControls = gameEntry.GameControls,
-                GameCreatorId = gameEntry.GameCreatorId,
                 GameCreatorName = gameEntry.GameCreatorName,
                 GameDescription = gameEntry.GameDescription,
                 GameGenreSurvival = gameEntry.GameGenreSurvival,
@@ -382,6 +381,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameStatus = gameEntry.GameStatus,
                 GameSubmissionDateUtc = gameEntry.GameSubmissionDateUtc,
                 GameVideolink = gameEntry.GameVideolink,
+                GameAvailableToDownload = gameEntry.GameAvailableToDownload,
             };
 
             game = InsertArrayToColumn(game, gameEntry);

@@ -52,12 +52,12 @@ namespace AutomatedTesting.Infrastructure.Logic
                     testsQueue = _webData.GetFirstTestQueue();
                 }
 
-                //_webData.StopAutomatedTestingEC2();
+                _webData.StopAutomatedTestingEC2();
             }
             catch(Exception e)
             {
                 _logger.LogError(e.Message, e);
-                //_webData.StopAutomatedTestingEC2();
+                _webData.StopAutomatedTestingEC2();
             }
         }
 

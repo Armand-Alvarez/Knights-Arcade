@@ -4,7 +4,6 @@
     {
         public string GameName { get; set; }
         public string GameCreatorName { get; set; }
-        public string GameCreatorId { get; set; }
         public string GameDescription { get; set; }
         public string GameControls { get; set; }
         public string GameVideoLink { get; set; }
@@ -20,6 +19,7 @@
         public bool GameGenreAction { get; set; }
         public bool GameGenreRhythm { get; set; }
         public bool GameGenrePlatformer { get; set; }
+        public bool GameAvailableToDownload { get; set; }
         public string GamePath { get; set; }
         public string[] GameImg { get; set; }
     }
