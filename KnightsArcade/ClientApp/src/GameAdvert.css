@@ -47,3 +47,18 @@
     text-align: start;
     font-size: 4em;
 }
+
+.testColTop{
+    border: 0.1em;
+    border-color: black;
+    border-style: solid;
+}
+
+.testColBottom {
+    border-left: 0.1em;
+    border-top: 0;
+    border-right: 0.1em;
+    border-bottom: 0.1em;
+    border-style:  solid;
+    border-color: black;
+}

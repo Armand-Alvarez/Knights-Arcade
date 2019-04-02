@@ -26,6 +26,7 @@ class ReviewPage extends Component {
             reviewMessage: "",
             reviewCommentsValue: "",
             gamedata: [],
+            testdata: [],
             numImages: 0,
             gameImage0: "",
             gameImage1: "",
@@ -41,6 +42,7 @@ class ReviewPage extends Component {
         const urlParams = new URLSearchParams(window.location.search);
         const urlGameid = urlParams.get('gameId');
         const getRequest = `api/v1/Public/rds/games/gamesbyid?gameid=` + urlGameid;
+        const getTestRequest = `api/v1/Public/rds/tests/testsbygameid?gameid=` + urlGameid;
         axios.get(getRequest)
             .then(res => {
                 const gamedata = res.data;
@@ -55,6 +57,14 @@ class ReviewPage extends Component {
                 this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4]) })
                 this.setState({ file: await Storage.get(this.state.gamedata.gamePath) })
             })
+
+        axios.get(getTestRequest)
+            .then(res => {
+                const testdata = res.data;
+                this.setState({ testdata: testdata });
+                console.log(testdata);
+            })
+        
     }
 
     handleAccept(e) {
@@ -142,6 +152,11 @@ class ReviewPage extends Component {
         var glyph;
         var status;
         var slideshow;
+        var testOpens;
+        var test5min;
+        var testCloses;
+        var testRam = parseInt(this.state.testdata.testAverageRam);
+        var testRamString = "";
         var downloadable;
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
@@ -175,6 +190,34 @@ class ReviewPage extends Component {
             downloadable = (
                 <p>The author has opted for this game to not be available for web download</p>
                 )
+        }
+
+        if (this.state.testdata.testOpens) {
+            testOpens = "Pass"
+        }   else {
+            testOpens = "Fail"
+        }
+        if (this.state.testdata.test5min) {
+            test5min = "Pass"
+        }   else {
+            test5min = "Fail"
+        }
+        if (this.state.testdata.testCloses) {
+            testCloses = "Pass"
+        }   else {
+            testCloses = "Fail"
+        }
+
+        if (testRam < 1024) {
+            testRamString = this.state.testdata.testRam + "B"
+        } else if (testRam < 1048576) {
+            testRam = testRam / 1024;
+            testRamString = Math.round(testRam) + "KB"
+        } else if (testRam < 1073741824) {
+            testRam = testRam / 1048576;
+            testRamString = Math.round(testRam) + "MB"
+        } else {
+            testRamString = Math.round(testRam) + "GB"
         }
 
         if (this.state.gamedata.gameGenreAction === true) {
@@ -316,6 +359,41 @@ class ReviewPage extends Component {
                                 <h3>Controls</h3>
                                 <p>{this.state.gamedata.gameControls}</p>
                             </Col>
+                        </Row>
+                        <Row>
+                            <Col className="testColTop" md={1} mdOffset={2}>
+                                <span>Opening Test</span>
+                            </Col>
+                            <Col className="testColTop" md={1}>
+                                <span>Five Minute Test</span>
+                            </Col>
+                            <Col className="testColTop" md={1}>
+                                <span>Closing Test</span>
+                            </Col>
+                            <Col className="testColTop" md={1}>
+                                <span>Average Ram Test</span>
+                            </Col>
+                            <Col className="testColTop" md={1}>
+                                <span>Peak RAM Test</span>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="testColBottom" md={1} mdOffset={2}>
+                                <span>{testOpens}</span>
+                            </Col>
+                            <Col className="testColBottom" md={1}>
+                                <span>{test5min}</span>
+                            </Col>
+                            <Col className="testColBottom" md={1}>
+                                <span>{testCloses}</span>
+                            </Col>
+                            <Col className="testColBottom" md={1}>
+                                <span>{testRamString}</span>
+                            </Col>
+                            <Col className="testColBottom" md={1}>
+                                <span>Not Yet Implemented</span>
+                            </Col>
+
                         </Row>
                         <Row>
                             <Col md={7} mdOffset={2}>
