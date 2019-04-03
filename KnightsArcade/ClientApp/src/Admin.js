@@ -5,6 +5,7 @@ import MangGamesComp from './Components/ManageGamesComponent';
 import MangUsersComp from './Components/ManageUsersComponent';
 import {Tabs, Tab, ListGroup, ListGroupItem} from 'react-bootstrap';
 import axios from 'axios';
+import { Auth } from 'aws-amplify';
 
 
 export class Admin extends Component {
@@ -16,6 +17,8 @@ export class Admin extends Component {
       submissions: [],
       games: [],  
       users: [],
+      info: [],
+      isAdmin: 0
     };
 
     this.updateList = this.updateList.bind(this);
@@ -23,6 +26,19 @@ export class Admin extends Component {
   }
 
   componentDidMount() {
+
+    // If user is signed out display 403 error
+    if (Auth.user == null) {
+      this.state.isAdmin = 1;
+    }
+
+    // If user signed in, check admin status
+    Auth.currentAuthenticatedUser({
+      bypassCache: false
+    }).then(user => {
+      this.state.info = Auth.user.signInUserSession.accessToken.payload['cognito:groups'];
+			this.state.isAdmin = this.handleAdminCheck();
+    })
 
     // Get all submissions pending review
     axios.get('/api/v1/Public/rds/games/allpendinggames')
@@ -45,6 +61,15 @@ export class Admin extends Component {
         this.setState({ users: users });
       })
   }
+
+  handleAdminCheck() {
+    if (this.state.info!=null){
+			if (this.state.info.includes("admin")) {
+				return 2;
+			}
+    }
+		return 1;
+	}
 
   updateList(gameId) {
     const temp = this.state.games;
@@ -78,46 +103,67 @@ export class Admin extends Component {
 
     var activeTab = "ReviewSubmissions";
 
-    return (
-      <div className = 'Fullpage'>
-        <NaviBar/>
-        <div className = "Header">
-            <h1 className = 'text'>Admin Page</h1>
+    if (this.state.isAdmin==2) {
+      return (
+        <div className = 'Fullpage'>
+          <NaviBar/>
+          <div className = "Header">
+              <h1 className = 'text'>Admin Page</h1>
+          </div>
+
+          <Tabs defaultActiveKey= {activeTab} id="Admin-tabs">
+            <Tab eventKey="ReviewSubmissions" title="Review Submissions">
+              <ListGroup>
+                <ListGroupItem> {
+                  this.state.submissions.map((submission) => {
+                  return <RevComp submissionData={submission}/>
+                })    
+                }
+                </ListGroupItem>
+              </ListGroup>
+            </Tab>
+            <Tab eventKey="ManageGames" title="Manage Games">
+              <ListGroup>
+                <ListGroupItem> {
+                  this.state.games.map((game) => {
+                    return <MangGamesComp updateFunc={this.updateList} gameData={game}/>
+                  })
+                }</ListGroupItem>
+              </ListGroup>         
+            </Tab>
+            <Tab eventKey="ManageUsers" title="Manage Users">
+              <ListGroup>
+                <ListGroupItem> {
+                  this.state.users.map((user) => {
+                    return <MangUsersComp updateFunc={this.updateUserList} userData={user}/>
+                  })
+                }</ListGroupItem>
+              </ListGroup>
+            </Tab>
+          </Tabs>
+
         </div>
+      )
+    }
 
-        <Tabs defaultActiveKey= {activeTab} id="Admin-tabs">
-          <Tab eventKey="ReviewSubmissions" title="Review Submissions">
-            <ListGroup>
-              <ListGroupItem> {
-                this.state.submissions.map((submission) => {
-                return <RevComp submissionData={submission}/>
-              })    
-              }
-              </ListGroupItem>
-            </ListGroup>
-          </Tab>
-          <Tab eventKey="ManageGames" title="Manage Games">
-            <ListGroup>
-              <ListGroupItem> {
-                this.state.games.map((game) => {
-                  return <MangGamesComp updateFunc={this.updateList} gameData={game}/>
-                })
-              }</ListGroupItem>
-            </ListGroup>         
-          </Tab>
-          <Tab eventKey="ManageUsers" title="Manage Users">
-            <ListGroup>
-              <ListGroupItem> {
-                this.state.users.map((user) => {
-                  return <MangUsersComp updateFunc={this.updateUserList} userData={user}/>
-                })
-              }</ListGroupItem>
-            </ListGroup>
-          </Tab>
-        </Tabs>
+    else if (this.state.isAdmin == 1) {
+      return (
+        <div className = 'Fullpage'>
+          <NaviBar/>
+          <div className = "Header">
+              <h2>Error 403: Page forbidden</h2>
+          </div>
+        </div>
+      )
+    }
 
-      </div>
-    )
+    else if (this.state.isAdmin == 0) {
+      return (
+        <div className = 'Fullpage'>
+        <NaviBar/>
+        </div>
+      )
+    }
   }
 }
 
