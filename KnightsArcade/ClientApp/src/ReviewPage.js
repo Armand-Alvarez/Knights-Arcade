@@ -5,7 +5,9 @@ import './GameAdvert.css';
 import { Storage, Auth } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table } from 'react-bootstrap';
+import CollapsibleData from './Components/CollapsibleData';
+import Footer from './Components/Footer';
 
 class ReviewPage extends Component {
 
@@ -27,6 +29,7 @@ class ReviewPage extends Component {
             reviewCommentsValue: "",
             gamedata: [],
             testdata: [],
+            testlogs: [],
             numImages: 0,
             gameImage0: "",
             gameImage1: "",
@@ -49,19 +52,20 @@ class ReviewPage extends Component {
 
         // Check if user is admin
         Auth.currentAuthenticatedUser({
-		    bypassCache: false
-		}).then(user => {
-			this.state.info = Auth.user.signInUserSession.accessToken.payload['cognito:groups'];
-			this.state.isAdmin = this.handleAdminCheck();
+            bypassCache: false
+        }).then(user => {
+            this.state.info = Auth.user.signInUserSession.accessToken.payload['cognito:groups'];
+            this.state.isAdmin = this.handleAdminCheck();
 
-			this.setState({ loggedIn: true });
-			this.setState({ username: user.username});
+            this.setState({ loggedIn: true });
+            this.setState({ username: user.username });
         })
-        
+
         const urlParams = new URLSearchParams(window.location.search);
         const urlGameid = urlParams.get('gameId');
         const getRequest = `api/v1/Public/rds/games/gamesbyid?gameid=` + urlGameid;
         const getTestRequest = `api/v1/Public/rds/tests/testsbygameid?gameid=` + urlGameid;
+        const getTestLogsRequest = `api/v1/Public/rds/testinglog/testinglog?gameid=` + urlGameid;
         axios.get(getRequest)
             .then(res => {
                 const gamedata = res.data;
@@ -81,19 +85,24 @@ class ReviewPage extends Component {
             .then(res => {
                 const testdata = res.data;
                 this.setState({ testdata: testdata });
-                console.log(testdata);
             })
-        
+
+        axios.get(getTestLogsRequest)
+            .then(res => {
+                const testlogs = res.data;
+                this.setState({ testlogs: testlogs });
+            })
+
     }
 
     handleAdminCheck() {
-        if (this.state.info!=null){
-                if (this.state.info.includes("admin")) {
-                    return 2;
-                }
+        if (this.state.info != null) {
+            if (this.state.info.includes("admin")) {
+                return 2;
+            }
         }
-            return 1;
-        }
+        return 1;
+    }
 
     handleAccept(e) {
         try {
@@ -103,7 +112,7 @@ class ReviewPage extends Component {
             this.setState({ reviewMessage: "The game has been accepted successfully" })
         }
         catch (e) {
-                        this.setState({ reviewModal: false })
+            this.setState({ reviewModal: false })
             this.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
             this.setState({ errorAlert: true });
         }
@@ -130,7 +139,7 @@ class ReviewPage extends Component {
             e.preventDefault();
             this.submitReview("r");
             this.setState({ reviewModal: true });
-            this.setState({ reviewMessage: "The game has been flagged for resubmission successfully"})
+            this.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
         }
         catch (e) {
             this.setState({ reviewModal: false })
@@ -146,7 +155,7 @@ class ReviewPage extends Component {
             this.state.buttonStatus = false;
             return;
         }
-            this.state.buttonStatus = true;
+        this.state.buttonStatus = true;
     }
 
     submitReview(reviewType) {
@@ -168,7 +177,7 @@ class ReviewPage extends Component {
             }
             ).catch(error => {
                 console.log(error.message);
-               
+
                 ;
             });
 
@@ -192,9 +201,9 @@ class ReviewPage extends Component {
         if (this.state.gamedata.gameStatus === "a") {
             status =
                 <Row>
-                <Col mdOffset={2}>
-                    <h1 className = "GameStatusText">This game has already been accepted</h1>
-                </Col>
+                    <Col mdOffset={2}>
+                        <h1 className="GameStatusText">This game has already been accepted</h1>
+                    </Col>
                 </Row>;
         }
         if (this.state.gamedata.gameStatus === "d") {
@@ -217,22 +226,22 @@ class ReviewPage extends Component {
         if (this.state.gamedata.gameAvailableToDownload != true) {
             downloadable = (
                 <p>The author has opted for this game to not be available for web download</p>
-                )
+            )
         }
 
         if (this.state.testdata.testOpens) {
             testOpens = "Pass"
-        }   else {
+        } else {
             testOpens = "Fail"
         }
         if (this.state.testdata.test5min) {
             test5min = "Pass"
-        }   else {
+        } else {
             test5min = "Fail"
         }
         if (this.state.testdata.testCloses) {
             testCloses = "Pass"
-        }   else {
+        } else {
             testCloses = "Fail"
         }
 
@@ -330,7 +339,7 @@ class ReviewPage extends Component {
                 break;
         }
 
-        if (this.state.isAdmin==2) {
+        if (this.state.isAdmin == 2) {
             return (
                 <div className='FullPage'>
                     <NaviBar />
@@ -388,110 +397,100 @@ class ReviewPage extends Component {
                                     <p>{this.state.gamedata.gameControls}</p>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col className="testColTop" md={1} mdOffset={2}>
-                                    <span>Opening Test</span>
-                                </Col>
-                                <Col className="testColTop" md={1}>
-                                    <span>Five Minute Test</span>
-                                </Col>
-                                <Col className="testColTop" md={1}>
-                                    <span>Closing Test</span>
-                                </Col>
-                                <Col className="testColTop" md={1}>
-                                    <span>Average Ram Test</span>
-                                </Col>
-                                <Col className="testColTop" md={1}>
-                                    <span>Peak RAM Test</span>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col className="testColBottom" md={1} mdOffset={2}>
-                                    <span>{testOpens}</span>
-                                </Col>
-                                <Col className="testColBottom" md={1}>
-                                    <span>{test5min}</span>
-                                </Col>
-                                <Col className="testColBottom" md={1}>
-                                    <span>{testCloses}</span>
-                                </Col>
-                                <Col className="testColBottom" md={1}>
-                                    <span>{testRamString}</span>
-                                </Col>
-                                <Col className="testColBottom" md={1}>
-                                    <span>Not Yet Implemented</span>
-                                </Col>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col className="reviewPanel" md={7} mdOffset={2}>
+                                            <Table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Opening Test</th>
+                                                        <th>Five Minute Test</th>
+                                                        <th>Closing Test</th>
+                                                        <th>Average RAM Test</th>
+                                                        <th>Peak RAM Test</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{testOpens}</td>
+                                                        <td>{test5min}</td>
+                                                        <td>{testCloses}</td>
+                                                        <td>{testRamString}</td>
+                                                        <td>Not Yet Implemented</td>
+                                                    </tr>
+                                                </tbody>
+                                            </Table>
+                                            <CollapsibleData testlogs={this.state.testlogs} />
 
-                            </Row>
-                            <Row>
-                                <Col md={7} mdOffset={2}>
                                     <Form>
-                                        <FormGroup controlId="reviewComments">
-                                            <ControlLabel>Review Comments</ControlLabel>
-                                            <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
-                                            <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
-                                        </FormGroup>
+                                                <FormGroup controlId="reviewComments">
+                                                    <ControlLabel>Review Comments</ControlLabel>
+                                                    <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
+                                                    <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
+                                                </FormGroup>
                                     </Form>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                    <Button disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
-                                </Col>
-                                <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                    <Button disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
-                                </Col>
-                                <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                    <Button disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
-                                </Col>
-                            </Row>
-                        </Grid>
-                        <Popup
-                            open={this.state.reviewModal}
-                            modal
-                            closeOnDocumentClick={true}
-                            lockScroll={true}
-                        >
-                            <a href="/admin"><div className="ReviewModal">
-                                <span>{this.state.reviewMessage}</span><br></br>
-                                <span>Click on this modal to return to the administration page</span><br></br>
-                            </div></a>
-                        </Popup>
-                        <Popup
-                            open={this.state.errorAlert}
-                            modal
-                            closeOnDocumentClick={false}
-                            lockScroll={true}
-                            >
-                            <div className="ErrorModal">
-                                <span>{this.state.errorAlertMessage}</span><br></br>
-                                <span>Please reload the page and try again</span>
-                            </div>
-                        </Popup>
-                    </div>
-                </div>
-            )
-        }
+                                    <Row style={{ marginLeft:0, marginRight:0 }}>
+                                        <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                            <Button className="acceptButton" disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
+                                        </Col>
+                                        <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                            <Button className="denyButton" disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
+                                        </Col>
+                                        <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                            <Button className="resubmitButton" disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
+                                        </Col>
+                                    </Row>
 
+                                </Col>
+
+                                </Row>
+                        </Grid>
+                        <Footer/>
+                            <Popup
+                                open={this.state.reviewModal}
+                                modal
+                                closeOnDocumentClick={true}
+                                lockScroll={true}
+                            >
+                                <a href="/admin"><div className="ReviewModal">
+                                    <span>{this.state.reviewMessage}</span><br></br>
+                                    <span>Click on this modal to return to the administration page</span><br></br>
+                                </div></a>
+                            </Popup>
+                            <Popup
+                                open={this.state.errorAlert}
+                                modal
+                                closeOnDocumentClick={false}
+                                lockScroll={true}
+                            >
+                                <div className="ErrorModal">
+                                    <span>{this.state.errorAlertMessage}</span><br></br>
+                                    <span>Please reload the page and try again</span>
+                                </div>
+                            </Popup>
+                    </div>
+                    </div>
+                    )
+                }
+        
         else if (this.state.isAdmin == 1) {
             return (
-                <div className = 'Fullpage'>
-                  <NaviBar/>
-                  <div className = "Header">
-                      <h2>Error 403: Page forbidden</h2>
-                  </div>
-                </div>
-            )
-        }
-
+                <div className='Fullpage'>
+                        <NaviBar />
+                        <div className="Header">
+                            <h2>Error 403: Page forbidden</h2>
+                        </div>
+                    </div>
+                    )
+                }
+        
         else if (this.state.isAdmin == 0) {
             return (
-                <div className = 'Fullpage'>
-                <NaviBar/>
-                </div>
-              )
-        }
-    }
-}
-
+                <div className='Fullpage'>
+                        <NaviBar />
+                    </div>
+                    )
+              }
+          }
+      }
+      
 export default ReviewPage;
