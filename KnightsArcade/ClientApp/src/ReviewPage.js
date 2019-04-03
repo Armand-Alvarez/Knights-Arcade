@@ -5,7 +5,8 @@ import './GameAdvert.css';
 import { Storage } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import Footer from './Components/Footer'
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table, thead, tr, th, td, Jumbotron } from 'react-bootstrap';
 
 class ReviewPage extends Component {
 
@@ -307,13 +308,16 @@ class ReviewPage extends Component {
             <div className='FullPage'>
                 <NaviBar />
                 <div className='GameAdDiv'>
+                    <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                        <Grid fluid>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h1 className="GameTitle">{this.state.gamedata.gameName}</h1>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </Jumbotron>
                     <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        {status}
-                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                            <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                <h1>{this.state.gamedata.gameName}</h1>
-                            </Col>
-                        </Row>
                         <Row style={{ marginLeft: 0, marginRight: 0 }}>
                             <Col>
                                 <Grid>
@@ -359,7 +363,7 @@ class ReviewPage extends Component {
                                 <h3>Controls</h3>
                                 <p>{this.state.gamedata.gameControls}</p>
                             </Col>
-                        </Row>
+                        </Row>{/*
                         <Row>
                             <Col className="testColTop" md={1} mdOffset={2}>
                                 <span>Opening Test</span>
@@ -394,28 +398,57 @@ class ReviewPage extends Component {
                                 <span>Not Yet Implemented</span>
                             </Col>
 
-                        </Row>
-                        <Row>
-                            <Col md={7} mdOffset={2}>
-                                <Form>
-                                    <FormGroup controlId="reviewComments">
-                                        <ControlLabel>Review Comments</ControlLabel>
-                                        <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
-                                        <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
-                                    </FormGroup>
-                                </Form>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                <Button disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
-                            </Col>
-                            <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                <Button disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
-                            </Col>
-                            <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                <Button disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
-                            </Col>
+                        </Row>*/}
+                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                            <Col className="reviewPanel" md={8} mdOffset={2}>
+                            <Row  style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col className="testResultsCol" md={12} mdOffset={0}>
+                                    <Table striped bordered responsive condensed>
+                                        <thead>
+                                            <tr>
+                                                <th>Opening Test</th>
+                                                <th>Five Minute Test</th>
+                                                <th>Closing Test</th>
+                                                <th>Average RAM Usage</th>
+                                                <th>Peak RAM Usage</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{testOpens}</td>
+                                                <td>{test5min}</td>
+                                                <td>{testCloses}</td>
+                                                <td>{testRamString}</td>
+                                                <td>Not Yet Implemented</td>
+                                            </tr>
+                                        </tbody>
+                                    </Table>
+                                </Col>
+                            </Row>
+
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col className="reviewCommentsCol" md={12} mdOffset={0}>
+                                    <Form>
+                                        <FormGroup controlId="reviewComments">
+                                            <ControlLabel>Review Comments</ControlLabel>
+                                            <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
+                                            <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
+                                        </FormGroup>
+                                    </Form>
+                                </Col>
+                            </Row>
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                    <Button className="acceptButton" disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
+                                </Col>
+                                <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                    <Button className="denyButton" disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
+                                </Col>
+                                <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                    <Button className="resubmitButton" disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
+                                </Col>
+                            </Row>
+                        </Col>
                         </Row>
                     </Grid>
                     <Popup
@@ -440,6 +473,7 @@ class ReviewPage extends Component {
                             <span>Please reload the page and try again</span>
                         </div>
                     </Popup>
+                    <Footer/>
                 </div>
             </div>
         )
