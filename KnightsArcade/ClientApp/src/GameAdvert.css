@@ -56,6 +56,10 @@
     padding-bottom: 1em;
 }
 
+.TestTable{
+    margin-bottom: 10px;
+}
+
 .testResultsCol {
     /*
     border: 0.1em;
