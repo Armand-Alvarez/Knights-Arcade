@@ -19,6 +19,7 @@ export class Admin extends Component {
     };
 
     this.updateList = this.updateList.bind(this);
+    this.updateUserList = this.updateUserList.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +60,20 @@ export class Admin extends Component {
     
   }
 
+  updateUserList(userId) {
+    const temp = this.state.users;
+
+    for(var i = 0; i < temp.length; i++) {
+      if(temp[i].userId === userId) {
+        temp.splice(i, 1);
+        break;
+      }
+    }
+
+    this.setState({users: temp});
+    
+  }
+
   render() {
 
     var activeTab = "ReviewSubmissions";
@@ -94,7 +109,7 @@ export class Admin extends Component {
             <ListGroup>
               <ListGroupItem> {
                 this.state.users.map((user) => {
-                  return <MangUsersComp userData={user}/>
+                  return <MangUsersComp updateFunc={this.updateUserList} userData={user}/>
                 })
               }</ListGroupItem>
             </ListGroup>
