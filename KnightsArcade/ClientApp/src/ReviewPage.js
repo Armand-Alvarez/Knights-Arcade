@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
 import axios from 'axios';
 import './GameAdvert.css';
-import { Storage } from 'aws-amplify';
+import { Storage, Auth } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import Footer from './Components/Footer';
-import CollapsibleData from './Components/CollapsibleData';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table, thead, tr, th, td, Jumbotron } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 
 class ReviewPage extends Component {
 
@@ -29,8 +27,6 @@ class ReviewPage extends Component {
             reviewCommentsValue: "",
             gamedata: [],
             testdata: [],
-            testlogs: [],
-            testStatus: 0,
             numImages: 0,
             gameImage0: "",
             gameImage1: "",
@@ -38,17 +34,34 @@ class ReviewPage extends Component {
             gameImage3: "",
             gameImage4: "",
             file: "",
-            collapseableOpen: false
+            info: [],
+            isAdmin: "0"
         };
     }
 
 
     componentDidMount() {
+
+        // If user is signed out display 403 error
+        if (Auth.user == null) {
+            this.state.isAdmin = 1;
+        }
+
+        // Check if user is admin
+        Auth.currentAuthenticatedUser({
+		    bypassCache: false
+		}).then(user => {
+			this.state.info = Auth.user.signInUserSession.accessToken.payload['cognito:groups'];
+			this.state.isAdmin = this.handleAdminCheck();
+
+			this.setState({ loggedIn: true });
+			this.setState({ username: user.username});
+        })
+        
         const urlParams = new URLSearchParams(window.location.search);
         const urlGameid = urlParams.get('gameId');
         const getRequest = `api/v1/Public/rds/games/gamesbyid?gameid=` + urlGameid;
         const getTestRequest = `api/v1/Public/rds/tests/testsbygameid?gameid=` + urlGameid;
-        const getTestLogsRequest = `api/v1/Public/rds/testinglog/testinglog?gameId=` + urlGameid;
         axios.get(getRequest)
             .then(res => {
                 const gamedata = res.data;
@@ -68,15 +81,19 @@ class ReviewPage extends Component {
             .then(res => {
                 const testdata = res.data;
                 this.setState({ testdata: testdata });
-                this.setState({ testStatus: res.status });
+                console.log(testdata);
             })
-        axios.get(getTestLogsRequest)
-            .then(res => {
-                const testlogdata = res.data;
-                this.setState({ testlogs: testlogdata });
-                console.log(res.data);
-            })
+        
     }
+
+    handleAdminCheck() {
+        if (this.state.info!=null){
+                if (this.state.info.includes("admin")) {
+                    return 2;
+                }
+        }
+            return 1;
+        }
 
     handleAccept(e) {
         try {
@@ -161,12 +178,11 @@ class ReviewPage extends Component {
         const creatorLink = "/games?search=" + this.state.gamedata.gameCreatorName;
         const genres = [];
         var glyph;
-        var slideshow;
         var status;
+        var slideshow;
         var testOpens;
         var test5min;
         var testCloses;
-        var testLogButton;
         var testRam = parseInt(this.state.testdata.testAverageRam);
         var testRamString = "";
         var downloadable;
@@ -176,36 +192,26 @@ class ReviewPage extends Component {
         if (this.state.gamedata.gameStatus === "a") {
             status =
                 <Row>
-                    <Col mdOffset={2}>
-                        <h1 className="GameStatusText">This game has already been accepted</h1>
-                    </Col>
+                <Col mdOffset={2}>
+                    <h1 className = "GameStatusText">This game has already been accepted</h1>
+                </Col>
                 </Row>;
-        } else if (this.state.gamedata.gameStatus === "d") {
+        }
+        if (this.state.gamedata.gameStatus === "d") {
             status =
                 <Row>
                     <Col mdOffset={2}>
                         <h1 className="GameStatusText">This game has already been denied</h1>
                     </Col>
                 </Row>;
-        } else if (this.state.gamedata.gameStatus === "r") {
+        }
+        if (this.state.gamedata.gameStatus === "r") {
             status =
                 <Row>
                     <Col mdOffset={2}>
                         <h1 className="GameStatusText">This game is currently awaiting resubmission</h1>
                     </Col>
                 </Row>;
-        } else if (this.state.gamedata.gameStatus === "p") {
-            ;
-        } else {
-            return (
-                <div>
-                    <NaviBar />
-                    <div>
-                        <h2>404: Game Not Found</h2>
-                    </div>
-                </div>
-
-                )
         }
 
         if (this.state.gamedata.gameAvailableToDownload != true) {
@@ -213,44 +219,35 @@ class ReviewPage extends Component {
                 <p>The author has opted for this game to not be available for web download</p>
                 )
         }
-        if (this.state.testStatus === 204) {
-            testOpens = "No Data"
-            test5min = "No Data"
-            testCloses = "No Data"
-            testRamString = "No Data"
-            testLogButton = <p>No Log Data</p>
-        }
-        else {
-            if (this.state.testdata.testOpens) {
-                testOpens = "Pass"
-            } else {
-                testOpens = "Fail"
-            }
-            if (this.state.testdata.test5min) {
-                test5min = "Pass"
-            } else {
-                test5min = "Fail"
-            }
-            if (this.state.testdata.testCloses) {
-                testCloses = "Pass"
-            } else {
-                testCloses = "Fail"
-            }
 
-            testLogButton = <CollapsibleData testlogs={this.state.testlogs} />;
-
-            if (testRam < 1024) {
-                testRamString = this.state.testdata.testRam + "B"
-            } else if (testRam < 1048576) {
-                testRam = testRam / 1024;
-                testRamString = Math.round(testRam) + "KB"
-            } else if (testRam < 1073741824) {
-                testRam = testRam / 1048576;
-                testRamString = Math.round(testRam) + "MB"
-            } else {
-                testRamString = Math.round(testRam) + "GB"
-            }
+        if (this.state.testdata.testOpens) {
+            testOpens = "Pass"
+        }   else {
+            testOpens = "Fail"
         }
+        if (this.state.testdata.test5min) {
+            test5min = "Pass"
+        }   else {
+            test5min = "Fail"
+        }
+        if (this.state.testdata.testCloses) {
+            testCloses = "Pass"
+        }   else {
+            testCloses = "Fail"
+        }
+
+        if (testRam < 1024) {
+            testRamString = this.state.testdata.testRam + "B"
+        } else if (testRam < 1048576) {
+            testRam = testRam / 1024;
+            testRamString = Math.round(testRam) + "KB"
+        } else if (testRam < 1073741824) {
+            testRam = testRam / 1048576;
+            testRamString = Math.round(testRam) + "MB"
+        } else {
+            testRamString = Math.round(testRam) + "GB"
+        }
+
         if (this.state.gamedata.gameGenreAction === true) {
             genres.push("Action");
         }
@@ -333,100 +330,101 @@ class ReviewPage extends Component {
                 break;
         }
 
-
-        return (
-            <div className='FullPage'>
-                <NaviBar />
-                <div className='GameAdDiv'>
-                    <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
-                        <Grid fluid>
+        if (this.state.isAdmin==2) {
+            return (
+                <div className='FullPage'>
+                    <NaviBar />
+                    <div className='GameAdDiv'>
+                        <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                            {status}
                             <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h1 className="GameTitle">{this.state.gamedata.gameName}</h1>
+                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h1>{this.state.gamedata.gameName}</h1>
                                 </Col>
                             </Row>
-                        </Grid>
-                    </Jumbotron>
-                    <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                            <Col>
-                                <Grid>
-                                    <Row>
-                                        <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            {slideshow}
-                                        </Col>
-                                        <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <Form>
-                                                <FormGroup>
-                                                    <ControlLabel>Creator</ControlLabel>
-                                                    <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <ControlLabel>Date Published</ControlLabel>
-                                                    <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <ControlLabel>Genres</ControlLabel>
-                                                    <FormControl.Static>{genreList}</FormControl.Static>
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <ControlLabel>Available On Arcade Machines</ControlLabel>
-                                                    {glyph}
-                                                </FormGroup>
-                                                <a href={this.state.file} download>
-                                                    <Button bsStyle='info'>Download Game</Button>
-                                                </a>
-                                                {downloadable}
-                                            </Form>
-                                        </Col>
-                                    </Row>
-                                </Grid>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col>
+                                    <Grid>
+                                        <Row>
+                                            <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                {slideshow}
+                                            </Col>
+                                            <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <Form>
+                                                    <FormGroup>
+                                                        <ControlLabel>Creator</ControlLabel>
+                                                        <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <ControlLabel>Date Published</ControlLabel>
+                                                        <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <ControlLabel>Genres</ControlLabel>
+                                                        <FormControl.Static>{genreList}</FormControl.Static>
+                                                    </FormGroup>
+                                                    <FormGroup>
+                                                        <ControlLabel>Available On Arcade Machines</ControlLabel>
+                                                        {glyph}
+                                                    </FormGroup>
+                                                    <a href={this.state.file} download>
+                                                        <Button bsStyle='info'>Download Game</Button>
+                                                    </a>
+                                                    {downloadable}
+                                                </Form>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
 
-                            </Col>
-                        </Row>
-                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                            <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                <h3>About the game</h3>
-                                <p>{this.state.gamedata.gameDescription}</p>
-                            </Col>
-                            <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                <h3>Controls</h3>
-                                <p>{this.state.gamedata.gameControls}</p>
-                            </Col>
-                        </Row>
-                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                            <Col className="reviewPanel" md={8} mdOffset={2}>
-                            <Row  style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col className="testResultsCol" md={12} mdOffset={0}>
-                                        <Table striped bordered responsive condensed className="TestTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Opening Test</th>
-                                                <th>Five Minute Test</th>
-                                                <th>Closing Test</th>
-                                                <th>Average RAM Usage</th>
-                                                <th>Peak RAM Usage</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{testOpens}</td>
-                                                <td>{test5min}</td>
-                                                <td>{testCloses}</td>
-                                                <td>{testRamString}</td>
-                                                <td>Not Yet Implemented</td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
                                 </Col>
                             </Row>
-                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col md={12} mdOffset={0}>
-                                        {testLogButton}
-                                    </Col>
-                                </Row>
                             <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col className="reviewCommentsCol" md={12} mdOffset={0}>
+                                <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h3>About the game</h3>
+                                    <p>{this.state.gamedata.gameDescription}</p>
+                                </Col>
+                                <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h3>Controls</h3>
+                                    <p>{this.state.gamedata.gameControls}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="testColTop" md={1} mdOffset={2}>
+                                    <span>Opening Test</span>
+                                </Col>
+                                <Col className="testColTop" md={1}>
+                                    <span>Five Minute Test</span>
+                                </Col>
+                                <Col className="testColTop" md={1}>
+                                    <span>Closing Test</span>
+                                </Col>
+                                <Col className="testColTop" md={1}>
+                                    <span>Average Ram Test</span>
+                                </Col>
+                                <Col className="testColTop" md={1}>
+                                    <span>Peak RAM Test</span>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="testColBottom" md={1} mdOffset={2}>
+                                    <span>{testOpens}</span>
+                                </Col>
+                                <Col className="testColBottom" md={1}>
+                                    <span>{test5min}</span>
+                                </Col>
+                                <Col className="testColBottom" md={1}>
+                                    <span>{testCloses}</span>
+                                </Col>
+                                <Col className="testColBottom" md={1}>
+                                    <span>{testRamString}</span>
+                                </Col>
+                                <Col className="testColBottom" md={1}>
+                                    <span>Not Yet Implemented</span>
+                                </Col>
+
+                            </Row>
+                            <Row>
+                                <Col md={7} mdOffset={2}>
                                     <Form>
                                         <FormGroup controlId="reviewComments">
                                             <ControlLabel>Review Comments</ControlLabel>
@@ -436,46 +434,63 @@ class ReviewPage extends Component {
                                     </Form>
                                 </Col>
                             </Row>
-                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                            <Row>
                                 <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                    <Button className="acceptButton" disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
+                                    <Button disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
                                 </Col>
                                 <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                    <Button className="denyButton" disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
+                                    <Button disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
                                 </Col>
                                 <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                    <Button className="resubmitButton" disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
+                                    <Button disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
                                 </Col>
                             </Row>
-                        </Col>
-                        </Row>
-                    </Grid>
-                    <Popup
-                        open={this.state.reviewModal}
-                        modal
-                        closeOnDocumentClick={true}
-                        lockScroll={true}
-                    >
-                        <a href="/admin"><div className="ReviewModal">
-                            <span>{this.state.reviewMessage}</span><br></br>
-                            <span>Click on this modal to return to the administration page</span><br></br>
-                        </div></a>
-                    </Popup>
-                    <Popup
-                        open={this.state.errorAlert}
-                        modal
-                        closeOnDocumentClick={false}
-                        lockScroll={true}
+                        </Grid>
+                        <Popup
+                            open={this.state.reviewModal}
+                            modal
+                            closeOnDocumentClick={true}
+                            lockScroll={true}
                         >
-                        <div className="ErrorModal">
-                            <span>{this.state.errorAlertMessage}</span><br></br>
-                            <span>Please reload the page and try again</span>
-                        </div>
-                    </Popup>
-                    <Footer/>
+                            <a href="/admin"><div className="ReviewModal">
+                                <span>{this.state.reviewMessage}</span><br></br>
+                                <span>Click on this modal to return to the administration page</span><br></br>
+                            </div></a>
+                        </Popup>
+                        <Popup
+                            open={this.state.errorAlert}
+                            modal
+                            closeOnDocumentClick={false}
+                            lockScroll={true}
+                            >
+                            <div className="ErrorModal">
+                                <span>{this.state.errorAlertMessage}</span><br></br>
+                                <span>Please reload the page and try again</span>
+                            </div>
+                        </Popup>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
+
+        else if (this.state.isAdmin == 1) {
+            return (
+                <div className = 'Fullpage'>
+                  <NaviBar/>
+                  <div className = "Header">
+                      <h2>Error 403: Page forbidden</h2>
+                  </div>
+                </div>
+            )
+        }
+
+        else if (this.state.isAdmin == 0) {
+            return (
+                <div className = 'Fullpage'>
+                <NaviBar/>
+                </div>
+              )
+        }
     }
 }
 
