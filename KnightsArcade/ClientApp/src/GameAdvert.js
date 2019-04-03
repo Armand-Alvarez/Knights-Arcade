@@ -50,7 +50,7 @@ class GameAdvert extends Component {
             return (
                 <div className='FullPage'>
                     <NaviBar />
-                    <h2>This is not the game you are looking for</h2>
+                    <h2>404: Game Not Found</h2>
                 </div>
                                
             )
