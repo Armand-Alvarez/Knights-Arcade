@@ -40,7 +40,7 @@ export class ReviewComponent extends Component {
             .catch(err => console.log(err));
     }
 
-    render(props) {
+    render(props) { 
         if (this.props.submissionData.gameImg[0] !== this.state.imgName) {
             this.updateImage();
         }
@@ -94,7 +94,6 @@ export class ReviewComponent extends Component {
                 {this.props.submissionData.gameDescription}
             </Popover>
         );
-
 
     return (
         <div>

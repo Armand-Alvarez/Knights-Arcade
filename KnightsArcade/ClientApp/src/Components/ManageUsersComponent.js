@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { Panel, Button, ButtonToolbar, Label, Image } from 'react-bootstrap';
 import axios from 'axios'
-import { Storage } from 'aws-amplify';
+import { Storage, Auth } from 'aws-amplify';
 
 
 export class ManageUsersComponent extends Component {
   constructor (props) {
     super(props);
+
     this.state = {
       imgName: '',
-      imgUrl: ''
+      imgUrl: '',
+      email: ''
     };
+
+
   }
 
   componentDidMount() {
@@ -26,6 +30,7 @@ export class ManageUsersComponent extends Component {
     }
 
   // todo: add delete to swagger
+  // todo: add updateFunc & frontend changes (see ManageGamesComponent.js delete func)
   handleDelete() {
   }
 
@@ -38,9 +43,6 @@ export class ManageUsersComponent extends Component {
     const username = this.props.userData.username;
     const firstName = this.props.userData.userFirstName;
     const lastName = this.props.userData.userLastName;
-
-    console.log("username " + username);
-    console.log("firstName " + firstName);
 
     return (
       <div>

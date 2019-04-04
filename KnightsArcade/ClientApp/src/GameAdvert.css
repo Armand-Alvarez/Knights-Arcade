@@ -47,3 +47,56 @@
     text-align: start;
     font-size: 4em;
 }
+
+.reviewPanel{
+    background-color: #dddddd;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 20px;
+    padding-bottom: 1em;
+}
+
+.TestTable{
+    margin-bottom: 10px;
+}
+
+.testResultsCol {
+    /*
+    border: 0.1em;
+    border-color: black;
+    border-style: solid;
+    */ 
+    padding-top: 15px;
+    /*
+    border-radius: 20px 20px 0 0; 
+    background-color: #dddddd;
+        */
+}
+
+.reviewCommentsCol {
+    /*padding: 10px;
+    border-radius: 0 0 20px 20px;
+        */
+/*  border-left: 0.1em;
+    border-top: 0;
+    border-right: 0.1em;
+    border-bottom: 0.1em;
+    border-style:  solid;
+    border-color: black;
+    */
+}
+
+.acceptButton{
+    background-color: forestgreen;
+    color: white;
+}
+
+.denyButton{
+    background-color: red;
+    color: white;
+}
+
+.resubmitButton{
+    background-color: orange;
+    color: white;
+}
