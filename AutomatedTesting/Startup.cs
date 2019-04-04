@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutomatedTesting.Infrastructure.Data;
-using AutomatedTesting.Infrastructure.Data.Infrastructure;
 using AutomatedTesting.Infrastructure.Data.Interface;
 using AutomatedTesting.Infrastructure.Logic;
 using Microsoft.AspNetCore.Builder;
