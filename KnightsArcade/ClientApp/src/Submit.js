@@ -531,7 +531,8 @@ class Submit extends Component {
           gameGenreRhythm: this.state.Rhythm,
           gameGenrePlatformer: this.state.Platformer,
           gamePath: this.state.titleValue + "/" + this.state.gameFileName,
-          gameImg: imgNames
+          gameImg: imgNames,
+          gameAvailableToDownload: false
         }
         var self = this;
         axios.post('/api/v1/Restricted/rds/newentry', data)

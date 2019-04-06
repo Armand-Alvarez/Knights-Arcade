@@ -29,7 +29,7 @@ export default class NaviBar extends Component {
 			this.state.isAdmin = this.handleAdminCheck();
 
 			this.setState({ loggedIn: true });
-			this.setState({ username: user.username});
+            this.setState({ username: user.username});
 		})
         .then(() => {
             axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)

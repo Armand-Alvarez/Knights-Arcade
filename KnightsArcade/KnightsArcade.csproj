@@ -12,6 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amazon.AspNetCore.Identity.Cognito" Version="1.0.0" />
+    <PackageReference Include="Amazon.Extensions.CognitoAuthentication" Version="1.0.1" />
     <PackageReference Include="AutoItX.Dotnet" Version="3.3.14.5" />
     <PackageReference Include="AWSSDK.EC2" Version="3.3.101" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -27,6 +29,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.4.0" />
   </ItemGroup>
 
   <ItemGroup>

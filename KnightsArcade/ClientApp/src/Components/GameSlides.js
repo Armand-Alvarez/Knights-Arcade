@@ -3,6 +3,8 @@ import { Carousel, Grid, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
 import '../App.css';
+import { Auth, AWS } from 'aws-amplify';
+import aws4 from 'aws4';
 
 export class GameSlides extends Component {
     constructor(props, context) {
