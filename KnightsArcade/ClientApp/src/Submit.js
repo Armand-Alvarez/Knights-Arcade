@@ -11,6 +11,8 @@ import Popup from 'reactjs-popup';
 import { css } from '@emotion/core';
 import { ClipLoader, PacmanLoader } from 'react-spinners';
 import Footer from './Components/Footer';
+import { AuthClass } from 'aws-amplify';
+
 
 class Submit extends Component {
   constructor(props, context) {

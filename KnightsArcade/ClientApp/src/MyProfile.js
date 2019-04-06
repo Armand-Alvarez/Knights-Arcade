@@ -8,6 +8,8 @@ import { Storage } from 'aws-amplify';
 import { InputGroup, DropdownButton, MenuItem, Jumbotron } from 'react-bootstrap';
 import ProfileSubmissionCard from './Components/ProfileSubmissionCard';
 import Footer from './Components/Footer';
+import { AuthClass } from 'aws-amplify';
+
 
 class MyProfile extends Component {
   

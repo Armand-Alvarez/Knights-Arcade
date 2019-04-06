@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Image, Popover, OverlayTrigger, Button } from 'react-bootstrap';
 import { Storage } from 'aws-amplify';
 import axios from 'axios';
+import { Auth, AuthClass } from 'aws-amplify';
+
 
 export class TestingComponent extends Component {
 

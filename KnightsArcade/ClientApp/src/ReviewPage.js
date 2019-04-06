@@ -8,6 +8,8 @@ import Popup from 'reactjs-popup';
 import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table } from 'react-bootstrap';
 import CollapsibleData from './Components/CollapsibleData';
 import Footer from './Components/Footer';
+import { AuthClass } from 'aws-amplify';
+
 
 class ReviewPage extends Component {
 
