@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
 import axios from 'axios';
 import './GameAdvert.css';
+import Footer from './Components/Footer';
 import { Storage } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, Jumbotron } from 'react-bootstrap';
@@ -12,6 +13,7 @@ class GameAdvert extends Component {
         super(props);
 
         this.state = {
+            status: 'x',
             gamedata: [],
             numImages: 0,
             gameImage0: "",
@@ -24,38 +26,41 @@ class GameAdvert extends Component {
     }
 
 
+
     componentDidMount() {
+
         const urlParams = new URLSearchParams(window.location.search);
         const urlGameid = urlParams.get('gameId');
         const getRequest = `api/v1/Public/rds/games/gamesbyid?gameid=` + urlGameid;
-        axios.get(getRequest)
-            .then(res => {
-                const gamedata = res.data;
-                this.setState({ gamedata: gamedata });
-                this.setState({ numImages: gamedata.gameImg.length });
-            })
-            .then(async (gamedata) => {
-                this.setState({ gameImage0: await Storage.get(this.state.gamedata.gameImg[0]) })
-                this.setState({ gameImage1: await Storage.get(this.state.gamedata.gameImg[1]) })
-                this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2]) })
-                this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3]) })
-                this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4]) })
-                this.setState({ file: await Storage.get(this.state.gamedata.gamePath) })
-            })
+        try {
+            axios.get(getRequest)
+                .then(res => {
+                    const gamedata = res.data;
+                    this.setState({ gamedata: gamedata });
+                    this.setState({ status: gamedata.gameStatus });
+                    this.setState({ numImages: gamedata.gameImg.length });
+                    if (res.status != 200) {
+                        this.setState({ status: 'z' });
+                    }
+                })
+                .then(async (gamedata) => {
+                    this.setState({ gameImage0: await Storage.get(this.state.gamedata.gameImg[0]) })
+                    this.setState({ gameImage1: await Storage.get(this.state.gamedata.gameImg[1]) })
+                    this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2]) })
+                    this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3]) })
+                    this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4]) })
+                    this.setState({ file: await Storage.get(this.state.gamedata.gamePath) })
+                })
+        }
+        catch{
+            this.setState({ status: 'z' });
+        }
     }
 
 
+
     render(props) {
-        if (this.state.gamedata.gameStatus != 'a') {
-            return (
-                <div className='FullPage'>
-                    <NaviBar />
-                    <h2>404: Game Not Found</h2>
-                </div>
-                               
-            )
-        }
-        else {
+        if (this.state.gamedata.gameStatus === 'a') {
             const creatorLink = "/games?search=" + this.state.gamedata.gameCreatorName;
             const genres = [];
             var glyph;
@@ -69,7 +74,7 @@ class GameAdvert extends Component {
                     <a href={this.state.file} download>
                         <Button bsStyle='info'>Download Game</Button>
                     </a>
-                    )
+                )
             }
 
             if (this.state.gamedata.gameGenreAction === true) {
@@ -214,7 +219,30 @@ class GameAdvert extends Component {
                             </Row>
                         </Grid>
                     </div>
+                    <Footer />
                 </div>
+            )
+        }
+        else if (this.state.status === 'x') {
+            return (
+                <div className='FullPage'>
+                    <NaviBar />
+                    <div className="WhiteSpace">
+                    </div>
+                    <Footer />
+                </div>
+                    )
+        }
+        else {
+            return (
+                <div className='FullPage'>
+                    <NaviBar />
+                    <div className="404Space">
+                        <h2>404: Game Not Found</h2>
+                    </div>
+                    <Footer />
+                </div>
+
             )
         }
     }

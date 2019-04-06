@@ -102,3 +102,12 @@
     background-color: orange;
     color: white;
 }
+
+.WhiteSpace{
+    height: 100%;
+    padding: 29em;
+}
+
+.404Space{
+    min-height: 100%;
+}
