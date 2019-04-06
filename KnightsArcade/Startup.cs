@@ -91,7 +91,6 @@ namespace KnightsArcade
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
