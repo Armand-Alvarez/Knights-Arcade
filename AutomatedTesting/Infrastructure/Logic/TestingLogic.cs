@@ -1,5 +1,4 @@
-﻿using AutomatedTesting.Infrastructure.Data.Infrastructure;
-using AutomatedTesting.Infrastructure.Data.Interface;
+﻿using AutomatedTesting.Infrastructure.Data.Interface;
 using AutomatedTesting.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+//using System.Windows.Forms;
 
 namespace AutomatedTesting.Infrastructure.Logic
 {
@@ -41,11 +41,8 @@ namespace AutomatedTesting.Infrastructure.Logic
                     lock (_sync)
                     {
                         Tests testProcess = new Tests();
-                        TestingLog testLog = new TestingLog();
                         testProcess.GameId = testsQueue.GameId;
-                        testLog.GameId = (int)testsQueue.GameId;
-
-                        RunSingleEntryTest(testsQueue, testProcess, testLog);
+                        RunSingleEntryTest(testsQueue, testProcess);
                     }
 
                     testsQueue = _webData.GetFirstTestQueue();
@@ -60,15 +57,21 @@ namespace AutomatedTesting.Infrastructure.Logic
             }
         }
 
-        public void RunSingleEntryTest(TestsQueue testsQueue, Tests testProcess, TestingLog testLog)
+        public void RunSingleEntryTest(TestsQueue testsQueue, Tests testProcess)
         {
             try
             {
                 while (testsQueue.RetryCount < 3)
                 {
-                    testLog.TestlogAttempt = (int)testsQueue.RetryCount;
+                    TestingLog testLog = new TestingLog();
 
-                    _webData.PutTestsQueue(testsQueue);
+                    bool putTest = _webData.PutTestsQueue(testsQueue);
+
+                    if (putTest)
+                        testsQueue.RetryCount++;
+
+                    testLog.TestlogAttempt = (int)testsQueue.RetryCount;
+                    testLog.GameId = (int)testsQueue.GameId;
 
                     GamesEntry myGame = _webData.GetGamesByID(testsQueue.GameId);
 
@@ -130,7 +133,21 @@ namespace AutomatedTesting.Infrastructure.Logic
                     if (testProcess.TestAverageRam == null)
                     {
                         testProcess.TestCloses = false;
-                        testLog.TestlogLog = "Game RAM Test Failed";
+                        testLog.TestlogLog = "Game Average RAM Test Failed";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+                        _webData.PostTestingLog(testLog);
+                        continue;
+                    }
+
+                    //Store memory usage by game process
+                    testProcess.TestPeakRam = RamFile(exeFile);
+
+                    //Retry tests if the program is unable to record the game's RAM usage
+                    if (testProcess.TestPeakRam == null)
+                    {
+                        testProcess.TestCloses = false;
+                        testLog.TestlogLog = "Game Peak RAM Test Failed";
                         testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
                         _webData.PostTestingLog(testLog);
@@ -148,6 +165,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                         _webData.PostTestingLog(testLog);
                         continue;
                     }
+
 
                     //If all tests passed, update game object and stop rechecking
                     if ((bool)testProcess.TestOpens && (bool)testProcess.Test5min && (bool)testProcess.TestCloses)
@@ -251,6 +269,23 @@ namespace AutomatedTesting.Infrastructure.Logic
             }
 
             catch(Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return null;
+            }
+        }
+
+        //Records peak memory usage by game process
+        public string PeakRamFile(string exeFile)
+        {
+            try
+            {
+                long peakGameRAM = gameProcess.PeakWorkingSet64;
+
+                return peakGameRAM.ToString();
+            }
+
+            catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
                 return null;

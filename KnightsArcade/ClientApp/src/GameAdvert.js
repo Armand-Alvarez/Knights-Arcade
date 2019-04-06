@@ -50,7 +50,7 @@ class GameAdvert extends Component {
             return (
                 <div className='FullPage'>
                     <NaviBar />
-                    <h2>This is not the game you are looking for</h2>
+                    <h2>404: Game Not Found</h2>
                 </div>
                                
             )
@@ -60,8 +60,17 @@ class GameAdvert extends Component {
             const genres = [];
             var glyph;
             var slideshow;
+            var downloadButton;
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
+
+            if (this.state.gamedata.gameAvailableToDownload) {
+                downloadButton = (
+                    <a href={this.state.file} download>
+                        <Button bsStyle='info'>Download Game</Button>
+                    </a>
+                    )
+            }
 
             if (this.state.gamedata.gameGenreAction === true) {
                 genres.push("Action");
@@ -185,9 +194,7 @@ class GameAdvert extends Component {
                                                         <ControlLabel>Available On Arcade Machines</ControlLabel>
                                                         {glyph}
                                                     </FormGroup>
-                                                    <a href={this.state.file} download>
-                                                        <Button bsStyle='info'>Download Game</Button>
-                                                    </a>
+                                                    {downloadButton}
                                                 </Form>
                                             </Col>
                                         </Row>

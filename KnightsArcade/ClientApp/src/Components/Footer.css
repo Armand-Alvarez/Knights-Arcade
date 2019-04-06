@@ -1,0 +1,21 @@
+﻿.Footer{
+    margin-top: 2em;
+    background-color: #000000;
+    color: grey;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    clear: both;
+    z-index: 10;
+    margin: auto;
+}
+
+.FooterText{
+    position: relative;
+    top: 50%;
+    vertical-align: middle;
+    vertical-align: central;
+}

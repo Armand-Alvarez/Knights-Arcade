@@ -2,7 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
-using AutomatedTesting.Infrastructure.Data.Infrastructure;
+using AutomatedTesting.Infrastructure.Data.Interface;
 using AutomatedTesting.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

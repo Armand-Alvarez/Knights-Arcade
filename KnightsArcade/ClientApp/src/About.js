@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Thumbnail, Grid, Row, Col } from 'react-bootstrap';
 import NaviBar from './Components/NavBar';
 import './About.css';
+import Footer from './Components/Footer';
 
 class About extends Component {
   render() {
-    return (
-      <div className = 'FullPage'>
+      return (
+        <div>
+      <div className = 'AboutPage'>
         <NaviBar/>
 
 
@@ -59,8 +61,10 @@ class About extends Component {
               <Thumbnail src={require('./Images/workers2.png')}></Thumbnail>
             </Col>
           </Row>
-        </Grid>
-      </div>
+            </Grid>
+        </div>
+        <Footer />
+        </div>
     )
   }
 }

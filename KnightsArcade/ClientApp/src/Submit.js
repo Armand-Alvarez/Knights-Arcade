@@ -10,6 +10,7 @@ import { Auth } from 'aws-amplify';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/core';
 import { ClipLoader, PacmanLoader } from 'react-spinners';
+import Footer from './Components/Footer';
 
 class Submit extends Component {
   constructor(props, context) {
@@ -733,6 +734,7 @@ class Submit extends Component {
                 </div>
                 <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{cursor:'pointer'}}>X</Button>
             </Popup>
+            <Footer />
       </div>
     )
   }

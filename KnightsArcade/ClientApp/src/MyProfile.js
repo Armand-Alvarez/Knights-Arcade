@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Storage } from 'aws-amplify';
 import { InputGroup, DropdownButton, MenuItem, Jumbotron } from 'react-bootstrap';
 import ProfileSubmissionCard from './Components/ProfileSubmissionCard';
+import Footer from './Components/Footer';
 
 class MyProfile extends Component {
   
@@ -314,7 +315,8 @@ class MyProfile extends Component {
         </Panel>
         </Col>
         </Row>
-        </Grid>
+            </Grid>
+            <Footer/>
       </div>
     )
   }
