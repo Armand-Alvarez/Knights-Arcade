@@ -3,6 +3,7 @@ import axios from 'axios';
 import NaviBar from './Components/NavBar';
 import GameCard from './Components/GameCard';
 import './Games.css';
+import Footer from './Components/Footer';
 import {
     Grid, Row, Col, FormGroup, FormControl, InputGroup, DropdownButton, MenuItem, Form, Jumbotron, Button, ButtonToolbar, ControlLabel
 } from 'react-bootstrap';
@@ -38,7 +39,7 @@ class Games extends Component {
       Strategy: false,
       Survival: false,
       searchValue: urlSearch
-    };
+      };
   }
 
   componentDidMount() {
@@ -331,7 +332,9 @@ class Games extends Component {
       </div>
       </Col>
       </Row>
-      </Grid>
+            </Grid>
+            <Footer />
+
       </div>
         )
   }

@@ -13,8 +13,9 @@ Amplify.configure(awsmobile);
 class Home extends Component {
 
   render() {
-    return (
-      <div className="App">
+      return (
+        <div>
+        <div className="App">
         <NaviBar/>
         <Jumbotron className ="Jumbo">
           <h1 className = "text"> Knights Arcade</h1>
@@ -27,8 +28,9 @@ class Home extends Component {
         </Jumbotron>
 
         <GameSlides/>
-        <Footer/>
-      </div>
+              </div>
+              <Footer />
+              </div>
     )
   }
 }

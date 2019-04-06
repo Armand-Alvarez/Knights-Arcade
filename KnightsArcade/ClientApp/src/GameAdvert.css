@@ -5,10 +5,12 @@
 
 .GameAdDiv{
     width: 100%;
+    overflow: auto;
 }
 
 .GameAdPanel{
     width: 67%;
+    height: 100%;
     margin: 0% auto;
     padding: 0;
 }

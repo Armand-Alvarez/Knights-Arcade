@@ -11,6 +11,7 @@ export default class Footer extends Component {
     render(props) {
 
         return (
+            <div>
             <Grid className="Footer" fluid>
                 <Row style={{ marginLeft: 0, marginRight: 0, marginTop: 10, marginBottom: 10 }}>
                     <Col md={1} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -20,7 +21,9 @@ export default class Footer extends Component {
                         <p>Knights Arcade: A University Of Central Florida Senior Design Project.</p>
                     </Col>
                 </Row>
-            </Grid>
+                </Grid>
+            </div>
+
         );
     }
 }   

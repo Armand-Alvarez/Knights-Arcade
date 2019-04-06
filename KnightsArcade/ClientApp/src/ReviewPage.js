@@ -444,7 +444,6 @@ class ReviewPage extends Component {
 
                                 </Row>
                         </Grid>
-                        <Footer/>
                             <Popup
                                 open={this.state.reviewModal}
                                 modal
@@ -466,8 +465,10 @@ class ReviewPage extends Component {
                                     <span>{this.state.errorAlertMessage}</span><br></br>
                                     <span>Please reload the page and try again</span>
                                 </div>
-                            </Popup>
+                        </Popup>
+
                     </div>
+                    <Footer />
                     </div>
                     )
                 }

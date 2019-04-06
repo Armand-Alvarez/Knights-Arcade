@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+    margin-bottom: 5.9em;
+    text-align: center;
 }
 
 .App-logo {
@@ -30,6 +31,11 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+html, body{
+    min-height:100%;
+    position: relative;
 }
 
 .Slideshowtext {

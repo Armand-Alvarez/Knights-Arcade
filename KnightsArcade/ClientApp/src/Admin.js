@@ -5,6 +5,7 @@ import MangGamesComp from './Components/ManageGamesComponent';
 import MangUsersComp from './Components/ManageUsersComponent';
 import {Tabs, Tab, ListGroup, ListGroupItem} from 'react-bootstrap';
 import axios from 'axios';
+import Footer from './Components/Footer';
 import { Auth } from 'aws-amplify';
 
 
@@ -141,7 +142,7 @@ export class Admin extends Component {
               </ListGroup>
             </Tab>
           </Tabs>
-
+           <Footer/>
         </div>
       )
     }
