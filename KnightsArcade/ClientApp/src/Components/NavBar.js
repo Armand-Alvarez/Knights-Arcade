@@ -42,7 +42,11 @@ export default class NaviBar extends Component {
                             userImagePath: "USERS/default/defaultAvatar.png",
                             userMajor: "Major"
                         }
-                        axios.post('/api/v1/Restricted/rds/users/user', user);
+                        axios.post('/api/v1/Restricted/rds/users/user', user,{ 
+							headers: {
+								'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+							}
+						});
                     }
                 })
                 .catch(err => {

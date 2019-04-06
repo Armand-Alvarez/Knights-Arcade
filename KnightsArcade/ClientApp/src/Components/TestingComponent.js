@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Image, Popover, OverlayTrigger, Button } from 'react-bootstrap';
 import { Storage } from 'aws-amplify';
 import axios from 'axios';
+import { Auth, AuthClass } from 'aws-amplify';
+
 
 export class TestingComponent extends Component {
 
@@ -59,10 +61,18 @@ export class TestingComponent extends Component {
             gameReviewDateUtc: null
 
         }
-        axios.put('/api/v1/Restricted/rds/games/game', game)
+        axios.put('/api/v1/Restricted/rds/games/game', game, {
+            headers: {
+                'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+            }
+        })
             .then(res => {
                 if (res.status === 200) {
-                    axios.delete('api/v1/Restricted/rds/testsqueue/testqueue?gameId=' + this.props.gameData.gameId)
+                    axios.delete('api/v1/Restricted/rds/testsqueue/testqueue?gameId=' + this.props.gameData.gameId, {
+                        headers: {
+                            'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+                        }
+                    })
                 }
                 this.props.updateFunc(this.props.gameData.gameId);
             })

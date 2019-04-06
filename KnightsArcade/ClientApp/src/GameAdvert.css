@@ -102,3 +102,14 @@
     background-color: orange;
     color: white;
 }
+
+.WhiteSpace{
+    height: 100%;
+    padding: 29em;
+}
+
+.FourOFourSpace{
+    min-height: 100%;
+    padding: 26.5em;
+    overflow: hidden;
+}
