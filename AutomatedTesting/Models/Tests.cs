@@ -12,5 +12,6 @@ namespace AutomatedTesting.Models
         public bool? TestRandombuttons { get; set; }
         public int? TestAttempts { get; set; }
         public string TestAverageRam { get; set; }
+        public string TestPeakRam { get; set; }
     }
 }
