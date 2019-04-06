@@ -262,3 +262,6 @@ __pycache__/
 /AutomatedTesting/appsettings.json
 /KnightsArcade.zip
 /KnightsArcade/appsettings.json
+/Automated_Testing
+/AutoTesting
+*.json
