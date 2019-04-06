@@ -1,9 +1,19 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Threading;
+using Amazon;
+using Amazon.CognitoIdentityProvider;
+using Amazon.Extensions.CognitoAuthentication;
+using Amazon.Runtime;
+using KnightsArcade.Infrastructure.Authentication;
 using KnightsArcade.Infrastructure.Data;
 using KnightsArcade.Infrastructure.Data.Interface;
 using KnightsArcade.Infrastructure.Logic;
+using KnightsArcade.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +21,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace KnightsArcade
@@ -29,8 +44,9 @@ namespace KnightsArcade
         {
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<RDSLogic>().AddScoped<EC2Logic>()
+            services.AddScoped<RDSLogic>().AddScoped<EC2Logic>().AddScoped<AWSValidateJWT>()
                 .AddScoped<IRDSData, RDSData>().AddScoped<IEC2Data, EC2Data>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -75,6 +91,7 @@ namespace KnightsArcade
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -92,8 +109,6 @@ namespace KnightsArcade
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-
-            
         }
     }
 }

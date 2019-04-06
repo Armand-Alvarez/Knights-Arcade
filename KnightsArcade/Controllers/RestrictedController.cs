@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KnightsArcade.Infrastructure.Authentication;
 using KnightsArcade.Infrastructure.Logic;
 using KnightsArcade.Models;
 using KnightsArcade.Models.Database;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 
 namespace KnightsArcade.Controllers
 {
@@ -16,38 +20,78 @@ namespace KnightsArcade.Controllers
     {
         private readonly RDSLogic _rdsLogic;
         private readonly EC2Logic _ec2Logic;
+        private readonly AWSValidateJWT _validation;
         private readonly ILogger<RestrictedController> _logger;
 
-        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic)
+        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic, AWSValidateJWT validation)
         {
             _rdsLogic = rdsLogic;
             _logger = logger;
             _ec2Logic = ec2Logic;
+            _validation = validation;
         }
 
         /// <summary>
         /// Get info of controller.
         /// </summary>
         /// <returns></returns>
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>
         [HttpGet("info")]
         public IActionResult GetInfo()
         {
-            return Ok("Knights Arcade Restricted");
+            try
+            {
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    return Ok("Knights Arcade Restricted");
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500, e.Message);
+            }
         }
 
         /// <summary>
         /// Start EC2 for automated testing.
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Success.</response>  
+        /// <response code="200">Success.</response> 
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
         /// <response code="500">Error starting EC2.</response> 
         [HttpPut("aws/ec2/start")]
         public IActionResult PutStartAutomatedTestingEC2(bool start)
         {
             try
             {
-                _ec2Logic.StartAutomatedTestingEC2();
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _ec2Logic.StartAutomatedTestingEC2();
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch(Exception e)
             {
@@ -61,14 +105,28 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Success.</response>  
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
         /// <response code="500">Error stopping EC2.</response> 
         [HttpPut("aws/ec2/stop")]
         public IActionResult PutStopAutomatedTestingEC2(bool stop)
         {
             try
             {
-                _ec2Logic.StopAutomatedTestingEC2();
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _ec2Logic.StopAutomatedTestingEC2();
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -86,23 +144,39 @@ namespace KnightsArcade.Controllers
         /// <param name="newEntry"></param>
         /// <returns></returns>
         /// <response code="201">Created.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
         /// <response code="409">Duplicate gameName entry.</response>  
         /// <response code="500">Error.</response>  
         [HttpPost("rds/newentry")]
         [ProducesResponseType(201)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(409)]
         [ProducesResponseType(500)]
         public IActionResult PostNewEntry([FromBody] NewEntry newEntry)
         {
             try
             {
-                Tuple<Games, int> tuple = _rdsLogic.PostNewEntry(newEntry);
-                if(tuple.Item2 == 1)
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
-                    return StatusCode(409, "That game name already exists.");
+                    return StatusCode(401, "Empty or no authorization header.");
                 }
-                _ec2Logic.StartAutomatedTestingEC2();
-                return StatusCode(201, tuple.Item1);
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    Tuple<Games, int> tuple = _rdsLogic.PostNewEntry(newEntry);
+                    if (tuple.Item2 == 1)
+                    {
+                        return StatusCode(409, "That game name already exists.");
+                    }
+                    _ec2Logic.StartAutomatedTestingEC2();
+                    return StatusCode(201, tuple.Item1);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -147,17 +221,33 @@ namespace KnightsArcade.Controllers
         /// </remarks>
         /// <param name="game"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPut("rds/games/game")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PutGames(GamesEntry game)
         {
             try
             {
-                _rdsLogic.PutGamesEntry(game);
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutGamesEntry(game);
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -171,17 +261,33 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        /// <response code="204"></response>
-        /// <response code="500"></response>  
+        /// <response code="204">No Content.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpDelete("rds/games/game")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult DeleteGames(int gameId)
         {
             try
             {
-                _rdsLogic.DeleteGamesEntry(gameId);
-                return NoContent();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.DeleteGamesEntry(gameId);
+                    return NoContent();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -218,17 +324,33 @@ namespace KnightsArcade.Controllers
         /// </example>
         /// <param name="submission"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPut("rds/submissions/submission")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PutSubmissions([FromBody] Submissions submission)
         {
             try
             {
-                _rdsLogic.PutSubmissions(submission);
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutSubmissions(submission);
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -248,17 +370,33 @@ namespace KnightsArcade.Controllers
         /// </remarks>
         /// <param name="test"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPut("rds/tests/test")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PutTests(Tests test)
         {
             try
             {
-                _rdsLogic.PutTests(test);
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutTests(test);
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -275,17 +413,33 @@ namespace KnightsArcade.Controllers
         /// </remarks>
         /// <param name="testsQueue"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPut("rds/testsqueue/testqueue")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PutTestsQueue(TestsQueue testsQueue)
         {
             try
             {
-                _rdsLogic.PutTestsQueue((int)testsQueue.GameId);
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutTestsQueue((int)testsQueue.GameId);
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -299,17 +453,33 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        /// <response code="204"></response>
-        /// <response code="500"></response>  
+        /// <response code="204">No Content.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpDelete("rds/testsqueue/testqueue")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult DeleteTestsQueue(int gameId)
         {
             try
             {
-                _rdsLogic.DeleteTestsQueue(gameId);
-                return NoContent();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.DeleteTestsQueue(gameId);
+                    return NoContent();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -323,17 +493,33 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        /// <response code="201"></response>
-        /// <response code="500"></response>  
+        /// <response code="201">Created.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPost("rds/users/user")]
         [ProducesResponseType(201)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PostUser([FromBody] Users user)
         {
             try
             {
-                _rdsLogic.PostUser(user);
-                return StatusCode(201);
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PostUser(user);
+                    return StatusCode(201);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -347,17 +533,33 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPut("rds/users/user")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PutUser([FromBody] Users user)
         {
             try
             {
-                _rdsLogic.PutUser(user);
-                return Ok();
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutUser(user);
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
@@ -371,17 +573,33 @@ namespace KnightsArcade.Controllers
         /// </summary>
         /// <param name="testingLog"></param>
         /// <returns></returns>
-        /// <response code="201"></response>
-        /// <response code="500"></response>  
+        /// <response code="201">Created.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
         [HttpPost("rds/testinglog/testinglog")]
         [ProducesResponseType(201)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(500)]
         public IActionResult PostTestingLog(TestingLog testingLog)
         {
             try
             {
-                _rdsLogic.PostTestingLog(testingLog);
-                return StatusCode(201);
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PostTestingLog(testingLog);
+                    return StatusCode(201);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
             {
