@@ -11,6 +11,8 @@ import Popup from 'reactjs-popup';
 import { css } from '@emotion/core';
 import { ClipLoader, PacmanLoader } from 'react-spinners';
 import Footer from './Components/Footer';
+import { AuthClass } from 'aws-amplify';
+
 
 class Submit extends Component {
   constructor(props, context) {
@@ -535,7 +537,11 @@ class Submit extends Component {
           gameAvailableToDownload: false
         }
         var self = this;
-        axios.post('/api/v1/Restricted/rds/newentry', data)
+        axios.post('/api/v1/Restricted/rds/newentry', data, {
+          headers: {
+            'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+          }
+        })
             .then(function (res, error) {
                 if (res.status === 201) {
                     console.log(res);
