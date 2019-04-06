@@ -435,6 +435,70 @@ namespace KnightsArcade.Infrastructure.Data
             knightsContext.TestingLog.Add(testingLog);
             knightsContext.SaveChanges();
         }
+
+        ///////
+        //// Arcade Machines
+        ///////
+
+        public List<ArcadeMachine> GetAllArcadeMachines()
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            List<ArcadeMachine> arcadeMachines = knightsContext.ArcadeMachines.ToList();
+            return arcadeMachines;
+        }
+
+        public void PostArcadeMachine(ArcadeMachine arcadeMachine)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            knightsContext.ArcadeMachines.Add(arcadeMachine);
+            knightsContext.SaveChanges();
+        }
+
+        public void PutArcadeMachine(ArcadeMachine arcadeMachine)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            ArcadeMachine updatedArcadeMachine = knightsContext.ArcadeMachines.Find(arcadeMachine.ArcadeMachineId);
+
+            if (arcadeMachine.ArcadeMachineRoom != null)
+            {
+                updatedArcadeMachine.ArcadeMachineRoom = arcadeMachine.ArcadeMachineRoom;
+            }
+            if (arcadeMachine.ArcadeMachineDescription != null)
+            {
+                updatedArcadeMachine.ArcadeMachineDescription = arcadeMachine.ArcadeMachineDescription;
+            }
+            if (arcadeMachine.ArcadeMachineCoords != null)
+            {
+                updatedArcadeMachine.ArcadeMachineCoords = arcadeMachine.ArcadeMachineCoords;
+            }
+            if (arcadeMachine.ArcadeMachineAddress != null)
+            {
+                updatedArcadeMachine.ArcadeMachineAddress = updatedArcadeMachine.ArcadeMachineAddress;
+            }
+
+            DeleteArcadeMachine(updatedArcadeMachine.ArcadeMachineId);
+            PostArcadeMachine(updatedArcadeMachine);
+        }
+
+        public void DeleteArcadeMachine(int arcadeMachineId)
+        {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
+            ArcadeMachine arcadeMachine = knightsContext.ArcadeMachines.Find(arcadeMachineId);
+            knightsContext.ArcadeMachines.Remove(arcadeMachine);
+            knightsContext.SaveChanges();
+        }
     }
 
 }

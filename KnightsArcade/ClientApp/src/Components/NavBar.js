@@ -27,7 +27,6 @@ export default class NaviBar extends Component {
 		}).then(user => {
 			this.state.info = Auth.user.signInUserSession.accessToken.payload['cognito:groups'];
 			this.state.isAdmin = this.handleAdminCheck();
-
 			this.setState({ loggedIn: true });
             this.setState({ username: user.username});
 		})
