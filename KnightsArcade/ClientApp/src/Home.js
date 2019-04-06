@@ -5,11 +5,14 @@ import { Jumbotron, Button } from 'react-bootstrap';
 import GameSlides from './Components/GameSlides';
 import Amplify from 'aws-amplify';
 import awsmobile from './aws-exports';
+
 Amplify.configure(awsmobile);
 
 
 
 class Home extends Component {
+
+
 
   render() {
     return (

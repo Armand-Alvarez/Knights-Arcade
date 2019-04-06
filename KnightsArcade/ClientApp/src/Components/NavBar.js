@@ -24,7 +24,7 @@ export default class NaviBar extends Component {
 		    bypassCache: false
 		}).then(user => {
 			this.setState({ loggedIn: true });
-			this.setState({ username: user.username});
+            this.setState({ username: user.username});
 		})
         .then(() => {
             axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)
