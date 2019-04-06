@@ -1,0 +1,14 @@
+﻿
+.AdminPage{
+
+}
+
+.ToPendingButton {
+    float: right;
+    width: 15em;
+    margin-top: 0.2em;
+    margin-bottom: 1em;
+    background-color: #f0ad4e;
+    color: white;
+    border-radius: 5px;
+}

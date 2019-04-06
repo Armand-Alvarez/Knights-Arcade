@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Panel, Button, ButtonToolbar, Label } from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
 
 
 

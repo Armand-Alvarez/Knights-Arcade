@@ -4,7 +4,8 @@ html {
 
 body {
   /* Style for the body of the website */
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   margin: 0;
   padding: 0;
   //background: linear-gradient(to bottom, rgba(15,15,90,1), rgba(2,0,36,1));
