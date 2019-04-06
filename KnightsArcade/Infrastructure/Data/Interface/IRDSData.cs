@@ -40,5 +40,10 @@ namespace KnightsArcade.Infrastructure.Data.Interface
         List<TestingLog> GetAllTestingLogs();
         List<TestingLog> GetTestingLog(int gameId);
         void PostTestingLog(TestingLog testingLog);
+
+        List<ArcadeMachine> GetAllArcadeMachines();
+        void PostArcadeMachine(ArcadeMachine arcadeMachine);
+        void PutArcadeMachine(ArcadeMachine arcadeMachine);
+        void DeleteArcadeMachine(int arcadeMachineId);
     }
 }

@@ -13,7 +13,7 @@ class GameAdvert extends Component {
         super(props);
 
         this.state = {
-            status: 'x',
+            status: 0,
             gamedata: [],
             numImages: 0,
             gameImage0: "",
@@ -37,10 +37,13 @@ class GameAdvert extends Component {
                 .then(res => {
                     const gamedata = res.data;
                     this.setState({ gamedata: gamedata });
-                    this.setState({ status: gamedata.gameStatus });
+                    this.setState({ status: 2 });
                     this.setState({ numImages: gamedata.gameImg.length });
+                    if (res.status === 500) {
+                        this.setState({ status: 1 });
+                    }
                     if (res.status != 200) {
-                        this.setState({ status: 'z' });
+                        this.setState({ status: 1 });
                     }
                 })
                 .then(async (gamedata) => {
@@ -53,14 +56,15 @@ class GameAdvert extends Component {
                 })
         }
         catch{
-            this.setState({ status: 'z' });
+            this.setState({ status: 1 });
         }
+
     }
 
 
 
     render(props) {
-        if (this.state.gamedata.gameStatus === 'a') {
+        if (this.state.gamedata.gameStatus === 'a' || this.state.status === 2) {
             const creatorLink = "/games?search=" + this.state.gamedata.gameCreatorName;
             const genres = [];
             var glyph;
@@ -223,7 +227,19 @@ class GameAdvert extends Component {
                 </div>
             )
         }
-        else if (this.state.status === 'x') {
+        else if(this.state.status === 1 || this.state.gamedata != 'a') {
+            return (
+                <div className='FullPage'>
+                    <NaviBar />
+                    <div className="FourOFourSpace">
+                        <h2>404: Game Not Found</h2>
+                    </div>
+                    <Footer />
+                </div>
+
+            )
+        }
+        else {
             return (
                 <div className='FullPage'>
                     <NaviBar />
@@ -232,18 +248,6 @@ class GameAdvert extends Component {
                     <Footer />
                 </div>
                     )
-        }
-        else {
-            return (
-                <div className='FullPage'>
-                    <NaviBar />
-                    <div className="404Space">
-                        <h2>404: Game Not Found</h2>
-                    </div>
-                    <Footer />
-                </div>
-
-            )
         }
     }
 }

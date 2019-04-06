@@ -318,6 +318,33 @@ namespace KnightsArcade.Infrastructure.Logic
             return;
         }
 
+        ///////
+        //// TestingLog
+        ///////
+
+        public List<ArcadeMachine> GetAllArcadeMachines()
+        {
+            return _rdsData.GetAllArcadeMachines();
+        }
+
+        public void PostArcadeMachine(ArcadeMachine arcadeMachine)
+        {
+            _rdsData.PostArcadeMachine(arcadeMachine);
+            return;
+        }
+
+        public void PutArcadeMachine(ArcadeMachine arcadeMachine)
+        {
+            _rdsData.PutArcadeMachine(arcadeMachine);
+            return;
+        }
+
+        public void DeleteArcadeMachine(int arcadeMachine)
+        {
+            _rdsData.DeleteArcadeMachine(arcadeMachine);
+            return;
+        }
+
         ///Helper functions///
 
         public GamesEntry GamesToGamesEntry(Games game)

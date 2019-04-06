@@ -19,6 +19,7 @@ namespace KnightsArcade.Models.Database
         public virtual DbSet<TestsQueue> Testsqueue { get; set; }
         public virtual DbSet<TestingLog> TestingLog { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<ArcadeMachine> ArcadeMachines { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -307,6 +308,33 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("retry_count")
                     .HasColumnType("int(11)")
                     .HasDefaultValueSql("'0'");
+            });
+
+            modelBuilder.Entity<ArcadeMachine>(entity =>
+            {
+                entity.HasKey(e => e.ArcadeMachineId);
+
+                entity.ToTable("arcademachines");
+
+                entity.Property(e => e.ArcadeMachineId)
+                    .HasColumnName("arcademachine_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.ArcadeMachineAddress)
+                    .HasColumnName("arcademachine_address")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.ArcadeMachineRoom)
+                    .HasColumnName("arcademachine_room")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.ArcadeMachineCoords)
+                    .HasColumnName("arcademachine_coords")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.ArcadeMachineDescription)
+                    .HasColumnName("arcademachine_description")
+                    .HasColumnType("text");
             });
         }
     }

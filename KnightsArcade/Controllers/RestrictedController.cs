@@ -607,5 +607,125 @@ namespace KnightsArcade.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        /// <summary>
+        /// Adds the arcade machine to the arcademachines table.
+        /// </summary>
+        /// <param name="arcadeMachine"></param>
+        /// <returns></returns>
+        /// <response code="201">Created.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
+        [HttpPost("rds/arcademachines/arcademachine")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public IActionResult PostArcadeMachine(ArcadeMachine arcadeMachine)
+        {
+            try
+            {
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PostArcadeMachine(arcadeMachine);
+                    return StatusCode(201);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates the arcade machine in the arcademachines table.
+        /// </summary>
+        /// <param name="arcadeMachine"></param>
+        /// <returns></returns>
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
+        [HttpPut("rds/testinglog/testinglog")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public IActionResult PutArcadeMachine(ArcadeMachine arcadeMachine)
+        {
+            try
+            {
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutArcadeMachine(arcadeMachine);
+                    return StatusCode(200);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deletes arcade machine from the arcademachines table.
+        /// </summary>
+        /// <param name="arcadeMachineId"></param>
+        /// <returns></returns>
+        /// <response code="204">No content.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
+        [HttpDelete("rds/arcademachines/arcademachine")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public IActionResult DeleteArcadeMachine(int arcadeMachineId)
+        {
+            try
+            {
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.DeleteArcadeMachine(arcadeMachineId);
+                    return StatusCode(204);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

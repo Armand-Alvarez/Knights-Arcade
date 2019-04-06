@@ -501,5 +501,27 @@ namespace KnightsArcade.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        /// <summary>
+        /// Get all arcade machines.
+        /// </summary>
+        /// <returns>Arcade Machine List.</returns>
+        /// <response code="200"></response>
+        /// <response code="500"></response>  
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [HttpGet("rds/arcademachines/allarcademachines")]
+        public IActionResult GetAllArcadeMachines()
+        {
+            try
+            {
+                return Ok(_rdsLogic.GetAllArcadeMachines());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }
