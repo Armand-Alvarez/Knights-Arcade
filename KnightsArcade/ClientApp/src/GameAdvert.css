@@ -108,6 +108,8 @@
     padding: 29em;
 }
 
-.404Space{
+.FourOFourSpace{
     min-height: 100%;
+    padding: 26.5em;
+    overflow: hidden;
 }
