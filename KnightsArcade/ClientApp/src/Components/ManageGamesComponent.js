@@ -58,7 +58,11 @@ export class ManageGamesComponent extends Component {
       gameReviewDateUtc	: null
 
       }
-      axios.put('/api/v1/Restricted/rds/games/game', game)
+      axios.put('/api/v1/Restricted/rds/games/game', game, {
+        headers: {
+          'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+        }
+      })
           .then(res => {
               this.setState({ onArcadeMachine: true });
               this.forceUpdate();
@@ -94,7 +98,11 @@ export class ManageGamesComponent extends Component {
       gameReviewDateUtc	: null
 
       }
-      axios.put('/api/v1/Restricted/rds/games/game', game)
+      axios.put('/api/v1/Restricted/rds/games/game', game, {
+        headers: {
+          'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+        }
+      })
           .then(res => {
               this.setState({ onArcadeMachine: false });
               this.forceUpdate();
@@ -102,7 +110,11 @@ export class ManageGamesComponent extends Component {
   }
 
   handleDelete() {
-    axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId)
+    axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId, {
+      headers: {
+        'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+      }
+    })
         .then(res => {
             this.props.updateFunc(this.props.gameData.gameId);
         })

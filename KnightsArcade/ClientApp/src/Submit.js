@@ -535,7 +535,11 @@ class Submit extends Component {
           gameAvailableToDownload: false
         }
         var self = this;
-        axios.post('/api/v1/Restricted/rds/newentry', data)
+        axios.post('/api/v1/Restricted/rds/newentry', data, {
+          headers: {
+            'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+          }
+        })
             .then(function (res, error) {
                 if (res.status === 201) {
                     console.log(res);

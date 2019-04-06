@@ -50,7 +50,11 @@ class MyProfile extends Component {
                         userImagePath: "USERS/default/defaultAvatar.png",
                         userMajor: "Major"
                     }
-                    axios.post('/api/v1/Restricted/rds/users/user', user).catch(err => console.log(err))
+                    axios.post('/api/v1/Restricted/rds/users/user', user, {
+                      headers: {
+                        'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+                      }
+                    }).catch(err => console.log(err))
                         .then(() => window.location.reload());
                 }
                 else if (response.status === 200) {
@@ -118,7 +122,11 @@ class MyProfile extends Component {
           userImagePath: this.state.imgURL,
           userMajor: this.state.major
       }
-      axios.put('/api/v1/Restricted/rds/users/user', user)
+      axios.put('/api/v1/Restricted/rds/users/user', user, {
+        headers: {
+          'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+        }
+      })
           .then((response) => {
           })
           .then(() => { window.location.reload(); })

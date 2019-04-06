@@ -171,7 +171,11 @@ class ReviewPage extends Component {
             submissionReviewComments: this.state.reviewCommentsValue
         }
 
-        axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData)
+        axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
+            headers: {
+                'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+            }
+        })
             .then(function (res, error) {
                 console.log(res);
             }
