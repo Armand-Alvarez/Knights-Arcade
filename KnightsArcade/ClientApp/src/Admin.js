@@ -4,7 +4,8 @@ import RevComp from './Components/ReviewComponent';
 import TestingComponent from './Components/TestingComponent';
 import MangGamesComp from './Components/ManageGamesComponent';
 import MangUsersComp from './Components/ManageUsersComponent';
-import { Tabs, Tab, ListGroup, ListGroupItem } from 'react-bootstrap';
+import ArcadeMachineComponent from './Components/ArcadeMachineComponent';
+import { Tabs, Tab, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import axios from 'axios';
 import Footer from './Components/Footer';
 import { Auth } from 'aws-amplify';
@@ -22,12 +23,16 @@ export class Admin extends Component {
             testingGames: [],
             users: [],
             info: [],
+            arcadeMachines: [],
             isAdmin: 0
         };
 
         this.updateList = this.updateList.bind(this);
         this.updateUserList = this.updateUserList.bind(this);
         this.updateTestingList = this.updateTestingList.bind(this);
+        this.handleNewMachine = this.handleNewMachine.bind(this);
+        this.removeArcadeLocation = this.removeArcadeLocation.bind(this);
+        this.addArcadeLocation = this.addArcadeLocation.bind(this);
     }
 
     componentDidMount() {
@@ -71,6 +76,28 @@ export class Admin extends Component {
                 const testinggames = res.data;
                 this.setState({ testingGames: testinggames });
             })
+        axios.get('api/v1/Public/rds/arcademachines/allarcademachines')
+            .then(res => {
+                const arcademachines = res.data;
+                this.setState({ arcadeMachines: arcademachines })
+                console.log(arcademachines);
+            })
+    }
+
+    handleNewMachine() {
+        const arcadeMachine = {
+            arcadeMachineId: -1,
+            arcadeMachineAddress: "",
+            arcadeMAchineCoords: 0,
+            arcadeMachineDescription: "",
+            arcadeMachineRoom: "",
+            editable: true
+        }
+        const temp = this.state.arcadeMachines;
+        //temp = temp.reverse;
+        temp.push(arcadeMachine);
+        //temp = temp.reverse;
+        this.setState({ arcadeMachines: temp });
     }
 
     handleAdminCheck() {
@@ -107,6 +134,23 @@ export class Admin extends Component {
         }
 
         this.setState({ users: temp });
+
+    }
+
+    addArcadeLocation(machine) {
+        this.state.arcadeMachines.push(machine);
+    }
+
+    removeArcadeLocation(machineId) {
+        const temp = this.state.arcadeMachines;
+
+        for (var i = 0; i < temp.length; i++) {
+            if (temp[i].arcadeMachineId === machineId) {
+                temp.splice(i, 1);
+                break;
+            }
+        }
+        this.setState({ arcadeMachines: temp });
 
     }
 
@@ -172,13 +216,27 @@ export class Admin extends Component {
                         <Tab eventKey="TestingQueue" title="Testing Queue">
                             <ListGroup>
                                 <ListGroupItem>
-                                {
-                                    this.state.testingGames.map((game) => {
+                                    {
+                                        this.state.testingGames.map((game) => {
                                             return <TestingComponent updateFunc={this.updateTestingList} gameData={game} />
-                                    })
-                                }
+                                        })
+                                    }
                                 </ListGroupItem>
                             </ListGroup>
+                        </Tab>
+                        <Tab eventKey="ArcadeLocations" title="Arcade Machine Locations">
+                            <div>
+                                <Button className="addArcadeButton" bsStyle="success" onClick={this.handleNewMachine}>Add Arcade Machine Location</Button>
+                                <ListGroup>
+                                    <ListGroupItem>
+                                        {
+                                            this.state.arcadeMachines.map((machine) => {
+                                                return <ArcadeMachineComponent addLocation={this.addArcadeLocation} removeLocation={this.removeArcadeLocation} cancelNew={this.cancelNewLocation} arcadeMachine={machine} />
+                                            })
+                                        }
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </div>
                         </Tab>
                     </Tabs>
                     <Footer />
