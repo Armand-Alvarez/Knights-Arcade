@@ -657,7 +657,7 @@ namespace KnightsArcade.Controllers
         /// <response code="401">Empty or no authorization header.</response>
         /// <response code="403">Invalid access token given.</response>
         /// <response code="500">Error.</response>  
-        [HttpPut("rds/testinglog/testinglog")]
+        [HttpPut("rds/arcademachines/arcademachine")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
