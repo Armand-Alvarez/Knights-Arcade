@@ -42,7 +42,7 @@ namespace KnightsArcade.Infrastructure.Data.Interface
         void PostTestingLog(TestingLog testingLog);
 
         List<ArcadeMachine> GetAllArcadeMachines();
-        void PostArcadeMachine(ArcadeMachine arcadeMachine);
+        ArcadeMachine PostArcadeMachine(ArcadeMachine arcadeMachine);
         void PutArcadeMachine(ArcadeMachine arcadeMachine);
         void DeleteArcadeMachine(int? arcadeMachineId);
     }

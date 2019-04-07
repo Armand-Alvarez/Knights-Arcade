@@ -46,6 +46,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -80,6 +85,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -115,6 +125,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -160,6 +175,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -236,6 +256,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -276,6 +301,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -339,6 +369,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -385,6 +420,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -428,6 +468,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -468,6 +513,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -508,6 +558,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -548,6 +603,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -588,6 +648,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -628,6 +693,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if(accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -635,8 +705,8 @@ namespace KnightsArcade.Controllers
 
                 if (_validation.CheckValidation(accessToken.ToString()))
                 {
-                    _rdsLogic.PostArcadeMachine(arcadeMachine);
-                    return StatusCode(201);
+                    ArcadeMachine arcade = _rdsLogic.PostArcadeMachine(arcadeMachine);
+                    return StatusCode(201, arcade);
                 }
 
                 return StatusCode(403, "This is an invalid access token.");
@@ -668,6 +738,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
@@ -708,6 +783,11 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
                 if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");

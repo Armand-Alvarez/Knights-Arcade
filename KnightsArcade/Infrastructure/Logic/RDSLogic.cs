@@ -319,7 +319,7 @@ namespace KnightsArcade.Infrastructure.Logic
         }
 
         ///////
-        //// TestingLog
+        //// Arcade Machine
         ///////
 
         public List<ArcadeMachine> GetAllArcadeMachines()
@@ -327,10 +327,9 @@ namespace KnightsArcade.Infrastructure.Logic
             return _rdsData.GetAllArcadeMachines();
         }
 
-        public void PostArcadeMachine(ArcadeMachine arcadeMachine)
+        public ArcadeMachine PostArcadeMachine(ArcadeMachine arcadeMachine)
         {
-            _rdsData.PostArcadeMachine(arcadeMachine);
-            return;
+            return _rdsData.PostArcadeMachine(arcadeMachine);
         }
 
         public void PutArcadeMachine(ArcadeMachine arcadeMachine)

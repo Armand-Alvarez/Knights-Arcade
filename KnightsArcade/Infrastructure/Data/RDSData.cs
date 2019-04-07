@@ -92,8 +92,8 @@ namespace KnightsArcade.Infrastructure.Data
             if (game.GameAvailableToDownload != null) { updatedGame.GameAvailableToDownload = game.GameAvailableToDownload; }
             if(game.GameOnArcade != null) { updatedGame.GameOnArcade = game.GameOnArcade; }
 
-            DeleteGames((int)game.GameId);
-            PostGames(updatedGame);
+            knightsContext.Entry<Games>(updatedGame).State = EntityState.Modified;
+            knightsContext.SaveChanges();
         }
 
         public void DeleteGames(int gameId)
@@ -166,8 +166,8 @@ namespace KnightsArcade.Infrastructure.Data
                 updatedSubmission.SubmissionReviewComments = submission.SubmissionReviewComments;
             }
 
-            DeleteSubmissions((int)updatedSubmission.GameId);
-            PostSubmissions(updatedSubmission);
+            knightsContext.Entry<Submissions>(updatedSubmission).State = EntityState.Modified;
+            knightsContext.SaveChanges();
         }
 
         public void DeleteSubmissions(int gameId)
@@ -248,8 +248,8 @@ namespace KnightsArcade.Infrastructure.Data
                 updatedTest.TestAverageRam = test.TestAverageRam;
             }
 
-            DeleteTests((int)test.GameId);
-            PostTests(updatedTest);
+            knightsContext.Entry<Tests>(updatedTest).State = EntityState.Modified;
+            knightsContext.SaveChanges();
         }
 
         public void DeleteTests(int gameId)
@@ -317,8 +317,8 @@ namespace KnightsArcade.Infrastructure.Data
             TestsQueue updatedTestsQueue = GetTestsQueue(gameId);
 
             updatedTestsQueue.RetryCount++;
-            DeleteTestsQueue(gameId);
-            PostTestsQueue(updatedTestsQueue);
+            knightsContext.Entry<TestsQueue>(updatedTestsQueue).State = EntityState.Modified;
+            knightsContext.SaveChanges();
         }
 
         public void DeleteTestsQueue(int gameId)
@@ -368,6 +368,10 @@ namespace KnightsArcade.Infrastructure.Data
 
         public void PutUser(Users updatedUserInfo)
         {
+            DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
+            bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
+            KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
+
             Users currentUserInfo = GetUser(updatedUserInfo.Username);
 
             if(updatedUserInfo.UserMajor != null)
@@ -387,8 +391,8 @@ namespace KnightsArcade.Infrastructure.Data
                 currentUserInfo.UserImagePath = updatedUserInfo.UserImagePath;
             }
 
-            DeleteUser(currentUserInfo.Username);
-            PostUser(currentUserInfo);
+            knightsContext.Entry<Users>(currentUserInfo).State = EntityState.Modified;
+            knightsContext.SaveChanges();
         }
 
         public void DeleteUser(string username)
@@ -450,7 +454,7 @@ namespace KnightsArcade.Infrastructure.Data
             return arcadeMachines;
         }
 
-        public void PostArcadeMachine(ArcadeMachine arcadeMachine)
+        public ArcadeMachine PostArcadeMachine(ArcadeMachine arcadeMachine)
         {
             DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
             bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
@@ -458,6 +462,7 @@ namespace KnightsArcade.Infrastructure.Data
 
             knightsContext.ArcadeMachines.Add(arcadeMachine);
             knightsContext.SaveChanges();
+            return arcadeMachine;
         }
 
         public void PutArcadeMachine(ArcadeMachine arcadeMachine)
@@ -485,8 +490,8 @@ namespace KnightsArcade.Infrastructure.Data
                 updatedArcadeMachine.ArcadeMachineAddress = updatedArcadeMachine.ArcadeMachineAddress;
             }
 
-            DeleteArcadeMachine(updatedArcadeMachine.ArcadeMachineId);
-            PostArcadeMachine(updatedArcadeMachine);
+            knightsContext.Entry<ArcadeMachine>(updatedArcadeMachine).State = EntityState.Modified;
+            knightsContext.SaveChanges();
         }
 
         public void DeleteArcadeMachine(int? arcadeMachineId)
