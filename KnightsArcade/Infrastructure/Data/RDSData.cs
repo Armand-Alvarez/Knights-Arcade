@@ -487,7 +487,7 @@ namespace KnightsArcade.Infrastructure.Data
             }
             if (arcadeMachine.ArcadeMachineAddress != null)
             {
-                updatedArcadeMachine.ArcadeMachineAddress = updatedArcadeMachine.ArcadeMachineAddress;
+                updatedArcadeMachine.ArcadeMachineAddress = arcadeMachine.ArcadeMachineAddress;
             }
 
             knightsContext.Entry<ArcadeMachine>(updatedArcadeMachine).State = EntityState.Modified;
