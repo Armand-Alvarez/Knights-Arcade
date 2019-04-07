@@ -489,7 +489,7 @@ namespace KnightsArcade.Infrastructure.Data
             PostArcadeMachine(updatedArcadeMachine);
         }
 
-        public void DeleteArcadeMachine(int arcadeMachineId)
+        public void DeleteArcadeMachine(int? arcadeMachineId)
         {
             DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
             bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
