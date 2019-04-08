@@ -171,7 +171,7 @@ export class ArcadeMachineComponent extends Component {
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Address
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Address" value={this.state.arcadeMachineAddressTemp} onChange={this.handleAddressChange} />
                             </Col>
                         </FormGroup>
@@ -179,7 +179,7 @@ export class ArcadeMachineComponent extends Component {
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Room
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Room" value={this.state.arcadeMachineRoomTemp} onChange={this.handleRoomChange} />
                             </Col>
                         </FormGroup>
@@ -187,7 +187,7 @@ export class ArcadeMachineComponent extends Component {
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Description
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Description" value={this.state.arcadeMachineDescriptionTemp} onChange={this.handleDescriptionChange} />
                             </Col>
                         </FormGroup>
@@ -208,7 +208,7 @@ export class ArcadeMachineComponent extends Component {
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Address
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Address" value={this.state.arcadeMachineAddressTemp} onChange={this.handleAddressChange} />
                             </Col>
                         </FormGroup>
@@ -216,7 +216,7 @@ export class ArcadeMachineComponent extends Component {
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Room
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Room" value={this.state.arcadeMachineRoomTemp} onChange={this.handleRoomChange} />
                             </Col>
                         </FormGroup>
@@ -224,7 +224,7 @@ export class ArcadeMachineComponent extends Component {
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Description
                             </Col>
-                            <Col sm={6}>
+                            <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Description" value={this.state.arcadeMachineDescriptionTemp} onChange={this.handleDescriptionChange} />
                             </Col>
                         </FormGroup>
