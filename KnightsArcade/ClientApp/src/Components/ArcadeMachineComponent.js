@@ -20,6 +20,7 @@ export class ArcadeMachineComponent extends Component {
         this.removeMachine = this.removeMachine.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.cancelNew = this.cancelNew.bind(this);
+        this.fail = this.fail.bind(this);
 
         if (this.props.arcadeMachine.arcadeMachineId === -1) {
             this.state = {
@@ -32,7 +33,9 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineRoomTemp: this.props.arcadeMachine.arcadeMachineRoom,
                 arcadeMachineDescriptionTemp: this.props.arcadeMachine.arcadeMachineDescription,
                 isNew: true,
-                removeModal: false
+                errorMsg: "",
+                removeModal: false,
+                errorModal: false
             }
         } else {
             this.state = {
@@ -45,9 +48,16 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineRoomTemp: this.props.arcadeMachine.arcadeMachineRoom,
                 arcadeMachineDescriptionTemp: this.props.arcadeMachine.arcadeMachineDescription,
                 isNew: false,
-                removeModal: false
+                errorMsg: "",
+                removeModal: false,
+                errorModal: false
             };
         }
+    }
+
+    fail(msg, err) {
+        this.setState({ errorModal: true });
+        this.setState({ errorMsg: (msg + err) });
     }
 
     makeEditable(e) {
@@ -80,10 +90,9 @@ export class ArcadeMachineComponent extends Component {
                     this.setState({ arcadeMachineId: arcadeMachine.arcadeMachineId });
                     this.props.addLocation(arcadeMachine);
                     this.props.removeLocation(this.state.arcadeMachineId);
-                    alert(res.status)
                 }
                 else {
-                    alert(res.status);
+                    this.fail("Location could not be added: Error:", res.status);
                 }
             })
         }
@@ -103,14 +112,15 @@ export class ArcadeMachineComponent extends Component {
                 }
             }).then(res => {
                 if (res.status < 400) {
-                    alert(res.status);
+
                 }
                 else {
-                    alert(res.status);
+                    this.fail("Location could not be saved: Error:", res.status);
                 }
             })
         }
     }
+
 
     cancelChanges(e) {
         this.setState({ editable: false })
@@ -281,6 +291,17 @@ export class ArcadeMachineComponent extends Component {
                             <span>Are you sure you want to remove this location?</span><br></br>
                             <Button bsStyle="danger" onClick={this.removeMachine}>Yes</Button><br></br>
                             <Button bsStyle="warning" onClick={this.hideModal}>No</Button>
+                        </div>
+                    </Popup>
+                    <Popup
+                        open={this.state.errorModal}
+                        modal
+                        closeOnDocumentClick={true}
+                        lockScroll={true}
+                    >
+                        <div className="ReviewModal">
+                            <span>Failed to add new location</span><br />
+                            <span>Error: {this.state.errorCode}</span>
                         </div>
                     </Popup>
                 </div>
