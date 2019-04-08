@@ -223,7 +223,7 @@ class GameAdvert extends Component {
                             </Row>
                         </Grid>
                     </div>
-                    <Footer />
+                    <Footer scrolls={true}/>
                 </div>
             )
         }
@@ -234,7 +234,7 @@ class GameAdvert extends Component {
                     <div className="FourOFourSpace">
                         <h2>404: Game Not Found</h2>
                     </div>
-                    <Footer />
+                    <Footer scrolls={false}/>
                 </div>
 
             )
@@ -245,7 +245,7 @@ class GameAdvert extends Component {
                     <NaviBar />
                     <div className="WhiteSpace">
                     </div>
-                    <Footer />
+                    <Footer scrolls={false}/>
                 </div>
                     )
         }

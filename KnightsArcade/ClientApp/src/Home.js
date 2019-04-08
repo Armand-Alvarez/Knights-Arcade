@@ -29,7 +29,7 @@ class Home extends Component {
 
         <GameSlides/>
               </div>
-              <Footer />
+              <Footer scrolls={false} />
               </div>
     )
   }

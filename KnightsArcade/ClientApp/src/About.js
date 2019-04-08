@@ -63,7 +63,7 @@ class About extends Component {
           </Row>
             </Grid>
         </div>
-        <Footer />
+              <Footer scrolls={false} />
         </div>
     )
   }

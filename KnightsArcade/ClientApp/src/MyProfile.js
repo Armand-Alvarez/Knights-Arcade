@@ -326,7 +326,7 @@ class MyProfile extends Component {
         </Col>
         </Row>
             </Grid>
-            <Footer/>
+            <Footer scrolls={true}/>
       </div>
     )
   }

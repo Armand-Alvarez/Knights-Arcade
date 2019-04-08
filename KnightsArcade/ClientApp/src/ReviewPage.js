@@ -175,7 +175,7 @@ class ReviewPage extends Component {
 
         axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
             headers: {
-                'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+                'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
             }
         })
             .then(function (res, error) {
@@ -405,36 +405,36 @@ class ReviewPage extends Component {
                             </Row>
                             <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                 <Col className="reviewPanel" md={7} mdOffset={2}>
-                                            <Table>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Opening Test</th>
-                                                        <th>Five Minute Test</th>
-                                                        <th>Closing Test</th>
-                                                        <th>Average RAM Test</th>
-                                                        <th>Peak RAM Test</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>{testOpens}</td>
-                                                        <td>{test5min}</td>
-                                                        <td>{testCloses}</td>
-                                                        <td>{testRamString}</td>
-                                                        <td>Not Yet Implemented</td>
-                                                    </tr>
-                                                </tbody>
-                                            </Table>
-                                            <CollapsibleData testlogs={this.state.testlogs} />
+                                    <Table>
+                                        <thead>
+                                            <tr>
+                                                <th>Opening Test</th>
+                                                <th>Five Minute Test</th>
+                                                <th>Closing Test</th>
+                                                <th>Average RAM Test</th>
+                                                <th>Peak RAM Test</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{testOpens}</td>
+                                                <td>{test5min}</td>
+                                                <td>{testCloses}</td>
+                                                <td>{testRamString}</td>
+                                                <td>Not Yet Implemented</td>
+                                            </tr>
+                                        </tbody>
+                                    </Table>
+                                    <CollapsibleData testlogs={this.state.testlogs} />
 
                                     <Form>
-                                                <FormGroup controlId="reviewComments">
-                                                    <ControlLabel>Review Comments</ControlLabel>
-                                                    <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
-                                                    <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
-                                                </FormGroup>
+                                        <FormGroup controlId="reviewComments">
+                                            <ControlLabel>Review Comments</ControlLabel>
+                                            <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
+                                            <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
+                                        </FormGroup>
                                     </Form>
-                                    <Row style={{ marginLeft:0, marginRight:0 }}>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                         <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
                                             <Button className="acceptButton" disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
                                         </Col>
@@ -448,56 +448,59 @@ class ReviewPage extends Component {
 
                                 </Col>
 
-                                </Row>
+                            </Row>
                         </Grid>
-                            <Popup
-                                open={this.state.reviewModal}
-                                modal
-                                closeOnDocumentClick={true}
-                                lockScroll={true}
-                            >
-                                <a href="/admin"><div className="ReviewModal">
-                                    <span>{this.state.reviewMessage}</span><br></br>
-                                    <span>Click on this modal to return to the administration page</span><br></br>
-                                </div></a>
-                            </Popup>
-                            <Popup
-                                open={this.state.errorAlert}
-                                modal
-                                closeOnDocumentClick={false}
-                                lockScroll={true}
-                            >
-                                <div className="ErrorModal">
-                                    <span>{this.state.errorAlertMessage}</span><br></br>
-                                    <span>Please reload the page and try again</span>
-                                </div>
+                        <Popup
+                            open={this.state.reviewModal}
+                            modal
+                            closeOnDocumentClick={true}
+                            lockScroll={true}
+                        >
+                            <a href="/admin"><div className="ReviewModal">
+                                <span>{this.state.reviewMessage}</span><br></br>
+                                <span>Click on this modal to return to the administration page</span><br></br>
+                            </div></a>
+                        </Popup>
+                        <Popup
+                            open={this.state.errorAlert}
+                            modal
+                            closeOnDocumentClick={false}
+                            lockScroll={true}
+                        >
+                            <div className="ErrorModal">
+                                <span>{this.state.errorAlertMessage}</span><br></br>
+                                <span>Please reload the page and try again</span>
+                            </div>
                         </Popup>
 
                     </div>
-                    <Footer />
-                    </div>
-                    )
-                }
-        
+                    <Footer scrolls={true} />
+                </div>
+            )
+        }
+
         else if (this.state.isAdmin == 1) {
             return (
                 <div className='Fullpage'>
-                        <NaviBar />
-                        <div className="Header">
-                            <h2>Error 403: Page forbidden</h2>
-                        </div>
+                    <NaviBar />
+                    <div className="Header">
+                        <h2>Error 403: Page forbidden</h2>
                     </div>
-                    )
-                }
-        
+                    <Footer scrolls={false} />
+                </div>
+            )
+        }
+
         else if (this.state.isAdmin == 0) {
             return (
                 <div className='Fullpage'>
-                        <NaviBar />
-                    </div>
-                    )
-              }
-          }
-      }
-      
+                    <NaviBar />
+                    <Footer scrolls={false} />
+                </div>
+
+            )
+        }
+    }
+}
+
 export default ReviewPage;

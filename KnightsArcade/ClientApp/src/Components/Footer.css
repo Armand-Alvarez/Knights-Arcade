@@ -15,6 +15,22 @@
     margin: auto;
 }
 
+.FooterNoScroll {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-top: 5px;
+    text-align:center;
+    float: none;
+    height: 80px;
+    background-color: #000000;
+    color: grey;
+    overflow: hidden;
+    display: block;
+    margin-top:50px;
+}
+
 .FooterText{
     position: relative;
     top: 50%;

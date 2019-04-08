@@ -247,7 +247,7 @@ export class Admin extends Component {
                             </div>
                         </Tab>
                     </Tabs>
-                    <Footer />
+                    <Footer scrolls={true}/>
                 </div>
             )
         }
@@ -259,6 +259,7 @@ export class Admin extends Component {
                     <div className="Header">
                         <h2>Error 403: Page forbidden</h2>
                     </div>
+                    <Footer scrolls={false}/>
                 </div>
             )
         }
@@ -267,6 +268,7 @@ export class Admin extends Component {
             return (
                 <div className='Fullpage'>
                     <NaviBar />
+                    <Footer scrolls={false}/>
                 </div>
             )
         }

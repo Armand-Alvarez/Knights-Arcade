@@ -740,7 +740,7 @@ class Submit extends Component {
                 </div>
                 <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{cursor:'pointer'}}>X</Button>
             </Popup>
-            <Footer />
+            <Footer scrolls={true}/>
       </div>
     )
   }
