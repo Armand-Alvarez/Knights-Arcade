@@ -19,7 +19,9 @@
 }
 
 .arcadeButton {
-    width: 5em;
+    width: 6em;
+    text-align: center;
+    float: right;
     margin: 0;
-    margin-left: 1rem;
+    margin-left: 8px;
 }

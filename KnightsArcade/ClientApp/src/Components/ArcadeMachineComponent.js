@@ -129,7 +129,7 @@ export class ArcadeMachineComponent extends Component {
     }
 
     removeMachine(e) {
-        axios.delete('/api/v1/Restricted/rds/arcademachines/arcademachine?arcadeMachineId='+this.state.arcadeMachineId, {
+        axios.delete('/api/v1/Restricted/rds/arcademachines/arcademachine?arcadeMachineId=' + this.state.arcadeMachineId, {
             headers: {
                 'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
             }
@@ -159,10 +159,6 @@ export class ArcadeMachineComponent extends Component {
             return (
                 <div>
                     <Form horizontal>
-                        <FormGroup>
-                            <Button bsStyle="primary" className="arcadeButton" onClick={this.saveChanges}>Commit</Button>
-                            <Button bsStyle="warning" className="arcadeButton" onClick={this.cancelNew}>Cancel</Button>
-                        </FormGroup>
                         <FormGroup controlId="ArcadeMachineAddress">
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Address
@@ -185,6 +181,12 @@ export class ArcadeMachineComponent extends Component {
                             </Col>
                             <Col sm={6}>
                                 <FormControl type="email" placeholder="Arcade Machine Description" value={this.state.arcadeMachineDescriptionTemp} onChange={this.handleDescriptionChange} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col sm={5} smOffset={7}>
+                                <Button bsStyle="warning" className="arcadeButton" onClick={this.cancelNew}>Cancel</Button>
+                                <Button bsStyle="primary" className="arcadeButton" onClick={this.saveChanges}>Commit</Button>
                             </Col>
                         </FormGroup>
                     </Form>
@@ -192,12 +194,8 @@ export class ArcadeMachineComponent extends Component {
             )
         } else if (this.state.editable) {
             return (
-               <div>
+                <div>
                     <Form horizontal>
-                        <FormGroup>
-                            <Button bsStyle="primary" className="arcadeButton" onClick={this.saveChanges}>Save</Button>
-                            <Button bsStyle="warning" className="arcadeButton" onClick={this.cancelChanges}>Cancel Changes</Button>
-                        </FormGroup>
                         <FormGroup controlId="ArcadeMachineAddress">
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Address
@@ -220,6 +218,12 @@ export class ArcadeMachineComponent extends Component {
                             </Col>
                             <Col sm={6}>
                                 <FormControl type="email" placeholder="Arcade Machine Description" value={this.state.arcadeMachineDescriptionTemp} onChange={this.handleDescriptionChange} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col sm={5} smOffset={7}>
+                                <Button bsStyle="warning" className="arcadeButton" onClick={this.cancelChanges}>Cancel</Button>
+                                <Button bsStyle="primary" className="arcadeButton" onClick={this.saveChanges}>Save</Button>
                             </Col>
                         </FormGroup>
                     </Form>
@@ -230,11 +234,6 @@ export class ArcadeMachineComponent extends Component {
             return (
                 <div>
                     <Form horizontal>
-                        <FormGroup>
-                            <Col sm={8} smOffset={0}>
-                                <Button bsStyle="primary" className="arcadeButton" onClick={this.makeEditable}> Edit </Button>
-                            </Col>
-                        </FormGroup>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Address
@@ -265,7 +264,12 @@ export class ArcadeMachineComponent extends Component {
                                 </FormControl.Static>
                             </Col>
                         </FormGroup>
-                        <Button bsStyle="danger" onClick={this.handleDelete}>Remove This Location</Button>
+                        <FormGroup>
+                            <Col sm={5} smOffset={7}>
+                                <Button bsStyle="danger" className="arcadeButton" onClick={this.handleDelete}>Remove</Button>
+                                <Button bsStyle="primary" className="arcadeButton" onClick={this.makeEditable}>Edit</Button>
+                            </Col>
+                        </FormGroup>
                     </Form>
                     <Popup
                         open={this.state.removeModal}
