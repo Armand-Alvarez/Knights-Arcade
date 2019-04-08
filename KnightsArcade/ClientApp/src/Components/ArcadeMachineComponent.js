@@ -278,7 +278,7 @@ export class ArcadeMachineComponent extends Component {
                         lockScroll={true}
                     >
                         <div className="ReviewModal">
-                            <span>Are you sure you want to remove this game?</span><br></br>
+                            <span>Are you sure you want to remove this location?</span><br></br>
                             <Button bsStyle="danger" onClick={this.removeMachine}>Yes</Button><br></br>
                             <Button bsStyle="warning" onClick={this.hideModal}>No</Button>
                         </div>
