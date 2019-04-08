@@ -78,7 +78,6 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineDescription: this.state.arcadeMachineDescriptionTemp,
                 arcadeMachineCoords: null
             }
-            console.log(arcadeMachine);
             this.setState({ isNew: false });
             axios.post('api/v1/Restricted/rds/arcademachines/arcademachine', arcadeMachine, {
                 headers: {
@@ -105,7 +104,6 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineDescription: this.state.arcadeMachineDescriptionTemp,
                 arcadeMachineCoords: null
             }
-            console.log(arcadeMachine);
             axios.put('api/v1/Restricted/rds/arcademachines/arcademachine', arcadeMachine, {
                 headers: {
                     'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
