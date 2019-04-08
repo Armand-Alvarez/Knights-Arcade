@@ -38,7 +38,8 @@ class Games extends Component {
       Sports: false,
       Strategy: false,
       Survival: false,
-      searchValue: urlSearch
+      searchValue: urlSearch,
+      scrolls: true
       };
   }
 
@@ -75,6 +76,12 @@ class Games extends Component {
                 gamesList: this.state.games
             });
         }
+        if (this.state.gamesList.length < 3) {
+            this.setState({ scrolls: false });
+        }
+        else {
+            this.setState({ scrolls: true });
+        }
     }
 
     handleSearchChange(e) {
@@ -100,6 +107,12 @@ class Games extends Component {
             this.setState({
                 gamesList: this.state.games
             });
+        }
+        if (this.state.gamesList.length < 3) {
+            this.setState({ scrolls: false });
+        }
+        else {
+            this.setState({ scrolls: true });
         }
     }
 
@@ -216,6 +229,12 @@ class Games extends Component {
         break;
       }
       console.log("asasas");
+      if (this.state.gamesList.length < 3) {
+          this.setState({ scrolls: false });
+      }
+      else {
+          this.setState({ scrolls: true });
+      }
     }
 
     handleSortBySelect(eventKey) {
@@ -333,7 +352,8 @@ class Games extends Component {
       </Col>
       </Row>
             </Grid>
-            <Footer scrolls={true}/>
+            <div className="whitespace" />
+            <Footer scrolls={this.state.scrolls}/>
 
       </div>
         )

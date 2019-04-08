@@ -2,6 +2,10 @@
 
 }
 
+.whitespace{
+    padding:3em;
+}
+
 .games-page__form-container {
 	display: flex;
 	flex-direction: column;
