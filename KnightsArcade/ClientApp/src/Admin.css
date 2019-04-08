@@ -16,6 +16,9 @@
 .addArcadeButton {
     float: none;
     margin: 25px;
+    width: 15em;
+    text-align: center;
+    float: right;
 }
 
 .arcadeButton {
@@ -24,4 +27,47 @@
     float: right;
     margin: 0;
     margin-left: 8px;
+}
+
+.admin_users_container {
+    width: 75%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin_review_container {
+    width: 75%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin_games_container {
+    width: 75%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin_testqueue_container {
+    width: 75%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin_arcade_container {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: auto;
+}
+
+
+.games-page__search-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
 }

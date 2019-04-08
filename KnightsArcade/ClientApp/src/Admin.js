@@ -186,46 +186,54 @@ export class Admin extends Component {
 
                     <Tabs defaultActiveKey={activeTab} id="Admin-tabs">
                         <Tab eventKey="ReviewSubmissions" title="Review Submissions">
-                            <ListGroup>
-                                <ListGroupItem> {
-                                    this.state.submissions.map((submission) => {
-                                        return <RevComp submissionData={submission} />
-                                    })
-                                }
-                                </ListGroupItem>
-                            </ListGroup>
-                        </Tab>
-                        <Tab eventKey="ManageGames" title="Manage Games">
-                            <ListGroup>
-                                <ListGroupItem> {
-                                    this.state.games.map((game) => {
-                                        return <MangGamesComp updateFunc={this.updateList} gameData={game} />
-                                    })
-                                }</ListGroupItem>
-                            </ListGroup>
-                        </Tab>
-                        <Tab eventKey="ManageUsers" title="Manage Users">
-                            <ListGroup>
-                                <ListGroupItem> {
-                                    this.state.users.map((user) => {
-                                        return <MangUsersComp updateFunc={this.updateUserList} userData={user} />
-                                    })
-                                }</ListGroupItem>
-                            </ListGroup>
-                        </Tab>
-                        <Tab eventKey="TestingQueue" title="Testing Queue">
-                            <ListGroup>
-                                <ListGroupItem>
-                                    {
-                                        this.state.testingGames.map((game) => {
-                                            return <TestingComponent updateFunc={this.updateTestingList} gameData={game} />
+                            <div className="admin_review_container">
+                                <ListGroup>
+                                    <ListGroupItem> {
+                                        this.state.submissions.map((submission) => {
+                                            return <RevComp submissionData={submission} />
                                         })
                                     }
-                                </ListGroupItem>
-                            </ListGroup>
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </div>
+                        </Tab>
+                        <Tab eventKey="ManageGames" title="Manage Games">
+                            <div className="admin_games_container">
+                                <ListGroup>
+                                    <ListGroupItem> {
+                                        this.state.games.map((game) => {
+                                            return <MangGamesComp updateFunc={this.updateList} gameData={game} />
+                                        })
+                                    }</ListGroupItem>
+                                </ListGroup>
+                            </div>
+                        </Tab>
+                        <Tab eventKey="ManageUsers" title="Manage Users">
+                            <div className="admin_users_container">
+                                <ListGroup>
+                                    <ListGroupItem> {
+                                        this.state.users.map((user) => {
+                                            return <MangUsersComp updateFunc={this.updateUserList} userData={user} />
+                                        })
+                                    }</ListGroupItem>
+                                </ListGroup>
+                            </div>
+                        </Tab>
+                        <Tab eventKey="TestingQueue" title="Testing Queue">
+                            <div className="admin_testqueue_container">
+                                <ListGroup>
+                                    <ListGroupItem>
+                                        {
+                                            this.state.testingGames.map((game) => {
+                                                return <TestingComponent updateFunc={this.updateTestingList} gameData={game} />
+                                            })
+                                        }
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </div>
                         </Tab>
                         <Tab eventKey="ArcadeLocations" title="Arcade Machine Locations">
-                            <div>
+                            <div className="admin_arcade_container">
                                 <Button className="addArcadeButton" bsStyle="success" onClick={this.handleNewMachine}>Add Arcade Machine Location</Button>
                                 <ListGroup>
                                     <ListGroupItem>
