@@ -47,7 +47,7 @@ export class Locations extends Component {
                     </ListGroupItem> 
                 </ListGroup>
 
-                <Footer/>
+                <Footer scrolls={true}/>
             </div>
         )
     }
