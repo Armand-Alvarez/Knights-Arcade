@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
 import Footer from './Components/Footer';
-//import {Map} from 'google-maps-react';
 import { Grid, Row, Col, Jumbotron , ListGroup, ListGroupItem} from 'react-bootstrap';
+import axios from 'axios'
+import MachineComp from './Components/MachineLocationComponent';
 
 
 export class Locations extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            machines: 2
+            machines: []
         };
-    }     
+    }    
+    
+    componentDidMount() {
+
+        // Get the arcade machine locations
+        axios.get('/api/v1/Public/rds/arcademachines/allarcademachines')
+            .then(res => {
+                const machines = res.data;
+                this.setState({ machines: machines });
+            })
+    }
 
     render() {
         return(
@@ -27,22 +38,15 @@ export class Locations extends Component {
                     </Grid>
                 </Jumbotron>
 
-                <div style={{ width: 500, height: 500 }} id="map" />
-
                 <ListGroup>
-                    <ListGroupItem>
-                        <p>Address: 123 Street</p>
-                        <p>Building: A Building</p>
-                        <p>Room Number: 123</p>
-                    </ListGroupItem>
-
-                    <ListGroupItem>
-                        <p>Address: 123 Street</p>
-                        <p>Building: A Building</p>
-                        <p>Room Number: 123</p>
-                    </ListGroupItem>
+                    <ListGroupItem> {
+                        this.state.machines.map((machine) => {
+                            return <MachineComp machineData={machine} />
+                        })   
+                    }
+                    </ListGroupItem> 
                 </ListGroup>
-                
+
                 <Footer/>
             </div>
         )
