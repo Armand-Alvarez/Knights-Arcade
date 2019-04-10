@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from './Home';
 import MyProfile from './MyProfile';
+import Locations from './Locations';
 import Games from './Games';
 import About from './About';
 import Submit from './Submit';
@@ -27,6 +28,7 @@ class App extends Component {
           <Route path="/GameCard" component={GameCard}/>
           <Route path="/Admin" component={Admin}/>
           <Route path="/Review" component={ReviewPage}/>
+          <Route path="/Locations" component={Locations}/>
         </Switch>
       </BrowserRouter>
     )
