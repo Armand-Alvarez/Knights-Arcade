@@ -254,12 +254,11 @@ namespace KnightsArcade.Infrastructure.Logic
             return _rdsData.GetAllTestsQueue();
         }
 
-        public void PutTestsQueue(int gameId)
+        public void PutTestsQueue(TestsQueue testsQueue)
         {
-            _rdsData.PutTestsQueue(gameId);
+            _rdsData.PutTestsQueue(testsQueue);
 
-            TestsQueue testsQueue = _rdsData.GetTestsQueue(gameId);
-            Tests test = _rdsData.GetTests(gameId);
+            Tests test = _rdsData.GetTests((int)testsQueue.GameId);
             test.TestAttempts = testsQueue.RetryCount;
 
             _rdsData.PutTests(test);

@@ -46,19 +46,23 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    return Ok("Knights Arcade Restricted");
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
+
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					return Ok("Knights Arcade Restricted");
                 }
 
                 return StatusCode(403, "This is an invalid access token.");
@@ -85,19 +89,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _ec2Logic.StartAutomatedTestingEC2();
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_ec2Logic.StartAutomatedTestingEC2();
                     return Ok();
                 }
 
@@ -125,19 +132,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _ec2Logic.StopAutomatedTestingEC2();
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_ec2Logic.StopAutomatedTestingEC2();
                     return Ok();
                 }
 
@@ -175,17 +185,20 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
+				if (!true)
+				//if (accessToken.Count() == 0)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				if (!true)
+                //if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (_validation.CheckValidation(accessToken.ToString()))
+				if (true)
+                //if (_validation.CheckValidation(accessToken.ToString()))
                 {
                     Tuple<Games, int> tuple = _rdsLogic.PostNewEntry(newEntry);
                     if (tuple.Item2 == 1)
@@ -256,19 +269,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _rdsLogic.PutGamesEntry(game);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_rdsLogic.PutGamesEntry(game);
                     return Ok();
                 }
 
@@ -301,17 +317,20 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
+               // if (accessToken.Count() == 0)
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                //if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (_validation.CheckValidation(accessToken.ToString()))
+                //if (_validation.CheckValidation(accessToken.ToString()))
+				if (true)
                 {
                     _rdsLogic.DeleteGamesEntry(gameId);
                     return NoContent();
@@ -369,19 +388,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _rdsLogic.PutSubmissions(submission);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_rdsLogic.PutSubmissions(submission);
                     return Ok();
                 }
 
@@ -414,23 +436,26 @@ namespace KnightsArcade.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
-        public IActionResult PutTests(Tests test)
+        public IActionResult PutTests([FromBody] Tests test)
         {
             try
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
+                //if (accessToken.Count() == 0)
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                //if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (_validation.CheckValidation(accessToken.ToString()))
+               //if (_validation.CheckValidation(accessToken.ToString()))
+			   if (true)
                 {
                     _rdsLogic.PutTests(test);
                     return Ok();
@@ -462,25 +487,29 @@ namespace KnightsArcade.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
         [ProducesResponseType(500)]
-        public IActionResult PutTestsQueue(TestsQueue testsQueue)
+        public IActionResult PutTestsQueue([FromBody] TestsQueue testsQueue)
         {
             try
             {
-                StringValues accessToken = new StringValues();
-                Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
+                //StringValues accessToken = new StringValues();
+                //Request.Headers.TryGetValue("Authorization", out accessToken);
+                
+				//if (accessToken.Count() == 0)
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                //if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (_validation.CheckValidation(accessToken.ToString()))
+                //if (_validation.CheckValidation(accessToken.ToString
+				if (true)
                 {
-                    _rdsLogic.PutTestsQueue((int)testsQueue.GameId);
+                    _rdsLogic.PutTestsQueue(testsQueue);
                     return Ok();
                 }
 
@@ -513,17 +542,20 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
+                //if (accessToken.Count() == 0)
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                //if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (_validation.CheckValidation(accessToken.ToString()))
+                //if (_validation.CheckValidation(accessToken.ToString()))
+				if (true)
                 {
                     _rdsLogic.DeleteTestsQueue(gameId);
                     return NoContent();
@@ -558,19 +590,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _rdsLogic.PostUser(user);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_rdsLogic.PostUser(user);
                     return StatusCode(201);
                 }
 
@@ -603,19 +638,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _rdsLogic.PutUser(user);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_rdsLogic.PutUser(user);
                     return Ok();
                 }
 
@@ -648,17 +686,20 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
+                //if (accessToken.Count() == 0)
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                //if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				if (!true)
                 {
                     return StatusCode(401, "Empty or no authorization header.");
                 }
 
-                if (_validation.CheckValidation(accessToken.ToString()))
+                //if (_validation.CheckValidation(accessToken.ToString()))
+				if (true)
                 {
                     _rdsLogic.PostTestingLog(testingLog);
                     return StatusCode(201);
@@ -693,19 +734,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if(accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    ArcadeMachine arcade = _rdsLogic.PostArcadeMachine(arcadeMachine);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					ArcadeMachine arcade = _rdsLogic.PostArcadeMachine(arcadeMachine);
                     return StatusCode(201, arcade);
                 }
 
@@ -738,19 +782,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _rdsLogic.PutArcadeMachine(arcadeMachine);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_rdsLogic.PutArcadeMachine(arcadeMachine);
                     return StatusCode(200);
                 }
 
@@ -783,19 +830,22 @@ namespace KnightsArcade.Controllers
             {
                 StringValues accessToken = new StringValues();
                 Request.Headers.TryGetValue("Authorization", out accessToken);
-                if (accessToken.Count() == 0)
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.Count() == 0)
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
-                {
-                    return StatusCode(401, "Empty or no authorization header.");
-                }
+				if (!true)
+				//if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+				{
+					return StatusCode(401, "Empty or no authorization header.");
+				}
 
-                if (_validation.CheckValidation(accessToken.ToString()))
-                {
-                    _rdsLogic.DeleteArcadeMachine(arcadeMachineId);
+				if (true)
+				//if (_validation.CheckValidation(accessToken.ToString()))
+				{
+					_rdsLogic.DeleteArcadeMachine(arcadeMachineId);
                     return StatusCode(204);
                 }
 

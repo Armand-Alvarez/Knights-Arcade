@@ -308,16 +308,13 @@ namespace KnightsArcade.Infrastructure.Data
             knightsContext.SaveChanges();
         }
 
-        public void PutTestsQueue(int gameId)
+        public void PutTestsQueue(TestsQueue testsQueue)
         {
             DbContextOptionsBuilder<KnightsArcadeContext> bootUp = new DbContextOptionsBuilder<KnightsArcadeContext>();
             bootUp.UseMySql(_configuration.GetConnectionString("KnightsArcadeDb"));
             KnightsArcadeContext knightsContext = new KnightsArcadeContext(bootUp.Options);
 
-            TestsQueue updatedTestsQueue = GetTestsQueue(gameId);
-
-            updatedTestsQueue.RetryCount++;
-            knightsContext.Entry<TestsQueue>(updatedTestsQueue).State = EntityState.Modified;
+            knightsContext.Entry<TestsQueue>(testsQueue).State = EntityState.Modified;
             knightsContext.SaveChanges();
         }
 
