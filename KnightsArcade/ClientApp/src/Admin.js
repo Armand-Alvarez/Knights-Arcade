@@ -64,7 +64,7 @@ export class Admin extends Component {
                 this.setState({ games: games });
             })
 
-        // todo: Get all users
+        // Get all users
         axios.get('/api/v1/Public/rds/users/allusers')
             .then(res => {
                 const users = res.data;

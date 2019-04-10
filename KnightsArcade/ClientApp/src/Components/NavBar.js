@@ -93,7 +93,10 @@ export default class NaviBar extends Component {
 							<NavItem eventKey={2} href="About">
 								About
 							</NavItem>
-							<NavItem eventKey={3} href="Admin">
+							<NavItem eventKey={3} href="Locations">
+								Arcade Machine Locations
+							</NavItem>
+							<NavItem eventKey={4} href="Admin">
 								Admin
 							</NavItem>
 	
@@ -142,9 +145,9 @@ export default class NaviBar extends Component {
 								<NavItem eventKey={2} href="About">
 									About
 								</NavItem>
-								
-
-
+								<NavItem eventKey={3} href="Locations">
+									Arcade Machine Locations
+								</NavItem>
 							</Nav>
 							}
 							<Nav pullRight>
