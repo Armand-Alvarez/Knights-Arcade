@@ -763,6 +763,17 @@ class Resubmit extends Component {
               </div>
               )
       }
+      if (this.state.gameStatus != 'r') {
+          return (
+              <div>
+                  <NaviBar />
+                  <div>
+                      <h2> 404: Page Not Found </h2>
+                  </div>
+                  <Footer scrolls={false} />
+              </div>
+              )
+      }
 
     return (
       <div className = "Submit">
