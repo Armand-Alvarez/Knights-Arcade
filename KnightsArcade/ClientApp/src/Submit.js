@@ -12,6 +12,7 @@ import { css } from '@emotion/core';
 import { ClipLoader, PacmanLoader } from 'react-spinners';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
+import { isUndefined } from 'util';
 
 
 class Submit extends Component {
@@ -74,6 +75,8 @@ class Submit extends Component {
       img0File: "",
       img0FileName: "",
       imgValidation: false,
+      imgDimensions: false,
+      imgDimensionRatio: false,
       img1URL: "",
       img1File: "",
       img1FileName: "",
@@ -350,16 +353,64 @@ class Submit extends Component {
           console.log(e);
           return;
       }
-  }
+    }
 
-  handleImg0Change(e) {
-      const file = e.target.files[0]
-      this.setState({
-        img0URL: URL.createObjectURL(file),
-        img0File: file,
-        img0FileName: file.name
-      });
 
+    handleImg0Change(e) {
+        alert(e.target.files[0]);
+      if (e.target.files[0] === undefined) {
+          this.setState({ imgValidation: false });
+          return;
+      }
+      const file = e.target.files[0];
+      const myParent = this;
+      var ratio = false;
+      try {
+          this.setState({
+              img0URL: URL.createObjectURL(file),
+              img0File: file,
+              img0FileName: file.name
+          });
+      }
+      catch (e) {
+          console.log(e);
+      }
+      try {
+          var img = new Image();
+
+          img.src = window.URL.createObjectURL(file);
+
+          img.onload = function () {
+              var width = img.naturalWidth,
+                  height = img.naturalHeight;
+
+              window.URL.revokeObjectURL(img.src);
+
+              if (width / height === 16 / 9) {
+                  myParent.setState({ imgDimensionRatio: true });
+                  myParent.setState({ imgDimensions: true });
+                  if (width < 1280) {
+                      myParent.setState({ imgDimensions: false });
+                  }
+                  if (height < 720) {
+                      myParent.setState({ imgDimensions: false });
+                  }
+                  if (width > 2560) {
+                      myParent.setState({ imgDimensions: false });
+                  }
+                  if (height > 1440) {
+                      myParent.setState({ imgDimensions: false });
+                  }
+              }
+              else {
+                  alert(width + " " + height + 'false');
+                  return false;
+              }
+          };
+      }
+      catch (e) {
+          console.log(e);
+      }
       var validExtensions = [".png", ".jpg", ".jpeg"];
       var imgName = e.target.files[0].name;
       if (!imgName) {
@@ -368,15 +419,18 @@ class Submit extends Component {
       }
       else {
           for (var index = 0; index < validExtensions.length; index++) {
-              if (imgName.substring(imgName.length - validExtensions[index].length, imgName.length).toLowerCase() === validExtensions[index]) {
+              if ((imgName.substring(imgName.length - validExtensions[index].length, imgName.length).toLowerCase() === validExtensions[index])) {
                   this.setState({ imgValidation: true });
+                  alert("true");
                   return;
               }
           }
           this.setState({ imgValidation: false });
+          alert("false");
           return;
       }
       this.setState({ imgValidation: false });
+      alert("false");
       return;
   }
 
@@ -490,6 +544,20 @@ class Submit extends Component {
             this.setState({ errorAlert: true });
             console.log("Invalid image");
             throw ("Invalid image");
+        }
+        if (!this.state.imgDimensionRatio) {
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Image dimensions must be a 16:9 ratio." });
+            this.setState({ errorAlert: true });
+            console.log("Invalid image ratio");
+            throw ("Invalid image ratio");
+        }
+        if (!this.state.imgDimensions) {
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Image must be at least 720p, but no larger than 1440p" });
+            this.setState({ errorAlert: true });
+            console.log("Invalid image dimensions");
+            throw ("Invalid image dimensions");
         }
         if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
             !this.state.Rhythm && !this.state.Sports && !this.state.Shooter && !this.state.Puzzle &&
