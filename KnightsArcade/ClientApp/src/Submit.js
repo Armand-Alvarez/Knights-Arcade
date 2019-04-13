@@ -70,6 +70,7 @@ class Submit extends Component {
       gameFileValidation: false,
       imgFiles: [],
       username: "",
+      email: "",
       userID: "",
       img0URL: "",
       img0File: "",
@@ -103,11 +104,11 @@ class Submit extends Component {
   }
 
   componentDidMount() {
-
     Auth.currentAuthenticatedUser({
         bypassCache: false
     }).then(user => {
-      this.setState({ username: user.username});
+        this.setState({ username: user.username });
+        this.setState({ email: user.attributes.email });
     })
     .catch(err => {
       console.log(err);
@@ -585,6 +586,7 @@ class Submit extends Component {
           gameName: this.state.titleValue,
           gameCreatorName: this.state.username,
           gameCreatorId: "",
+          gameCreatorEmail: this.state.email,
           gameDescription: this.state.descriptionValue,
           gameControls: this.state.controlsValue,
           gameVideoLink: this.state.videoLinkValue,
