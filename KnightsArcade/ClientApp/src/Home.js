@@ -22,9 +22,9 @@ class Home extends Component {
           <p className = "text">
             Play / Share / Showcase
           </p>
-          <p>
+          <p><a href='/Locations'>
             <Button bsStyle="primary">Find An Arcade Machine</Button>
-          </p>
+          </a></p>
         </Jumbotron>
 
         <GameSlides/>
