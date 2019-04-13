@@ -93,8 +93,8 @@ class Submit extends Component {
       imagesValidation: true,
       loadingModal: false,
       errorAlert: false,
-      errorAlertMessage:""
-
+      errorAlertMessage: "",
+      gameAvailableToDownload: false,
       };
       const override = css`
     display: block;
@@ -358,7 +358,6 @@ class Submit extends Component {
 
 
     handleImg0Change(e) {
-        alert(e.target.files[0]);
       if (e.target.files[0] === undefined) {
           this.setState({ imgValidation: false });
           return;
@@ -404,7 +403,6 @@ class Submit extends Component {
                   }
               }
               else {
-                  alert(width + " " + height + 'false');
                   return false;
               }
           };
@@ -422,16 +420,13 @@ class Submit extends Component {
           for (var index = 0; index < validExtensions.length; index++) {
               if ((imgName.substring(imgName.length - validExtensions[index].length, imgName.length).toLowerCase() === validExtensions[index])) {
                   this.setState({ imgValidation: true });
-                  alert("true");
                   return;
               }
           }
           this.setState({ imgValidation: false });
-          alert("false");
           return;
       }
       this.setState({ imgValidation: false });
-      alert("false");
       return;
   }
 
@@ -583,6 +578,7 @@ class Submit extends Component {
         }
 
         const data = {
+          gameId: null,
           gameName: this.state.titleValue,
           gameCreatorName: this.state.username,
           gameCreatorId: "",
@@ -604,7 +600,7 @@ class Submit extends Component {
           gameGenrePlatformer: this.state.Platformer,
           gamePath: this.state.titleValue + "/" + this.state.gameFileName,
           gameImg: imgNames,
-          gameAvailableToDownload: false
+          gameAvailableToDownload: this.state.gameAvailableToDownload
         }
         var self = this;
         axios.post('/api/v1/Restricted/rds/newentry', data, {
