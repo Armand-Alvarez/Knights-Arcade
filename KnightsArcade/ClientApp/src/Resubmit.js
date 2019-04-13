@@ -45,6 +45,8 @@ class Resubmit extends Component {
 
       this.state = {
       gameId: -1,
+      gameCreatorName: "",
+      userMatch: 0,
       titleValue: "",
       titleValidation: true,
       descriptionValue: "",
@@ -139,6 +141,7 @@ class Resubmit extends Component {
                       titleValue: gamedata.gameName,
                       descriptionValue: gamedata.gameDescription,
                       controlsValue: gamedata.gameControls,
+                      gameCreatorName: gamedata.gameCreatorName,
                       gameImg0: gamedata.gameImg[0],
                       gameImg1: gamedata.gameImg[1],
                       gameImg2: gamedata.gameImg[2],
@@ -179,7 +182,9 @@ class Resubmit extends Component {
       catch{
           this.setState({ status: 1 });
       }
-
+      if (this.state.gameCreatorName === this.state.username) {
+          this.setState({ userMatch: 255 });
+      }
   }
 
   getValidationStateTitle() {
@@ -738,6 +743,27 @@ class Resubmit extends Component {
     }
 
   render() {
+
+      if (this.state.userMatch === 0) {
+          return (
+              <div className="Submit">
+                  <NaviBar />
+                  <Footer scrolls={false} />
+              </div>
+          )
+      }
+      if (this.state.userMatch === 1) {
+          return (
+              <div>
+                  <NaviBar />
+                  <div>
+                      <h2> 404: Page Not Found </h2>
+                  </div>
+                  <Footer scrolls={false} />
+              </div>
+              )
+      }
+
     return (
       <div className = "Submit">
         <NaviBar/>
