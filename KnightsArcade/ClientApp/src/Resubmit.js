@@ -47,6 +47,7 @@ class Resubmit extends Component {
       gameId: -1,
       gameCreatorName: "",
       userMatch: 0,
+      gameStatus: "x",
       titleValue: "",
       titleValidation: true,
       descriptionValue: "",
@@ -161,7 +162,8 @@ class Resubmit extends Component {
                       Sports: gamedata.gameGenreSports,
                       Strategy: gamedata.gameGenreStrategy,
                       Survival: gamedata.gameGenreSurvival,
-                      availableToDownload: gamedata.gameAvailableToDownload
+                      availableToDownload: gamedata.gameAvailableToDownload,
+                      gameStatus: gamedata.gameStatus
                   });
                   if (res.status === 500) {
                       this.setState({ status: 1 });
@@ -762,8 +764,16 @@ class Resubmit extends Component {
                   <Footer scrolls={false} />
               </div>
               )
-      }
+      } 
       if (this.state.gameStatus != 'r') {
+          if (this.state.gameStatus === 'x') {
+              return(
+                  <div className="Submit">
+                      <NaviBar />
+                      <Footer scrolls={false} />
+                  </div>
+              )
+          }
           return (
               <div>
                   <NaviBar />
