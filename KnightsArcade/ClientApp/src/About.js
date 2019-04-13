@@ -54,7 +54,7 @@ class About extends Component {
                 Armand Alvarez, Scott Kramarz, Jon Navas, Yitzak Hernandez, Drew Corbeil
               </p>
               <p className = 'text'>
-                Sponser: Peter Smith
+                Sponsor: Peter Smith
               </p>
             </Col>
             <Col md={6} mdPull={6}>
