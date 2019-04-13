@@ -78,6 +78,10 @@ namespace KnightsArcade.Models.Database
                 entity.Property(e => e.UserMajor)
                     .HasColumnName("user_major")
                     .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.UserEmail)
+                    .HasColumnName("user_email")
+                    .HasColumnType("varchar(255)");
             });
 
             modelBuilder.Entity<Games>(entity =>
@@ -230,6 +234,10 @@ namespace KnightsArcade.Models.Database
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
 
+                entity.Property(e => e.CreatorEmail)
+                    .HasColumnName("creator_email")
+                    .HasColumnType("varchar(255)");
+
                 entity.Property(e => e.SubmissionImage0)
                     .IsRequired()
                     .HasColumnName("submission_image0")
@@ -284,13 +292,29 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("test_opens")
                     .HasColumnType("bit(1)");
 
-                entity.Property(e => e.TestRandombuttons)
-                    .HasColumnName("test_randombuttons")
-                    .HasColumnType("bit(1)");
-
                 entity.Property(e => e.TestAverageRam)
                     .HasColumnName("test_average_ram")
                     .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.TestCloseOn3)
+                    .HasColumnName("test_closeon3")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.TestCloseOnEscape)
+                    .HasColumnName("test_closeonescape")
+                    .HasColumnType("bit(1)");
+
+                entity.Property(e => e.TestFolderFileNames)
+                    .HasColumnName("test_folderfilenames")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.TestNumExeFiles)
+                    .HasColumnName("test_numofexefiles")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.TestPeakRam)
+                    .HasColumnName("test_peak_ram")
+                    .HasColumnType("varchar(45)");
 
             });
 

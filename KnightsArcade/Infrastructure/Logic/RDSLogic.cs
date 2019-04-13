@@ -65,6 +65,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 SubmissionName = postedGame.GameName,
                 SubmissionStatus = postedGame.GameStatus,
                 CreatorName = postedGame.GameCreatorName,
+                CreatorEmail = newEntry.GameCreatorEmail
             };
 
             _rdsData.PostSubmissions(newSubmission);
@@ -83,9 +84,13 @@ namespace KnightsArcade.Infrastructure.Logic
                 Test5min = false,
                 TestCloses = false,
                 TestOpens = false,
-                TestRandombuttons = false,
                 TestAttempts = 0,
-                TestAverageRam = null
+                TestAverageRam = null,
+                TestCloseOn3 = null,
+                TestCloseOnEscape = null,
+                TestFolderFileNames = null,
+                TestNumExeFiles = null,
+                TestPeakRam = null
             };
 
             _rdsData.PostTests(newTest);
@@ -131,6 +136,21 @@ namespace KnightsArcade.Infrastructure.Logic
                 gamesEntry.Add(GamesToGamesEntry(game));
             }
             return gamesEntry;
+        }
+
+
+        public IEnumerable<GamesEntry> GetRandomApprovedGames(int random)
+        {
+            List<GamesEntry> games = GetAllGamesEntry().Where(x => x.GameStatus == "a").ToList();
+            List<GamesEntry> randomGames = new List<GamesEntry>();
+            Random rand = new Random();
+            for (int i = 0; i < random; i++)
+            {
+                int j = rand.Next(games.Count());
+                randomGames.Add(games[j]);
+                games.RemoveAt(j);
+            }
+            return randomGames;
         }
 
         public void PutGamesEntry(GamesEntry gameEntry)
@@ -538,20 +558,6 @@ namespace KnightsArcade.Infrastructure.Logic
             }
 
             return stringArr;
-        }
-
-        public IEnumerable<GamesEntry> GetRandomApprovedGames(int random)
-        {
-            List<GamesEntry> games = GetAllGamesEntry().Where(x => x.GameStatus == "a").ToList();
-            List<GamesEntry> randomGames = new List<GamesEntry>();
-            Random rand = new Random();
-            for(int i = 0; i < random; i ++)
-            {
-                int j = rand.Next(games.Count());
-                randomGames.Add(games[j]);
-                games.RemoveAt(j);
-            }
-            return randomGames;
         }
     }
 }
