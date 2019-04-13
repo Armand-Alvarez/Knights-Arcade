@@ -36,7 +36,7 @@ export class ManageGamesComponent extends Component {
       gameId : this.state.gameId,
       gameName : null,
       gameCreatorId	: null,
-      gameCreatorName	: null,
+      gameCreatorName : null,
       gameDescription	: null,
       gameControls	: null,
       gameVideolink	: null,

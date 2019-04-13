@@ -38,6 +38,7 @@ export class TestingComponent extends Component {
             gameName: null,
             gameCreatorId: null,
             gameCreatorName: null,
+            gameCreatorEmail: null,
             gameDescription: null,
             gameControls: null,
             gameVideolink: null,
