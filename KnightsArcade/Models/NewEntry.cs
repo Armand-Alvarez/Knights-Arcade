@@ -4,6 +4,7 @@
     {
         public string GameName { get; set; }
         public string GameCreatorName { get; set; }
+        public string GameCreatorEmail { get; set; }
         public string GameDescription { get; set; }
         public string GameControls { get; set; }
         public string GameVideoLink { get; set; }

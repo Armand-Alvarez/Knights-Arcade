@@ -6,6 +6,7 @@ namespace KnightsArcade.Models.Database
     public partial class Submissions
     {
         public string CreatorName { get; set; }
+        public string CreatorEmail { get; set; }
         [Required]
         public int? GameId { get; set; }
         public string SubmissionName { get; set; }

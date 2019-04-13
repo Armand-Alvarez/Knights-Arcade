@@ -90,7 +90,7 @@ namespace KnightsArcade.Infrastructure.Data
             if (game.GameStatus != null) { updatedGame.GameStatus = game.GameStatus; }
             if (game.GameVideolink != null) { updatedGame.GameVideolink = game.GameVideolink; }
             if (game.GameAvailableToDownload != null) { updatedGame.GameAvailableToDownload = game.GameAvailableToDownload; }
-            if(game.GameOnArcade != null) { updatedGame.GameOnArcade = game.GameOnArcade; }
+            if (game.GameOnArcade != null) { updatedGame.GameOnArcade = game.GameOnArcade; }
 
             knightsContext.Entry<Games>(updatedGame).State = EntityState.Modified;
             knightsContext.SaveChanges();
@@ -164,6 +164,10 @@ namespace KnightsArcade.Infrastructure.Data
             if (submission.SubmissionReviewComments != null)
             {
                 updatedSubmission.SubmissionReviewComments = submission.SubmissionReviewComments;
+            }
+            if (submission.CreatorEmail != null)
+            {
+                updatedSubmission.CreatorEmail = submission.CreatorEmail;
             }
 
             knightsContext.Entry<Submissions>(updatedSubmission).State = EntityState.Modified;
@@ -239,13 +243,29 @@ namespace KnightsArcade.Infrastructure.Data
             {
                 updatedTest.TestOpens = test.TestOpens;
             }
-            if (test.TestRandombuttons != null)
+            if (test.TestCloseOn3 != null)
             {
-                updatedTest.TestRandombuttons = test.TestRandombuttons;
+                updatedTest.TestCloseOn3 = test.TestCloseOn3;
+            }
+            if (test.TestCloseOnEscape != null)
+            {
+                updatedTest.TestCloseOnEscape = test.TestCloseOnEscape;
             }
             if (test.TestAverageRam != null)
             {
                 updatedTest.TestAverageRam = test.TestAverageRam;
+            }
+            if (test.TestFolderFileNames != null)
+            {
+                updatedTest.TestFolderFileNames = test.TestFolderFileNames;
+            }
+            if (test.TestNumExeFiles != null)
+            {
+                updatedTest.TestNumExeFiles = test.TestNumExeFiles;
+            }
+            if (test.TestPeakRam != null)
+            {
+                updatedTest.TestPeakRam = test.TestPeakRam;
             }
 
             knightsContext.Entry<Tests>(updatedTest).State = EntityState.Modified;
@@ -386,6 +406,10 @@ namespace KnightsArcade.Infrastructure.Data
             if (updatedUserInfo.UserImagePath != null)
             {
                 currentUserInfo.UserImagePath = updatedUserInfo.UserImagePath;
+            }
+            if (updatedUserInfo.UserEmail != null)
+            {
+                currentUserInfo.UserEmail = updatedUserInfo.UserEmail;
             }
 
             knightsContext.Entry<Users>(currentUserInfo).State = EntityState.Modified;

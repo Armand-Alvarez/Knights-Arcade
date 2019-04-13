@@ -10,5 +10,6 @@ namespace KnightsArcade.Models.Database
         public string UserLastName { get; set; }
         public string UserImagePath { get; set; }
         public string UserMajor { get; set; }
+        public string UserEmail { get; set; }
     }
 }
