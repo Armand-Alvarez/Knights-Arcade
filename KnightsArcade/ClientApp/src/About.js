@@ -47,6 +47,14 @@ class About extends Component {
 
           <Row>
             <Col md={6} mdPush={6}>
+              <p>
+                This website is part of a senior design project made from Fall 2018 - Spring 2019.
+                We built a system to view/submit games, have them be automatically reviewed, than be published
+                on this website by an approved Admin. 
+              </p>
+              <p>
+                If you find any bugs on this website, please email knightsarcade@gmail.com with a description of the bug. Thank you!
+              </p>
               <p className = 'text'>
                 Group Members:
               </p>
