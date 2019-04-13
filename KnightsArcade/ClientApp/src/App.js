@@ -12,6 +12,7 @@ import Login from './Login';
 import Admin from './Admin';
 import GameCard from './Components/GameCard';
 import ReviewPage from './ReviewPage';
+import Resubmit from './Resubmit';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
           <Route path="/Admin" component={Admin}/>
           <Route path="/Review" component={ReviewPage}/>
           <Route path="/Locations" component={Locations}/>
+          <Route path="/Resubmit" component={Resubmit}/>
         </Switch>
       </BrowserRouter>
     )
