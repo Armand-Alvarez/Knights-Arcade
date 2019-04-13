@@ -40,7 +40,8 @@ export default class NaviBar extends Component {
                             userFirstName: "First ",
                             userLastName: "Last Name",
                             userImagePath: "USERS/default/defaultAvatar.png",
-                            userMajor: "Major"
+                            userMajor: "Major",
+                            userEmail: Auth.user.attributes.email
                         }
                         axios.post('/api/v1/Restricted/rds/users/user', user,{ 
 							headers: {
