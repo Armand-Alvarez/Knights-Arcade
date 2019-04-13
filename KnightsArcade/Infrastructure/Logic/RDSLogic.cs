@@ -214,7 +214,6 @@ namespace KnightsArcade.Infrastructure.Logic
             try
             {
                 Games game = new Games();
-
                 game.GameId = submission.GameId;
                 if (submission.SubmissionImage0 != null)
                 {
@@ -229,6 +228,36 @@ namespace KnightsArcade.Infrastructure.Logic
                     game.GameStatus = submission.SubmissionStatus;
                 }
                 _rdsData.PutGames(game);
+
+                try
+                {
+                    _rdsData.DeleteTestsQueue((int)submission.GameId);
+                }
+                catch(Exception e)
+                {
+                    _logger.LogWarning(e.Message, e);
+                }
+
+                if (submission.SubmissionStatus == "t")
+                {
+                    TestsQueue testsQueue = new TestsQueue()
+                    {
+                        GameId = submission.GameId,
+                        RetryCount = 0
+                    };
+                    _rdsData.PostTestsQueue(testsQueue);
+                }
+
+                if (submission.CreatorEmail != null)
+                {
+                    List<Users> users = _rdsData.GetAllUsers().Where(x => x.Username == submission.CreatorName).ToList();
+                    users.Where(x => x.UserEmail != submission.CreatorEmail).ToList().ForEach(x =>
+                    {
+                        x.UserEmail = submission.CreatorEmail;
+                        _rdsData.PutUser(x);
+                    });
+                }
+
             }
             catch (Exception e)
             {
@@ -323,6 +352,16 @@ namespace KnightsArcade.Infrastructure.Logic
         public void PutUser(Users user)
         {
             _rdsData.PutUser(user);
+            if(user.UserEmail != null)
+            {
+                List<Submissions> submissions = _rdsData.GetAllSubmissions().Where(x => x.CreatorName == user.Username).ToList();
+                submissions.Where(x => x.CreatorEmail != user.UserEmail).ToList().ForEach(x =>
+                {
+                    x.CreatorEmail = user.UserEmail;
+                    _rdsData.PutSubmissions(x);
+                });
+            }
+
             return;
         }
 
