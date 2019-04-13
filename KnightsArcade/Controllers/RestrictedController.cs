@@ -207,6 +207,57 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
+        /// Creates the new entry in all 4 database tables: Games, Submissions, Tests, and TestsQueue.
+        /// </summary>
+        /// <remarks>
+        /// The only way to post to a database table is through this method. You can only post to all tables.
+        /// </remarks>
+        /// <param name="updateEntry"></param>
+        /// <returns></returns>
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="409">Duplicate gameName entry.</response>  
+        /// <response code="500">Error.</response>  
+        [HttpPut("rds/resubmit")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(409)]
+        [ProducesResponseType(500)]
+        public IActionResult PutNewEntry([FromBody] NewEntry updateEntry)
+        {
+            try
+            {
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _rdsLogic.PutNewEntry(updateEntry);
+                    _ec2Logic.StartAutomatedTestingEC2();
+                    return StatusCode(200);
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
         /// Updates the object in the Games database table.
         /// </summary>
         /// <remarks>

@@ -46,7 +46,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameSubmissionDateUtc = DateTime.UtcNow,
                 GameAvailableToDownload = newEntry.GameAvailableToDownload
             };
-            char[] s = new char[6];
+            char[] s = new char[5];
 
             newGame = InsertArrayToColumn(newGame, newEntry);
             if (_rdsData.GetGames(newGame.GameName) != null)
@@ -103,6 +103,107 @@ namespace KnightsArcade.Infrastructure.Logic
             {
                 _logger.LogError(e.Message, e);
                 CleanUpOnCrash((int)newGame.GameId);
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void PutNewEntry(NewEntry updateEntry)
+        {
+            Games updateGame = new Games()
+            {
+                GameId = updateEntry.GameId,
+                GameControls = updateEntry.GameControls,
+                GameCreatorName = updateEntry.GameCreatorName,
+                GameDescription = updateEntry.GameDescription,
+                GameGenreAction = updateEntry.GameGenreAction,
+                GameGenreAdventure = updateEntry.GameGenreAdventure,
+                GameGenreFighting = updateEntry.GameGenreFighting,
+                GameGenrePuzzle = updateEntry.GameGenrePuzzle,
+                GameGenreRacing = updateEntry.GameGenreRacing,
+                GameGenreRhythm = updateEntry.GameGenreRhythm,
+                GameGenreRpg = updateEntry.GameGenreRpg,
+                GameGenreShooter = updateEntry.GameGenreShooter,
+                GameGenreSports = updateEntry.GameGenreSports,
+                GameGenreStrategy = updateEntry.GameGenreStrategy,
+                GameGenreSurvival = updateEntry.GameGenreSurvival,
+                GameGenrePlatformer = updateEntry.GameGenrePlatformer,
+                GameName = updateEntry.GameName,
+                GamePath = updateEntry.GamePath,
+                GameVideolink = updateEntry.GameVideoLink,
+                GameOnArcade = false,
+                GameStatus = "t",
+                GameSubmissionDateUtc = DateTime.UtcNow,
+                GameAvailableToDownload = updateEntry.GameAvailableToDownload
+            };
+            char[] s = new char[5];
+            updateGame = InsertArrayToColumn(updateGame, updateEntry);
+
+            try
+            {
+                _rdsData.PutGames(updateGame);
+                Games postedGame = _rdsData.GetGames(updateGame.GameName);
+
+                Submissions updateSubmission = new Submissions()
+                {
+                    GameId = postedGame.GameId,
+                    SubmissionDateUtc = postedGame.GameSubmissionDateUtc,
+                    SubmissionImage0 = postedGame.GameImage0,
+                    SubmissionName = postedGame.GameName,
+                    SubmissionStatus = postedGame.GameStatus,
+                    CreatorName = postedGame.GameCreatorName,
+                    CreatorEmail = updateEntry.GameCreatorEmail
+                };
+
+                _rdsData.PutSubmissions(updateSubmission);
+
+                TestsQueue newTestQueue = new TestsQueue()
+                {
+                    GameId = updateEntry.GameId,
+                    RetryCount = 0
+                };
+
+                try
+                {
+                    _rdsData.DeleteTestsQueue((int)updateEntry.GameId);
+                }
+                catch(Exception e)
+                {
+                    _logger.LogCritical(e.Message, e);
+                }
+                _rdsData.PostTestsQueue(newTestQueue);
+
+                Tests newTest = new Tests()
+                {
+                    GameId = postedGame.GameId,
+                    Test5min = false,
+                    TestCloses = false,
+                    TestOpens = false,
+                    TestAttempts = 0,
+                    TestAverageRam = null,
+                    TestCloseOn3 = null,
+                    TestCloseOnEscape = null,
+                    TestFolderFileNames = null,
+                    TestNumExeFiles = null,
+                    TestPeakRam = null
+                };
+
+                try
+                {
+                    _rdsData.DeleteTests((int)postedGame.GameId);
+                }
+                catch(Exception e)
+                {
+                    _logger.LogCritical(e.Message, e);
+                }
+
+                _rdsData.PostTests(newTest);
+
+                return;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                CleanUpOnCrash((int)updateEntry.GameId);
                 throw new Exception(e.Message);
             }
         }
