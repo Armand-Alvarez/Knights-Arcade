@@ -62,7 +62,7 @@ export class ManageGamesComponent extends Component {
       }
       axios.put('/api/v1/Restricted/rds/games/game', game, {
         headers: {
-          'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+          'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
         }
       })
           .then(res => {
@@ -102,7 +102,7 @@ export class ManageGamesComponent extends Component {
       }
       axios.put('/api/v1/Restricted/rds/games/game', game, {
         headers: {
-          'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+          'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
         }
       })
           .then(res => {
@@ -114,7 +114,7 @@ export class ManageGamesComponent extends Component {
   handleDelete() {
     axios.delete("/api/v1/Restricted/rds/games/game?gameid=" + this.props.gameData.gameId, {
       headers: {
-        'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+        'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
       }
     })
         .then(res => {

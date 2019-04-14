@@ -45,7 +45,7 @@ export default class NaviBar extends Component {
                         }
                         axios.post('/api/v1/Restricted/rds/users/user', user,{ 
 							headers: {
-								'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+								'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
 							}
 						});
                     }

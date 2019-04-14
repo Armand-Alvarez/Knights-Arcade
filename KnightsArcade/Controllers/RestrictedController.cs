@@ -20,10 +20,10 @@ namespace KnightsArcade.Controllers
     {
         private readonly RDSLogic _rdsLogic;
         private readonly EC2Logic _ec2Logic;
-        private readonly AWSValidateJWT _validation;
+        private readonly ValidateJWT _validation;
         private readonly ILogger<RestrictedController> _logger;
 
-        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic, AWSValidateJWT validation)
+        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic, ValidateJWT validation)
         {
             _rdsLogic = rdsLogic;
             _logger = logger;

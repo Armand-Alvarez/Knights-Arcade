@@ -24,6 +24,16 @@ export class Locations extends Component {
             })
     }
 
+    initMap() {
+    // The location of Uluru
+    var uluru = { lat: -25.344, lng: 131.036 };
+    // The map, centered at Uluru
+    var map = new google.maps.Map(
+        document.getElementById('map'), { zoom: 4, center: uluru });
+    // The marker, positioned at Uluru
+    var marker = new google.maps.Marker({ position: uluru, map: map });
+}
+
     render() {
         return(
             <div className='Locations'>
@@ -46,6 +56,11 @@ export class Locations extends Component {
                     }
                     </ListGroupItem> 
                 </ListGroup>
+
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWK9AGTA0mhRxENjQSxzkw5w1A-lyWm_I&callback=initMap"
+                    type="text/javascript"></script>
+
+                <div>{this.state.initMap()}</div>
 
                 <Footer scrolls={true}/>
             </div>

@@ -64,14 +64,14 @@ export class TestingComponent extends Component {
         }
         axios.put('/api/v1/Restricted/rds/games/game', game, {
             headers: {
-                'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+                'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         })
             .then(res => {
                 if (res.status === 200) {
                     axios.delete('api/v1/Restricted/rds/testsqueue/testqueue?gameId=' + this.props.gameData.gameId, {
                         headers: {
-                            'Authorization' : Auth.user.signInUserSession.accessToken.jwtToken
+                            'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                         }
                     })
                 }

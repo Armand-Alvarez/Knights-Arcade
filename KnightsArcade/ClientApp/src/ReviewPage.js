@@ -176,7 +176,7 @@ class ReviewPage extends Component {
 
         axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
             headers: {
-                'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         })
             .then(function (res, error) {

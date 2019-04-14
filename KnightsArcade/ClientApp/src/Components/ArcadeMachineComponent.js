@@ -81,7 +81,7 @@ export class ArcadeMachineComponent extends Component {
             this.setState({ isNew: false });
             axios.post('api/v1/Restricted/rds/arcademachines/arcademachine', arcadeMachine, {
                 headers: {
-                    'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                    'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                 }
             }).then(res => {
                 if (res.status < 400) {
@@ -106,7 +106,7 @@ export class ArcadeMachineComponent extends Component {
             }
             axios.put('api/v1/Restricted/rds/arcademachines/arcademachine', arcadeMachine, {
                 headers: {
-                    'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                    'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                 }
             }).then(res => {
                 if (res.status < 400) {
@@ -139,7 +139,7 @@ export class ArcadeMachineComponent extends Component {
     removeMachine(e) {
         axios.delete('/api/v1/Restricted/rds/arcademachines/arcademachine?arcadeMachineId=' + this.state.arcadeMachineId, {
             headers: {
-                'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         })
             .then(res => {
