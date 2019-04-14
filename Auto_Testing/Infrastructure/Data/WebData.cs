@@ -13,6 +13,7 @@ using Amazon.Extensions.CognitoAuthentication;
 using Amazon.CognitoIdentityProvider;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
+using Auto_Testing.Authentication;
 
 namespace Auto_Testing.Infrastructure.Data
 {
@@ -20,36 +21,18 @@ namespace Auto_Testing.Infrastructure.Data
 	{
 		private readonly ILogger<WebData> _logger;
 		private readonly string _host;
-		private readonly string _accessToken;
-		/*
-		public WebData(ILogger<WebData> logger, IConfiguration configuration)
-		{
-			_logger = logger;
-			//_host = "www.knightsarcade.com";
-			_host = "http://localhost:52445/";
-			IAmazonCognitoIdentityProvider provider = new AmazonCognitoIdentityProviderClient(
-				configuration.GetSection("ConnectionStrings:AWSAccessKey").Value,
-				configuration.GetSection("ConnectionStrings:AWSSecretKey").Value,
-				Amazon.RegionEndpoint.USEast2);
 
-			CognitoUserPool pool = new CognitoUserPool("us-east-2_6Izn99otx", "1q2159sfmhcu3tphkf7c1am1s1", provider);
-			CognitoUser user = pool.GetUser("automated-testing-user");
-			CognitoUserSession userSession = user.SessionTokens;
-			_accessToken = userSession.AccessToken;
-		}
-		*/
-		public WebData(ILogger<WebData> logger)
+		public WebData(ILogger<WebData> logger, CustomJWT jwt)
 		{
 			_logger = logger;
 			//_host = "www.knightsarcade.com";
 			_host = "localhost:52445";
 		}
 
-		public bool SendWebMessage(string url, object data)
+		public bool SendWebMessage(string url, object data, HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				string json = JsonConvert.SerializeObject(data);
 				client.PostJsonAsync(url, json);
 				return true;
@@ -61,11 +44,10 @@ namespace Auto_Testing.Infrastructure.Data
 			}
 		}
 
-		public TestsQueue GetFirstTestQueue()
+		public TestsQueue GetFirstTestQueue(HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				HttpResponseMessage response = client.GetAsync("http://" + _host + "/api/v1/Public/rds/testsqueue/firsttestsqueue").Result;
 				string json = response.Content.ReadAsStringAsync().Result;
 				TestsQueue test = JsonConvert.DeserializeObject<TestsQueue>(json);
@@ -80,11 +62,10 @@ namespace Auto_Testing.Infrastructure.Data
 			}
 		}
 
-		public List<TestsQueue> GetAllTestsQueue()
+		public List<TestsQueue> GetAllTestsQueue(HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				HttpResponseMessage response = client.GetAsync("http://" + _host + "/api/v1/Public/rds/testsqueue/alltestsqueue").Result;
 				string json = response.Content.ReadAsStringAsync().Result;
 				List<TestsQueue> test = JsonConvert.DeserializeObject<List<TestsQueue>>(json);
@@ -98,12 +79,11 @@ namespace Auto_Testing.Infrastructure.Data
 			}
 		}
 
-		public bool PutTestsQueue(TestsQueue myTest)
+		public bool PutTestsQueue(TestsQueue myTest, HttpClient client)
 		{
 			try
 			{
 				myTest.RetryCount++;
-				HttpClient client = new HttpClient();
 				string json = JsonConvert.SerializeObject(myTest);
 
 				var buffer = System.Text.Encoding.UTF8.GetBytes(json);
@@ -128,11 +108,10 @@ namespace Auto_Testing.Infrastructure.Data
 
 		}
 
-		public GamesEntry GetGamesByID(int? gameID)
+		public GamesEntry GetGamesByID(int? gameID, HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				HttpResponseMessage response = client.GetAsync("http://" + _host + "/api/v1/Public/rds/games/gamesbyid?gameId=" + gameID).Result;
 				string json = response.Content.ReadAsStringAsync().Result;
 				GamesEntry games = JsonConvert.DeserializeObject<GamesEntry>(json);
@@ -147,11 +126,10 @@ namespace Auto_Testing.Infrastructure.Data
 			}
 		}
 
-		public bool DeleteTestQueue(int? gameID)
+		public bool DeleteTestQueue(int? gameID, HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				HttpResponseMessage response = client.DeleteAsync("http://" + _host + "/api/v1/Restricted/rds/testsqueue/testqueue?gameId=" + gameID).Result;
 
 				if (response.StatusCode.ToString() == "NoContent")
@@ -170,11 +148,10 @@ namespace Auto_Testing.Infrastructure.Data
 
 		}
 
-		public bool PutTests(Tests myTest)
+		public bool PutTests(Tests myTest, HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				string json = JsonConvert.SerializeObject(myTest);
 				var buffer = System.Text.Encoding.UTF8.GetBytes(json);
 				var byteContent = new ByteArrayContent(buffer);
@@ -197,11 +174,10 @@ namespace Auto_Testing.Infrastructure.Data
 			}
 		}
 
-		public bool PostTestingLog(TestingLog testLog)
+		public bool PostTestingLog(TestingLog testLog, HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				string json = JsonConvert.SerializeObject(testLog);
 				var buffer = System.Text.Encoding.UTF8.GetBytes(json);
 				var byteContent = new ByteArrayContent(buffer);
@@ -225,11 +201,10 @@ namespace Auto_Testing.Infrastructure.Data
 
 		}
 
-		public bool PutGames(GamesEntry myGame)
+		public bool PutGames(GamesEntry myGame, HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				string json = JsonConvert.SerializeObject(myGame);
 				var buffer = System.Text.Encoding.UTF8.GetBytes(json);
 				var byteContent = new ByteArrayContent(buffer);
@@ -253,11 +228,10 @@ namespace Auto_Testing.Infrastructure.Data
 			}
 		}
 
-		public bool StopAutomatedTestingEC2()
+		public bool StopAutomatedTestingEC2(HttpClient client)
 		{
 			try
 			{
-				HttpClient client = new HttpClient();
 				bool i = false;
 				string json = JsonConvert.SerializeObject(i);
 

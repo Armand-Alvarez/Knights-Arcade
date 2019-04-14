@@ -1,4 +1,5 @@
-﻿using Auto_Testing.Infrastructure.Data.Interface;
+﻿using Auto_Testing.Authentication;
+using Auto_Testing.Infrastructure.Data.Interface;
 using Auto_Testing.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,22 +20,30 @@ namespace Auto_Testing.Infrastructure.Logic
 		private readonly ILogger<TestingLogic> _logger;
 		private readonly IS3Data _s3Data;
 		private readonly IWebData _webData;
+        private readonly HttpClient _client;
 		private readonly object _sync;
 		public Process gameProcess;
 
-		public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData)
+		public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData, CustomJWT jwt)
 		{
 			_logger = logger;
 			_s3Data = s3Data;
 			_webData = webData;
 			_sync = new object();
+
+
+            _client = new HttpClient(new HttpClientHandler()
+            {
+                AllowAutoRedirect = false
+            });
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt.CreateJWT());
 		}
 
 		public void RunAllEntryTests()
 		{
 			try
 			{
-				TestsQueue testsQueue = _webData.GetFirstTestQueue();
+				TestsQueue testsQueue = _webData.GetFirstTestQueue(_client);
 
 				while (testsQueue != null)
 				{
@@ -43,15 +54,15 @@ namespace Auto_Testing.Infrastructure.Logic
 						RunSingleEntryTest(testsQueue, testProcess);
 					}
 
-					testsQueue = _webData.GetFirstTestQueue();
+					testsQueue = _webData.GetFirstTestQueue(_client);
 				}
 
-				_webData.StopAutomatedTestingEC2();
+				_webData.StopAutomatedTestingEC2(_client);
 			}
 			catch (Exception e)
 			{
 				_logger.LogError(e.Message, e);
-				_webData.StopAutomatedTestingEC2();
+				_webData.StopAutomatedTestingEC2(_client);
 			}
 		}
 
@@ -63,12 +74,12 @@ namespace Auto_Testing.Infrastructure.Logic
 				{
 					TestingLog testLog = new TestingLog();
 
-					_webData.PutTestsQueue(testsQueue);
+					_webData.PutTestsQueue(testsQueue, _client);
 
 					testLog.TestlogAttempt = (int)testsQueue.RetryCount;
 					testLog.GameId = (int)testsQueue.GameId;
 
-					GamesEntry myGame = _webData.GetGamesByID(testsQueue.GameId);
+					GamesEntry myGame = _webData.GetGamesByID(testsQueue.GameId, _client);
 
 					//Retry to pull game if it failed the first time
 					if (myGame == null)
@@ -112,7 +123,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testLog.TestlogLog = "Game Failed Start Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-						_webData.PostTestingLog(testLog);
+						_webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -128,7 +139,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testLog.TestlogLog = "Game Failed Sleep Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-						_webData.PostTestingLog(testLog);
+						_webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -144,7 +155,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testLog.TestlogLog = "Game Average RAM Test Failed";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-						_webData.PostTestingLog(testLog);
+						_webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -160,7 +171,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testLog.TestlogLog = "Game Peak RAM Test Failed";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-						_webData.PostTestingLog(testLog);
+						_webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -186,7 +197,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testLog.TestlogLog = "Game passed 'close on 3' test but failed to restart";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-						_webData.PostTestingLog(testLog);
+						_webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -215,7 +226,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testLog.TestlogLog = "Game Failed Stop Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-						_webData.PostTestingLog(testLog);
+						_webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -226,15 +237,15 @@ namespace Auto_Testing.Infrastructure.Logic
 						myGame.GameReviewDateUtc = DateTime.UtcNow;
 						myGame.GameStatus = "p";
 
-						_webData.PutGames(myGame);
+						_webData.PutGames(myGame, _client);
 
 						break;
 					}
 				}
 
 				//Delete game from test queue and push the test results to database
-				_webData.DeleteTestQueue(testsQueue.GameId);
-				_webData.PutTests(testProcess);
+				_webData.DeleteTestQueue(testsQueue.GameId, _client);
+				_webData.PutTests(testProcess, _client);
 			}
 
 			catch (Exception e)
