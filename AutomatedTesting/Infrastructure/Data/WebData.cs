@@ -1,5 +1,8 @@
-﻿using AutomatedTesting.Infrastructure.Data.Interface;
+﻿using Amazon.CognitoIdentityProvider;
+using Amazon.Extensions.CognitoAuthentication;
+using AutomatedTesting.Infrastructure.Data.Interface;
 using AutomatedTesting.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -14,12 +17,23 @@ namespace AutomatedTesting.Infrastructure.Data
     {
         private readonly ILogger<WebData> _logger;
         private readonly string _host;
+		private readonly string _accessToken;
 
-        public WebData(ILogger<WebData> logger)
+		public WebData(ILogger<WebData> logger, IConfiguration configuration)
         {
-            _logger = logger;
-            _host = "www.knightsarcade.com";
-        }
+			_logger = logger;
+			//_host = "www.knightsarcade.com";
+			_host = "http://localhost:52445/";
+			IAmazonCognitoIdentityProvider provider = new AmazonCognitoIdentityProviderClient(
+				configuration.GetSection("ConnectionStrings:AWSAccessKey").Value,
+				configuration.GetSection("ConnectionStrings:AWSSecretKey").Value,
+				Amazon.RegionEndpoint.USEast2);
+
+			CognitoUserPool pool = new CognitoUserPool("us-east-2_6Izn99otx", "1q2159sfmhcu3tphkf7c1am1s1", provider);
+			CognitoUser user = pool.GetUser("automated-testing-user");
+			CognitoUserSession userSession = user.SessionTokens;
+			_accessToken = userSession.AccessToken;
+		}
 
         public bool SendWebMessage(string url, object data)
         {

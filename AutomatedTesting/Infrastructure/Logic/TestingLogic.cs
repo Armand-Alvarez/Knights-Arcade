@@ -127,7 +127,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                     }
 
                     //Store memory usage by game process
-                    testProcess.TestAverageRam = RamFile(exeFile);
+                    testProcess.TestAverageRam = RamFile();
 
                     //Retry tests if the program is unable to record the game's RAM usage
                     if (testProcess.TestAverageRam == null)
@@ -141,7 +141,7 @@ namespace AutomatedTesting.Infrastructure.Logic
                     }
 
                     //Store memory usage by game process
-                    testProcess.TestPeakRam = RamFile(exeFile);
+                    testProcess.TestPeakRam = RamFile();
 
                     //Retry tests if the program is unable to record the game's RAM usage
                     if (testProcess.TestPeakRam == null)
@@ -259,7 +259,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         }
 
         //Records memory usage by game process
-        public string RamFile(string exeFile)
+        public string RamFile()
         {
             try
             {
@@ -276,7 +276,7 @@ namespace AutomatedTesting.Infrastructure.Logic
         }
 
         //Records peak memory usage by game process
-        public string PeakRamFile(string exeFile)
+        public string PeakRamFile()
         {
             try
             {
