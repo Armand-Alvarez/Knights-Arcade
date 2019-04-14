@@ -87,8 +87,9 @@ export class Admin extends Component {
     handleNewMachine() {
         const arcadeMachine = {
             arcadeMachineId: -1,
+            arcadeMachineName: "",
             arcadeMachineAddress: "",
-            arcadeMAchineCoords: 0,
+            arcadeMAchineCoords: "",
             arcadeMachineDescription: "",
             arcadeMachineRoom: "",
             editable: true

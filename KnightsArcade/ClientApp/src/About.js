@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Thumbnail, Grid, Row, Col } from 'react-bootstrap';
+import { Thumbnail, Grid, Row, Col, Jumbotron } from 'react-bootstrap';
 import NaviBar from './Components/NavBar';
 import './About.css';
 import Footer from './Components/Footer';
+
 
 class About extends Component {
   render() {
@@ -10,7 +11,15 @@ class About extends Component {
         <div>
       <div className = 'AboutPage'>
         <NaviBar/>
-
+        <Jumbotron style={{marginBottom: 10, marginTop: 10}}>
+        <Grid fluid>
+        <Row>
+        <Col sm={6} smOffset={3}>
+        <h1>About</h1>
+        </Col>
+        </Row>
+        </Grid>
+      </Jumbotron>
 
         <Grid>
           <Row>
@@ -18,7 +27,6 @@ class About extends Component {
               <Thumbnail src={require('./Images/arcade.png')}></Thumbnail>
             </Col>
             <Col md={6} mdPull={6}>
-            <h1 className ='text'>About</h1>
               <p className = 'text'>
                 SVAD Mission:
               </p>
@@ -71,7 +79,7 @@ class About extends Component {
           </Row>
             </Grid>
         </div>
-              <Footer scrolls={false} />
+              <Footer scrolls={true} />
         </div>
     )
   }

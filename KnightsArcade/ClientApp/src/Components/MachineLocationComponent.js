@@ -10,7 +10,8 @@ export class MachineLocationComponent extends Component {
             arcadeMachineAddress: '',
             arcadeMachineRoom: '',
             arcadeMachineCoords: '',
-            arcadeMachineDescription: ''
+            arcadeMachineDescription: '',
+            arcadeMachineName: ''
         };
     }
 
@@ -21,12 +22,14 @@ export class MachineLocationComponent extends Component {
         const room = this.props.machineData.arcadeMachineRoom;
         const coords = this.props.machineData.arcadeMachineCoords;
         const description = this.props.machineData.arcadeMachineDescription;
+        const name = this.props.machineData.arcadeMachineName;
 
         return (
             <div>
                 <Panel>
                     <Panel.Heading><p>Machine: {id}</p></Panel.Heading>
                     <Panel.Body>
+                        <p>Name = {name}</p>
                         <p>Address = {address}</p>
                         <p>Room = {room}</p>
                         <p>Coordinates = {coords}</p>

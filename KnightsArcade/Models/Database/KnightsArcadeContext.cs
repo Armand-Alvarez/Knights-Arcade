@@ -344,6 +344,10 @@ namespace KnightsArcade.Models.Database
                     .HasColumnName("arcademachine_id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.ArcadeMachineName)
+                    .HasColumnName("arcademachine_name")
+                    .HasColumnType("varchar(255)");
+
                 entity.Property(e => e.ArcadeMachineAddress)
                     .HasColumnName("arcademachine_address")
                     .HasColumnType("varchar(255)");

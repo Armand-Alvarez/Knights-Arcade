@@ -510,6 +510,10 @@ namespace KnightsArcade.Infrastructure.Data
             {
                 updatedArcadeMachine.ArcadeMachineAddress = arcadeMachine.ArcadeMachineAddress;
             }
+            if(arcadeMachine.ArcadeMachineName != null)
+            {
+                updatedArcadeMachine.ArcadeMachineName = arcadeMachine.ArcadeMachineName;
+            }
 
             knightsContext.Entry<ArcadeMachine>(updatedArcadeMachine).State = EntityState.Modified;
             knightsContext.SaveChanges();
