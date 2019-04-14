@@ -11,10 +11,10 @@ namespace KnightsArcade.Models.Database
 		public string TestAverageRam { get; set; }
 		public string TestPeakRam { get; set; }
 		public bool? TestCloseOn3 { get; set; }
-		public bool? TestEscape { get; set; }
+		public bool? TestCloseOnEscape { get; set; }
 		public bool? TestCloses { get; set; }
-        public bool? TestRandombuttons { get; set; }
         public int? TestAttempts { get; set; }
-
+        public string TestFolderFileNames { get; set; }
+        public int? TestNumExeFiles { get; set; }
     }
 }

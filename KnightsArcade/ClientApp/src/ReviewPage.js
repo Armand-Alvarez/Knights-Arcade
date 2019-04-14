@@ -164,6 +164,7 @@ class ReviewPage extends Component {
 
         const submissionData = {
             creatorId: null,
+            creatorEmail: null,
             gameId: this.state.gamedata.gameId,
             submissionName: null,
             submissionStatus: reviewType,
