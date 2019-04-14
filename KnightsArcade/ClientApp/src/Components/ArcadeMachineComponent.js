@@ -212,7 +212,7 @@ export class ArcadeMachineComponent extends Component {
                                 Arcade Machine Coords
                             </Col>
                             <Col sm={10}>
-                                <FormControl type="email" placeholder="Arcade Machine Coords" value={this.state.arcadeMachineCoordsTemp} onChange={this.handleDescriptionCoords} />
+                                <FormControl type="email" placeholder="Arcade Machine Coords" value={this.state.arcadeMachineCoordsTemp} onChange={this.handleCoordsChange} />
                             </Col>
                         </FormGroup>
                         <FormGroup controlId="ArcadeMachineRoom">
@@ -265,7 +265,7 @@ export class ArcadeMachineComponent extends Component {
                                 Arcade Machine Coords
                             </Col>
                             <Col sm={10}>
-                                <FormControl type="email" placeholder="Arcade Machine Coords" value={this.state.arcadeMachineCoordsTemp} onChange={this.handleDescriptionCoords} />
+                                <FormControl type="email" placeholder="Arcade Machine Coords" value={this.state.arcadeMachineCoordsTemp} onChange={this.handleCoordsChange} />
                             </Col>
                         </FormGroup>
                         <FormGroup controlId="ArcadeMachineRoom">
@@ -298,6 +298,16 @@ export class ArcadeMachineComponent extends Component {
             return (
                 <div>
                     <Form horizontal>
+                        <FormGroup controlId="ArcadeMachineName">
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Arcade Machine Name
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl.Static>
+                                    {this.state.arcadeMachineName}
+                                </FormControl.Static>
+                            </Col>
+                        </FormGroup>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}>
                                 Arcade Machine Address
@@ -305,6 +315,16 @@ export class ArcadeMachineComponent extends Component {
                             <Col sm={8}>
                                 <FormControl.Static>
                                     {this.state.arcadeMachineAddress}
+                                </FormControl.Static>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Arcade Machine Coords
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl.Static>
+                                    {this.state.arcadeMachineCoords}
                                 </FormControl.Static>
                             </Col>
                         </FormGroup>
