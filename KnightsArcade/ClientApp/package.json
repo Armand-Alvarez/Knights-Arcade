@@ -10,6 +10,7 @@
     "filepond": "^4.2.0",
     "filepond-plugin-image-exif-orientation": "^1.0.4",
     "filepond-plugin-image-preview": "^4.0.3",
+    "google-map-react": "^1.1.4",
     "react": "^16.7.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.7.0",

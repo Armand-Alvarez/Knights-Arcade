@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Panel } from 'react-bootstrap';
+import { Panel, Grid } from 'react-bootstrap';
 
 export class MachineLocationComponent extends Component {
     constructor (props) {
@@ -26,16 +26,16 @@ export class MachineLocationComponent extends Component {
 
         return (
             <div>
-                <Panel>
-                    <Panel.Heading><p>Machine: {id}</p></Panel.Heading>
-                    <Panel.Body>
-                        <p>Name = {name}</p>
-                        <p>Address = {address}</p>
-                        <p>Room = {room}</p>
-                        <p>Coordinates = {coords}</p>
-                        <p>Location Description = {description}</p>
-                    </Panel.Body>
-                </Panel>
+                <Grid>
+                    <Panel>
+                        <Panel.Heading><b>{name}</b></Panel.Heading>
+                        <Panel.Body>
+                            <p>{room}</p>
+                            <p>{address}</p>
+                            <p>{description}</p>
+                        </Panel.Body>
+                    </Panel>
+                </Grid>
             </div>
         )
     }

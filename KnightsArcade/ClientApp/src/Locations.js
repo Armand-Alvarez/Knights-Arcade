@@ -4,13 +4,34 @@ import Footer from './Components/Footer';
 import { Grid, Row, Col, Jumbotron , ListGroup, ListGroupItem} from 'react-bootstrap';
 import axios from 'axios'
 import MachineComp from './Components/MachineLocationComponent';
+import GoogleMapReact from 'google-map-react'
 
+const AnyReactComponent = ({ text }) => (
+    <div style={{
+        color: 'white',
+        background: 'grey',
+        padding: '15px 10px',
+        display: 'inline-flex',
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '100%',
+        transform: 'translate(-50%, -50%)'
+    }}>
+        {text}
+    </div>
+);
 
 export class Locations extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            machines: []
+            machines: [],
+            machineLabels: [],
+            key: { key: "AIzaSyCWK9AGTA0mhRxENjQSxzkw5w1A-lyWm_I" },
+            places: [],
+            center: { lat: 28.5965534, lng: -81.2001603 },
+            zoom: 15
         };
     }    
     
@@ -21,20 +42,29 @@ export class Locations extends Component {
             .then(res => {
                 const machines = res.data;
                 this.setState({ machines: machines });
+                const places = machines.map(x => x.arcadeMachineCoords.split(","));
+                const machineLabels = machines;
+                machineLabels.forEach(function (machine) {
+                    const places = machine.arcadeMachineCoords.split(",");
+                    delete machine.arcadeMachineCoords;
+                    machine.places = places;
+                });
+                this.setState({ machineLabels: machineLabels });
+                console.log(machineLabels)
             })
     }
 
     render() {
-        return(
+        return (
             <div className='Locations'>
-                <NaviBar/>
-                <Jumbotron style={{marginBottom: 10, marginTop: 10}}>
+                <NaviBar />
+                <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
                     <Grid fluid>
-                    <Row>
-                    <Col sm={6} smOffset={3}>
-                    <h1>Arcade Machine Locations</h1>
-                    </Col>
-                    </Row>
+                        <Row>
+                            <Col sm={6} smOffset={3}>
+                                <h1>Arcade Machine Locations</h1>
+                            </Col>
+                        </Row>
                     </Grid>
                 </Jumbotron>
 
@@ -42,17 +72,33 @@ export class Locations extends Component {
                     <ListGroupItem> {
                         this.state.machines.map((machine) => {
                             return <MachineComp machineData={machine} />
-                        })   
+                        })
                     }
-                    </ListGroupItem> 
+                    <Grid>
+                        <div style={{ height: '50vh', width: '100%' }}>
+                            <GoogleMapReact
+                                    bootstrapURLKeys={this.state.key}
+                                    defaultCenter={this.state.center}
+                                    defaultZoom={this.state.zoom}
+                                >
+                                    
+                                    {this.state.machineLabels.map((machine) => (
+                                        <AnyReactComponent
+                                            lat={machine.places[0]}
+                                            lng={machine.places[1]}
+                                            text={machine.arcadeMachineName}
+                                        />
+                                    ))}
+                                
+                            </GoogleMapReact>
+                        </div>
+                        </Grid>
+                    </ListGroupItem>
                 </ListGroup>
-
-                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWK9AGTA0mhRxENjQSxzkw5w1A-lyWm_I&callback=initMap"
-                    type="text/javascript"></script>
-
-                <Footer scrolls={true}/>
+                
+                <Footer scrolls={true} />
             </div>
-        )
+        );
     }
 }
 

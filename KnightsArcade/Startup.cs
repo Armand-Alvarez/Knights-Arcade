@@ -45,6 +45,7 @@ namespace KnightsArcade
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<RDSLogic>().AddScoped<EC2Logic>().AddScoped<ValidateJWT>()
+                .AddScoped<SMTPLogic>().AddScoped<ISMTPData, SMTPData>()
                 .AddScoped<IRDSData, RDSData>().AddScoped<IEC2Data, EC2Data>();
 
             services.AddSwaggerGen(c =>

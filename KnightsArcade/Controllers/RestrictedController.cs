@@ -20,14 +20,16 @@ namespace KnightsArcade.Controllers
     {
         private readonly RDSLogic _rdsLogic;
         private readonly EC2Logic _ec2Logic;
+        private readonly SMTPLogic _smtpLogic;
         private readonly ValidateJWT _validation;
         private readonly ILogger<RestrictedController> _logger;
 
-        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic, ValidateJWT validation)
+        public RestrictedController(RDSLogic rdsLogic, ILogger<RestrictedController> logger, EC2Logic ec2Logic, ValidateJWT validation, SMTPLogic smtpLogic)
         {
             _rdsLogic = rdsLogic;
             _logger = logger;
             _ec2Logic = ec2Logic;
+            _smtpLogic = smtpLogic;
             _validation = validation;
         }
 
@@ -855,6 +857,51 @@ namespace KnightsArcade.Controllers
                 return StatusCode(403, "This is an invalid access token.");
             }
             catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sends an email.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <response code="200">Success.</response>
+        /// <response code="401">Empty or no authorization header.</response>
+        /// <response code="403">Invalid access token given.</response>
+        /// <response code="500">Error.</response>  
+        [HttpPost("smtp/gmail/sendemail")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public IActionResult SendEmail([FromBody] Email email)
+        {
+            try
+            {
+                StringValues accessToken = new StringValues();
+                Request.Headers.TryGetValue("Authorization", out accessToken);
+                if (accessToken.Count() == 0)
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+
+                if (accessToken.FirstOrDefault().ToString() == null || accessToken.FirstOrDefault().ToString() == "")
+                {
+                    return StatusCode(401, "Empty or no authorization header.");
+                }
+                
+                if (_validation.CheckValidation(accessToken.ToString()))
+                {
+                    _smtpLogic.SendEmail(email);
+                    return Ok();
+                }
+
+                return StatusCode(403, "This is an invalid access token.");
+            }
+            catch(Exception e)
             {
                 _logger.LogError(e.Message, e);
                 return StatusCode(500, e.Message);
