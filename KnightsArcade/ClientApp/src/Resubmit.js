@@ -552,7 +552,7 @@ class Resubmit extends Component {
             .then(() => {
                 
                 console.log('successfully saved game file!');
-                setTimeout(function () { window.location.href = 'MyProfile' }, 10000250);
+                setTimeout(function () { window.location.href = 'MyProfile' }, 2500);
             })
             .catch(err => {
                 console.log('error uploading game file!', err);
@@ -604,7 +604,7 @@ class Resubmit extends Component {
             this.saveAdditionalImages();
         }
         if (this.state.gameFile === null) {
-
+            setTimeout(function () { window.location.href = 'MyProfile' }, 2500);
         } else {
             this.saveGame();
         }
@@ -639,7 +639,7 @@ class Resubmit extends Component {
             console.log("Invalid game file");
             throw ("Invalid game file");
         }
-        if (!this.state.img0File || !this.state.imgValidation || !this.state.imagesValidation) {
+        if (!this.state.imgValidation || !this.state.imagesValidation) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input valid image(s) for submission." });
             this.setState({ errorAlert: true });
@@ -673,10 +673,13 @@ class Resubmit extends Component {
 
     resubmitGame() {
 
-        const imgNames = [];
+        var imgNames = [];
         const parent = this;
         if (this.state.img0FileName === null) {
-            imgNames = null;
+            imgNames.push(null);
+            imgNames.push(null);
+            imgNames.push(null);
+            imgNames.push(null);
         } else {
             imgNames.push(this.state.titleValue + "/" + this.state.img0FileName);
 
