@@ -109,12 +109,20 @@ export default class CollapsibleData extends Component {
                 );
 
             }
-            
+            else {
+                return (
+                <div>
+                    <Button onClick={this.handleClose}>Test Logs ˅</Button>
+                    <h4> No logs found</h4>
+                   
+                </div>
+                )
+            }
         }
         else {
             return (
                 <Button className="collapsedButton" onClick={this.handleOpen}>Test Logs ></Button>
-                )
+            )
         }
     }
 

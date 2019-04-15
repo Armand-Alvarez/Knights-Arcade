@@ -9,6 +9,7 @@ import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, Contro
 import CollapsibleData from './Components/CollapsibleData';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
+import { setTimeout } from 'timers';
 
 
 class ReviewPage extends Component {
@@ -110,13 +111,10 @@ class ReviewPage extends Component {
         try {
             e.preventDefault();
             this.submitReview("a");
-            this.setState({ reviewModal: true });
-            this.setState({ reviewMessage: "The game has been accepted successfully" })
         }
         catch (e) {
             this.setState({ reviewModal: false })
-            this.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-            this.setState({ errorAlert: true });
+
         }
     }
 
@@ -125,13 +123,10 @@ class ReviewPage extends Component {
             this.setState({ denyConfirm: false })
             e.preventDefault();
             this.submitReview("d");
-            this.setState({ reviewModal: true });
-            this.setState({ reviewMessage: "The game has been denied successfully" })
+
         }
         catch (e) {
             this.setState({ reviewModal: false })
-            this.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-            this.setState({ errorAlert: true });
         }
     }
 
@@ -140,13 +135,9 @@ class ReviewPage extends Component {
 
             e.preventDefault();
             this.submitReview("r");
-            this.setState({ reviewModal: true });
-            this.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
         }
         catch (e) {
             this.setState({ reviewModal: false })
-            this.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-            this.setState({ errorAlert: true });
         }
     }
 
@@ -162,6 +153,7 @@ class ReviewPage extends Component {
 
     submitReview(reviewType) {
 
+        const parent = this;
         const submissionData = {
             creatorId: null,
             creatorEmail: null,
@@ -181,6 +173,37 @@ class ReviewPage extends Component {
         })
             .then(function (res, error) {
                 console.log(res);
+                if (res.status < 205) {
+                    if (reviewType = "a") {
+                        parent.setState({ reviewModal: true });
+                        parent.setState({ reviewMessage: "The game has been accepted successfully" })
+                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
+                    }
+                    if (reviewType = "d") {
+                        parent.setState({ reviewModal: true });
+                        parent.setState({ reviewMessage: "The game has been denied successfully" })
+                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
+                    }
+                    if (reviewType = "r") {
+                        parent.setState({ reviewModal: true });
+                        parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
+                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
+                    }
+                }
+                else if (res.status < 400) {
+                    if (reviewType = "a") {
+                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                        parent.setState({ errorAlert: true });
+                    }
+                    if (reviewType = "d") {
+                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                        parent.setState({ errorAlert: true });
+                    }
+                    if (reviewType = "r") {
+                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                        parent.setState({ errorAlert: true });
+                    }
+                }
             }
             ).catch(error => {
                 console.log(error.message);
@@ -200,8 +223,12 @@ class ReviewPage extends Component {
         var test5min;
         var testCloses;
         var testRam = parseInt(this.state.testdata.testAverageRam);
+        var testPeakRam = parseInt(this.state.testdata.testPeakRam);
         var testRamString = "";
+        var testPeakRamString = "";
         var downloadable;
+        var testCloseOn3 = this.state.testdata.testCloseOn3 ? 'True' : 'False';
+        var testCloseOnEsc = this.state.testdata.testCloseOnEscape ? 'True' : 'False';
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(this.state.gamedata.gameSubmissionDateUtc);
 
@@ -263,6 +290,19 @@ class ReviewPage extends Component {
         } else {
             testRamString = Math.round(testRam) + "GB"
         }
+
+        if (testPeakRam < 1024) {
+            testPeakRamString = this.state.testdata.testPeakRam + "B"
+        } else if (testPeakRam < 1048576) {
+            testPeakRam = testPeakRam / 1024;
+            testPeakRamString = Math.round(testPeakRam) + "KB"
+        } else if (testPeakRam < 1073741824) {
+            testPeakRam = testPeakRam / 1048576;
+            testPeakRamString = Math.round(testPeakRam) + "MB"
+        } else {
+            testPeakRamString = Math.round(testPeakRam) + "GB"
+        }
+
 
         if (this.state.gamedata.gameGenreAction === true) {
             genres.push("Action");
@@ -414,6 +454,9 @@ class ReviewPage extends Component {
                                                 <th>Closing Test</th>
                                                 <th>Average RAM Test</th>
                                                 <th>Peak RAM Test</th>
+                                                <th>Exe file count</th>
+                                                <th>Closes with '3'</th>
+                                                <th>Closes with 'Esc'</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -422,7 +465,10 @@ class ReviewPage extends Component {
                                                 <td>{test5min}</td>
                                                 <td>{testCloses}</td>
                                                 <td>{testRamString}</td>
-                                                <td>Not Yet Implemented</td>
+                                                <td>{testPeakRamString}</td>
+                                                <td>{Math.round(this.state.testdata.testNumExeFiles)}</td>
+                                                <td>{testCloseOn3}</td>
+                                                <td>{testCloseOnEsc}</td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -454,18 +500,18 @@ class ReviewPage extends Component {
                         <Popup
                             open={this.state.reviewModal}
                             modal
-                            closeOnDocumentClick={true}
+                            closeOnDocumentClick={false}
                             lockScroll={true}
                         >
                             <a href="/admin"><div className="ReviewModal">
                                 <span>{this.state.reviewMessage}</span><br></br>
-                                <span>Click on this modal to return to the administration page</span><br></br>
+                                <span>Click here to return to the administration page if you are not automatically redirected</span><br></br>
                             </div></a>
                         </Popup>
                         <Popup
                             open={this.state.errorAlert}
                             modal
-                            closeOnDocumentClick={false}
+                            closeOnDocumentClick={true}
                             lockScroll={true}
                         >
                             <div className="ErrorModal">
