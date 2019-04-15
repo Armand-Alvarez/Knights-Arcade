@@ -110,7 +110,7 @@ class Resubmit extends Component {
             errorAlertMessage: "",
             status: 0,
             reviewComments: "",
-            gamePath: "",
+            gamePath: null,
             availableToDownload: false,
         };
         const override = css`
@@ -557,11 +557,11 @@ class Resubmit extends Component {
 
                 axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
                     headers: {
-                        'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                        'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                     }
                 })
                 console.log('successfully saved game file!');
-                window.location.href = 'MyProfile';
+                setTimeout(function () { window.location.href = 'MyProfile' }, 10000250);
             })
             .catch(err => {
                 console.log('error uploading game file!', err);
@@ -668,7 +668,7 @@ class Resubmit extends Component {
     resubmitGame() {
 
         const imgNames = [];
-        
+        const parent = this;
         if (this.state.img0FileName === null) {
             imgNames = null;
         } else {
@@ -678,7 +678,7 @@ class Resubmit extends Component {
                 imgNames.push(this.state.titleValue + "/" + this.state.imgFiles[i].name);
             }
         }
-        const data = {
+        var data = {
             gameId: this.state.gameId,
             gameName: this.state.titleValue,
             gameCreatorName: this.state.username,
@@ -703,42 +703,44 @@ class Resubmit extends Component {
             gameImg: imgNames,
             gameAvailableToDownload: this.state.gameAvailableToDownload
         }
+        if (this.state.gameFile === null) {
+            data.gamePath = null;
+        }
+        if (this.state.img0File === null) {
+            data.gameImg = null;
+        }
         var self = this;
         axios.put('/api/v1/Restricted/rds/resubmit', data, {
             headers: {
-                'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         })
             .then(function (res, error) {
-                if (res.status === 201) {
+                if (res.status < 205) {
                     console.log(res);
                     self.postToS3();
                 }
                 else if (res.status === 409) {
                     console.log("409");
-                    this.setState({ loadingModal: false });
-                    this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
-                    this.setState({ errorAlert: true });
+                    parent.setState({ loadingModal: false });
+                    parent.setState({ errorAlertMessage: "That game name already exists. Please use another." });
+                    parent.setState({ errorAlert: true });
                     throw ("That game name already exists. Please use another.");
                 }
                 else {
                     console.log("Other");
-                    this.setState({ loadingModal: false });
-                    this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
-                    this.setState({ errorAlert: true });
+                    parent.setState({ loadingModal: false });
+                    parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
                     throw ("There was an error with your submission. Please reload and try again.");
                 }
             }).catch(error => {
                 console.log(error);
                 var errorDupMessage = "Request failed with status code 409";
                 console.log(error.message);
-                if (error.message.substring(0, errorDupMessage.length) === errorDupMessage)
-                    this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
-                else
-                    this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
-
-                this.setState({ loadingModal: false });
-                this.setState({ errorAlert: true });;
+                parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+                parent.setState({ loadingModal: false });
+                parent.setState({ errorAlert: true });;
             });
     }
 
