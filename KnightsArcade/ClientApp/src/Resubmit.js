@@ -121,9 +121,11 @@ class Resubmit extends Component {
     }
 
     componentDidMount() {
+        console.log(Auth);
         Auth.currentAuthenticatedUser({
             bypassCache: false
         }).then(user => {
+            console.log(user);
             this.setState({ username: user.username });
             this.setState({ email: user.attributes.email });
         })
@@ -548,18 +550,7 @@ class Resubmit extends Component {
     saveGame() {
         Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
             .then(() => {
-                const email = {
-                    to: this.gameCreatorEmail,
-                    from: "noreply@knightsarcade.com",
-                    subject: "Your game has been resubmitted",
-                    body: "Thank you for resubmitting your game, " + this.state.username + ". It has been sent to automated testing again. It will be available for review by an administrator shortly. You will recieve an email when your game has been reviewed. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com"
-                }
-
-                axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
-                    headers: {
-                        'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
-                    }
-                })
+                
                 console.log('successfully saved game file!');
                 setTimeout(function () { window.location.href = 'MyProfile' }, 10000250);
             })
@@ -568,6 +559,21 @@ class Resubmit extends Component {
                 throw (err);
             })
         return;
+    }
+
+    sendEmail() {
+        const email = {
+            to: this.state.email,
+            from: "noreply@knightsarcade.com",
+            subject: "Your game has been resubmitted",
+            body: "Thank you for resubmitting your game, " + this.state.username + ". It has been sent to automated testing again. It will be available for review by an administrator shortly. You will recieve an email when your game has been reviewed. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com"
+        }
+
+        axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
+            headers: {
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+            }
+        });
     }
 
     saveImg0() {
@@ -710,6 +716,8 @@ class Resubmit extends Component {
             data.gameImg = null;
         }
         var self = this;
+        self.sendEmail();
+
         axios.put('/api/v1/Restricted/rds/resubmit', data, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
