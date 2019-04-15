@@ -25,8 +25,7 @@ namespace Auto_Testing.Infrastructure.Data
 		public WebData(ILogger<WebData> logger, CustomJWT jwt)
 		{
 			_logger = logger;
-			//_host = "www.knightsarcade.com";
-			_host = "localhost:52445";
+			_host = "www.knightsarcade.com";
 		}
 
 		public bool SendWebMessage(string url, object data, HttpClient client)
@@ -235,7 +234,6 @@ namespace Auto_Testing.Infrastructure.Data
 				bool i = false;
 				string json = JsonConvert.SerializeObject(i);
 
-				//HttpResponseMessage response = client.PutAsJsonAsync("http://" + _host + "/api/v1/Restricted/aws/ec2/stop", i).Result;
 				HttpResponseMessage response = client.PutAsync("http://" + _host + "/api/v1/Restricted/aws/ec2/stop", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
 				if (response.StatusCode.ToString() == "OK")
@@ -251,6 +249,33 @@ namespace Auto_Testing.Infrastructure.Data
 				_logger.LogError(e.Message, e);
 				return false;
 			}
+		}
+
+		public bool SendEmail(Email email, HttpClient client)
+		{
+			try
+			{
+				string json = JsonConvert.SerializeObject(email);
+				var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+				var byteContent = new ByteArrayContent(buffer);
+				byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+				HttpResponseMessage response = client.PostAsync("http://" + _host + "/api/v1/Restricted/smtp/gmail/sendemail", byteContent).Result;
+
+				if (response.StatusCode.ToString() == "Created")
+				{
+					return true;
+				}
+
+				return false;
+
+			}
+			catch (Exception e)
+			{
+				_logger.LogError(e.Message, e);
+				return false;
+			}
+
 		}
 	}
 

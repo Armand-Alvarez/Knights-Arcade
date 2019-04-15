@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Auto_Testing
 {
@@ -11,6 +12,7 @@ namespace Auto_Testing
 	{
 		public static void Main(string[] args)
 		{
+
 			IWebHost webHost = CreateWebHostBuilder(args).Build();
 			webHost.RunAsync();
 
@@ -20,6 +22,8 @@ namespace Auto_Testing
 
 				testing.RunAllEntryTests();
 			}
+			
+
 		}
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
