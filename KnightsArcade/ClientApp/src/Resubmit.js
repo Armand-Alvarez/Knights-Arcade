@@ -110,7 +110,7 @@ class Resubmit extends Component {
             errorAlertMessage: "",
             status: 0,
             reviewComments: "",
-            gamePath: "",
+            gamePath: null,
             availableToDownload: false,
         };
         const override = css`
@@ -121,9 +121,11 @@ class Resubmit extends Component {
     }
 
     componentDidMount() {
+        console.log(Auth);
         Auth.currentAuthenticatedUser({
             bypassCache: false
         }).then(user => {
+            console.log(user);
             this.setState({ username: user.username });
             this.setState({ email: user.attributes.email });
         })
@@ -548,26 +550,30 @@ class Resubmit extends Component {
     saveGame() {
         Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
             .then(() => {
-                const email = {
-                    to: this.gameCreatorEmail,
-                    from: "noreply@knightsarcade.com",
-                    subject: "Your game has been resubmitted",
-                    body: "Thank you for resubmitting your game, " + this.state.username + ". It has been sent to automated testing again. It will be available for review by an administrator shortly. You will recieve an email when your game has been reviewed. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com"
-                }
-
-                axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
-                    headers: {
-                        'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
-                    }
-                })
+                
                 console.log('successfully saved game file!');
-                window.location.href = 'MyProfile';
+                setTimeout(function () { window.location.href = 'MyProfile' }, 10000250);
             })
             .catch(err => {
                 console.log('error uploading game file!', err);
                 throw (err);
             })
         return;
+    }
+
+    sendEmail() {
+        const email = {
+            to: this.state.email,
+            from: "noreply@knightsarcade.com",
+            subject: "Your game has been resubmitted",
+            body: "Thank you for resubmitting your game, " + this.state.username + ". It has been sent to automated testing again. It will be available for review by an administrator shortly. You will recieve an email when your game has been reviewed. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com"
+        }
+
+        axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
+            headers: {
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+            }
+        });
     }
 
     saveImg0() {
@@ -668,7 +674,7 @@ class Resubmit extends Component {
     resubmitGame() {
 
         const imgNames = [];
-        
+        const parent = this;
         if (this.state.img0FileName === null) {
             imgNames = null;
         } else {
@@ -678,7 +684,7 @@ class Resubmit extends Component {
                 imgNames.push(this.state.titleValue + "/" + this.state.imgFiles[i].name);
             }
         }
-        const data = {
+        var data = {
             gameId: this.state.gameId,
             gameName: this.state.titleValue,
             gameCreatorName: this.state.username,
@@ -703,42 +709,46 @@ class Resubmit extends Component {
             gameImg: imgNames,
             gameAvailableToDownload: this.state.gameAvailableToDownload
         }
+        if (this.state.gameFile === null) {
+            data.gamePath = null;
+        }
+        if (this.state.img0File === null) {
+            data.gameImg = null;
+        }
         var self = this;
+        self.sendEmail();
+
         axios.put('/api/v1/Restricted/rds/resubmit', data, {
             headers: {
-                'Authorization': Auth.user.signInUserSession.accessToken.jwtToken
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         })
             .then(function (res, error) {
-                if (res.status === 201) {
+                if (res.status < 205) {
                     console.log(res);
                     self.postToS3();
                 }
                 else if (res.status === 409) {
                     console.log("409");
-                    this.setState({ loadingModal: false });
-                    this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
-                    this.setState({ errorAlert: true });
+                    parent.setState({ loadingModal: false });
+                    parent.setState({ errorAlertMessage: "That game name already exists. Please use another." });
+                    parent.setState({ errorAlert: true });
                     throw ("That game name already exists. Please use another.");
                 }
                 else {
                     console.log("Other");
-                    this.setState({ loadingModal: false });
-                    this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
-                    this.setState({ errorAlert: true });
+                    parent.setState({ loadingModal: false });
+                    parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
                     throw ("There was an error with your submission. Please reload and try again.");
                 }
             }).catch(error => {
                 console.log(error);
                 var errorDupMessage = "Request failed with status code 409";
                 console.log(error.message);
-                if (error.message.substring(0, errorDupMessage.length) === errorDupMessage)
-                    this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
-                else
-                    this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
-
-                this.setState({ loadingModal: false });
-                this.setState({ errorAlert: true });;
+                parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+                parent.setState({ loadingModal: false });
+                parent.setState({ errorAlert: true });;
             });
     }
 
