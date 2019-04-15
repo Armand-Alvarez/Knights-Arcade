@@ -716,7 +716,7 @@ class Submit extends Component {
                                     </Col>
                                     <Col md={6}>
                                         <FormGroup validationState={this.getValidationStateImg()}>
-                                            <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG)</ControlLabel>
+                                            <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG) Must be 16:9, min 720p, max 1440p</ControlLabel>
                                             <FormControl
                                                 type="file"
                                                 onChange={this.handleImg0Change}
