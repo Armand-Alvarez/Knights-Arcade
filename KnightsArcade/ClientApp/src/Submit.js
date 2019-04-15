@@ -724,7 +724,16 @@ class Submit extends Component {
                                         </FormGroup>
                                     </Col>
                                 </Row>
-
+                                <Row>
+                                    <Col md={12}>
+                                        <FormGroup>
+                                            <FormControl.Static>
+                                                Please ensure that the only exe in the zip is your game executable. 
+                                                Images must be 16:9. Minimum Size: 720p, Maximum Size: 1440p.
+                                            </FormControl.Static>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
                                 <FormGroup validationState={this.getValidationStateImages()}>
                                     <ControlLabel className='text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
                                     <FilePond
