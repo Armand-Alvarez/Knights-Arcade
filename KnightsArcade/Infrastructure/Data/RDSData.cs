@@ -91,6 +91,7 @@ namespace KnightsArcade.Infrastructure.Data
             if (game.GameVideolink != null) { updatedGame.GameVideolink = game.GameVideolink; }
             if (game.GameAvailableToDownload != null) { updatedGame.GameAvailableToDownload = game.GameAvailableToDownload; }
             if (game.GameOnArcade != null) { updatedGame.GameOnArcade = game.GameOnArcade; }
+            if (game.GameReviewDateUtc != null) { updatedGame.GameReviewDateUtc = game.GameReviewDateUtc; }
 
             knightsContext.Entry<Games>(updatedGame).State = EntityState.Modified;
             knightsContext.SaveChanges();

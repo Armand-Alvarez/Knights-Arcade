@@ -310,6 +310,10 @@ namespace KnightsArcade.Infrastructure.Logic
 
         public void PutSubmissions(Submissions submission)
         {
+            if(submission.SubmissionStatus == "d")
+            {
+                submission.SubmissionImage0 = "DEFAULT_PLACEHOLDER/default.png";
+            }
             _rdsData.PutSubmissions(submission);
 
             try
@@ -328,7 +332,15 @@ namespace KnightsArcade.Infrastructure.Logic
                 {
                     game.GameStatus = submission.SubmissionStatus;
                 }
-                _rdsData.PutGames(game);
+
+                if(submission.SubmissionStatus == "d")
+                {
+                    _rdsData.DeleteGames((int)game.GameId);
+                }
+                else
+                {
+                    _rdsData.PutGames(game);
+                }
 
                 try
                 {
@@ -358,7 +370,6 @@ namespace KnightsArcade.Infrastructure.Logic
                         _rdsData.PutUser(x);
                     });
                 }
-
             }
             catch (Exception e)
             {
