@@ -25,7 +25,6 @@ namespace Auto_Testing.Controllers
 		[HttpGet("info")]
 		public IActionResult Get()
 		{
-			//_testingLogic.RunAllEntryTests();
 			return Ok("Runs automated testing for Knights Arcade games.");
 		}
 

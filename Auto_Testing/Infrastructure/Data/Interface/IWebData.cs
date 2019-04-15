@@ -17,6 +17,7 @@ namespace Auto_Testing.Infrastructure.Data.Interface
 		bool PostTestingLog(TestingLog testLog, HttpClient client);
 		bool PutGames(GamesEntry myGame, HttpClient client);
 		bool StopAutomatedTestingEC2(HttpClient client);
+		bool SendEmail(Email email, HttpClient client);
 		TestsQueue GetFirstTestQueue(HttpClient client);
 		List<TestsQueue> GetAllTestsQueue(HttpClient client);
 		GamesEntry GetGamesByID(int? gameID, HttpClient client);

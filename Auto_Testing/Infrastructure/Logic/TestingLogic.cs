@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsInput;
 
 namespace Auto_Testing.Infrastructure.Logic
 {
@@ -57,13 +58,28 @@ namespace Auto_Testing.Infrastructure.Logic
 					testsQueue = _webData.GetFirstTestQueue(_client);
 				}
 
+				SendEmail();
 				_webData.StopAutomatedTestingEC2(_client);
 			}
 			catch (Exception e)
 			{
 				_logger.LogError(e.Message, e);
+				SendEmail();
 				_webData.StopAutomatedTestingEC2(_client);
 			}
+		}
+
+		public void SendEmail()
+		{
+			Email email = new Email()
+			{
+				To = "knightsarcade@gmail.com",
+				From = "noreply@knightsarcade.com",
+				Subject = "Automated Testing is completed",
+				Body = "Automated tests have finished running"
+			};
+
+			_webData.SendEmail(email, _client);
 		}
 
 		public void RunSingleEntryTest(TestsQueue testsQueue, Tests testProcess)
@@ -87,7 +103,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testProcess.TestOpens = false;
 						testProcess.Test5min = false;
 						testProcess.TestCloseOn3 = false;
-						testProcess.TestEscape = false;
+						testProcess.TestCloseOnEscape = false;
 						testProcess.TestCloses = false;
 
 						continue;
@@ -118,7 +134,7 @@ namespace Auto_Testing.Infrastructure.Logic
 					{
 						testProcess.Test5min = false;
 						testProcess.TestCloseOn3 = false;
-						testProcess.TestEscape = false;
+						testProcess.TestCloseOnEscape = false;
 						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Failed Start Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -134,7 +150,7 @@ namespace Auto_Testing.Infrastructure.Logic
 					if ((bool)!testProcess.Test5min)
 					{
 						testProcess.TestCloseOn3 = false;
-						testProcess.TestEscape = false;
+						testProcess.TestCloseOnEscape = false;
 						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Failed Sleep Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -150,7 +166,7 @@ namespace Auto_Testing.Infrastructure.Logic
 					if (testProcess.TestAverageRam == null)
 					{
 						testProcess.TestCloseOn3 = false;
-						testProcess.TestEscape = false;
+						testProcess.TestCloseOnEscape = false;
 						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Average RAM Test Failed";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -166,7 +182,7 @@ namespace Auto_Testing.Infrastructure.Logic
 					if (testProcess.TestPeakRam == null)
 					{
 						testProcess.TestCloseOn3 = false;
-						testProcess.TestEscape = false;
+						testProcess.TestCloseOnEscape = false;
 						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Peak RAM Test Failed";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -192,7 +208,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						testProcess.TestAverageRam = null;
 						testProcess.TestPeakRam = null;
 						testProcess.TestCloseOn3 = false;
-						testProcess.TestEscape = false;
+						testProcess.TestCloseOnEscape = false;
 						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game passed 'close on 3' test but failed to restart";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -209,10 +225,34 @@ namespace Auto_Testing.Infrastructure.Logic
 					}
 
 					//Test whether game will close on "Escape" key press
-					testProcess.TestEscape = EscapeFile(exeFiles[0]);
+					i = EscapeFile(exeFiles[0]);
 
 					//Log if game did not shut down after "Escape" press
-					if ((bool)!testProcess.TestEscape)
+					if (i == 0)
+						testProcess.TestCloseOnEscape = true;
+
+					else if (i == 1)
+						testProcess.TestCloseOnEscape = false;
+
+					//Retry tests if the program is unable to restart after passing "3" test
+					else if (i == 2)
+					{
+						testProcess.TestOpens = false;
+						testProcess.Test5min = false;
+						testProcess.TestAverageRam = null;
+						testProcess.TestPeakRam = null;
+						testProcess.TestCloseOn3 = false;
+						testProcess.TestCloseOnEscape = false;
+						testProcess.TestCloses = false;
+						testLog.TestlogLog = "Game passed 'close on Escape' test but failed to restart";
+						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+						_webData.PostTestingLog(testLog, _client);
+						continue;
+					}
+
+					//Log if game did not shut down after "3" press
+					if ((bool)!testProcess.TestCloseOnEscape)
 					{
 						testLog.TestlogLog = "Game failed 'close on Escape' test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -323,7 +363,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-				//Thread.Sleep(300000);
+				Thread.Sleep(5000);
 
 				return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
 			}
@@ -374,7 +414,9 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-				SendKeys.Send("3");
+				Thread.Sleep(6000);
+				InputSimulator s = new InputSimulator();
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VK_3);
 
 				Thread.Sleep(3000);
 
@@ -383,10 +425,10 @@ namespace Auto_Testing.Infrastructure.Logic
 					return 1;
 
 				//Restart game process for further testing
-				gameProcess = Process.Start(exeFile);
+				bool restart = StartFile(exeFile);
 
 				//Return if game did not properly launch again
-				if (!(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0))
+				if (!restart)
 					return 2;
 
 				//Return if game passed "3" test and properly relaunched
@@ -401,69 +443,122 @@ namespace Auto_Testing.Infrastructure.Logic
 		}
 
 		//Attempts to close process with Escape Key and checks whether program has shut down
-		public bool EscapeFile(string exeFile)
+		public int EscapeFile(string exeFile)
 		{
 			try
 			{
 				bool res;
 
 				//Attempt to shut down game with "Escape" key press
-				SendKeys.SendWait("{ESC}");
+				Thread.Sleep(6000);
+				InputSimulator s = new InputSimulator();
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.ESCAPE);
 
 				res = (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
 
 				if (!res)
-					return true;
+				{
+					res = StartFile(exeFile);
+					if (res)
+						return 0;
+
+					return 2;
+				}
 
 				//Send "Enter" key press if the "Escape" was not sufficient to shut down game
-				SendKeys.SendWait("{ENTER}");
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RETURN);
 
 				res = (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
 
 				if (!res)
-					return true;
+				{
+					res = StartFile(exeFile);
+					if (res)
+						return 0;
+
+					return 2;
+				}
 
 				//Retry process, in case pressing "Escape" brings up a prompt menu which you must navigate to shut down game
-				SendKeys.SendWait("{ESC}");
-				SendKeys.SendWait("{LEFT}");
-				SendKeys.SendWait("{ENTER}");
+				Thread.Sleep(3000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.ESCAPE);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.LEFT);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RETURN);
 
 				res = (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
 
 				if (!res)
-					return true;
+				{
+					res = StartFile(exeFile);
+					if (res)
+						return 0;
 
-				SendKeys.SendWait("{ESC}");
-				SendKeys.SendWait("{RIGHT}");
-				SendKeys.SendWait("{ENTER}");
+					return 2;
+				}
+
+				Thread.Sleep(3000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.ESCAPE);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RIGHT);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RETURN);
 
 				res = (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
 
 				if (!res)
-					return true;
+				{
+					res = StartFile(exeFile);
+					if (res)
+						return 0;
 
-				SendKeys.SendWait("{ESC}");
-				SendKeys.SendWait("{DOWN}");
-				SendKeys.SendWait("{ENTER}");
+					return 2;
+				}
+
+				Thread.Sleep(3000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.ESCAPE);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.DOWN);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RETURN);
 
 				res = (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
 
 				if (!res)
-					return true;
+				{
+					res = StartFile(exeFile);
+					if (res)
+						return 0;
 
-				SendKeys.SendWait("{ESC}");
-				SendKeys.SendWait("{UP}");
-				SendKeys.SendWait("{ENTER}");
+					return 2;
+				}
+
+				Thread.Sleep(3000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.ESCAPE);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.UP);
+				Thread.Sleep(1000);
+				s.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.RETURN);
 
 				res = (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0);
 
-				return !res;
+				if (!res)
+				{
+					res = StartFile(exeFile);
+					if (res)
+						return 0;
+
+					return 2;
+				}
+
+				return 1;
 			}
 
 			catch (Exception e)
 			{
 				_logger.LogError(e.Message, e);
-				return false;
+				return 1;
 			}
 		}
 

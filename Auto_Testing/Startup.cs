@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Auto_Testing.Authentication;
 using Auto_Testing.Infrastructure.Data;
 using Auto_Testing.Infrastructure.Data.Interface;
 using Auto_Testing.Infrastructure.Logic;
@@ -31,11 +32,12 @@ namespace Auto_Testing
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-			services.AddScoped<TestingLogic>().AddScoped<IS3Data, S3Data>().AddScoped<IWebData, WebData>();
+			services.AddScoped<TestingLogic>().AddScoped<IS3Data, S3Data>().AddScoped<IWebData, WebData>()
+				.AddScoped<CustomJWT>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
