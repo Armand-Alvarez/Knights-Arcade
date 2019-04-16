@@ -719,40 +719,39 @@ class Resubmit extends Component {
             data.gameImg = null;
         }
         var self = this;
-        self.sendEmail();
 
         axios.put('/api/v1/Restricted/rds/resubmit', data, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
-        })
-            .then(function (res, error) {
-                if (res.status < 205) {
-                    console.log(res);
-                    self.postToS3();
-                }
-                else if (res.status === 409) {
-                    console.log("409");
-                    parent.setState({ loadingModal: false });
-                    parent.setState({ errorAlertMessage: "That game name already exists. Please use another." });
-                    parent.setState({ errorAlert: true });
-                    throw ("That game name already exists. Please use another.");
-                }
-                else {
-                    console.log("Other");
-                    parent.setState({ loadingModal: false });
-                    parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
-                    parent.setState({ errorAlert: true });
-                    throw ("There was an error with your submission. Please reload and try again.");
-                }
-            }).catch(error => {
-                console.log(error);
-                var errorDupMessage = "Request failed with status code 409";
-                console.log(error.message);
-                parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+        }).then(function (res, error) {
+            if (res.status < 205) {
+                console.log(res);
+                self.postToS3();
+                self.sendEmail();
+            }
+            else if (res.status === 409) {
+                console.log("409");
                 parent.setState({ loadingModal: false });
-                parent.setState({ errorAlert: true });;
-            });
+                parent.setState({ errorAlertMessage: "That game name already exists. Please use another." });
+                parent.setState({ errorAlert: true });
+                throw ("That game name already exists. Please use another.");
+            }
+            else {
+                console.log("Other");
+                parent.setState({ loadingModal: false });
+                parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+                parent.setState({ errorAlert: true });
+                throw ("There was an error with your submission. Please reload and try again.");
+            }
+        }).catch(error => {
+            console.log(error);
+            var errorDupMessage = "Request failed with status code 409";
+            console.log(error.message);
+            parent.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
+            parent.setState({ loadingModal: false });
+            parent.setState({ errorAlert: true });;
+        });
     }
 
     handleSubmit(e) {
