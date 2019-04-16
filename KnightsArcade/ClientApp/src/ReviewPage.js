@@ -152,6 +152,32 @@ class ReviewPage extends Component {
         this.state.buttonStatus = true;
     }
 
+    sendEmail(username, status, comments) {
+        axios.get('/api/v1/Public/rds/users/user?username=' + username)
+            .then(res => {
+                var user = res.data;
+                var review = ""
+                if (status == "a")
+                    review = "has been accepted"
+                else if (status == "a")
+                    review = "has been denied"
+                if (status == "a")
+                    review = "needs to be resubmitted"
+                const email = {
+                    to: user.userEmail,
+                    from: "noreply@knightsarcade.com",
+                    subject: "Your game has been reviewed!",
+                    body: "You game has been reviewed! Your game " + review + ". The administrator's feedback: " + comments + ". You can also checkout information about your game on your profile page. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
+                }
+
+                axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
+                    headers: {
+                        'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+                    }
+                });
+            });
+    }
+
     submitReview(reviewType) {
 
         const parent = this;
@@ -166,51 +192,50 @@ class ReviewPage extends Component {
             submissionReviewDateUtc: new Date().toUTCString(),
             submissionReviewComments: this.state.reviewCommentsValue
         }
-
         axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
-        })
-            .then(function (res, error) {
-                console.log(res);
-                if (res.status < 205) {
-                    if (reviewType = "a") {
-                        parent.setState({ reviewModal: true });
-                        parent.setState({ reviewMessage: "The game has been accepted successfully" })
-                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                    }
-                    if (reviewType = "d") {
-                        parent.setState({ reviewModal: true });
-                        parent.setState({ reviewMessage: "The game has been denied successfully" })
-                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                    }
-                    if (reviewType = "r") {
-                        parent.setState({ reviewModal: true });
-                        parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
-                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                    }
+        }).then(function (res, error) {
+            console.log(res);
+            if (res.status < 205) {
+                parent.sendEmail(parent.state.gameData.gameCreatorName, reviewType, parent.state.reviewCommentsValue);
+                if (reviewType = "a") {
+                    parent.setState({ reviewModal: true });
+                    parent.setState({ reviewMessage: "The game has been accepted successfully" })
+                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
-                else if (res.status < 400) {
-                    if (reviewType = "a") {
-                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                        parent.setState({ errorAlert: true });
-                    }
-                    if (reviewType = "d") {
-                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                        parent.setState({ errorAlert: true });
-                    }
-                    if (reviewType = "r") {
-                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                        parent.setState({ errorAlert: true });
-                    }
+                if (reviewType = "d") {
+                    parent.setState({ reviewModal: true });
+                    parent.setState({ reviewMessage: "The game has been denied successfully" })
+                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
+                }
+                if (reviewType = "r") {
+                    parent.setState({ reviewModal: true });
+                    parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
+                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
             }
-            ).catch(error => {
-                console.log(error.message);
+            else if (res.status < 400) {
+                if (reviewType = "a") {
+                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
+                }
+                if (reviewType = "d") {
+                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
+                }
+                if (reviewType = "r") {
+                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
+                }
+            }
+        }
+        ).catch(error => {
+            console.log(error.message);
 
-                ;
-            });
+            ;
+        });
 
     }
 
