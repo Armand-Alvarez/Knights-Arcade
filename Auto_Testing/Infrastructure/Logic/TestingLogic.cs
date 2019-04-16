@@ -12,7 +12,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WindowsInput;
 
 namespace Auto_Testing.Infrastructure.Logic
@@ -296,6 +295,16 @@ namespace Auto_Testing.Infrastructure.Logic
 						myGame.GameReviewDateUtc = DateTime.UtcNow;
 						myGame.GameStatus = "p";
 
+						if (testsQueue.RetryCount == 0)
+							testLog.TestlogLog = "Game Passed all essential tests on first try";
+
+						else if (testsQueue.RetryCount == 1)
+							testLog.TestlogLog = "Game Passed all essential tests after 1 retry";
+
+						else if (testsQueue.RetryCount == 2)
+							testLog.TestlogLog = "Game Passed all essential tests after 2 retries";
+
+						_webData.PostTestingLog(testLog, _client);
 						_webData.PutGames(myGame, _client);
 
 						break;
