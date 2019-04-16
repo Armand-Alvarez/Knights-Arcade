@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Panel, Grid } from 'react-bootstrap';
 
 export class MachineLocationComponent extends Component {
-    constructor (props) {
-        super (props);
+    constructor(props) {
+        super(props);
 
         this.state = {
             arcadeMachineId: 0,
@@ -25,7 +25,7 @@ export class MachineLocationComponent extends Component {
         const name = this.props.machineData.arcadeMachineName;
 
         return (
-            <div>
+            <div style={{ marginBottom: 10 }}>
                 <Grid>
                     <Panel>
                         <Panel.Heading><b>{name}</b></Panel.Heading>

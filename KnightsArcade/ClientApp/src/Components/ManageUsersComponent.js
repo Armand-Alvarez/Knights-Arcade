@@ -5,77 +5,77 @@ import { Storage, Auth } from 'aws-amplify';
 
 
 export class ManageUsersComponent extends Component {
-  constructor (props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      imgName: '',
-      imgUrl: '',
-      email: ''
-    };
+        this.state = {
+            imgName: '',
+            imgUrl: '',
+            email: ''
+        };
 
 
-  }
-
-  componentDidMount() {
-    const imgPath = this.props.userData.userImagePath;
-    Storage.get(imgPath)
-      .then(result => {
-          this.setState({
-              imgName: this.props.userData.userImg,
-              imgUrl: result
-          });
-      })
-      .catch(err => console.log(err));
     }
 
-  // todo: add delete to swagger
-  // todo: add updateFunc & frontend changes (see ManageGamesComponent.js delete func)
-  handleDelete() {
-  }
+    componentDidMount() {
+        const imgPath = this.props.userData.userImagePath;
+        Storage.get(imgPath)
+            .then(result => {
+                this.setState({
+                    imgName: this.props.userData.userImg,
+                    imgUrl: result
+                });
+            })
+            .catch(err => console.log(err));
+    }
 
-  // todo: add promote to swagger
-  handlePromote() {
-  }
+    // todo: add delete to swagger
+    // todo: add updateFunc & frontend changes (see ManageGamesComponent.js delete func)
+    handleDelete() {
+    }
 
-  render() {
-    
-    const username = this.props.userData.username;
-    const firstName = this.props.userData.userFirstName;
-    const lastName = this.props.userData.userLastName;
+    // todo: add promote to swagger
+    handlePromote() {
+    }
 
-    return (
-      <div>
-        <Panel>
-          <Panel.Heading><p>{username}</p><p>{firstName} {lastName}</p></Panel.Heading>
-            <Panel.Body>
-              <Image width={240} height={135} src={this.state.imgUrl}/>
-              <p>Major: {this.props.userData.userMajor}</p>
-              <p></p>
+    render() {
 
-              <ButtonToolbar>
-              {/* Button allows Admin to promote a user to admin */}
-              <Button 
-                onClick={this.handlePromote}
-                bsStyle="success">
-                Promote To Admin
+        const username = this.props.userData.username;
+        const firstName = this.props.userData.userFirstName;
+        const lastName = this.props.userData.userLastName;
+
+        return (
+            <div style={{ marginBottom: 10 }}>
+                <Panel>
+                    <Panel.Heading><p>{username}</p><p>{firstName} {lastName}</p></Panel.Heading>
+                    <Panel.Body>
+                        <Image width={240} height={135} src={this.state.imgUrl} />
+                        <p>Major: {this.props.userData.userMajor}</p>
+                        <p></p>
+
+                        <ButtonToolbar>
+                            {/* Button allows Admin to promote a user to admin */}
+                            <Button
+                                onClick={this.handlePromote}
+                                bsStyle="success">
+                                Promote To Admin
               </Button>
 
-              {/* Button allows Admin to delete a user */}
-              <Button 
-                onClick={this.handleDelete}
-                bsStyle="danger">
-                Delete
+                            {/* Button allows Admin to delete a user */}
+                            <Button
+                                onClick={this.handleDelete}
+                                bsStyle="danger">
+                                Delete
               </Button>
-                    
-        <div className='button__container'>
-    </div>
-                </ButtonToolbar>
-            </Panel.Body>
-        </Panel>
-      </div>
-    )
-  }
+
+                            <div className='button__container'>
+                            </div>
+                        </ButtonToolbar>
+                    </Panel.Body>
+                </Panel>
+            </div>
+        )
+    }
 }
 
 export default ManageUsersComponent

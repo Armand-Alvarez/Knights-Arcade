@@ -96,7 +96,7 @@ export class ReviewComponent extends Component {
         );
 
     return (
-        <div>
+        <div style={{marginBottom: 10}}>
             <OverlayTrigger
                 trigger={['hover', 'focus']}
                 placement="right"

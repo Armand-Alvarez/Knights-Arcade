@@ -115,6 +115,9 @@ body, html {
     //font-family: 'Luckiest Guy', cursive;
     //font-family: 'Open Sans', sans-serif;
     line-height: 20px;
+}
+
+.underline {
     border-bottom-color: #AD974F;
     border-bottom-style: solid;
     border-bottom-width: 2px;

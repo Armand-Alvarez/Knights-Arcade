@@ -59,7 +59,7 @@ export class Locations extends Component {
         return (
             <div className='Locations'>
                 <div className='BodyWrap'>
-                    <NaviBar />
+                    <NaviBar box={"location"}/>
                     <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
                         <Grid fluid>
                             <Row>

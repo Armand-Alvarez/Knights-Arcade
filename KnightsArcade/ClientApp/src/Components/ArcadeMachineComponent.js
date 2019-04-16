@@ -189,7 +189,8 @@ export class ArcadeMachineComponent extends Component {
     render(props) {
         if (this.state.isNew) {
             return (
-                <div>
+                <div style={{ marginBottom: 10 }}>
+
                     <Form horizontal>
                         <FormGroup controlId="ArcadeMachineName">
                             <Col componentClass={ControlLabel} sm={2}>

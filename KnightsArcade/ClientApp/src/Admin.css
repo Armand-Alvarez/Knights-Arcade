@@ -30,28 +30,25 @@
 }
 
 .admin_users_container {
-    width: 75%;
     margin: auto;
     display: flex;
     flex-direction: column;
 }
 
 .admin_review_container {
-    width: 75%;
+    margin-top: 10px;
     margin: auto;
     display: flex;
     flex-direction: column;
 }
 
 .admin_games_container {
-    width: 75%;
     margin: auto;
     display: flex;
     flex-direction: column;
 }
 
 .admin_testqueue_container {
-    width: 75%;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -60,7 +57,6 @@
 .admin_arcade_container {
     display: flex;
     flex-direction: column;
-    width: 75%;
     margin: auto;
 }
 

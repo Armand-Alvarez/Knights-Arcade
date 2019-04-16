@@ -18,7 +18,7 @@ class Home extends Component {
             <div>
                 <div className="BodyWrap">
                     <div className="bg">
-                        <NaviBar className="nav" />
+                        <NaviBar className="nav" box={"home"} />
                         <Jumbotron className="Jumbo">
                             <h1 className="header"> Knights Arcade</h1>
                             <p>Play / Share / Showcase</p>

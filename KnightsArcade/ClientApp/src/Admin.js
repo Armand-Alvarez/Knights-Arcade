@@ -5,7 +5,7 @@ import TestingComponent from './Components/TestingComponent';
 import MangGamesComp from './Components/ManageGamesComponent';
 import MangUsersComp from './Components/ManageUsersComponent';
 import ArcadeMachineComponent from './Components/ArcadeMachineComponent';
-import { Tabs, Tab, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
+import { Tabs, Tab, ListGroup, ListGroupItem, Button, Jumbotron, Grid } from 'react-bootstrap';
 import axios from 'axios';
 import Footer from './Components/Footer';
 import { Auth } from 'aws-amplify';
@@ -182,74 +182,77 @@ export class Admin extends Component {
             return (
                 <div className='AdminPage'>
                     <div className='BodyWrap'>
-                        <NaviBar />
-                        <div className="Header">
-                            <h1 className='text'>Admin Page</h1>
-                        </div>
-
-                        <Tabs defaultActiveKey={activeTab} id="Admin-tabs">
-                            <Tab eventKey="ReviewSubmissions" title="Review Submissions">
-                                <div className="admin_review_container">
-                                    <ListGroup>
-                                        <ListGroupItem> {
-                                            this.state.submissions.map((submission) => {
-                                                return <RevComp submissionData={submission} />
-                                            })
-                                        }
-                                        </ListGroupItem>
-                                    </ListGroup>
-                                </div>
-                            </Tab>
-                            <Tab eventKey="ManageGames" title="Manage Games">
-                                <div className="admin_games_container">
-                                    <ListGroup>
-                                        <ListGroupItem> {
-                                            this.state.games.map((game) => {
-                                                return <MangGamesComp updateFunc={this.updateList} gameData={game} />
-                                            })
-                                        }</ListGroupItem>
-                                    </ListGroup>
-                                </div>
-                            </Tab>
-                            <Tab eventKey="ManageUsers" title="Manage Users">
-                                <div className="admin_users_container">
-                                    <ListGroup>
-                                        <ListGroupItem> {
-                                            this.state.users.map((user) => {
-                                                return <MangUsersComp updateFunc={this.updateUserList} userData={user} />
-                                            })
-                                        }</ListGroupItem>
-                                    </ListGroup>
-                                </div>
-                            </Tab>
-                            <Tab eventKey="TestingQueue" title="Testing Queue">
-                                <div className="admin_testqueue_container">
-                                    <ListGroup>
-                                        <ListGroupItem>
-                                            {
-                                                this.state.testingGames.map((game) => {
-                                                    return <TestingComponent updateFunc={this.updateTestingList} gameData={game} />
+                        <NaviBar box={"admin"}/>
+                        <Jumbotron className="Jumbo" style={{ marginBottom: 10 }} box={"admin"}>
+                            <div className="Header">
+                                <h1 className='text'>Admin Page</h1>
+                            </div>
+                        </Jumbotron>
+                        <Grid bsClass="container">
+                            <Tabs defaultActiveKey={activeTab} id="Admin-tabs">
+                                <Tab eventKey="ReviewSubmissions" title="Review Submissions">
+                                    <div className="admin_review_container">
+                                        <ListGroup style={{marginTop: 10}}>
+                                            <ListGroupItem> {
+                                                this.state.submissions.map((submission) => {
+                                                    return <RevComp submissionData={submission} />
                                                 })
                                             }
-                                        </ListGroupItem>
-                                    </ListGroup>
-                                </div>
-                            </Tab>
-                            <Tab eventKey="ArcadeLocations" title="Arcade Machine Locations">
-                                <div className="admin_arcade_container">
-                                    <Button className="addArcadeButton" bsStyle="success" onClick={this.handleNewMachine}>Add Arcade Machine Location</Button>
-                                    <ListGroup>
-                                        <ListGroupItem>
-                                            {
-                                                this.state.arcadeMachines.map((machine) => {
-                                                    return <ArcadeMachineComponent addLocation={this.addArcadeLocation} removeLocation={this.removeArcadeLocation} cancelNew={this.cancelNewLocation} arcadeMachine={machine} />
+                                            </ListGroupItem>
+                                        </ListGroup>
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="ManageGames" title="Manage Games">
+                                    <div className="admin_games_container">
+                                        <ListGroup style={{ marginTop: 10 }}>
+                                            <ListGroupItem> {
+                                                this.state.games.map((game) => {
+                                                    return <MangGamesComp updateFunc={this.updateList} gameData={game} />
                                                 })
-                                            }
-                                        </ListGroupItem>
-                                    </ListGroup>
-                                </div>
-                            </Tab>
-                        </Tabs>
+                                            }</ListGroupItem>
+                                        </ListGroup>
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="ManageUsers" title="Manage Users">
+                                    <div className="admin_users_container">
+                                        <ListGroup style={{ marginTop: 10 }}>
+                                            <ListGroupItem> {
+                                                this.state.users.map((user) => {
+                                                    return <MangUsersComp updateFunc={this.updateUserList} userData={user} />
+                                                })
+                                            }</ListGroupItem>
+                                        </ListGroup>
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="TestingQueue" title="Testing Queue">
+                                    <div className="admin_testqueue_container">
+                                        <ListGroup style={{ marginTop: 10 }}>
+                                            <ListGroupItem>
+                                                {
+                                                    this.state.testingGames.map((game) => {
+                                                        return <TestingComponent updateFunc={this.updateTestingList} gameData={game} />
+                                                    })
+                                                }
+                                            </ListGroupItem>
+                                        </ListGroup>
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="ArcadeLocations" title="Arcade Machine Locations">
+                                    <div className="admin_arcade_container">
+                                        <Button className="addArcadeButton" bsStyle="success" onClick={this.handleNewMachine}>Add Arcade Machine Location</Button>
+                                        <ListGroup style={{ marginTop: 10 }}>
+                                            <ListGroupItem>
+                                                {
+                                                    this.state.arcadeMachines.map((machine) => {
+                                                        return <ArcadeMachineComponent addLocation={this.addArcadeLocation} removeLocation={this.removeArcadeLocation} cancelNew={this.cancelNewLocation} arcadeMachine={machine} />
+                                                    })
+                                                }
+                                            </ListGroupItem>
+                                        </ListGroup>
+                                    </div>
+                                </Tab>
+                            </Tabs>
+                        </Grid>
                     </div>
                     <Footer />
                 </div>
@@ -260,7 +263,7 @@ export class Admin extends Component {
             return (
                 <div className='Fullpage'>
                     <div className='BodyWrap'>
-                        <NaviBar />
+                        <NaviBar box={"admin"}/>
                         <div className="Header">
                             <h2>Error 403: Page forbidden</h2>
                         </div>
@@ -274,7 +277,7 @@ export class Admin extends Component {
             return (
                 <div className='Fullpage'>
                     <div className='BodyWrap'>
-                        <NaviBar />
+                        <NaviBar box={"admin"}/>
                     </div>
                     <Footer />
                 </div>

@@ -282,9 +282,7 @@ class Games extends Component {
         return (
             <div className="games-page">
                 <div className="BodyWrap">
-
-                    <NaviBar />
-
+                    <NaviBar box={"games"}/>
                     <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
                         <Grid fluid>
                             <Row>
@@ -292,12 +290,11 @@ class Games extends Component {
                                     <h1>Game Library</h1>
                                     <p>
                                         Explore the official game library of KnightsArcade. Filled only with games made by proud UCF Knights.
-        </p>
+                                     </p>
                                 </Col>
                             </Row>
                         </Grid>
                     </Jumbotron>
-
                     <Grid fluid>
                         <Row>
                             <Col sm={6} smOffset={3}>
@@ -339,9 +336,7 @@ class Games extends Component {
                                                 </FormControl>
                                             </FormGroup>
                                         </Form>
-
                                     </div>
-
                                     <div className="games-page__game-list">
                                         {
                                             this.state.gamesList.map((game) => {
@@ -349,7 +344,6 @@ class Games extends Component {
                                             })
                                         }
                                     </div>
-
                                 </div>
                             </Col>
                         </Row>
