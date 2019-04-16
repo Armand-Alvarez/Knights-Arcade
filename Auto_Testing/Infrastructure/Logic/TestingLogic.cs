@@ -295,6 +295,7 @@ namespace Auto_Testing.Infrastructure.Logic
 						myGame.GameReviewDateUtc = DateTime.UtcNow;
 						myGame.GameStatus = "p";
 
+						testLog.TestlogLog = "Game Passed all essential tests";
 						_webData.PutGames(myGame, _client);
 
 						break;
