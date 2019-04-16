@@ -6,6 +6,7 @@ import Footer from './Components/Footer';
 import { Storage } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, Jumbotron } from 'react-bootstrap';
+import './BodyWrap.css'
 
 class GameAdvert extends Component {
 
@@ -166,75 +167,79 @@ class GameAdvert extends Component {
 
             return (
                 <div className='FullPage'>
-                    <NaviBar />
-                    <div className='GameAdDiv'>
-                        <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
-                            <Grid fluid>
+                    <div className='BodyWrap'>
+                        <NaviBar />
+                        <div className='GameAdDiv'>
+                            <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                                <Grid fluid>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h1 className="GameTitle">{this.state.gamedata.gameName}</h1>
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                            </Jumbotron>
+                            <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                        <h1 className="GameTitle">{this.state.gamedata.gameName}</h1>
+                                    <Col>
+                                        <Grid>
+                                            <Row>
+                                                <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                    {slideshow}
+                                                </Col>
+                                                <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                    <Form>
+                                                        <FormGroup>
+                                                            <ControlLabel>Creator</ControlLabel>
+                                                            <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <ControlLabel>Date Published</ControlLabel>
+                                                            <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <ControlLabel>Genres</ControlLabel>
+                                                            <FormControl.Static>{genreList}</FormControl.Static>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <ControlLabel>Available On Arcade Machines</ControlLabel>
+                                                            {glyph}
+                                                        </FormGroup>
+                                                        {downloadButton}
+                                                    </Form>
+                                                </Col>
+                                            </Row>
+                                        </Grid>
+
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <h3>About the game</h3>
+                                        <p>{this.state.gamedata.gameDescription}</p>
+                                    </Col>
+                                    <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <h3>Controls</h3>
+                                        <p>{this.state.gamedata.gameControls}</p>
                                     </Col>
                                 </Row>
                             </Grid>
-                        </Jumbotron>
-                        <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col>
-                                    <Grid>
-                                        <Row>
-                                            <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                {slideshow}
-                                            </Col>
-                                            <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                <Form>
-                                                    <FormGroup>
-                                                        <ControlLabel>Creator</ControlLabel>
-                                                        <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
-                                                    </FormGroup>
-                                                    <FormGroup>
-                                                        <ControlLabel>Date Published</ControlLabel>
-                                                        <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
-                                                    </FormGroup>
-                                                    <FormGroup>
-                                                        <ControlLabel>Genres</ControlLabel>
-                                                        <FormControl.Static>{genreList}</FormControl.Static>
-                                                    </FormGroup>
-                                                    <FormGroup>
-                                                        <ControlLabel>Available On Arcade Machines</ControlLabel>
-                                                        {glyph}
-                                                    </FormGroup>
-                                                    {downloadButton}
-                                                </Form>
-                                            </Col>
-                                        </Row>
-                                    </Grid>
-
-                                </Col>
-                            </Row>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h3>About the game</h3>
-                                    <p>{this.state.gamedata.gameDescription}</p>
-                                </Col>
-                                <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h3>Controls</h3>
-                                    <p>{this.state.gamedata.gameControls}</p>
-                                </Col>
-                            </Row>
-                        </Grid>
+                        </div>
                     </div>
-                    <Footer scrolls={true}/>
+                    <Footer />
                 </div>
             )
         }
-        else if(this.state.status === 1 || this.state.gamedata != 'a') {
+        else if (this.state.status === 1 || this.state.gamedata != 'a') {
             return (
                 <div className='FullPage'>
-                    <NaviBar />
-                    <div className="FourOFourSpace">
-                        <h2>404: Game Not Found</h2>
+                    <div className='BodyWrap'>
+                        <NaviBar />
+                        <div className="FourOFourSpace">
+                            <h2>404: Game Not Found</h2>
+                        </div>
                     </div>
-                    <Footer scrolls={false}/>
+                    <Footer />
                 </div>
 
             )
@@ -242,12 +247,14 @@ class GameAdvert extends Component {
         else {
             return (
                 <div className='FullPage'>
-                    <NaviBar />
-                    <div className="WhiteSpace">
+                    <div className='BodyWrap'>
+                        <NaviBar />
+                        <div className="WhiteSpace">
+                        </div>
                     </div>
-                    <Footer scrolls={false}/>
+                    <Footer />
                 </div>
-                    )
+            )
         }
     }
 }
