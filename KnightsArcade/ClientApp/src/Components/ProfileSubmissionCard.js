@@ -71,11 +71,14 @@ export default class GameCard extends Component {
         if (this.props.gameData.submissionStatus === 'r') {
             link = '/Resubmit?gameId=' + this.props.gameData.gameId;
         }
+        if (this.props.gameData.submissionStatus === 'a') {
+            link = 'Game?gameId=' + this.props.gameData.gameId;
+        }
         const gameData = this.props.gameData;
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const date = new Date(gameData.submissionDateUtc);
 
-        if (this.props.gameData.submissionStatus) {
+        if (this.props.gameData.submissionStatus === 'r' || this.props.gameData.submissionStatus === 'a') { 
             return (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
