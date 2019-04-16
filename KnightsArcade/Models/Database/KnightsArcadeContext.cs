@@ -363,6 +363,10 @@ namespace KnightsArcade.Models.Database
                 entity.Property(e => e.ArcadeMachineDescription)
                     .HasColumnName("arcademachine_description")
                     .HasColumnType("text");
+
+                entity.Property(e => e.ArcadeMachineMarker)
+                    .HasColumnName("arcademachine_marker")
+                    .HasColumnType("varchar(45)");
             });
         }
     }

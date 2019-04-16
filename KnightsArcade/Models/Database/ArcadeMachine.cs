@@ -13,5 +13,6 @@ namespace KnightsArcade.Models.Database
         public string ArcadeMachineRoom { get; set; }
         public string ArcadeMachineCoords { get; set; }
         public string ArcadeMachineDescription { get; set; }
+        public string ArcadeMachineMarker { get; set; }
     }
 }
