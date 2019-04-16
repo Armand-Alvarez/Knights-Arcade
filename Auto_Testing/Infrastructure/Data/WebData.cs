@@ -25,7 +25,8 @@ namespace Auto_Testing.Infrastructure.Data
 		public WebData(ILogger<WebData> logger, CustomJWT jwt)
 		{
 			_logger = logger;
-			_host = "www.knightsarcade.com";
+			//_host = "www.knightsarcade.com";
+			_host = "localhost:52445";
 		}
 
 		public bool SendWebMessage(string url, object data, HttpClient client)

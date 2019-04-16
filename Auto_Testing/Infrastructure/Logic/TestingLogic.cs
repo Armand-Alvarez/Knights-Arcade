@@ -12,7 +12,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WindowsInput;
 
 namespace Auto_Testing.Infrastructure.Logic
@@ -382,7 +381,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-				Thread.Sleep(300000);
+				//Thread.Sleep(300000);
 
 				return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
 			}
