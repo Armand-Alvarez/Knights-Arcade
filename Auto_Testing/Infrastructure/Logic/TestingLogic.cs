@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		private readonly IWebData _webData;
         private readonly HttpClient _client;
 		private readonly object _sync;
+		private string fileLocation;
 		public Process gameProcess;
 
 		public TestingLogic(ILogger<TestingLogic> logger, IS3Data s3Data, IWebData webData, CustomJWT jwt)
@@ -55,6 +57,8 @@ namespace Auto_Testing.Infrastructure.Logic
 						RunSingleEntryTest(testsQueue, testProcess);
 					}
 
+					DeleteFolder();
+
 					testsQueue = _webData.GetFirstTestQueue(_client);
 				}
 
@@ -65,7 +69,21 @@ namespace Auto_Testing.Infrastructure.Logic
 			{
 				_logger.LogError(e.Message, e);
 				SendEmail();
+				DeleteFolder();
 				_webData.StopAutomatedTestingEC2(_client);
+			}
+		}
+
+		public void DeleteFolder()
+		{
+			try
+			{
+				Directory.Delete(fileLocation, true);
+			}
+
+			catch (Exception e)
+			{
+				_logger.LogCritical(e.Message, e);
 			}
 		}
 
@@ -86,6 +104,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
+
 				while (testsQueue.RetryCount < 3)
 				{
 					TestingLog testLog = new TestingLog();
@@ -110,16 +129,16 @@ namespace Auto_Testing.Infrastructure.Logic
 					}
 
 					string debugKey = "public/" + myGame.GamePath;
-					string fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
+					fileLocation = _s3Data.ReadObjectDataAsync(debugKey).Result;
 
 					//Point variable to folder which contains .exe file
-					fileLocation = FindSubDir(fileLocation);
+					string subFileLocation = FindSubDir(fileLocation);
 
 					//Store list of names of files within game folder
-					testProcess.TestFolderFileNames = FolderFileNames(fileLocation);
+					testProcess.TestFolderFileNames = FolderFileNames(subFileLocation);
 
 					//Find .exe file path
-					string[] exeFiles = FindExe(fileLocation);
+					string[] exeFiles = FindExe(subFileLocation);
 
 					//Store number of exe files within game folder
 					testProcess.TestNumExeFiles = exeFiles.Length;
@@ -363,7 +382,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-				Thread.Sleep(5000);
+				//Thread.Sleep(300000);
 
 				return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
 			}
