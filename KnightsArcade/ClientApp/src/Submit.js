@@ -13,6 +13,7 @@ import { ClipLoader, PacmanLoader } from 'react-spinners';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
 import { isUndefined } from 'util';
+import './BodyWrap.css';
 
 
 class Submit extends Component {
@@ -622,9 +623,9 @@ class Submit extends Component {
         }
         var self = this;
         axios.post('/api/v1/Restricted/rds/newentry', data, {
-          headers: {
-            'Authorization' : "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
-          }
+            headers: {
+                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+            }
         })
             .then(function (res, error) {
                 if (res.status === 201) {
@@ -680,167 +681,169 @@ class Submit extends Component {
 
     render() {
         return (
-            <div className="Submit">
-                <NaviBar />
-                <div className="Header">
-                    <h1 className='text '>Submit a Game</h1>
-                </div>
-                <Grid>
-                    <Row>
-                        <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
-                            <Form>
-                                <FormGroup validationState={this.getValidationStateTitle()}>
-                                    <ControlLabel className='text'>Title of the Game</ControlLabel>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Enter the title of your game"
-                                        onChange={this.handleTitleChange}
-                                    />
-                                </FormGroup>
-
-                                <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
-                                    <ControlLabel className='text'>Description</ControlLabel>
-                                    <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange} />
-                                    <HelpBlock>Must be at least 100 characters.</HelpBlock>
-                                </FormGroup>
-
-                                <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
-                                    <ControlLabel className='text'>Controls</ControlLabel>
-                                    <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange} />
-                                    <HelpBlock>Must be at least 30 characters.</HelpBlock>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <ControlLabel className='text'>Video (Optional)</ControlLabel>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Video (Youtube Link)"
-                                        onChange={this.handleVideoLinkChange}
-                                    />
-                                </FormGroup>
-
-
-                                <Row>
-                                    <Col md={6}>
-                                        <FormGroup validationState={this.getValidationStateZip()}>
-                                            <ControlLabel className='text'>Game Files (Zip)</ControlLabel>
-                                            <FormControl
-                                                type="file"
-                                                onChange={this.handleGameFileChange}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup validationState={this.getValidationStateImg()}>
-                                            <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG) Must be 16:9, min 720p, max 1440p</ControlLabel>
-                                            <FormControl
-                                                type="file"
-                                                onChange={this.handleImg0Change}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={12}>
-                                        <FormGroup>
-                                            <FormControl.Static>
-                                                Please ensure that the only exe in the zip is your game executable. 
-                                                Images must be 16:9. Minimum Size: 720p, Maximum Size: 1440p.
-                                            </FormControl.Static>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <FormGroup validationState={this.getValidationStateImages()}>
-                                    <ControlLabel className='text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
-                                    <FilePond
-                                        className="file-pond"
-                                        allowMultiple={true}
-                                        maxFiles={4}
-                                        onupdatefiles={this.handleUpdateFiles}
-                                    />
-                                    <HelpBlock>All images must be either .jpg, .jpeg, or .png</HelpBlock>
-                                </FormGroup>
-
-                                <Row>
-                                    <FormGroup validationState={this.getValidationStateGenre()}>
-                                        <Col md={3}>
-                                            <FormGroup>
-                                                <ControlLabel className='text'>Genres</ControlLabel>
-                                                <Checkbox className='text' onChange={this.handleAction}>Action</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleAdventure}>Adventure</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleFighting}>Fighting</Checkbox>
-                                                <Checkbox className='text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col md={3}>
-                                            <FormGroup>
-                                                <ControlLabel className='text'></ControlLabel>
-                                                <Checkbox className='text' onChange={this.handleRacing}>Racing</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleRhythm}>Rhythm</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleRPG}>RPG</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleShooter}>Shooter</Checkbox>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col md={3}>
-                                            <FormGroup>
-                                                <ControlLabel className='text'></ControlLabel>
-                                                <Checkbox className='text' onChange={this.handleSports}>Sports</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleStrategy}>Strategy</Checkbox>
-                                                <Checkbox className='text' onChange={this.handleSurvival}>Survival</Checkbox>
-                                                <Checkbox className='text' onChange={this.handlePlatformer}>Platformer</Checkbox>
-                                            </FormGroup>
-                                        </Col>
+            <div className="BodyWrap">
+                <div className="Submit">
+                    <NaviBar />
+                    <div className="Header">
+                        <h1 className='text '>Submit a Game</h1>
+                    </div>
+                    <Grid>
+                        <Row>
+                            <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+                                <Form>
+                                    <FormGroup validationState={this.getValidationStateTitle()}>
+                                        <ControlLabel className='text'>Title of the Game</ControlLabel>
+                                        <FormControl
+                                            type="text"
+                                            placeholder="Enter the title of your game"
+                                            onChange={this.handleTitleChange}
+                                        />
                                     </FormGroup>
-                                </Row>
-                                <HelpBlock>Must choose at least one.</HelpBlock>
-                                <Row>
-                                    <Col md={12}>
-                                        <FormGroup>
-                                            <ControlLabel>Check the box below if you want your game available for download on the website</ControlLabel>
-                                            <Checkbox className='text' onChange={this.handleAvailable}>Web Download</Checkbox>
-                                        </FormGroup>
-                                    </Col>
+
+                                    <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
+                                        <ControlLabel className='text'>Description</ControlLabel>
+                                        <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange} />
+                                        <HelpBlock>Must be at least 100 characters.</HelpBlock>
+                                    </FormGroup>
+
+                                    <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
+                                        <ControlLabel className='text'>Controls</ControlLabel>
+                                        <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange} />
+                                        <HelpBlock>Must be at least 30 characters.</HelpBlock>
+                                    </FormGroup>
+
                                     <FormGroup>
-                                        <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
+                                        <ControlLabel className='text'>Video (Optional)</ControlLabel>
+                                        <FormControl
+                                            type="text"
+                                            placeholder="Video (Youtube Link)"
+                                            onChange={this.handleVideoLinkChange}
+                                        />
                                     </FormGroup>
-                                </Row>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Grid>
-                <Popup
-                    open={this.state.loadingModal}
-                    modal
-                    closeOnDocumentClick={false}
-                    lockScroll={true}
-                >
-                    <div className='sweet-loading'>
-                        <PacmanLoader
-                            css={css`
+
+
+                                    <Row>
+                                        <Col md={6}>
+                                            <FormGroup validationState={this.getValidationStateZip()}>
+                                                <ControlLabel className='text'>Game Files (Zip)</ControlLabel>
+                                                <FormControl
+                                                    type="file"
+                                                    onChange={this.handleGameFileChange}
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup validationState={this.getValidationStateImg()}>
+                                                <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG) Must be 16:9, min 720p, max 1440p</ControlLabel>
+                                                <FormControl
+                                                    type="file"
+                                                    onChange={this.handleImg0Change}
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col md={12}>
+                                            <FormGroup>
+                                                <FormControl.Static>
+                                                    Please ensure that the only exe in the zip is your game executable.
+                                                    Images must be 16:9. Minimum Size: 720p, Maximum Size: 1440p.
+                                            </FormControl.Static>
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                    <FormGroup validationState={this.getValidationStateImages()}>
+                                        <ControlLabel className='text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
+                                        <FilePond
+                                            className="file-pond"
+                                            allowMultiple={true}
+                                            maxFiles={4}
+                                            onupdatefiles={this.handleUpdateFiles}
+                                        />
+                                        <HelpBlock>All images must be either .jpg, .jpeg, or .png</HelpBlock>
+                                    </FormGroup>
+
+                                    <Row>
+                                        <FormGroup validationState={this.getValidationStateGenre()}>
+                                            <Col md={3}>
+                                                <FormGroup>
+                                                    <ControlLabel className='text'>Genres</ControlLabel>
+                                                    <Checkbox className='text' onChange={this.handleAction}>Action</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleAdventure}>Adventure</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleFighting}>Fighting</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handlePuzzle}>Puzzle</Checkbox>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col md={3}>
+                                                <FormGroup>
+                                                    <ControlLabel className='text'></ControlLabel>
+                                                    <Checkbox className='text' onChange={this.handleRacing}>Racing</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleRhythm}>Rhythm</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleRPG}>RPG</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleShooter}>Shooter</Checkbox>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col md={3}>
+                                                <FormGroup>
+                                                    <ControlLabel className='text'></ControlLabel>
+                                                    <Checkbox className='text' onChange={this.handleSports}>Sports</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleStrategy}>Strategy</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handleSurvival}>Survival</Checkbox>
+                                                    <Checkbox className='text' onChange={this.handlePlatformer}>Platformer</Checkbox>
+                                                </FormGroup>
+                                            </Col>
+                                        </FormGroup>
+                                    </Row>
+                                    <HelpBlock>Must choose at least one.</HelpBlock>
+                                    <Row>
+                                        <Col md={12}>
+                                            <FormGroup>
+                                                <ControlLabel>Check the box below if you want your game available for download on the website</ControlLabel>
+                                                <Checkbox className='text' onChange={this.handleAvailable}>Web Download</Checkbox>
+                                            </FormGroup>
+                                        </Col>
+                                        <FormGroup>
+                                            <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
+                                        </FormGroup>
+                                    </Row>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Grid>
+                    <Popup
+                        open={this.state.loadingModal}
+                        modal
+                        closeOnDocumentClick={false}
+                        lockScroll={true}
+                    >
+                        <div className='sweet-loading'>
+                            <PacmanLoader
+                                css={css`
                             display: block;
                             margin: 0 auto;
                             position: relative;
                             right: 40px;
                             `}
-                            sizeUnit={"px"}
-                            size={25}
-                            color={'#F5A623'}
-                            loading={true}
-                        />
-                    </div>
-                </Popup>
-                <Popup
-                    open={this.state.errorAlert}
-                    modal
-                    closeOnDocumentClick={false}
-                    lockScroll={true}
-                >
-                    <div className="error-alert-modal">
-                        <span>{this.state.errorAlertMessage}</span>
-                    </div>
-                    <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{ cursor: 'pointer' }}>X</Button>
-                </Popup>
-                <Footer scrolls={true} />
+                                sizeUnit={"px"}
+                                size={25}
+                                color={'#F5A623'}
+                                loading={true}
+                            />
+                        </div>
+                    </Popup>
+                    <Popup
+                        open={this.state.errorAlert}
+                        modal
+                        closeOnDocumentClick={false}
+                        lockScroll={true}
+                    >
+                        <div className="error-alert-modal">
+                            <span>{this.state.errorAlertMessage}</span>
+                        </div>
+                        <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{ cursor: 'pointer' }}>X</Button>
+                    </Popup>
+                </div>
+                <Footer />
             </div>
         )
     }

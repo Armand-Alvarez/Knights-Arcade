@@ -10,6 +10,7 @@ import CollapsibleData from './Components/CollapsibleData';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
 import { setTimeout } from 'timers';
+import './BodyWrap.css';
 
 
 class ReviewPage extends Component {
@@ -151,6 +152,32 @@ class ReviewPage extends Component {
         this.state.buttonStatus = true;
     }
 
+    sendEmail(username, status, comments) {
+        axios.get('/api/v1/Public/rds/users/user?username=' + username)
+            .then(res => {
+                var user = res.data;
+                var review = ""
+                if (status == "a")
+                    review = "has been accepted"
+                else if (status == "a")
+                    review = "has been denied"
+                if (status == "a")
+                    review = "needs to be resubmitted"
+                const email = {
+                    to: user.userEmail,
+                    from: "noreply@knightsarcade.com",
+                    subject: "Your game has been reviewed!",
+                    body: "You game has been reviewed! Your game " + review + ". The administrator's feedback: " + comments + ". You can also checkout information about your game on your profile page. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
+                }
+
+                axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
+                    headers: {
+                        'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+                    }
+                });
+            });
+    }
+
     submitReview(reviewType) {
 
         const parent = this;
@@ -165,51 +192,50 @@ class ReviewPage extends Component {
             submissionReviewDateUtc: new Date().toUTCString(),
             submissionReviewComments: this.state.reviewCommentsValue
         }
-
         axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
-        })
-            .then(function (res, error) {
-                console.log(res);
-                if (res.status < 205) {
-                    if (reviewType = "a") {
-                        parent.setState({ reviewModal: true });
-                        parent.setState({ reviewMessage: "The game has been accepted successfully" })
-                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                    }
-                    if (reviewType = "d") {
-                        parent.setState({ reviewModal: true });
-                        parent.setState({ reviewMessage: "The game has been denied successfully" })
-                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                    }
-                    if (reviewType = "r") {
-                        parent.setState({ reviewModal: true });
-                        parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
-                        setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                    }
+        }).then(function (res, error) {
+            console.log(res);
+            if (res.status < 205) {
+                parent.sendEmail(parent.state.gameData.gameCreatorName, reviewType, parent.state.reviewCommentsValue);
+                if (reviewType = "a") {
+                    parent.setState({ reviewModal: true });
+                    parent.setState({ reviewMessage: "The game has been accepted successfully" })
+                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
-                else if (res.status < 400) {
-                    if (reviewType = "a") {
-                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                        parent.setState({ errorAlert: true });
-                    }
-                    if (reviewType = "d") {
-                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                        parent.setState({ errorAlert: true });
-                    }
-                    if (reviewType = "r") {
-                        parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                        parent.setState({ errorAlert: true });
-                    }
+                if (reviewType = "d") {
+                    parent.setState({ reviewModal: true });
+                    parent.setState({ reviewMessage: "The game has been denied successfully" })
+                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
+                }
+                if (reviewType = "r") {
+                    parent.setState({ reviewModal: true });
+                    parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
+                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
             }
-            ).catch(error => {
-                console.log(error.message);
+            else if (res.status < 400) {
+                if (reviewType = "a") {
+                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
+                }
+                if (reviewType = "d") {
+                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
+                }
+                if (reviewType = "r") {
+                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+                    parent.setState({ errorAlert: true });
+                }
+            }
+        }
+        ).catch(error => {
+            console.log(error.message);
 
-                ;
-            });
+            ;
+        });
 
     }
 
@@ -389,139 +415,141 @@ class ReviewPage extends Component {
         if (this.state.isAdmin == 2) {
             return (
                 <div className='FullPage'>
-                    <NaviBar />
-                    <div className='GameAdDiv'>
-                        <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                            {status}
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h1>{this.state.gamedata.gameName}</h1>
-                                </Col>
-                            </Row>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col>
-                                    <Grid>
-                                        <Row>
-                                            <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                {slideshow}
+                    <div className='BodyWrap'>
+                        <NaviBar />
+                        <div className='GameAdDiv'>
+                            <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                {status}
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <h1>{this.state.gamedata.gameName}</h1>
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col>
+                                        <Grid>
+                                            <Row>
+                                                <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                    {slideshow}
+                                                </Col>
+                                                <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                    <Form>
+                                                        <FormGroup>
+                                                            <ControlLabel>Creator</ControlLabel>
+                                                            <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <ControlLabel>Date Published</ControlLabel>
+                                                            <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <ControlLabel>Genres</ControlLabel>
+                                                            <FormControl.Static>{genreList}</FormControl.Static>
+                                                        </FormGroup>
+                                                        <FormGroup>
+                                                            <ControlLabel>Available On Arcade Machines</ControlLabel>
+                                                            {glyph}
+                                                        </FormGroup>
+                                                        <a href={this.state.file} download>
+                                                            <Button bsStyle='info'>Download Game</Button>
+                                                        </a>
+                                                        {downloadable}
+                                                    </Form>
+                                                </Col>
+                                            </Row>
+                                        </Grid>
+
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <h3>About the game</h3>
+                                        <p>{this.state.gamedata.gameDescription}</p>
+                                    </Col>
+                                    <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <h3>Controls</h3>
+                                        <p>{this.state.gamedata.gameControls}</p>
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col className="reviewPanel" md={7} mdOffset={2}>
+                                        <Table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Opening Test</th>
+                                                    <th>Five Minute Test</th>
+                                                    <th>Closing Test</th>
+                                                    <th>Average RAM Test</th>
+                                                    <th>Peak RAM Test</th>
+                                                    <th>Exe file count</th>
+                                                    <th>Closes with '3'</th>
+                                                    <th>Closes with 'Esc'</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{testOpens}</td>
+                                                    <td>{test5min}</td>
+                                                    <td>{testCloses}</td>
+                                                    <td>{testRamString}</td>
+                                                    <td>{testPeakRamString}</td>
+                                                    <td>{Math.round(this.state.testdata.testNumExeFiles)}</td>
+                                                    <td>{testCloseOn3}</td>
+                                                    <td>{testCloseOnEsc}</td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                        <CollapsibleData testlogs={this.state.testlogs} />
+
+                                        <Form>
+                                            <FormGroup controlId="reviewComments">
+                                                <ControlLabel>Review Comments</ControlLabel>
+                                                <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
+                                                <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
+                                            </FormGroup>
+                                        </Form>
+                                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                            <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                                <Button className="acceptButton" disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
                                             </Col>
-                                            <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                <Form>
-                                                    <FormGroup>
-                                                        <ControlLabel>Creator</ControlLabel>
-                                                        <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
-                                                    </FormGroup>
-                                                    <FormGroup>
-                                                        <ControlLabel>Date Published</ControlLabel>
-                                                        <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
-                                                    </FormGroup>
-                                                    <FormGroup>
-                                                        <ControlLabel>Genres</ControlLabel>
-                                                        <FormControl.Static>{genreList}</FormControl.Static>
-                                                    </FormGroup>
-                                                    <FormGroup>
-                                                        <ControlLabel>Available On Arcade Machines</ControlLabel>
-                                                        {glyph}
-                                                    </FormGroup>
-                                                    <a href={this.state.file} download>
-                                                        <Button bsStyle='info'>Download Game</Button>
-                                                    </a>
-                                                    {downloadable}
-                                                </Form>
+                                            <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                                <Button className="denyButton" disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
+                                            </Col>
+                                            <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
+                                                <Button className="resubmitButton" disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
                                             </Col>
                                         </Row>
-                                    </Grid>
 
-                                </Col>
-                            </Row>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h3>About the game</h3>
-                                    <p>{this.state.gamedata.gameDescription}</p>
-                                </Col>
-                                <Col md={2} mdOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h3>Controls</h3>
-                                    <p>{this.state.gamedata.gameControls}</p>
-                                </Col>
-                            </Row>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col className="reviewPanel" md={7} mdOffset={2}>
-                                    <Table>
-                                        <thead>
-                                            <tr>
-                                                <th>Opening Test</th>
-                                                <th>Five Minute Test</th>
-                                                <th>Closing Test</th>
-                                                <th>Average RAM Test</th>
-                                                <th>Peak RAM Test</th>
-                                                <th>Exe file count</th>
-                                                <th>Closes with '3'</th>
-                                                <th>Closes with 'Esc'</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{testOpens}</td>
-                                                <td>{test5min}</td>
-                                                <td>{testCloses}</td>
-                                                <td>{testRamString}</td>
-                                                <td>{testPeakRamString}</td>
-                                                <td>{Math.round(this.state.testdata.testNumExeFiles)}</td>
-                                                <td>{testCloseOn3}</td>
-                                                <td>{testCloseOnEsc}</td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                    <CollapsibleData testlogs={this.state.testlogs} />
+                                    </Col>
 
-                                    <Form>
-                                        <FormGroup controlId="reviewComments">
-                                            <ControlLabel>Review Comments</ControlLabel>
-                                            <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
-                                            <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
-                                        </FormGroup>
-                                    </Form>
-                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                        <Col md={2} mdOffset={2} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                            <Button className="acceptButton" disabled={this.state.buttonStatus} onClick={this.handleAccept}>Accept Game</Button>
-                                        </Col>
-                                        <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                            <Button className="denyButton" disabled={this.state.buttonStatus} onClick={this.handleDeny}>Deny Game</Button>
-                                        </Col>
-                                        <Col md={2} mdOffset={1} style={{ padingLeft: 0, paddingRight: 0 }}>
-                                            <Button className="resubmitButton" disabled={this.state.buttonStatus} onClick={this.handleResubmit}>Require Changes</Button>
-                                        </Col>
-                                    </Row>
+                                </Row>
+                            </Grid>
+                            <Popup
+                                open={this.state.reviewModal}
+                                modal
+                                closeOnDocumentClick={false}
+                                lockScroll={true}
+                            >
+                                <a href="/admin"><div className="ReviewModal">
+                                    <span>{this.state.reviewMessage}</span><br></br>
+                                    <span>Click here to return to the administration page if you are not automatically redirected</span><br></br>
+                                </div></a>
+                            </Popup>
+                            <Popup
+                                open={this.state.errorAlert}
+                                modal
+                                closeOnDocumentClick={true}
+                                lockScroll={true}
+                            >
+                                <div className="ErrorModal">
+                                    <span>{this.state.errorAlertMessage}</span><br></br>
+                                    <span>Please reload the page and try again</span>
+                                </div>
+                            </Popup>
 
-                                </Col>
-
-                            </Row>
-                        </Grid>
-                        <Popup
-                            open={this.state.reviewModal}
-                            modal
-                            closeOnDocumentClick={false}
-                            lockScroll={true}
-                        >
-                            <a href="/admin"><div className="ReviewModal">
-                                <span>{this.state.reviewMessage}</span><br></br>
-                                <span>Click here to return to the administration page if you are not automatically redirected</span><br></br>
-                            </div></a>
-                        </Popup>
-                        <Popup
-                            open={this.state.errorAlert}
-                            modal
-                            closeOnDocumentClick={true}
-                            lockScroll={true}
-                        >
-                            <div className="ErrorModal">
-                                <span>{this.state.errorAlertMessage}</span><br></br>
-                                <span>Please reload the page and try again</span>
-                            </div>
-                        </Popup>
-
+                        </div>
                     </div>
-                    <Footer scrolls={true} />
+                    <Footer />
                 </div>
             )
         }
@@ -529,11 +557,13 @@ class ReviewPage extends Component {
         else if (this.state.isAdmin == 1) {
             return (
                 <div className='Fullpage'>
-                    <NaviBar />
-                    <div className="Header">
-                        <h2>Error 403: Page forbidden</h2>
+                    <div className='BodyWrap'>
+                        <NaviBar />
+                        <div className="Header">
+                            <h2>Error 403: Page forbidden</h2>
+                        </div>
                     </div>
-                    <Footer scrolls={false} />
+                    <Footer />
                 </div>
             )
         }
@@ -541,8 +571,10 @@ class ReviewPage extends Component {
         else if (this.state.isAdmin == 0) {
             return (
                 <div className='Fullpage'>
-                    <NaviBar />
-                    <Footer scrolls={false} />
+                    <div className='BodyWrap'>
+                        <NaviBar />
+                        <Footer />
+                    </div>
                 </div>
 
             )

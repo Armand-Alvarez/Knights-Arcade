@@ -1,0 +1,36 @@
+.Slideshowtext {
+    color: white;
+    text-shadow: 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black, 0px 2px 1px black;
+}
+
+/*.slides {
+  //border-color: #8E793E;
+  //border-color: #AD974F;
+  //border-color: black;
+  border-style: solid;
+  border-width: 8px;
+}*/
+
+.slides {
+    //width: 100%;
+    //height: 200px;
+    background: black;
+    //border-radius: 100%;
+    //position: relative;
+    text-align: center;
+    //padding: 20px;
+    box-sizing: border-box;
+}
+.slides::before {
+    border-radius: 0px;
+    content: '';
+    background-image: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);/*linear-gradient(to bottom, #3acfd5 0%, #3a4ed5 100%);*/
+    //padding: 10px;
+    width: 770px;
+    height: 437px;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    position:absolute;
+    z-index:-1;
+}
