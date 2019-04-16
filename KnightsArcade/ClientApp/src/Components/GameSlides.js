@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Carousel, Grid, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { Storage } from 'aws-amplify';
-import '../App.css';
+import './GameSlides.css';
 import { Auth, AWS } from 'aws-amplify';
 import aws4 from 'aws4';
 
@@ -108,14 +108,14 @@ export class GameSlides extends Component {
         const GameTwoLink = "/game?gameId=" + this.state.GameTwoId;
         const GameThreeLink = "/game?gameId=" + this.state.GameThreeId;
     return (
-      <div className="App">
+      <div>
         <Grid>
         <Row>
         <Col md={8} mdOffset={2}>
-        <Carousel>
+        <Carousel className="slides">
         <Carousel.Item>
             <a href = {GameOneLink}>
-            <img width={900} height={500} alt="900x500" src={this.state.GameOneImage} />
+            <img width={900} height={500} src={this.state.GameOneImage} />
             <Carousel.Caption>
             <h3 className="Slideshowtext">{this.state.GameOneTitle}</h3>
             <p className="Slideshowtext">{this.state.GameOneDescription}</p>
@@ -124,7 +124,7 @@ export class GameSlides extends Component {
         </Carousel.Item>
         <Carousel.Item>
             <a href= {GameTwoLink}>
-            <img width={900} height={500} alt="900x500" src={this.state.GameTwoImage} />
+            <img width={900} height={500} src={this.state.GameTwoImage} />
             <Carousel.Caption>
             <h3 className="Slideshowtext">{this.state.GameTwoTitle}</h3>
             <p className="Slideshowtext">{this.state.GameTwoDescription}</p>
@@ -133,7 +133,7 @@ export class GameSlides extends Component {
         </Carousel.Item>
         <Carousel.Item>
             <a href = {GameThreeLink}>
-            <img width={900} height={500} alt="900x500" src={this.state.GameThreeImage} />
+            <img width={900} height={500} src={this.state.GameThreeImage} />
             <Carousel.Caption>
             <h3 className="Slideshowtext">{this.state.GameThreeTitle}</h3>
             <p className="Slideshowtext">{this.state.GameThreeDescription}</p>

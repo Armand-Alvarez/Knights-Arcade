@@ -17,14 +17,14 @@ class Home extends Component {
         return (
             <div>
                 <div className="BodyWrap">
-                    <div className="App">
-                        <NaviBar />
+                    <div className="bg">
+                        <NaviBar className="nav" />
                         <Jumbotron className="Jumbo">
-                            <h1 className="text"> Knights Arcade</h1>
-                            <p className="text">Play / Share / Showcase</p>
-                            <p><a href='/Locations'><Button bsStyle="primary">Find An Arcade Machine</Button></a></p>
+                            <h1 className="header"> Knights Arcade</h1>
+                            <p>Play / Share / Showcase</p>
+                            <p><a href='/Locations'><Button bsStyle="primary" className="location-button">Find An Arcade Machine</Button></a></p>
                         </Jumbotron>
-                        <GameSlides />
+                        <GameSlides className="slides" />
                     </div>
                 </div>
                 <Footer />
