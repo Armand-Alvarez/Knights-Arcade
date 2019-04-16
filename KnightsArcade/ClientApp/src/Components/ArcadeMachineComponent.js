@@ -18,6 +18,7 @@ export class ArcadeMachineComponent extends Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleCoordsChange = this.handleCoordsChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleMarkerChange = this.handleMarkerChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.removeMachine = this.removeMachine.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -33,11 +34,13 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineCoords: this.props.arcadeMachine.arcadeMachineCoords,
                 arcadeMachineRoom: this.props.arcadeMachine.arcadeMachineRoom,
                 arcadeMachineDescription: this.props.arcadeMachine.arcadeMachineDescription,
+                arcadeMachineMarker: this.props.arcadeMachine.arcadeMachineMarker,
                 arcadeMachineAddressTemp: this.props.arcadeMachine.arcadeMachineAddress,
                 arcadeMachineNameTemp: this.props.arcadeMachine.arcadeMachineName,
                 arcadeMachineCoordsTemp: this.props.arcadeMachine.arcadeMachineCoords,
                 arcadeMachineRoomTemp: this.props.arcadeMachine.arcadeMachineRoom,
                 arcadeMachineDescriptionTemp: this.props.arcadeMachine.arcadeMachineDescription,
+                arcadeMachineMarkerTemp: this.props.arcadeMachine.arcadeMachineMarker,
                 isNew: true,
                 errorMsg: "",
                 removeModal: false,
@@ -52,11 +55,13 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineCoords: this.props.arcadeMachine.arcadeMachineCoords,
                 arcadeMachineRoom: this.props.arcadeMachine.arcadeMachineRoom,
                 arcadeMachineDescription: this.props.arcadeMachine.arcadeMachineDescription,
+                arcadeMachineMarker: this.props.arcadeMachine.arcadeMachineMarker,
                 arcadeMachineAddressTemp: this.props.arcadeMachine.arcadeMachineAddress,
                 arcadeMachineNameTemp: this.props.arcadeMachine.arcadeMachineName,
                 arcadeMachineCoordsTemp: this.props.arcadeMachine.arcadeMachineCoords,
                 arcadeMachineRoomTemp: this.props.arcadeMachine.arcadeMachineRoom,
                 arcadeMachineDescriptionTemp: this.props.arcadeMachine.arcadeMachineDescription,
+                arcadeMachineMarkerTemp: this.props.arcadeMachine.arcadeMachineMarker,
                 isNew: false,
                 errorMsg: "",
                 removeModal: false,
@@ -82,6 +87,7 @@ export class ArcadeMachineComponent extends Component {
         this.setState({ arcadeMachineDescription: this.state.arcadeMachineDescriptionTemp });
         this.setState({ arcadeMachineName: this.state.arcadeMachineNameTemp });
         this.setState({ arcadeMachineCoords: this.state.arcadeMachineCoordsTemp });
+        this.setState({ arcadeMachineMarker: this.state.arcadeMachineMarkerTemp });
 
         if (this.state.isNew) {
             const arcadeMachine = {
@@ -89,7 +95,8 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineRoom: this.state.arcadeMachineRoomTemp,
                 arcadeMachineDescription: this.state.arcadeMachineDescriptionTemp,
                 arcadeMachineCoords: this.state.arcadeMachineCoordsTemp,
-                arcadeMachineName: this.state.arcadeMachineNameTemp
+                arcadeMachineName: this.state.arcadeMachineNameTemp,
+                arcadeMachineMarker: this.state.arcadeMachineMarkerTemp
             }
             this.setState({ isNew: false });
             axios.post('api/v1/Restricted/rds/arcademachines/arcademachine', arcadeMachine, {
@@ -116,7 +123,8 @@ export class ArcadeMachineComponent extends Component {
                 arcadeMachineRoom: this.state.arcadeMachineRoomTemp,
                 arcadeMachineDescription: this.state.arcadeMachineDescriptionTemp,
                 arcadeMachineCoords: this.state.arcadeMachineCoordsTemp,
-                arcadeMachineName: this.state.arcadeMachineNameTemp
+                arcadeMachineName: this.state.arcadeMachineNameTemp,
+                arcadeMachineMarker: this.state.arcadeMachineMarkerTemp
             }
             axios.put('api/v1/Restricted/rds/arcademachines/arcademachine', arcadeMachine, {
                 headers: {
@@ -141,6 +149,7 @@ export class ArcadeMachineComponent extends Component {
         this.setState({ arcadeMachineDescriptionTemp: this.state.arcadeMachineDescription });
         this.setState({ arcadeMachineNameTemp: this.state.arcadeMachineName });
         this.setState({ arcadeMachineCoordsTemp: this.state.arcadeMachineCoords });
+        this.setState({ arcadeMachineMarkerTemp: this.state.arcadeMachineMarker });
     }
     cancelNew(e) {
         this.props.removeLocation(this.state.arcadeMachineId);
@@ -186,6 +195,10 @@ export class ArcadeMachineComponent extends Component {
         this.setState({ arcadeMachineNameTemp: e.target.value });
     }
 
+    handleMarkerChange(e) {
+        this.setState({ arcadeMachineMarkerTemp: e.target.value });
+    }
+
     render(props) {
         if (this.state.isNew) {
             return (
@@ -214,6 +227,14 @@ export class ArcadeMachineComponent extends Component {
                             </Col>
                             <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Coords" value={this.state.arcadeMachineCoordsTemp} onChange={this.handleCoordsChange} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup controlId="ArcadeMachineMarker">
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Arcade Machine Marker
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl type="email" placeholder="Arcade Machine Marker" value={this.state.arcadeMachineMarkerTemp} onChange={this.handleMarkerChange} />
                             </Col>
                         </FormGroup>
                         <FormGroup controlId="ArcadeMachineRoom">
@@ -267,6 +288,14 @@ export class ArcadeMachineComponent extends Component {
                             </Col>
                             <Col sm={10}>
                                 <FormControl type="email" placeholder="Arcade Machine Coords" value={this.state.arcadeMachineCoordsTemp} onChange={this.handleCoordsChange} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup controlId="ArcadeMachineMarker">
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Arcade Machine Marker
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl type="email" placeholder="Arcade Machine Marker" value={this.state.arcadeMachineMarkerTemp} onChange={this.handleMarkerChange} />
                             </Col>
                         </FormGroup>
                         <FormGroup controlId="ArcadeMachineRoom">
@@ -326,6 +355,16 @@ export class ArcadeMachineComponent extends Component {
                             <Col sm={10}>
                                 <FormControl.Static>
                                     {this.state.arcadeMachineCoords}
+                                </FormControl.Static>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Arcade Machine Marker
+                            </Col>
+                            <Col sm={10}>
+                                <FormControl.Static>
+                                    {this.state.arcadeMachineMarker}
                                 </FormControl.Static>
                             </Col>
                         </FormGroup>
