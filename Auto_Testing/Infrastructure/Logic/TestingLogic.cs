@@ -381,7 +381,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-				//Thread.Sleep(300000);
+				Thread.Sleep(300000);
 
 				return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
 			}
