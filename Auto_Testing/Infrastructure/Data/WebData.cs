@@ -158,7 +158,7 @@ namespace Auto_Testing.Infrastructure.Data
 
 				HttpResponseMessage response = client.PutAsync(new Uri("http://" + _host + "/api/v1/Restricted/rds/tests/test"), byteContent).Result;
 
-				if (response.StatusCode.ToString() == "OK")
+				if (response.StatusCode.ToString() == "Success")
 				{
 					return true;
 				}
@@ -262,7 +262,7 @@ namespace Auto_Testing.Infrastructure.Data
 
 				HttpResponseMessage response = client.PostAsync("http://" + _host + "/api/v1/Restricted/smtp/gmail/sendemail", byteContent).Result;
 
-				if (response.StatusCode.ToString() == "Created")
+				if (response.StatusCode.ToString() == "OK")
 				{
 					return true;
 				}
