@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import NaviBar from './Components/NavBar';
 import Footer from './Components/Footer';
-import { Grid, Row, Col, Jumbotron , ListGroup, ListGroupItem} from 'react-bootstrap';
+import { Grid, Row, Col, Jumbotron, ListGroup, ListGroupItem } from 'react-bootstrap';
 import axios from 'axios'
 import MachineComp from './Components/MachineLocationComponent';
 import GoogleMapReact from 'google-map-react'
+import './BodyWrap.css';
 
 const AnyReactComponent = ({ text }) => (
     <div style={{
@@ -33,8 +34,8 @@ export class Locations extends Component {
             center: { lat: 28.5965534, lng: -81.2001603 },
             zoom: 15
         };
-    }    
-    
+    }
+
     componentDidMount() {
 
         // Get the arcade machine locations
@@ -57,46 +58,47 @@ export class Locations extends Component {
     render() {
         return (
             <div className='Locations'>
-                <NaviBar />
-                <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
-                    <Grid fluid>
-                        <Row>
-                            <Col sm={6} smOffset={3}>
-                                <h1>Arcade Machine Locations</h1>
-                            </Col>
-                        </Row>
-                    </Grid>
-                </Jumbotron>
-
-                <ListGroup>
-                    <ListGroupItem> {
-                        this.state.machines.map((machine) => {
-                            return <MachineComp machineData={machine} />
-                        })
-                    }
-                    <Grid>
-                        <div style={{ height: '50vh', width: '100%' }}>
-                            <GoogleMapReact
-                                    bootstrapURLKeys={this.state.key}
-                                    defaultCenter={this.state.center}
-                                    defaultZoom={this.state.zoom}
-                                >
-                                    
-                                    {this.state.machineLabels.map((machine) => (
-                                        <AnyReactComponent
-                                            lat={machine.places[0]}
-                                            lng={machine.places[1]}
-                                            text={machine.arcadeMachineName}
-                                        />
-                                    ))}
-                                
-                            </GoogleMapReact>
-                        </div>
+                <div className='BodyWrap'>
+                    <NaviBar />
+                    <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                        <Grid fluid>
+                            <Row>
+                                <Col sm={6} smOffset={3}>
+                                    <h1>Arcade Machine Locations</h1>
+                                </Col>
+                            </Row>
                         </Grid>
-                    </ListGroupItem>
-                </ListGroup>
-                
-                <Footer scrolls={true} />
+                    </Jumbotron>
+
+                    <ListGroup>
+                        <ListGroupItem> {
+                            this.state.machines.map((machine) => {
+                                return <MachineComp machineData={machine} />
+                            })
+                        }
+                            <Grid>
+                                <div style={{ height: '50vh', width: '100%' }}>
+                                    <GoogleMapReact
+                                        bootstrapURLKeys={this.state.key}
+                                        defaultCenter={this.state.center}
+                                        defaultZoom={this.state.zoom}
+                                    >
+
+                                        {this.state.machineLabels.map((machine) => (
+                                            <AnyReactComponent
+                                                lat={machine.places[0]}
+                                                lng={machine.places[1]}
+                                                text={machine.arcadeMachineName}
+                                            />
+                                        ))}
+
+                                    </GoogleMapReact>
+                                </div>
+                            </Grid>
+                        </ListGroupItem>
+                    </ListGroup>
+                </div>
+                <Footer />
             </div>
         );
     }

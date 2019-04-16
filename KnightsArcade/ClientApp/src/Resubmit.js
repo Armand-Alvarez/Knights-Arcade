@@ -13,7 +13,7 @@ import { ClipLoader, PacmanLoader } from 'react-spinners';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
 import { isUndefined } from 'util';
-
+import './BodyWrap.css';
 
 class Resubmit extends Component {
     constructor(props, context) {
@@ -550,9 +550,9 @@ class Resubmit extends Component {
     saveGame() {
         Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
             .then(() => {
-                
+
                 console.log('successfully saved game file!');
-                setTimeout(function () { window.location.href = 'MyProfile' }, 10000250);
+                setTimeout(function () { window.location.href = 'MyProfile' }, 2500);
             })
             .catch(err => {
                 console.log('error uploading game file!', err);
@@ -604,7 +604,7 @@ class Resubmit extends Component {
             this.saveAdditionalImages();
         }
         if (this.state.gameFile === null) {
-
+            setTimeout(function () { window.location.href = 'MyProfile' }, 2500);
         } else {
             this.saveGame();
         }
@@ -639,7 +639,7 @@ class Resubmit extends Component {
             console.log("Invalid game file");
             throw ("Invalid game file");
         }
-        if (!this.state.img0File || !this.state.imgValidation || !this.state.imagesValidation) {
+        if (!this.state.imgValidation || !this.state.imagesValidation) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input valid image(s) for submission." });
             this.setState({ errorAlert: true });
@@ -673,10 +673,13 @@ class Resubmit extends Component {
 
     resubmitGame() {
 
-        const imgNames = [];
+        var imgNames = [];
         const parent = this;
         if (this.state.img0FileName === null) {
-            imgNames = null;
+            imgNames.push(null);
+            imgNames.push(null);
+            imgNames.push(null);
+            imgNames.push(null);
         } else {
             imgNames.push(this.state.titleValue + "/" + this.state.img0FileName);
 
@@ -813,159 +816,161 @@ class Resubmit extends Component {
 
         return (
             <div className="Submit">
-                <NaviBar />
-                <div className="Header">
-                    <h1 className='text '>Resubmit Your Game</h1>
-                </div>
-                <Grid>
-                    <Row>
-                        <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
-                            <Form>
-                                <FormGroup>
-                                    <ControlLabel className='text'>Reviewers Commments</ControlLabel>
-                                    <FormControl.Static>{this.state.reviewComments}</FormControl.Static>
-                                </FormGroup>
-
-                                <FormGroup validationState={this.getValidationStateTitle()}>
-                                    <ControlLabel className='text'>Title of the Game</ControlLabel>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Enter the title of your game"
-                                        onChange={this.handleTitleChange}
-                                        value={this.state.titleValue}
-                                    />
-                                </FormGroup>
-
-                                <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
-                                    <ControlLabel className='text'>Description</ControlLabel>
-                                    <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange} value={this.state.descriptionValue} />
-                                    <HelpBlock>Must be at least 100 characters.</HelpBlock>
-                                </FormGroup>
-
-                                <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
-                                    <ControlLabel className='text'>Controls</ControlLabel>
-                                    <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange} value={this.state.controlsValue} />
-                                    <HelpBlock>Must be at least 30 characters.</HelpBlock>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <ControlLabel className='text'>Video (Optional)</ControlLabel>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Video (Youtube Link)"
-                                        onChange={this.handleVideoLinkChange}
-                                        value={this.state.videoLinkValue}
-                                    />
-                                </FormGroup>
-
-
-                                <Row>
-                                    <Col md={12}>
-                                        <FormGroup><ControlLabel className="resubmitFileWarning">The game files and screenshots do not need to be resubmitted unless you have made changes to them</ControlLabel></FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup validationState={this.getValidationStateZip()}>
-                                            <ControlLabel className='text'>Game Files (Zip)</ControlLabel>
-                                            <FormControl
-                                                type="file"
-                                                onChange={this.handleGameFileChange}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col md={6}>
-                                        <FormGroup validationState={this.getValidationStateImg()}>
-                                            <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG)</ControlLabel>
-                                            <FormControl
-                                                type="file"
-                                                onChange={this.handleImg0Change}
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-
-                                <FormGroup validationState={this.getValidationStateImages()}>
-                                    <ControlLabel className='text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
-                                    <FilePond
-                                        className="file-pond"
-                                        allowMultiple={true}
-                                        maxFiles={4}
-                                        onupdatefiles={this.handleUpdateFiles}
-                                    />
-                                    <HelpBlock>All images must be either .jpg, .jpeg, or .png</HelpBlock>
-                                </FormGroup>
-
-                                <Row>
-                                    <FormGroup validationState={this.getValidationStateGenre()}>
-                                        <Col md={3}>
-                                            <FormGroup>
-                                                <ControlLabel className='text'>Genres</ControlLabel>
-                                                <Checkbox className='text' checked={this.state.Action} onChange={this.handleAction}>Action</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Adventure} onChange={this.handleAdventure}>Adventure</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Fighting} onChange={this.handleFighting}>Fighting</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Puzzle} onChange={this.handlePuzzle}>Puzzle</Checkbox>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col md={3}>
-                                            <FormGroup>
-                                                <ControlLabel className='text'></ControlLabel>
-                                                <Checkbox className='text' checked={this.state.Racing} onChange={this.handleRacing}>Racing</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Rhythm} onChange={this.handleRhythm}>Rhythm</Checkbox>
-                                                <Checkbox className='text' checked={this.state.RPG} onChange={this.handleRPG}>RPG</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Shooter} onChange={this.handleShooter}>Shooter</Checkbox>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col md={3}>
-                                            <FormGroup>
-                                                <ControlLabel className='text'></ControlLabel>
-                                                <Checkbox className='text' checked={this.state.Sports} onChange={this.handleSports}>Sports</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Strategy} onChange={this.handleStrategy}>Strategy</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Survival} onChange={this.handleSurvival}>Survival</Checkbox>
-                                                <Checkbox className='text' checked={this.state.Platformer} onChange={this.handlePlatformer}>Platformer</Checkbox>
-                                            </FormGroup>
-                                        </Col>
+                <div className="BodyWrap">
+                    <NaviBar />
+                    <div className="Header">
+                        <h1 className='text '>Resubmit Your Game</h1>
+                    </div>
+                    <Grid>
+                        <Row>
+                            <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+                                <Form>
+                                    <FormGroup>
+                                        <ControlLabel className='text'>Reviewers Commments</ControlLabel>
+                                        <FormControl.Static>{this.state.reviewComments}</FormControl.Static>
                                     </FormGroup>
-                                </Row>
-                                <HelpBlock>Must choose at least one.</HelpBlock>
-                                <FormGroup>
-                                    <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
-                                </FormGroup>
-                            </Form>
-                        </Col>
-                    </Row>
-                </Grid>
-                <Popup
-                    open={this.state.loadingModal}
-                    modal
-                    closeOnDocumentClick={false}
-                    lockScroll={true}
-                >
-                    <div className='sweet-loading'>
-                        <PacmanLoader
-                            css={css`
+
+                                    <FormGroup validationState={this.getValidationStateTitle()}>
+                                        <ControlLabel className='text'>Title of the Game</ControlLabel>
+                                        <FormControl
+                                            type="text"
+                                            placeholder="Enter the title of your game"
+                                            onChange={this.handleTitleChange}
+                                            value={this.state.titleValue}
+                                        />
+                                    </FormGroup>
+
+                                    <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
+                                        <ControlLabel className='text'>Description</ControlLabel>
+                                        <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange} value={this.state.descriptionValue} />
+                                        <HelpBlock>Must be at least 100 characters.</HelpBlock>
+                                    </FormGroup>
+
+                                    <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
+                                        <ControlLabel className='text'>Controls</ControlLabel>
+                                        <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange} value={this.state.controlsValue} />
+                                        <HelpBlock>Must be at least 30 characters.</HelpBlock>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <ControlLabel className='text'>Video (Optional)</ControlLabel>
+                                        <FormControl
+                                            type="text"
+                                            placeholder="Video (Youtube Link)"
+                                            onChange={this.handleVideoLinkChange}
+                                            value={this.state.videoLinkValue}
+                                        />
+                                    </FormGroup>
+
+
+                                    <Row>
+                                        <Col md={12}>
+                                            <FormGroup><ControlLabel className="resubmitFileWarning">The game files and screenshots do not need to be resubmitted unless you have made changes to them</ControlLabel></FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup validationState={this.getValidationStateZip()}>
+                                                <ControlLabel className='text'>Game Files (Zip)</ControlLabel>
+                                                <FormControl
+                                                    type="file"
+                                                    onChange={this.handleGameFileChange}
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                        <Col md={6}>
+                                            <FormGroup validationState={this.getValidationStateImg()}>
+                                                <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG)</ControlLabel>
+                                                <FormControl
+                                                    type="file"
+                                                    onChange={this.handleImg0Change}
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+
+                                    <FormGroup validationState={this.getValidationStateImages()}>
+                                        <ControlLabel className='text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
+                                        <FilePond
+                                            className="file-pond"
+                                            allowMultiple={true}
+                                            maxFiles={4}
+                                            onupdatefiles={this.handleUpdateFiles}
+                                        />
+                                        <HelpBlock>All images must be either .jpg, .jpeg, or .png</HelpBlock>
+                                    </FormGroup>
+
+                                    <Row>
+                                        <FormGroup validationState={this.getValidationStateGenre()}>
+                                            <Col md={3}>
+                                                <FormGroup>
+                                                    <ControlLabel className='text'>Genres</ControlLabel>
+                                                    <Checkbox className='text' checked={this.state.Action} onChange={this.handleAction}>Action</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Adventure} onChange={this.handleAdventure}>Adventure</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Fighting} onChange={this.handleFighting}>Fighting</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Puzzle} onChange={this.handlePuzzle}>Puzzle</Checkbox>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col md={3}>
+                                                <FormGroup>
+                                                    <ControlLabel className='text'></ControlLabel>
+                                                    <Checkbox className='text' checked={this.state.Racing} onChange={this.handleRacing}>Racing</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Rhythm} onChange={this.handleRhythm}>Rhythm</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.RPG} onChange={this.handleRPG}>RPG</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Shooter} onChange={this.handleShooter}>Shooter</Checkbox>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col md={3}>
+                                                <FormGroup>
+                                                    <ControlLabel className='text'></ControlLabel>
+                                                    <Checkbox className='text' checked={this.state.Sports} onChange={this.handleSports}>Sports</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Strategy} onChange={this.handleStrategy}>Strategy</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Survival} onChange={this.handleSurvival}>Survival</Checkbox>
+                                                    <Checkbox className='text' checked={this.state.Platformer} onChange={this.handlePlatformer}>Platformer</Checkbox>
+                                                </FormGroup>
+                                            </Col>
+                                        </FormGroup>
+                                    </Row>
+                                    <HelpBlock>Must choose at least one.</HelpBlock>
+                                    <FormGroup>
+                                        <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
+                                    </FormGroup>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Grid>
+                    <Popup
+                        open={this.state.loadingModal}
+                        modal
+                        closeOnDocumentClick={false}
+                        lockScroll={true}
+                    >
+                        <div className='sweet-loading'>
+                            <PacmanLoader
+                                css={css`
                             display: block;
                             margin: 0 auto;
                             position: relative;
                             right: 40px;
                             `}
-                            sizeUnit={"px"}
-                            size={25}
-                            color={'#F5A623'}
-                            loading={true}
-                        />
-                    </div>
-                </Popup>
-                <Popup
-                    open={this.state.errorAlert}
-                    modal
-                    closeOnDocumentClick={false}
-                    lockScroll={true}
-                >
-                    <div className="error-alert-modal">
-                        <span>{this.state.errorAlertMessage}</span>
-                    </div>
-                    <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{ cursor: 'pointer' }}>X</Button>
-                </Popup>
-                <Footer scrolls={true} />
+                                sizeUnit={"px"}
+                                size={25}
+                                color={'#F5A623'}
+                                loading={true}
+                            />
+                        </div>
+                    </Popup>
+                    <Popup
+                        open={this.state.errorAlert}
+                        modal
+                        closeOnDocumentClick={false}
+                        lockScroll={true}
+                    >
+                        <div className="error-alert-modal">
+                            <span>{this.state.errorAlertMessage}</span>
+                        </div>
+                        <Button bsStyle="danger" bsSize="xsmall" onClick={this.handleCloseErrorAlert} style={{ cursor: 'pointer' }}>X</Button>
+                    </Popup>
+                </div>
+                <Footer />
             </div>
         )
     }
