@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row, HelpBlock } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row, HelpBlock, Jumbotron } from 'react-bootstrap';
 import NaviBar from './Components/NavBar';
 import './Submit.css';
 import axios from 'axios';
@@ -9,7 +9,7 @@ import 'filepond/dist/filepond.min.css';
 import { Auth } from 'aws-amplify';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/core';
-import { ClipLoader, PacmanLoader } from 'react-spinners';
+import { PacmanLoader } from 'react-spinners';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
 import { isUndefined } from 'util';
@@ -684,12 +684,18 @@ class Submit extends Component {
             <div className="BodyWrap">
                 <div className="Submit">
                     <NaviBar />
-                    <div className="Header">
-                        <h1 className='text '>Submit a Game</h1>
-                    </div>
+                    <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
+                        <Grid fluid>
+                            <Row>
+                                <Col sm={6} smOffset={3}>
+                                    <h1 className='text '>Submit a Game</h1>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </Jumbotron>
                     <Grid>
                         <Row>
-                            <Col xs={10} xsOffset={1} sm={6} smOffset={3}>
+                            <Col lg={10} xsOffset={1}>
                                 <Form>
                                     <FormGroup validationState={this.getValidationStateTitle()}>
                                         <ControlLabel className='text'>Title of the Game</ControlLabel>

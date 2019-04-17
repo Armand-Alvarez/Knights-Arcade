@@ -157,177 +157,173 @@ class MyProfile extends Component {
                 <div className='BodyWrap'>
                     <NaviBar />
                     <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                            <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                <Panel>
-                                    <Panel.Body>
-                                        <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h1><b>Profile</b></h1>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <hr className="my-profile__hr1" />
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col className="my-profile__avatar-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Image className="my-profile__avatar" src={this.state.imgSrc} />
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col className="my-profile__file-chooser-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Button className="my-profile__pic-button" bsSize="small" onClick={this.handleEditImg.bind(this)} bsStyle="primary"><b>Change Profile Picture</b></Button>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.imgOpen}>
-                                                        <Panel.Collapse>
-                                                            <Panel.Body>
-                                                                <Form horizontal>
-                                                                    <FormGroup controlId="formHorizontalEmail">
-                                                                        <Col sm={4}>
-                                                                            <ControlLabel className='text'>Upload Profile Picture</ControlLabel>
-                                                                            <FormControl placeholder="Profile Icon" type="file" onChange={this.handleImgPathChange.bind(this)} />
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                    <FormGroup>
-                                                                        <Col smOffset={5} sm={6}>
-                                                                            <ButtonToolbar>
-                                                                                <Button bsStyle="primary" onClick={this.handleSaveImg.bind(this)}>Save</Button>
-                                                                            </ButtonToolbar>
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                </Form>
-                                                            </Panel.Body>
-                                                        </Panel.Collapse>
-                                                    </Panel>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <hr className="my-profile__hr" />
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h5 className="my-profile__variable-name"><b>Developer Name</b></h5>
-                                                </Col>
-                                                <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h5 className="my-profile__variable-val"><b>{this.state.username}</b></h5>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h5 className="my-profile__variable-name"><b>Name</b></h5>
-                                                </Col>
-                                                <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h5 className="my-profile__variable-val"><b>{this.state.fullName}</b></h5>
-                                                </Col>
-                                                <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Button bsStyle="link" bsSize="medium" onClick={this.handleEditName}>Edit</Button>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.nameOpen}>
-                                                        <Panel.Collapse>
-                                                            <Panel.Body>
-                                                                <Form horizontal>
-                                                                    <FormGroup controlId="formHorizontalEmail">
-                                                                        <Col componentClass={ControlLabel} sm={2} smOffset={3}>
-                                                                            First
-                        </Col>
-                                                                        <Col sm={4}>
-                                                                            <FormControl type="text" placeholder="First Name" onChange={this.handleFirstNameChange.bind(this)} />
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                    <FormGroup controlId="formHorizontalEmail">
-                                                                        <Col componentClass={ControlLabel} sm={2} smOffset={3}>
-                                                                            Last
-                        </Col>
-                                                                        <Col sm={4}>
-                                                                            <FormControl type="text" placeholder="Last Name" onChange={this.handleLastNameChange.bind(this)} />
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                    <FormGroup>
-                                                                        <Col smOffset={5} sm={6}>
-                                                                            <ButtonToolbar>
-                                                                                <Button bsStyle="primary" onClick={this.handleSave.bind(this)}>Save</Button>
-                                                                            </ButtonToolbar>
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                </Form>
-                                                            </Panel.Body>
-                                                        </Panel.Collapse>
-                                                    </Panel>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h5 className="my-profile__variable-name"><b>Major</b></h5>
-                                                </Col>
-                                                <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h5 className="my-profile__variable-val"><b>{this.state.major}</b></h5>
-                                                </Col>
-                                                <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Button bsStyle="link" bsSize="medium" onClick={this.handleEditMajor}>Edit</Button>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.majorOpen}>
-                                                        <Panel.Collapse>
-                                                            <Panel.Body>
-                                                                <Form horizontal>
-                                                                    <FormGroup controlId="formHorizontalEmail">
-                                                                        <Col sm={4}>
-                                                                            <FormControl type="text" placeholder="Major" onChange={this.handleMajorNameChange.bind(this)} />
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                    <FormGroup>
-                                                                        <Col smOffset={5} sm={6}>
-                                                                            <ButtonToolbar>
-                                                                                <Button bsStyle="primary" onClick={this.handleSave.bind(this)} >Save</Button>
-                                                                            </ButtonToolbar>
-                                                                        </Col>
-                                                                    </FormGroup>
-                                                                </Form>
-                                                            </Panel.Body>
-                                                        </Panel.Collapse>
-                                                    </Panel>
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <hr className="my-profile__hr" />
-                                                </Col>
-                                            </Row>
-                                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <h3><b>My Games</b></h3>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <div className="games-page__game-list">
-                                                    {
-                                                        this.state.games.map((game) => {
-                                                            return <ProfileSubmissionCard gameData={game} />
-                                                        })
-                                                    }
-                                                </div>
-                                            </Row>
-
-                                        </Grid>
-                                    </Panel.Body>
-                                </Panel>
-                            </Col>
-                        </Row>
+                        <Panel style={{ backgroundColor: '#272727', border: '0' }}>
+                            <Panel.Body style={{ border: '0' }}>
+                                <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }} style={{ backgroundColor: '#272727', border: '0' }}>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h1><b>Profile</b></h1>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <hr className="my-profile__hr1" />
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col className="my-profile__avatar-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Image className="my-profile__avatar" src={this.state.imgSrc} />
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col className="my-profile__file-chooser-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Button className="my-profile__pic-button" bsSize="small" onClick={this.handleEditImg.bind(this)} bsStyle="primary"><b>Change Profile Picture</b></Button>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.imgOpen}>
+                                                <Panel.Collapse>
+                                                    <Panel.Body>
+                                                        <Form horizontal>
+                                                            <FormGroup controlId="formHorizontalEmail">
+                                                                <Col sm={4}>
+                                                                    <ControlLabel className='text'>Upload Profile Picture</ControlLabel>
+                                                                    <FormControl placeholder="Profile Icon" type="file" onChange={this.handleImgPathChange.bind(this)} />
+                                                                </Col>
+                                                            </FormGroup>
+                                                            <FormGroup>
+                                                                <Col smOffset={5} sm={6}>
+                                                                    <ButtonToolbar>
+                                                                        <Button bsStyle="primary" onClick={this.handleSaveImg.bind(this)}>Save</Button>
+                                                                    </ButtonToolbar>
+                                                                </Col>
+                                                            </FormGroup>
+                                                        </Form>
+                                                    </Panel.Body>
+                                                </Panel.Collapse>
+                                            </Panel>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <hr className="my-profile__hr" />
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h5 className="my-profile__variable-name"><b>Developer Name</b></h5>
+                                        </Col>
+                                        <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h5 className="my-profile__variable-val"><b>{this.state.username}</b></h5>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h5 className="my-profile__variable-name"><b>Name</b></h5>
+                                        </Col>
+                                        <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h5 className="my-profile__variable-val"><b>{this.state.fullName}</b></h5>
+                                        </Col>
+                                        <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Button bsStyle="link" bsSize="medium" onClick={this.handleEditName}>Edit</Button>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.nameOpen}>
+                                                <Panel.Collapse>
+                                                    <Panel.Body>
+                                                        <Form horizontal>
+                                                            <FormGroup controlId="formHorizontalEmail">
+                                                                <Col componentClass={ControlLabel} sm={2} smOffset={3}>
+                                                                    First
+                                                                 </Col>
+                                                                <Col sm={4}>
+                                                                    <FormControl type="text" placeholder="First Name" onChange={this.handleFirstNameChange.bind(this)} />
+                                                                </Col>
+                                                            </FormGroup>
+                                                            <FormGroup controlId="formHorizontalEmail">
+                                                                <Col componentClass={ControlLabel} sm={2} smOffset={3}>
+                                                                    Last
+                                                                </Col>
+                                                                <Col sm={4}>
+                                                                    <FormControl type="text" placeholder="Last Name" onChange={this.handleLastNameChange.bind(this)} />
+                                                                </Col>
+                                                            </FormGroup>
+                                                            <FormGroup>
+                                                                <Col smOffset={5} sm={6}>
+                                                                    <ButtonToolbar>
+                                                                        <Button bsStyle="primary" onClick={this.handleSave.bind(this)}>Save</Button>
+                                                                    </ButtonToolbar>
+                                                                </Col>
+                                                            </FormGroup>
+                                                        </Form>
+                                                    </Panel.Body>
+                                                </Panel.Collapse>
+                                            </Panel>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h5 className="my-profile__variable-name"><b>Major</b></h5>
+                                        </Col>
+                                        <Col className="my-profile__variable-col" md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h5 className="my-profile__variable-val"><b>{this.state.major}</b></h5>
+                                        </Col>
+                                        <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Button bsStyle="link" bsSize="medium" onClick={this.handleEditMajor}>Edit</Button>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={this.state.majorOpen}>
+                                                <Panel.Collapse>
+                                                    <Panel.Body>
+                                                        <Form horizontal>
+                                                            <FormGroup controlId="formHorizontalEmail">
+                                                                <Col sm={4}>
+                                                                    <FormControl type="text" placeholder="Major" onChange={this.handleMajorNameChange.bind(this)} />
+                                                                </Col>
+                                                            </FormGroup>
+                                                            <FormGroup>
+                                                                <Col smOffset={5} sm={6}>
+                                                                    <ButtonToolbar>
+                                                                        <Button bsStyle="primary" onClick={this.handleSave.bind(this)} >Save</Button>
+                                                                    </ButtonToolbar>
+                                                                </Col>
+                                                            </FormGroup>
+                                                        </Form>
+                                                    </Panel.Body>
+                                                </Panel.Collapse>
+                                            </Panel>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <hr className="my-profile__hr" />
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                            </Panel.Body>
+                        </Panel>
+                        <Grid>
+                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <h2><b>My Games</b></h2>
+                                </Col>
+                            </Row>
+                            <div className="games-page__game-list">
+                                {
+                                    this.state.games.map((game) => {
+                                        return <ProfileSubmissionCard gameData={game} />
+                                    })
+                                }
+                            </div>
+                        </Grid>
                     </Grid>
                 </div>
+                <div className="whitespace" style={{backgroundColor:'#121212'}} />
                 <Footer />
             </div>
         )

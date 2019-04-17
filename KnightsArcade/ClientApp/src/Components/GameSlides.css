@@ -24,8 +24,6 @@
 .slides::before {
     border-radius: 0px;
     content: '';
-    background-image: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);/*linear-gradient(to bottom, #3acfd5 0%, #3a4ed5 100%);*/
-    //padding: 10px;
     width: 770px;
     height: 437px;
     top: -10px;

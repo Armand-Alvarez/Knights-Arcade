@@ -135,9 +135,9 @@ export class ManageGamesComponent extends Component {
             arcadeStatus = <Label bsStyle="danger">Not On Arcade Machines</Label>
 
         return (
-            <div style={{ marginBottom: 10 }}>
-                <Panel>
-                    <Panel.Heading>
+            <div style={{ marginBottom: 20, backgroundColor: '#121212' }}>
+                <Panel style={{ marginBottom: 10, backgroundColor: '#242424' }}>
+                    <Panel.Heading style={{ backgroundColor: '#4c4c4c', color: '#fff' }}>
                         {/*Link to the game ad page. */}
                         <a href={link}>{this.props.gameData.gameName}</a>
                     </Panel.Heading>
@@ -160,7 +160,7 @@ export class ManageGamesComponent extends Component {
                                 Delete Game From System</Button>
                         </ButtonToolbar>
                     </Panel.Body>
-                    <Panel.Footer>
+                    <Panel.Footer style={{ backgroundColor: '#4c4c4c', color: '#fff' }}>
                         {/*Label that is only activated if game IS on the arcade machine */}
                         {arcadeStatus}
                     </Panel.Footer>

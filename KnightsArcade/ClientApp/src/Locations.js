@@ -60,7 +60,7 @@ export class Locations extends Component {
             <div className='Locations'>
                 <div className='BodyWrap'>
                     <NaviBar box={"location"}/>
-                    <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                    <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
                         <Grid fluid>
                             <Row>
                                 <Col sm={6} smOffset={3}>
@@ -69,9 +69,8 @@ export class Locations extends Component {
                             </Row>
                         </Grid>
                     </Jumbotron>
-
-                    <ListGroup>
-                        <ListGroupItem> {
+                    <ListGroup style={{ backgroundColor: '#121212', margin:'0' }}>
+                        <ListGroupItem style={{ backgroundColor:'#121212', border:'0' }}> {
                             this.state.machines.map((machine) => {
                                 return <MachineComp machineData={machine} />
                             })
@@ -88,7 +87,7 @@ export class Locations extends Component {
                                             <AnyReactComponent
                                                 lat={machine.places[0]}
                                                 lng={machine.places[1]}
-                                                text={machine.arcadeMachineName}
+                                                text={machine.arcadeMachineMarker}
                                             />
                                         ))}
 

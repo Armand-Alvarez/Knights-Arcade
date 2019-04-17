@@ -46,8 +46,8 @@ export class ManageUsersComponent extends Component {
 
         return (
             <div style={{ marginBottom: 10 }}>
-                <Panel>
-                    <Panel.Heading><p>{username}</p><p>{firstName} {lastName}</p></Panel.Heading>
+                <Panel style={{ marginBottom: 10, backgroundColor: '#242424' }}>
+                    <Panel.Heading style={{ backgroundColor: '#4c4c4c', color: '#fff' }}><p>{username}</p><p>{firstName} {lastName}</p></Panel.Heading>
                     <Panel.Body>
                         <Image width={240} height={135} src={this.state.imgUrl} />
                         <p>Major: {this.props.userData.userMajor}</p>

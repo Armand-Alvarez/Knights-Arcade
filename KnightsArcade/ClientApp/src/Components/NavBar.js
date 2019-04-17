@@ -20,9 +20,9 @@ export default class NaviBar extends Component {
             aboutStylename: "",
             locationStyleName: "",
             adminStyleName: "",
-            box:props.box
+            box: props.box
         };
-        
+
 
         document.title = "Knights Arcade";
     }
@@ -165,8 +165,7 @@ export default class NaviBar extends Component {
                                 Arcade Machine Locations
 								</NavItem>
                         </Nav>
-                        }
-							<Nav pullRight>
+                        <Nav pullRight>
                             {this.state.loggedIn ?
 
                                 <NavDropdown eventKey={3} title={this.state.username} id="basic-nav-dropdown">

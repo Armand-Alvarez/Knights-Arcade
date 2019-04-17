@@ -5,7 +5,7 @@ import TestingComponent from './Components/TestingComponent';
 import MangGamesComp from './Components/ManageGamesComponent';
 import MangUsersComp from './Components/ManageUsersComponent';
 import ArcadeMachineComponent from './Components/ArcadeMachineComponent';
-import { Tabs, Tab, ListGroup, ListGroupItem, Button, Jumbotron, Grid } from 'react-bootstrap';
+import { Tabs, Tab, ListGroup, ListGroupItem, Button, Jumbotron, Grid, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import Footer from './Components/Footer';
 import { Auth } from 'aws-amplify';
@@ -182,18 +182,22 @@ export class Admin extends Component {
             return (
                 <div className='AdminPage'>
                     <div className='BodyWrap'>
-                        <NaviBar box={"admin"}/>
-                        <Jumbotron className="Jumbo" style={{ marginBottom: 10 }} box={"admin"}>
-                            <div className="Header">
-                                <h1 className='text'>Admin Page</h1>
-                            </div>
+                        <NaviBar box={"admin"} />
+                        <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
+                            <Grid fluid>
+                                <Row>
+                                    <Col sm={6} smOffset={3}>
+                                        <h1>Admin Page</h1>
+                                    </Col>
+                                </Row>
+                            </Grid>
                         </Jumbotron>
                         <Grid bsClass="container">
                             <Tabs defaultActiveKey={activeTab} id="Admin-tabs">
                                 <Tab eventKey="ReviewSubmissions" title="Review Submissions">
                                     <div className="admin_review_container">
-                                        <ListGroup style={{marginTop: 10}}>
-                                            <ListGroupItem> {
+                                        <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border:'0' }}>
+                                            <ListGroupItem style={{ backgroundColor: '#121212', border:'0' }}> {
                                                 this.state.submissions.map((submission) => {
                                                     return <RevComp submissionData={submission} />
                                                 })
@@ -204,8 +208,8 @@ export class Admin extends Component {
                                 </Tab>
                                 <Tab eventKey="ManageGames" title="Manage Games">
                                     <div className="admin_games_container">
-                                        <ListGroup style={{ marginTop: 10 }}>
-                                            <ListGroupItem> {
+                                        <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border: '0' }}>
+                                            <ListGroupItem style={{ backgroundColor: '#121212', border: '0' }}> {
                                                 this.state.games.map((game) => {
                                                     return <MangGamesComp updateFunc={this.updateList} gameData={game} />
                                                 })
@@ -215,8 +219,8 @@ export class Admin extends Component {
                                 </Tab>
                                 <Tab eventKey="ManageUsers" title="Manage Users">
                                     <div className="admin_users_container">
-                                        <ListGroup style={{ marginTop: 10 }}>
-                                            <ListGroupItem> {
+                                        <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border: '0' }}>
+                                            <ListGroupItem style={{ backgroundColor: '#121212', border: '0' }}> {
                                                 this.state.users.map((user) => {
                                                     return <MangUsersComp updateFunc={this.updateUserList} userData={user} />
                                                 })
@@ -226,9 +230,8 @@ export class Admin extends Component {
                                 </Tab>
                                 <Tab eventKey="TestingQueue" title="Testing Queue">
                                     <div className="admin_testqueue_container">
-                                        <ListGroup style={{ marginTop: 10 }}>
-                                            <ListGroupItem>
-                                                {
+                                        <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border: '0' }}>
+                                            <ListGroupItem style={{ backgroundColor: '#121212', border: '0' }}> {
                                                     this.state.testingGames.map((game) => {
                                                         return <TestingComponent updateFunc={this.updateTestingList} gameData={game} />
                                                     })
@@ -240,9 +243,8 @@ export class Admin extends Component {
                                 <Tab eventKey="ArcadeLocations" title="Arcade Machine Locations">
                                     <div className="admin_arcade_container">
                                         <Button className="addArcadeButton" bsStyle="success" onClick={this.handleNewMachine}>Add Arcade Machine Location</Button>
-                                        <ListGroup style={{ marginTop: 10 }}>
-                                            <ListGroupItem>
-                                                {
+                                        <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border:'0' }}>
+                                            <ListGroupItem style={{ backgroundColor: '#121212', border:'0' }}> {
                                                     this.state.arcadeMachines.map((machine) => {
                                                         return <ArcadeMachineComponent addLocation={this.addArcadeLocation} removeLocation={this.removeArcadeLocation} cancelNew={this.cancelNewLocation} arcadeMachine={machine} />
                                                     })

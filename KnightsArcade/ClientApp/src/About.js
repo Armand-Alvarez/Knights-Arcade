@@ -13,7 +13,7 @@ class About extends Component {
                 <div className='BodyWrap'>
                     <div className='AboutPage'>
                         <NaviBar box={"about"}/>
-                        <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                        <Jumbotron style={{ marginBottom: 10, backgroundColor:'#272727' }}>
                             <Grid fluid>
                                 <Row>
                                     <Col sm={6} smOffset={3}>

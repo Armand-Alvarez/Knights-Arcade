@@ -25,10 +25,10 @@ export class MachineLocationComponent extends Component {
         const name = this.props.machineData.arcadeMachineName;
 
         return (
-            <div style={{ marginBottom: 10 }}>
+            <div style={{ marginBottom: 10, backgroundColor:'#121212' }}>
                 <Grid>
-                    <Panel>
-                        <Panel.Heading><b>{name}</b></Panel.Heading>
+                    <Panel style={{ marginBottom: 10, backgroundColor: '#242424' }}>
+                        <Panel.Heading style={{backgroundColor:'#4c4c4c', color:'#fff'}}><b>{name}</b></Panel.Heading>
                         <Panel.Body>
                             <p>{room}</p>
                             <p>{address}</p>

@@ -202,8 +202,7 @@ export class ArcadeMachineComponent extends Component {
     render(props) {
         if (this.state.isNew) {
             return (
-                <div style={{ marginBottom: 10 }}>
-
+                <div style={{ marginBottom: 10, border:'1px solid #fff', backgroundColor:'#242424' }}>
                     <Form horizontal>
                         <FormGroup controlId="ArcadeMachineName">
                             <Col componentClass={ControlLabel} sm={2}>
@@ -264,7 +263,7 @@ export class ArcadeMachineComponent extends Component {
             )
         } else if (this.state.editable) {
             return (
-                <div>
+                <div style={{ marginBottom: 10, border: '1px solid #fff', backgroundColor: '#242424' }}>
                     <Form horizontal>
                         <FormGroup controlId="ArcadeMachineName">
                             <Col componentClass={ControlLabel} sm={2}>
@@ -326,7 +325,7 @@ export class ArcadeMachineComponent extends Component {
         }
         else {
             return (
-                <div>
+                <div style={{ marginBottom: 10, border: '1px solid #fff', backgroundColor: '#242424' }}>
                     <Form horizontal>
                         <FormGroup controlId="ArcadeMachineName">
                             <Col componentClass={ControlLabel} sm={2}>

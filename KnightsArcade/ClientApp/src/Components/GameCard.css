@@ -3,12 +3,13 @@
 }
 
 .game-card__card {
-	border-style: solid;
-	border-color: lightgray;
-	border-width: 0.5px;
-	display: flex;
-	flex-direction: row;
-	margin-bottom: 5px;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 0.5px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    background-color: #242424;
 }
 
 .game-card__info-container {

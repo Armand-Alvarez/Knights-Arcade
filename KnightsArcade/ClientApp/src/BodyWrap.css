@@ -1,4 +1,25 @@
-﻿.BodyWrap
-{
+﻿.BodyWrap {
     min-height: calc(100vh - 80px);
+    background-color: #121212;
+    color: white;
+}
+
+.dark-background {
+    background-color: #121212;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: #ad974f;
+}
+
+a:visited {
+    color: white;
+}
+
+a:active {
+    color: white;
 }

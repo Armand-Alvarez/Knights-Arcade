@@ -41,6 +41,18 @@ body, html {
   border-color: white;
 }
 
+.location-button:hover {
+    border-radius: 0px;
+    color: white;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    background-color: #ad974f;
+    border-color: white;
+}
+
 .nav {
   color: white;
 }

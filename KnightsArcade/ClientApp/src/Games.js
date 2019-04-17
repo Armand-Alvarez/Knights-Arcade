@@ -282,8 +282,9 @@ class Games extends Component {
         return (
             <div className="games-page">
                 <div className="BodyWrap">
-                    <NaviBar box={"games"}/>
-                    <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                    <NaviBar box={"games"} />
+                    <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
+
                         <Grid fluid>
                             <Row>
                                 <Col sm={6} smOffset={3}>
@@ -295,58 +296,57 @@ class Games extends Component {
                             </Row>
                         </Grid>
                     </Jumbotron>
-                    <Grid fluid>
-                        <Row>
-                            <Col sm={6} smOffset={3}>
-                                <div className="games-page__form-container">
-                                    <div className="games-page__search-row">
-                                        <div style={{ flexGrow: 1, alignSelf: "flex-start" }}>
-                                            <div style={{ marginBottom: 0 }}>
-                                                <InputGroup>
-                                                    <FormControl as="textarea" placeholder="Search" value={this.state.searchValue} onChange={this.handleSearchChange}></FormControl>
-                                                    <DropdownButton
-                                                        componentClass={InputGroup.Button}
-                                                        id="input-dropdown-addon"
-                                                        title={this.state.currentGenre}
-                                                    >
-                                                        <MenuItem eventKey={0} onSelect={this.handleGenreSelect} disabled={this.state.AllGenres}>All Genres</MenuItem>
-                                                        <MenuItem eventKey={1} onSelect={this.handleGenreSelect} disabled={this.state.Action}>Action</MenuItem>
-                                                        <MenuItem eventKey={2} onSelect={this.handleGenreSelect} disabled={this.state.Adventure}>Adventure</MenuItem>
-                                                        <MenuItem eventKey={3} onSelect={this.handleGenreSelect} disabled={this.state.Fighting}>Fighting</MenuItem>
-                                                        <MenuItem eventKey={4} onSelect={this.handleGenreSelect} disabled={this.state.Platformer}>Platformer</MenuItem>
-                                                        <MenuItem eventKey={5} onSelect={this.handleGenreSelect} disabled={this.state.Puzzle}>Puzzle</MenuItem>
-                                                        <MenuItem eventKey={6} onSelect={this.handleGenreSelect} disabled={this.state.RPG}>RPG</MenuItem>
-                                                        <MenuItem eventKey={7} onSelect={this.handleGenreSelect} disabled={this.state.Racing}>Racing</MenuItem>
-                                                        <MenuItem eventKey={8} onSelect={this.handleGenreSelect} disabled={this.state.Rhythm}>Rhythm</MenuItem>
-                                                        <MenuItem eventKey={9} onSelect={this.handleGenreSelect} disabled={this.state.Shooter}>Shooter</MenuItem>
-                                                        <MenuItem eventKey={10} onSelect={this.handleGenreSelect} disabled={this.state.Sports}>Sports</MenuItem>
-                                                        <MenuItem eventKey={11} onSelect={this.handleGenreSelect} disabled={this.state.Strategy}>Strategy</MenuItem>
-                                                        <MenuItem eventKey={12} onSelect={this.handleGenreSelect} disabled={this.state.Survival}>Survival</MenuItem>
-                                                    </DropdownButton>
-                                                </InputGroup>
-                                            </div>
-                                        </div>
-                                        <p style={{ marginBottom: 0, fontWeight: "bold", marginLeft: 20, marginRight: 15 }}>Sort by</p>
-                                        <Form>
-                                            <FormGroup style={{ marginBottom: 0 }}>
-                                                <FormControl onChange={this.handleSortBySelect} componentClass="select" placeholder="select">
-                                                    <option>Game Title</option>
-                                                    <option>Developer Name</option>
-                                                    <option>Release Date</option>
-                                                </FormControl>
-                                            </FormGroup>
-                                        </Form>
-                                    </div>
-                                    <div className="games-page__game-list">
-                                        {
-                                            this.state.gamesList.map((game) => {
-                                                return <GameCard gameData={game} />
-                                            })
-                                        }
+                    <Grid bsClass="container">
+                        <div className="games-page__form-container">
+                            <div className="games-page__search-row">
+                                <div style={{ flexGrow: 1, alignSelf: "flex-start" }}>
+                                    <div style={{ marginBottom: 0 }}>
+                                        <InputGroup>
+                                            <FormControl as="textarea" placeholder="Search" value={this.state.searchValue} onChange={this.handleSearchChange}></FormControl>
+                                            <DropdownButton
+                                                componentClass={InputGroup.Button}
+                                                id="input-dropdown-addon"
+                                                title={this.state.currentGenre}
+                                            >
+                                                <MenuItem eventKey={0} onSelect={this.handleGenreSelect} disabled={this.state.AllGenres}>All Genres</MenuItem>
+                                                <MenuItem eventKey={1} onSelect={this.handleGenreSelect} disabled={this.state.Action}>Action</MenuItem>
+                                                <MenuItem eventKey={2} onSelect={this.handleGenreSelect} disabled={this.state.Adventure}>Adventure</MenuItem>
+                                                <MenuItem eventKey={3} onSelect={this.handleGenreSelect} disabled={this.state.Fighting}>Fighting</MenuItem>
+                                                <MenuItem eventKey={4} onSelect={this.handleGenreSelect} disabled={this.state.Platformer}>Platformer</MenuItem>
+                                                <MenuItem eventKey={5} onSelect={this.handleGenreSelect} disabled={this.state.Puzzle}>Puzzle</MenuItem>
+                                                <MenuItem eventKey={6} onSelect={this.handleGenreSelect} disabled={this.state.RPG}>RPG</MenuItem>
+                                                <MenuItem eventKey={7} onSelect={this.handleGenreSelect} disabled={this.state.Racing}>Racing</MenuItem>
+                                                <MenuItem eventKey={8} onSelect={this.handleGenreSelect} disabled={this.state.Rhythm}>Rhythm</MenuItem>
+                                                <MenuItem eventKey={9} onSelect={this.handleGenreSelect} disabled={this.state.Shooter}>Shooter</MenuItem>
+                                                <MenuItem eventKey={10} onSelect={this.handleGenreSelect} disabled={this.state.Sports}>Sports</MenuItem>
+                                                <MenuItem eventKey={11} onSelect={this.handleGenreSelect} disabled={this.state.Strategy}>Strategy</MenuItem>
+                                                <MenuItem eventKey={12} onSelect={this.handleGenreSelect} disabled={this.state.Survival}>Survival</MenuItem>
+                                            </DropdownButton>
+                                        </InputGroup>
                                     </div>
                                 </div>
-                            </Col>
-                        </Row>
+                                <p style={{ marginBottom: 0, fontWeight: "bold", marginLeft: 20, marginRight: 15 }}>Sort by</p>
+                                <Form>
+                                    <FormGroup style={{ marginBottom: 0 }}>
+                                        <FormControl onChange={this.handleSortBySelect} componentClass="select" placeholder="select">
+                                            <option>Game Title</option>
+                                            <option>Developer Name</option>
+                                            <option>Release Date</option>
+                                        </FormControl>
+                                    </FormGroup>
+                                </Form>
+
+                            </div>
+
+                            <div className="games-page__game-list">
+                                {
+                                    this.state.gamesList.map((game) => {
+                                        return <GameCard gameData={game} />
+                                    })
+                                }
+                            </div>
+
+                        </div>
                     </Grid>
                     <div className="whitespace" />
                 </div>
