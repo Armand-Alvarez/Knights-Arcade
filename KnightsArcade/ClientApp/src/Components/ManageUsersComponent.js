@@ -32,10 +32,7 @@ export class ManageUsersComponent extends Component {
     // todo: add delete to swagger
     // todo: add updateFunc & frontend changes (see ManageGamesComponent.js delete func)
     handleDelete() {
-    }
 
-    // todo: add promote to swagger
-    handlePromote() {
     }
 
     render() {
@@ -54,13 +51,6 @@ export class ManageUsersComponent extends Component {
                         <p></p>
 
                         <ButtonToolbar>
-                            {/* Button allows Admin to promote a user to admin */}
-                            <Button
-                                onClick={this.handlePromote}
-                                bsStyle="success">
-                                Promote To Admin
-              </Button>
-
                             {/* Button allows Admin to delete a user */}
                             <Button
                                 onClick={this.handleDelete}
