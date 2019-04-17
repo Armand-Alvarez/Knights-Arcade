@@ -602,8 +602,7 @@ class Submit extends Component {
             gameId: null,
             gameName: this.state.titleValue,
             gameCreatorName: this.state.username,
-            gameCreatorEmail: email,
-            gameCreatorId: "",
+            gameOnArcade: false,
             gameCreatorEmail: this.state.email,
             gameDescription: this.state.descriptionValue,
             gameControls: this.state.controlsValue,
@@ -624,8 +623,11 @@ class Submit extends Component {
             gameStatus: "t",
             gameImg: imgNames,
             gameAvailableToDownload: this.state.gameAvailableToDownload,
+            gameSubmissionDateUtc: null,
+            GameReviewDateUtc: null,
             gameReviewComments: null
         }
+
         var self = this;
         axios.post('/api/v1/Restricted/rds/newentry', data, {
             headers: {
