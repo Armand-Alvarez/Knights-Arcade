@@ -5,7 +5,7 @@ import './GameAdvert.css';
 import { Storage, Auth } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table, Image } from 'react-bootstrap';
 import CollapsibleData from './Components/CollapsibleData';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
@@ -378,7 +378,7 @@ class ReviewPage extends Component {
 
         switch (this.state.numImages) {
             case 1:
-                slideshow = <img width={896} height={504} src={this.state.gameImage0} />;
+                slideshow = <Image responsive width={896} height={504} src={this.state.gameImage0} />;
                 break;
             case 2:
                 slideshow = <GameAdSlides numImages={this.state.numImages}
