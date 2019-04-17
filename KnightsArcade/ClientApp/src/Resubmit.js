@@ -136,11 +136,7 @@ class Resubmit extends Component {
         const urlParams = new URLSearchParams(window.location.search);
         const urlGameid = urlParams.get('gameId');
         const getRequest = `api/v1/Public/rds/games/gamesbyid?gameid=` + urlGameid;
-        const getRequestSubmissions = `api/v1/Public/rds/submissions/submissionsbyid?gameId=` + urlGameid;
         try {
-            axios.get(getRequestSubmissions).then(res => {
-                this.setState({ reviewComments: res.data.submissionReviewComments });
-            })
             axios.get(getRequest)
                 .then(res => {
                     const gamedata = res.data;
@@ -170,7 +166,8 @@ class Resubmit extends Component {
                         Strategy: gamedata.gameGenreStrategy,
                         Survival: gamedata.gameGenreSurvival,
                         availableToDownload: gamedata.gameAvailableToDownload,
-                        gameStatus: gamedata.gameStatus
+                        gameStatus: gamedata.gameStatus,
+                        reviewComments: gamedata.gameReviewComments
                     });
                     if (res.status === 500) {
                         this.setState({ status: 1 });
