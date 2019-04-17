@@ -596,10 +596,13 @@ class Submit extends Component {
             imgNames.push(this.state.titleValue + "/" + this.state.imgFiles[i].name);
         }
 
+        const email = Auth.user.attributes.email;
+
         const data = {
             gameId: null,
             gameName: this.state.titleValue,
             gameCreatorName: this.state.username,
+            gameCreatorEmail: email,
             gameCreatorId: "",
             gameCreatorEmail: this.state.email,
             gameDescription: this.state.descriptionValue,
@@ -619,7 +622,8 @@ class Submit extends Component {
             gameGenrePlatformer: this.state.Platformer,
             gamePath: this.state.titleValue + "/" + this.state.gameFileName,
             gameImg: imgNames,
-            gameAvailableToDownload: this.state.gameAvailableToDownload
+            gameAvailableToDownload: this.state.gameAvailableToDownload,
+            gameReviewComments: null
         }
         var self = this;
         axios.post('/api/v1/Restricted/rds/newentry', data, {

@@ -182,6 +182,35 @@ class ReviewPage extends Component {
 
         const parent = this;
         const submissionData = {
+            gameId: this.state.gamedata.gameId,
+            gameName: null,
+            gameCreatorName: null,
+            gameCreatorEmail: null,
+            gameCreatorId: null,
+            gameCreatorEmail: null,
+            gameDescription: null,
+            gameControls: null,
+            gameVideoLink: null,
+            gameGenreSurvival: null,
+            gameGenreFighting: null,
+            gameGenrePuzzle: null,
+            gameGenreShooter: null,
+            gameGenreStrategy: null,
+            gameGenreSports: null,
+            gameGenreRpg: null,
+            gameGenreRacing: null,
+            gameGenreAdventure: null,
+            gameGenreAction: null,
+            gameGenreRhythm: null,
+            gameGenrePlatformer: null,
+            gamePath: null,
+            gameImg: null,
+            gameAvailableToDownload: null,
+            gameReviewComments: this.state.reviewCommentsValue
+            gameReviewData
+        }
+
+        const submissionTemp = {
             creatorId: null,
             creatorEmail: null,
             gameId: this.state.gamedata.gameId,

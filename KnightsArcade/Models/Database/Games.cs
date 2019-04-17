@@ -12,7 +12,7 @@ namespace KnightsArcade.Models.Database
         public string GameCreatorEmail { get; set; }
         public string GameDescription { get; set; }
         public string GameControls { get; set; }
-        public string GameVideolink { get; set; }
+        public string GameVideoLink { get; set; }
         public bool? GameGenreSurvival { get; set; }
         public bool? GameGenreFighting { get; set; }
         public bool? GameGenrePuzzle { get; set; }

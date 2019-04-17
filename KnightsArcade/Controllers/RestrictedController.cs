@@ -172,7 +172,7 @@ namespace KnightsArcade.Controllers
         [ProducesResponseType(403)]
         [ProducesResponseType(409)]
         [ProducesResponseType(500)]
-        public IActionResult PostNewEntry([FromBody] NewEntry newEntry)
+        public IActionResult PostNewEntry([FromBody] GamesEntry newEntry)
         {
             try
             {
@@ -227,7 +227,7 @@ namespace KnightsArcade.Controllers
         [ProducesResponseType(403)]
         [ProducesResponseType(409)]
         [ProducesResponseType(500)]
-        public IActionResult PutNewEntry([FromBody] NewEntry updateEntry)
+        public IActionResult PutNewEntry([FromBody] GamesEntry updateEntry)
         {
             try
             {

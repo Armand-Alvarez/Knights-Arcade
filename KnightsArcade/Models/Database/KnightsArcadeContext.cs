@@ -217,7 +217,7 @@ namespace KnightsArcade.Models.Database
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
 
-                entity.Property(e => e.GameVideolink)
+                entity.Property(e => e.GameVideoLink)
                     .HasColumnName("game_videolink")
                     .HasColumnType("text");
 
