@@ -705,17 +705,16 @@ class Submit extends Component {
                                             onChange={this.handleTitleChange}
                                         />
                                     </FormGroup>
-
                                     <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
                                         <ControlLabel className='text'>Description</ControlLabel>
                                         <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange} />
-                                        <HelpBlock>Must be at least 100 characters.</HelpBlock>
+                                        <HelpBlock style={{color:'lightGray'}}>Must be at least 100 characters.</HelpBlock>
                                     </FormGroup>
 
                                     <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
                                         <ControlLabel className='text'>Controls</ControlLabel>
                                         <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange} />
-                                        <HelpBlock>Must be at least 30 characters.</HelpBlock>
+                                        <HelpBlock style={{color:'lightGray'}}>Must be at least 30 characters.</HelpBlock>
                                     </FormGroup>
 
                                     <FormGroup>
@@ -766,7 +765,7 @@ class Submit extends Component {
                                             maxFiles={4}
                                             onupdatefiles={this.handleUpdateFiles}
                                         />
-                                        <HelpBlock>All images must be either .jpg, .jpeg, or .png</HelpBlock>
+                                        <HelpBlock style={{color:'lightGray'}}>All images must be either .jpg, .jpeg, or .png</HelpBlock>
                                     </FormGroup>
 
                                     <Row>
@@ -800,7 +799,7 @@ class Submit extends Component {
                                             </Col>
                                         </FormGroup>
                                     </Row>
-                                    <HelpBlock>Must choose at least one.</HelpBlock>
+                                    <HelpBlock style={{color:'lightGray'}}>Must choose at least one.</HelpBlock>
                                     <Row>
                                         <Col md={12}>
                                             <FormGroup>

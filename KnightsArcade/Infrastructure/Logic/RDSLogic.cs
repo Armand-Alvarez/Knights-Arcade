@@ -59,19 +59,6 @@ namespace KnightsArcade.Infrastructure.Logic
                 _rdsData.PostGames(newGame);
                 Games postedGame = _rdsData.GetGames(newGame.GameName);
 
-                Submissions newSubmission = new Submissions()
-                {
-                    GameId = postedGame.GameId,
-                    SubmissionDateUtc = postedGame.GameSubmissionDateUtc,
-                    SubmissionImage0 = postedGame.GameImage0,
-                    SubmissionName = postedGame.GameName,
-                    SubmissionStatus = postedGame.GameStatus,
-                    CreatorName = postedGame.GameCreatorName,
-                    CreatorEmail = newEntry.GameCreatorEmail
-                };
-
-                _rdsData.PostSubmissions(newSubmission);
-
                 TestsQueue newTestQueue = new TestsQueue()
                 {
                     GameId = postedGame.GameId,
@@ -142,19 +129,6 @@ namespace KnightsArcade.Infrastructure.Logic
             {
                 _rdsData.PutGames(updateGame);
                 Games postedGame = _rdsData.GetGames(updateGame.GameName);
-
-                Submissions updateSubmission = new Submissions()
-                {
-                    GameId = postedGame.GameId,
-                    SubmissionDateUtc = postedGame.GameSubmissionDateUtc,
-                    SubmissionImage0 = postedGame.GameImage0,
-                    SubmissionName = postedGame.GameName,
-                    SubmissionStatus = postedGame.GameStatus,
-                    CreatorName = postedGame.GameCreatorName,
-                    CreatorEmail = updateEntry.GameCreatorEmail
-                };
-
-                _rdsData.PutSubmissions(updateSubmission);
 
                 TestsQueue newTestQueue = new TestsQueue()
                 {
@@ -267,115 +241,12 @@ namespace KnightsArcade.Infrastructure.Logic
         {
             Games game = GamesEntryToGames(gameEntry);
             _rdsData.PutGames(game);
-
-            Submissions submission = new Submissions();
-
-            submission.GameId = game.GameId;
-            if (game.GameImage0 != null)
-            {
-                submission.SubmissionImage0 = game.GameImage0;
-            }
-            if (game.GameReviewDateUtc != null)
-            {
-                submission.SubmissionReviewDateUtc = game.GameReviewDateUtc;
-            }
-            if (game.GameStatus != null)
-            {
-                submission.SubmissionStatus = game.GameStatus;
-            }
-            _rdsData.PutSubmissions(submission);
-
             return;
         }
 
         public void DeleteGamesEntry(int gameId)
         {
             _rdsData.DeleteGames(gameId);
-            return;
-        }
-
-        ///////
-        //// Submissions Table
-        ///////
-
-        public Submissions GetSubmissions(int gameId)
-        {
-            return _rdsData.GetSubmissions(gameId);
-        }
-
-        public List<Submissions> GetAllSubmissions()
-        {
-            return _rdsData.GetAllSubmissions();
-        }
-
-        public void PutSubmissions(Submissions submission)
-        {
-            if(submission.SubmissionStatus == "d")
-            {
-                submission.SubmissionImage0 = "DEFAULT_PLACEHOLDER/default.png";
-            }
-            _rdsData.PutSubmissions(submission);
-
-            try
-            {
-                Games game = new Games();
-                game.GameId = submission.GameId;
-                if (submission.SubmissionImage0 != null)
-                {
-                    game.GameImage0 = submission.SubmissionImage0;
-                }
-                if (submission.SubmissionReviewDateUtc != null)
-                {
-                    game.GameReviewDateUtc = submission.SubmissionReviewDateUtc;
-                }
-                if (submission.SubmissionStatus != null)
-                {
-                    game.GameStatus = submission.SubmissionStatus;
-                }
-
-                if(submission.SubmissionStatus == "d")
-                {
-                    _rdsData.DeleteGames((int)game.GameId);
-                }
-                else
-                {
-                    _rdsData.PutGames(game);
-                }
-
-                try
-                {
-                    _rdsData.DeleteTestsQueue((int)submission.GameId);
-                }
-                catch(Exception e)
-                {
-                    _logger.LogWarning(e.Message, e);
-                }
-
-                if (submission.SubmissionStatus == "t")
-                {
-                    TestsQueue testsQueue = new TestsQueue()
-                    {
-                        GameId = submission.GameId,
-                        RetryCount = 0
-                    };
-                    _rdsData.PostTestsQueue(testsQueue);
-                }
-
-                if (submission.CreatorEmail != null)
-                {
-                    List<Users> users = _rdsData.GetAllUsers().Where(x => x.Username == submission.CreatorName).ToList();
-                    users.Where(x => x.UserEmail != submission.CreatorEmail).ToList().ForEach(x =>
-                    {
-                        x.UserEmail = submission.CreatorEmail;
-                        _rdsData.PutUser(x);
-                    });
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-            }
-
             return;
         }
 
@@ -461,16 +332,17 @@ namespace KnightsArcade.Infrastructure.Logic
             return;
         }
 
+        //Updates user and games table emails.
         public void PutUser(Users user)
         {
             _rdsData.PutUser(user);
             if(user.UserEmail != null)
             {
-                List<Submissions> submissions = _rdsData.GetAllSubmissions().Where(x => x.CreatorName == user.Username).ToList();
-                submissions.Where(x => x.CreatorEmail != user.UserEmail).ToList().ForEach(x =>
+                List<Games> games = _rdsData.GetAllGames().Where(x => x.GameCreatorName == user.Username).ToList();
+                games.Where(x => x.GameCreatorEmail != user.UserEmail).ToList().ForEach(x =>
                 {
-                    x.CreatorEmail = user.UserEmail;
-                    _rdsData.PutSubmissions(x);
+                    x.GameCreatorEmail = user.UserEmail;
+                    _rdsData.PutGames(x);
                 });
             }
 
@@ -728,6 +600,7 @@ namespace KnightsArcade.Infrastructure.Logic
             return stringArr;
         }
 
+        //Cleanup database in case on table crashed and doesn't complete all.
         public void CleanUpOnCrash(int gameId)
         {
             try
@@ -735,15 +608,6 @@ namespace KnightsArcade.Infrastructure.Logic
                 _rdsData.DeleteGames(gameId);
             }
             catch(Exception e)
-            {
-                _logger.LogCritical(e.Message, e);
-            }
-
-            try
-            {
-                _rdsData.DeleteSubmissions(gameId);
-            }
-            catch (Exception e)
             {
                 _logger.LogCritical(e.Message, e);
             }

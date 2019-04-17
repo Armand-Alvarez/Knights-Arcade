@@ -216,86 +216,20 @@ namespace KnightsArcade.Controllers
         }
 
         /// <summary>
-        /// Get all rejected games from the Games database table.
+        /// Get all testing games from the Games database table.
         /// </summary>
-        /// <returns>All game entries from the Games database table that are marked "r" on game_status column for Rejected.</returns>
+        /// <param name="developername"></param>
+        /// <returns>All game entries from the Games database table that are marked "t" on game_status column for Testing.</returns>
         /// <response code="200"></response>
         /// <response code="500"></response>  
-        [HttpGet("rds/games/allgamesrejected")]
+        [HttpGet("rds/games/creatorgames")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult GetAllRejectedGames()
+        public IActionResult GetAllCreatorGames(string developername)
         {
             try
             {
-                return Ok(_rdsLogic.GetAllGamesEntry().Where(x => x.GameStatus == "r").OrderBy(x => x.GameName));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return StatusCode(500, e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Get a single game from the Submissions table by id.
-        /// </summary>
-        /// <param name="gameId"></param>
-        /// <returns>Single submission entry from the Submissions database table.</returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
-        [HttpGet("rds/submissions/submissionsbyid")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
-        public IActionResult GetSubmissiosnById(int gameId)
-        {
-            try
-            {
-                return Ok(_rdsLogic.GetSubmissions(gameId));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return StatusCode(500, e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Get all submissions from the Submissions database table.
-        /// </summary>
-        /// <returns>All submission entries from the Submissions database table.</returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
-        [HttpGet("rds/submissions/allsubmissions")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
-        public IActionResult GetAllSubmissions()
-        {
-            try
-            {
-                return Ok(_rdsLogic.GetAllSubmissions().OrderBy(x => x.SubmissionName));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message, e);
-                return StatusCode(500, e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Get all developer/creator submissions from the Submissions database table.
-        /// </summary>
-        /// <returns>All game entries from the Submissions database table that are marked with the given creator name on creator_name column.</returns>
-        /// <response code="200"></response>
-        /// <response code="500"></response>  
-        [HttpGet("rds/submissions/allcreatorsubmissions")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
-        public IActionResult GetAllCreatorSubmissions(string developerName)
-        {
-            try
-            {
-                return Ok(_rdsLogic.GetAllSubmissions().Where(x => x.CreatorName == developerName).OrderBy(x => x.SubmissionStatus).ThenBy(x => x.SubmissionName));
+                return Ok(_rdsLogic.GetAllGamesEntry().Where(x => x.GameCreatorName == developername).OrderBy(x => x.GameName));
             }
             catch (Exception e)
             {
