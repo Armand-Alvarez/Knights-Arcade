@@ -177,7 +177,7 @@ class MyProfile extends Component {
                                     </Row>
                                     <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                         <Col className="my-profile__file-chooser-col" md={4} mdOffset={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <Button className="my-profile__pic-button" bsSize="small" onClick={this.handleEditImg.bind(this)} bsStyle="primary"><b>Change Profile Picture</b></Button>
+                                            <Button className="my-profile__pic-button" bsSize="small" onClick={this.handleEditImg.bind(this)} bsStyle="default"><b>Change Profile Picture</b></Button>
                                         </Col>
                                     </Row>
                                     <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -186,9 +186,11 @@ class MyProfile extends Component {
                                                 <Panel.Collapse>
                                                     <Panel.Body>
                                                         <Form horizontal>
-                                                            <FormGroup controlId="formHorizontalEmail">
+                                                            <FormGroup controlId="formHorizontalEmail" style={{ color: 'black' }}>
                                                                 <Col sm={4}>
-                                                                    <ControlLabel className='text'>Upload Profile Picture</ControlLabel>
+                                                                </Col>
+                                                                <Col sm={4}>
+                                                                    <p className='text'><b>Upload Profile Picture</b></p>
                                                                     <FormControl placeholder="Profile Icon" type="file" onChange={this.handleImgPathChange.bind(this)} />
                                                                 </Col>
                                                             </FormGroup>
@@ -232,7 +234,7 @@ class MyProfile extends Component {
                                             <h5 className="my-profile__variable-val"><b>{this.state.fullName}</b></h5>
                                         </Col>
                                         <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <Button bsStyle="link" bsSize="medium" onClick={this.handleEditName}>Edit</Button>
+                                            <Button bsStyle="link" bsSize="medium" style={{ color: '#9d974f' }} onClick={this.handleEditName}>Edit</Button>
                                         </Col>
                                     </Row>
                                     <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -242,18 +244,18 @@ class MyProfile extends Component {
                                                     <Panel.Body>
                                                         <Form horizontal>
                                                             <FormGroup controlId="formHorizontalEmail">
-                                                                <Col componentClass={ControlLabel} sm={2} smOffset={3}>
-                                                                    First
-                                                                 </Col>
-                                                                <Col sm={4}>
+                                                                <Col componentClass={ControlLabel} sm={2} smOffset={2}>
+                                                                    <span style={{ color: 'black' }}>First</span>
+                                                                </Col>
+                                                                <Col sm={6}>
                                                                     <FormControl type="text" placeholder="First Name" onChange={this.handleFirstNameChange.bind(this)} />
                                                                 </Col>
                                                             </FormGroup>
                                                             <FormGroup controlId="formHorizontalEmail">
-                                                                <Col componentClass={ControlLabel} sm={2} smOffset={3}>
-                                                                    Last
+                                                                <Col componentClass={ControlLabel} sm={2} smOffset={2}>
+                                                                    <span style={{ color: 'black' }}>Last</span>
                                                                 </Col>
-                                                                <Col sm={4}>
+                                                                <Col sm={6}>
                                                                     <FormControl type="text" placeholder="Last Name" onChange={this.handleLastNameChange.bind(this)} />
                                                                 </Col>
                                                             </FormGroup>
@@ -278,7 +280,7 @@ class MyProfile extends Component {
                                             <h5 className="my-profile__variable-val"><b>{this.state.major}</b></h5>
                                         </Col>
                                         <Col className="my-profile__link-col" md={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <Button bsStyle="link" bsSize="medium" onClick={this.handleEditMajor}>Edit</Button>
+                                            <Button bsStyle="link" bsSize="medium" style={{ color: '#9d974f' }} onClick={this.handleEditMajor}>Edit</Button>
                                         </Col>
                                     </Row>
                                     <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -288,7 +290,10 @@ class MyProfile extends Component {
                                                     <Panel.Body>
                                                         <Form horizontal>
                                                             <FormGroup controlId="formHorizontalEmail">
-                                                                <Col sm={4}>
+                                                                <Col componentClass={ControlLabel} sm={2} smOffset={2}>
+                                                                    <span style={{ color: 'black' }}>Major</span>
+                                                                </Col>
+                                                                <Col sm={6}>
                                                                     <FormControl type="text" placeholder="Major" onChange={this.handleMajorNameChange.bind(this)} />
                                                                 </Col>
                                                             </FormGroup>
@@ -314,11 +319,7 @@ class MyProfile extends Component {
                             </Panel.Body>
                         </Panel>
                         <Grid>
-                            <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                    <h2><b>My Games</b></h2>
-                                </Col>
-                            </Row>
+                            <h2><b>My Games</b></h2>
                             <div className="games-page__game-list">
                                 {
                                     this.state.games.map((game) => {
@@ -329,9 +330,9 @@ class MyProfile extends Component {
                         </Grid>
                     </Grid>
                 </div>
-                <div className="whitespace" style={{backgroundColor:'#121212'}} />
+                <div className="whitespace" style={{ backgroundColor: '#121212' }} />
                 <Footer />
-            </div>
+            </div >
         )
     }
 }

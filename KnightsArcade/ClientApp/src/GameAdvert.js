@@ -170,7 +170,7 @@ class GameAdvert extends Component {
                     <div className='BodyWrap'>
                         <NaviBar />
                         <div className='GameAdDiv'>
-                            <Jumbotron style={{ marginBottom: 10, marginTop: 10 }}>
+                            <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
                                 <Grid fluid>
                                     <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                         <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
