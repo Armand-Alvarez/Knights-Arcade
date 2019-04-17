@@ -51,4 +51,5 @@
 
 .status-icon {
     width: 50px;
+    filter: invert(100%);
 }
