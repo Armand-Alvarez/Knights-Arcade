@@ -707,8 +707,7 @@ class Resubmit extends Component {
             gameGenrePlatformer: this.state.Platformer,
             gamePath: this.state.titleValue + "/" + this.state.gameFileName,
             gameImg: imgNames,
-            gameAvailableToDownload: this.state.gameAvailableToDownload,
-            gameReviewCommends: null
+            gameAvailableToDownload: this.state.gameAvailableToDownload
         }
         if (this.state.gameFile === null) {
             data.gamePath = null;
