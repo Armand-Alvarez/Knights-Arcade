@@ -5,7 +5,7 @@ import './GameAdvert.css';
 import { Storage, Auth } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table, Jumbotron } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table, Jumbotron, Image } from 'react-bootstrap';
 import CollapsibleData from './Components/CollapsibleData';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
@@ -378,7 +378,7 @@ class ReviewPage extends Component {
 
         switch (this.state.numImages) {
             case 1:
-                slideshow = <img width={896} height={504} src={this.state.gameImage0} />;
+                slideshow = <Image responsive width={896} height={504} src={this.state.gameImage0} />;
                 break;
             case 2:
                 slideshow = <GameAdSlides numImages={this.state.numImages}
@@ -433,10 +433,10 @@ class ReviewPage extends Component {
                                     <Col>
                                         <Grid>
                                             <Row>
-                                                <Col md={10} mdOffset={0} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <Col md={7} mdOffset={2} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                                     {slideshow}
                                                 </Col>
-                                                <Col md={2} mdOffset={0} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <Col md={2} mdOffset={1} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                                     <Form>
                                                         <FormGroup>
                                                             <ControlLabel>Creator</ControlLabel>

@@ -2,7 +2,7 @@
     min-height: calc(100vh - 80px);
     background-color: #121212;
     color: white;
-    padding-bottom: 40px;
+    padding-bottom: 0px;
 }
 
 .dark-background {
