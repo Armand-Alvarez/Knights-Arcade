@@ -9,9 +9,10 @@ namespace KnightsArcade.Models
         public int? GameId { get; set; }
         public string GameName { get; set; }
         public string GameCreatorName { get; set; }
+        public string GameCreatorEmail { get; set; }
         public string GameDescription { get; set; }
         public string GameControls { get; set; }
-        public string GameVideolink { get; set; }
+        public string GameVideoLink { get; set; }
         public bool? GameGenreSurvival { get; set; }
         public bool? GameGenreFighting { get; set; }
         public bool? GameGenrePuzzle { get; set; }
@@ -31,5 +32,6 @@ namespace KnightsArcade.Models
         public string[] GameImg { get; set; }
         public DateTime? GameSubmissionDateUtc { get; set; }
         public DateTime? GameReviewDateUtc { get; set; }
+        public string GameReviewComments { get; set; }
     }
 }

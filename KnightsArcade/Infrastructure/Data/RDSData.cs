@@ -88,7 +88,7 @@ namespace KnightsArcade.Infrastructure.Data
             if (game.GameName != null) { updatedGame.GameName = game.GameName; }
             if (game.GamePath != null) { updatedGame.GamePath = game.GamePath; }
             if (game.GameStatus != null) { updatedGame.GameStatus = game.GameStatus; }
-            if (game.GameVideolink != null) { updatedGame.GameVideolink = game.GameVideolink; }
+            if (game.GameVideoLink != null) { updatedGame.GameVideoLink = game.GameVideoLink; }
             if (game.GameAvailableToDownload != null) { updatedGame.GameAvailableToDownload = game.GameAvailableToDownload; }
             if (game.GameOnArcade != null) { updatedGame.GameOnArcade = game.GameOnArcade; }
             if (game.GameReviewDateUtc != null) { updatedGame.GameReviewDateUtc = game.GameReviewDateUtc; }

@@ -19,12 +19,13 @@ namespace KnightsArcade.Infrastructure.Logic
             _logger = logger;
         }
 
-        public Tuple<Games, int> PostNewEntry(NewEntry newEntry)
+        public Tuple<Games, int> PostNewEntry(GamesEntry newEntry)
         {
             Games newGame = new Games()
             {
                 GameControls = newEntry.GameControls,
                 GameCreatorName = newEntry.GameCreatorName,
+                GameCreatorEmail = newEntry.GameCreatorEmail,
                 GameDescription = newEntry.GameDescription,
                 GameGenreAction = newEntry.GameGenreAction,
                 GameGenreAdventure = newEntry.GameGenreAdventure,
@@ -40,11 +41,11 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameGenrePlatformer = newEntry.GameGenrePlatformer,
                 GameName = newEntry.GameName,
                 GamePath = newEntry.GamePath,
-                GameVideolink = newEntry.GameVideoLink,
+                GameVideoLink = newEntry.GameVideoLink,
                 GameOnArcade = false,
                 GameStatus = "t",
                 GameSubmissionDateUtc = DateTime.UtcNow,
-                GameAvailableToDownload = newEntry.GameAvailableToDownload
+                GameAvailableToDownload = newEntry.GameAvailableToDownload,
             };
             char[] s = new char[5];
 
@@ -94,7 +95,7 @@ namespace KnightsArcade.Infrastructure.Logic
             }
         }
 
-        public void PutNewEntry(NewEntry updateEntry)
+        public void PutNewEntry(GamesEntry updateEntry)
         {
             Games updateGame = new Games()
             {
@@ -116,7 +117,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameGenrePlatformer = updateEntry.GameGenrePlatformer,
                 GameName = updateEntry.GameName,
                 GamePath = updateEntry.GamePath,
-                GameVideolink = updateEntry.GameVideoLink,
+                GameVideoLink = updateEntry.GameVideoLink,
                 GameOnArcade = false,
                 GameStatus = "t",
                 GameSubmissionDateUtc = DateTime.UtcNow,
@@ -423,7 +424,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameReviewDateUtc = game.GameReviewDateUtc,
                 GameStatus = game.GameStatus,
                 GameSubmissionDateUtc = game.GameSubmissionDateUtc,
-                GameVideolink = game.GameVideolink,
+                GameVideoLink = game.GameVideoLink,
                 GameImg = ValidGameImageURLs(game),
                 GameAvailableToDownload = game.GameAvailableToDownload
             };
@@ -457,56 +458,12 @@ namespace KnightsArcade.Infrastructure.Logic
                 GameReviewDateUtc = gameEntry.GameReviewDateUtc,
                 GameStatus = gameEntry.GameStatus,
                 GameSubmissionDateUtc = gameEntry.GameSubmissionDateUtc,
-                GameVideolink = gameEntry.GameVideolink,
+                GameVideoLink = gameEntry.GameVideoLink,
                 GameAvailableToDownload = gameEntry.GameAvailableToDownload,
             };
 
             game = InsertArrayToColumn(game, gameEntry);
 
-            return game;
-        }
-
-        public Games InsertArrayToColumn(Games game, NewEntry newEntry)
-        {
-            try
-            {
-                int size = newEntry.GameImg.Count();
-                switch (size)
-                {
-                    case 1:
-                        game.GameImage0 = newEntry.GameImg[0];
-                        break;
-                    case 2:
-                        game.GameImage0 = newEntry.GameImg[0];
-                        game.GameImage1 = newEntry.GameImg[1];
-                        break;
-                    case 3:
-                        game.GameImage0 = newEntry.GameImg[0];
-                        game.GameImage1 = newEntry.GameImg[1];
-                        game.GameImage2 = newEntry.GameImg[2];
-                        break;
-                    case 4:
-                        game.GameImage0 = newEntry.GameImg[0];
-                        game.GameImage1 = newEntry.GameImg[1];
-                        game.GameImage2 = newEntry.GameImg[2];
-                        game.GameImage3 = newEntry.GameImg[3];
-                        break;
-                    case 5:
-                        game.GameImage0 = newEntry.GameImg[0];
-                        game.GameImage1 = newEntry.GameImg[1];
-                        game.GameImage2 = newEntry.GameImg[2];
-                        game.GameImage3 = newEntry.GameImg[3];
-                        game.GameImage4 = newEntry.GameImg[4];
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch(Exception e)
-            {
-                _logger.LogCritical(e.Message, e);
-            }
-            
             return game;
         }
 
@@ -550,7 +507,7 @@ namespace KnightsArcade.Infrastructure.Logic
             {
                 _logger.LogCritical(e.Message, e);
             }
-
+            
             return game;
         }
 
