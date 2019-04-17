@@ -596,13 +596,10 @@ class Submit extends Component {
             imgNames.push(this.state.titleValue + "/" + this.state.imgFiles[i].name);
         }
 
-        const email = Auth.user.attributes.email;
-
         const data = {
             gameId: null,
             gameName: this.state.titleValue,
             gameCreatorName: this.state.username,
-            gameOnArcade: false,
             gameCreatorEmail: this.state.email,
             gameDescription: this.state.descriptionValue,
             gameControls: this.state.controlsValue,
@@ -610,6 +607,7 @@ class Submit extends Component {
             gameGenreSurvival: this.state.Survival,
             gameGenreFighting: this.state.Fighting,
             gameGenrePuzzle: this.state.Puzzle,
+            gameGenrePlatformer: this.state.Platformer,
             gameGenreShooter: this.state.Shooter,
             gameGenreStrategy: this.state.Strategy,
             gameGenreSports: this.state.Sports,
@@ -618,13 +616,13 @@ class Submit extends Component {
             gameGenreAdventure: this.state.Adventure,
             gameGenreAction: this.state.Action,
             gameGenreRhythm: this.state.Rhythm,
-            gameGenrePlatformer: this.state.Platformer,
             gamePath: this.state.titleValue + "/" + this.state.gameFileName,
             gameStatus: "t",
             gameImg: imgNames,
+            gameOnArcade: false,
             gameAvailableToDownload: this.state.gameAvailableToDownload,
             gameSubmissionDateUtc: null,
-            GameReviewDateUtc: null,
+            gameReviewDateUtc: null,
             gameReviewComments: null
         }
 

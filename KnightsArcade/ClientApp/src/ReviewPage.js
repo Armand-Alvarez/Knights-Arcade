@@ -152,7 +152,7 @@ class ReviewPage extends Component {
         this.state.buttonStatus = true;
     }
 
-    sendEmail(username, status, comments) {
+    sendEmail(username, status, comments, gameName) {
         axios.get('/api/v1/Public/rds/users/user?username=' + username)
             .then(res => {
                 var user = res.data;
@@ -167,7 +167,7 @@ class ReviewPage extends Component {
                     to: user.userEmail,
                     from: "noreply@knightsarcade.com",
                     subject: "Your game has been reviewed!",
-                    body: "You game has been reviewed! Your game " + review + ". The administrator's feedback: " + comments + ". You can also checkout information about your game on your profile page. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
+                    body: "Your game " + gameName + " has been reviewed. The administrator's feedback: " + comments + ". If not denied, you can also checkout information about your game on your profile page. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
                 }
 
                 axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
@@ -186,14 +186,13 @@ class ReviewPage extends Component {
             gameName: null,
             gameCreatorName: null,
             gameCreatorEmail: null,
-            gameCreatorId: null,
-            gameCreatorEmail: null,
             gameDescription: null,
             gameControls: null,
             gameVideoLink: null,
             gameGenreSurvival: null,
             gameGenreFighting: null,
             gameGenrePuzzle: null,
+            gameGenrePlatformer: null,
             gameGenreShooter: null,
             gameGenreStrategy: null,
             gameGenreSports: null,
@@ -202,23 +201,24 @@ class ReviewPage extends Component {
             gameGenreAdventure: null,
             gameGenreAction: null,
             gameGenreRhythm: null,
-            gameGenrePlatformer: null,
-            gameStatus: reviewType,
             gamePath: null,
+            gameStatus: reviewType,
             gameImg: null,
+            gameOnArcade: null,
             gameAvailableToDownload: null,
-            gameReviewComments: this.state.reviewCommentsValue,
-            gameReviewDateUtc: new Date().toUTCString()
+            gameSubmissionDateUtc: null,
+            gameReviewDateUtc: new Date().toUTCString(),
+            gameReviewComments: this.state.reviewCommentsValue
         }
 
-        axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
+        axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         }).then(function (res, error) {
             console.log(res);
             if (res.status < 205) {
-                parent.sendEmail(parent.state.gameData.gameCreatorName, reviewType, parent.state.reviewCommentsValue);
+                parent.sendEmail(parent.state.gameData.gameCreatorName, reviewType, parent.state.reviewCommentsValue, parent.state.gameName);
                 if (reviewType = "a") {
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been accepted successfully" })

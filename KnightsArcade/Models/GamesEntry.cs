@@ -5,7 +5,6 @@ namespace KnightsArcade.Models
 {
     public class GamesEntry
     {
-        [Required]
         public int? GameId { get; set; }
         public string GameName { get; set; }
         public string GameCreatorName { get; set; }
