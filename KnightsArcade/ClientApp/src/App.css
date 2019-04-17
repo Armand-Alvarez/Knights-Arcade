@@ -11,7 +11,7 @@ body, html {
   background-image: url("./Images/ambw.png");
 
   /* Full height */
-  position:fixed;
+  position:relative;
   padding:0;
   margin:0;
 
