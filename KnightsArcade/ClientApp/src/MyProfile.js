@@ -74,7 +74,7 @@ class MyProfile extends Component {
                 });
         })
             .then(() => {
-                axios.get('/api/v1/Public/rds/submissions/allcreatorsubmissions?developerName=' + this.state.username)
+                axios.get('/api/v1/Public/rds/games/creatorgames?developername=' + this.state.username)
                     .catch()
                     .then((response) => {
                         this.setState({ games: response.data });
