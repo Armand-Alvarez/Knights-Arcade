@@ -14,7 +14,6 @@ namespace KnightsArcade.Models.Database
         }
 
         public virtual DbSet<Games> Games { get; set; }
-        public virtual DbSet<Submissions> Submissions { get; set; }
         public virtual DbSet<Tests> Tests { get; set; }
         public virtual DbSet<TestsQueue> Testsqueue { get; set; }
         public virtual DbSet<TestingLog> TestingLog { get; set; }
@@ -106,6 +105,10 @@ namespace KnightsArcade.Models.Database
                 entity.Property(e => e.GameCreatorName)
                     .IsRequired()
                     .HasColumnName("game_creatorname")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.GameCreatorEmail)
+                    .HasColumnName("game_creatoremail")
                     .HasColumnType("varchar(255)");
 
                 entity.Property(e => e.GameDescription)
@@ -217,52 +220,9 @@ namespace KnightsArcade.Models.Database
                 entity.Property(e => e.GameVideolink)
                     .HasColumnName("game_videolink")
                     .HasColumnType("text");
-            });
 
-            modelBuilder.Entity<Submissions>(entity =>
-            {
-                entity.HasKey(e => e.GameId);
-
-                entity.ToTable("submissions");
-
-                entity.Property(e => e.GameId)
-                    .HasColumnName("game_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.SubmissionDateUtc)
-                    .HasColumnName("submission_date_utc")
-                    .HasColumnType("timestamp")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'");
-
-                entity.Property(e => e.CreatorEmail)
-                    .HasColumnName("creator_email")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.SubmissionImage0)
-                    .IsRequired()
-                    .HasColumnName("submission_image0")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.SubmissionName)
-                    .IsRequired()
-                    .HasColumnName("submission_name")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.SubmissionReviewDateUtc)
-                    .HasColumnName("submission_reviewdate_utc")
-                    .HasColumnType("timestamp");
-
-                entity.Property(e => e.SubmissionStatus)
-                    .IsRequired()
-                    .HasColumnName("submission_status")
-                    .HasColumnType("varchar(1)");
-
-                entity.Property(e => e.CreatorName)
-                    .HasColumnName("creator_name")
-                    .HasColumnType("varchar(255)");
-
-                entity.Property(e => e.SubmissionReviewComments)
-                    .HasColumnName("submission_reviewcomments")
+                entity.Property(e => e.GameReviewComments)
+                    .HasColumnName("game_reviewcomments")
                     .HasColumnType("text");
             });
 

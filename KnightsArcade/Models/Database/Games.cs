@@ -9,6 +9,7 @@ namespace KnightsArcade.Models.Database
         public int? GameId { get; set; }
         public string GameName { get; set; }
         public string GameCreatorName { get; set; }
+        public string GameCreatorEmail { get; set; }
         public string GameDescription { get; set; }
         public string GameControls { get; set; }
         public string GameVideolink { get; set; }
@@ -35,5 +36,6 @@ namespace KnightsArcade.Models.Database
         public string GameImage4 { get; set; }
         public DateTime? GameSubmissionDateUtc { get; set; }
         public DateTime? GameReviewDateUtc { get; set; }
+        public string GameReviewComments { get; set; }
     }
 }

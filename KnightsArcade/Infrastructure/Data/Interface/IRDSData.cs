@@ -12,12 +12,6 @@ namespace KnightsArcade.Infrastructure.Data.Interface
         void PutGames(Games games);
         void DeleteGames(int gameId);
 
-        Submissions GetSubmissions(int gameId);
-        List<Submissions> GetAllSubmissions();
-        void PostSubmissions(Submissions submission);
-        void PutSubmissions(Submissions submission);
-        void DeleteSubmissions(int gameId);
-
         Tests GetTests(int gameId);
         List<Tests> GetAllTests();
         void PostTests(Tests test);
