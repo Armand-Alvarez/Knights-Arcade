@@ -621,6 +621,7 @@ class Submit extends Component {
             gameGenreRhythm: this.state.Rhythm,
             gameGenrePlatformer: this.state.Platformer,
             gamePath: this.state.titleValue + "/" + this.state.gameFileName,
+            gameStatus: "t",
             gameImg: imgNames,
             gameAvailableToDownload: this.state.gameAvailableToDownload,
             gameReviewComments: null

@@ -203,25 +203,15 @@ class ReviewPage extends Component {
             gameGenreAction: null,
             gameGenreRhythm: null,
             gameGenrePlatformer: null,
+            gameStatus: reviewType,
             gamePath: null,
             gameImg: null,
             gameAvailableToDownload: null,
-            gameReviewComments: this.state.reviewCommentsValue
-            gameReviewData
+            gameReviewComments: this.state.reviewCommentsValue,
+            gameReviewDateUtc: new Date().toUTCString()
         }
 
-        const submissionTemp = {
-            creatorId: null,
-            creatorEmail: null,
-            gameId: this.state.gamedata.gameId,
-            submissionName: null,
-            submissionStatus: reviewType,
-            submissionImage0: null,
-            submissionDateUtc: null,
-            submissionReviewDateUtc: new Date().toUTCString(),
-            submissionReviewComments: this.state.reviewCommentsValue
-        }
-        axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
+        axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
