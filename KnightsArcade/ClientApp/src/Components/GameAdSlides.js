@@ -16,10 +16,10 @@ export class GameSlides extends Component {
               slideshow =
                   <Carousel>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide0)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide0)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide1)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide1)} />
                       </Carousel.Item>
                   </Carousel>
               break;
@@ -28,13 +28,13 @@ export class GameSlides extends Component {
               slideshow =
                   <Carousel>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide0)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide0)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide1)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide1)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide2)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide2)} />
                       </Carousel.Item>
                   </Carousel>
               break;
@@ -42,16 +42,16 @@ export class GameSlides extends Component {
               slideshow =
                   <Carousel>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide0)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide0)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide1)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide1)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide2)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide2)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide3)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide3)} />
                       </Carousel.Item>
                   </Carousel>
               break;
@@ -59,19 +59,19 @@ export class GameSlides extends Component {
               slideshow =
                   <Carousel>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide0)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide0)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide1)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide1)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide2)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide2)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide3)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide3)} />
                       </Carousel.Item>
                       <Carousel.Item>
-                          <Image responsive width={896} height={504} alt="896x504" src={require(this.props.gameSlide4)} />
+                          <Image responsive width={896} height={504} alt="./Images/default.png" src={require(this.props.gameSlide4)} />
                       </Carousel.Item>
                   </Carousel>
               break;

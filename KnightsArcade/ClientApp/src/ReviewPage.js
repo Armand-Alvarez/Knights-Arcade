@@ -407,7 +407,7 @@ class ReviewPage extends Component {
 
         switch (this.state.numImages) {
             case 1:
-                slideshow = <Image responsive width={896} height={504} src={this.state.gameImage0} />;
+                slideshow = <Image responsive width={896} height={504} alt="../Images/default.png" src={this.state.gameImage0} />;
                 break;
             case 2:
                 slideshow = <GameAdSlides numImages={this.state.numImages}
@@ -462,7 +462,7 @@ class ReviewPage extends Component {
                                     <Col>
                                         <Grid>
                                             <Row>
-                                                <Col md={7} mdOffset={2} sm={10} smOffset={0} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <Col md={6} mdOffset={2} sm={6} smOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                                     {slideshow}
                                                 </Col>
                                                 <Col md={2} mdOffset={1} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -495,7 +495,7 @@ class ReviewPage extends Component {
                                     </Col>
                                 </Row>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <Col md={5} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                         <h3>About the game</h3>
                                         <p>{this.state.gamedata.gameDescription}</p>
                                     </Col>

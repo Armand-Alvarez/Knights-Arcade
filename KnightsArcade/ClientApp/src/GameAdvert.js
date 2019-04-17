@@ -181,40 +181,33 @@ class GameAdvert extends Component {
                             </Jumbotron>
                             <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col>
-                                        <Grid>
-                                            <Row>
-                                                <Col md={7} mdOffset={2} sm={9} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    {slideshow}
-                                                </Col>
-                                                <Col md={2} mdOffset={1} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Form>
-                                                        <FormGroup>
-                                                            <ControlLabel>Creator</ControlLabel>
-                                                            <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <ControlLabel>Date Published</ControlLabel>
-                                                            <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <ControlLabel>Genres</ControlLabel>
-                                                            <FormControl.Static>{genreList}</FormControl.Static>
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <ControlLabel>Available On Arcade Machines</ControlLabel>
-                                                            {glyph}
-                                                        </FormGroup>
-                                                        {downloadButton}
-                                                    </Form>
-                                                </Col>
-                                            </Row>
-                                        </Grid>
-
+                                    <Col md={6} mdOffset={2} sm={6} smOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        {slideshow}
+                                    </Col>
+                                    <Col md={2} mdOffset={1} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <Form>
+                                            <FormGroup>
+                                                <ControlLabel>Creator</ControlLabel>
+                                                <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <ControlLabel>Date Published</ControlLabel>
+                                                <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <ControlLabel>Genres</ControlLabel>
+                                                <FormControl.Static>{genreList}</FormControl.Static>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <ControlLabel>Available On Arcade Machines</ControlLabel>
+                                                {glyph}
+                                            </FormGroup>
+                                            {downloadButton}
+                                        </Form>
                                     </Col>
                                 </Row>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col md={4} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                    <Col md={5} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                         <h3>About the game</h3>
                                         <p>{this.state.gamedata.gameDescription}</p>
                                     </Col>
