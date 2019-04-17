@@ -219,6 +219,12 @@ class MyProfile extends Component {
                                         </Col>
                                     </Row>
                                     <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <Panel className="my-profile__collapsed-panel" id="collapsible-panel-example-1" expanded={false}>
+                                            </Panel>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                         <Col className="my-profile__section-col" md={2} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                             <h5 className="my-profile__variable-name"><b>Name</b></h5>
                                         </Col>
