@@ -5,7 +5,7 @@ import './GameAdvert.css';
 import { Storage, Auth } from 'aws-amplify';
 import GameAdSlides from './Components/GameAdSlides';
 import Popup from 'reactjs-popup';
-import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table } from 'react-bootstrap';
+import { Grid, Row, Col, Glyphicon, Button, Form, FormControl, FormGroup, ControlLabel, HelpBlock, Table, Jumbotron } from 'react-bootstrap';
 import CollapsibleData from './Components/CollapsibleData';
 import Footer from './Components/Footer';
 import { AuthClass } from 'aws-amplify';
@@ -418,13 +418,17 @@ class ReviewPage extends Component {
                     <div className='BodyWrap'>
                         <NaviBar />
                         <div className='GameAdDiv'>
+                            <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
+                                <Grid fluid>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                                        <Col md={6} mdOffset={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <h1>{this.state.gamedata.gameName}</h1>
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                            </Jumbotron>
                             <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                                 {status}
-                                <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col md={8} mdOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                        <h1>{this.state.gamedata.gameName}</h1>
-                                    </Col>
-                                </Row>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
                                     <Col>
                                         <Grid>
@@ -472,7 +476,7 @@ class ReviewPage extends Component {
                                     </Col>
                                 </Row>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col className="reviewPanel" md={7} mdOffset={2}>
+                                    <Col className="reviewPanel" md={7} mdOffset={2} style={{ backgroundColor: '#272727'}}>
                                         <Table>
                                             <thead>
                                                 <tr>
@@ -486,7 +490,7 @@ class ReviewPage extends Component {
                                                     <th>Closes with 'Esc'</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody style={{ color: 'black' }}>
                                                 <tr>
                                                     <td>{testOpens}</td>
                                                     <td>{test5min}</td>
@@ -500,12 +504,11 @@ class ReviewPage extends Component {
                                             </tbody>
                                         </Table>
                                         <CollapsibleData testlogs={this.state.testlogs} />
-
                                         <Form>
                                             <FormGroup controlId="reviewComments">
                                                 <ControlLabel>Review Comments</ControlLabel>
                                                 <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
-                                                <HelpBlock>Must have a review comment to sumbit the review</HelpBlock>
+                                                <HelpBlock style={{color:'white'}}>Must have a review comment to sumbit the review</HelpBlock>
                                             </FormGroup>
                                         </Form>
                                         <Row style={{ marginLeft: 0, marginRight: 0 }}>
