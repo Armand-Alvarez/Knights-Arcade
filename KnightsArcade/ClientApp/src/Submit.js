@@ -80,8 +80,8 @@ class Submit extends Component {
             imgValidation: false,
             imgDimensions: false,
             imgDimensionRatio: false,
-            imgDimensionsArr: false,
-            imgRatioArr: false,
+            imgDimensionsArr: true,
+            imgRatioArr: true,
             img1URL: "",
             img1File: "",
             img1FileName: "",
@@ -733,14 +733,11 @@ class Submit extends Component {
 
             e.preventDefault();
             this.checkState();
-            alert('I AM ACCEPTED');
             this.postNewEntry();
         }
         catch (e) {
             this.setState({ errorAlertMessage: e });
-
             console.log(e);
-
             this.setState({ loadingModal: false });
             this.setState({ errorAlert: true });
         }
