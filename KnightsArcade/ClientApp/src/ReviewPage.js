@@ -449,39 +449,33 @@ class ReviewPage extends Component {
                             <Grid fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
                                 {status}
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col>
-                                        <Grid>
-                                            <Row>
-                                                <Col md={6} mdOffset={2} sm={6} smOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    {slideshow}
-                                                </Col>
-                                                <Col md={2} mdOffset={1} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                                    <Form>
-                                                        <FormGroup>
-                                                            <ControlLabel>Creator</ControlLabel>
-                                                            <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <ControlLabel>Date Published</ControlLabel>
-                                                            <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <ControlLabel>Genres</ControlLabel>
-                                                            <FormControl.Static>{genreList}</FormControl.Static>
-                                                        </FormGroup>
-                                                        <FormGroup>
-                                                            <ControlLabel>Available On Arcade Machines</ControlLabel>
-                                                            {glyph}
-                                                        </FormGroup>
-                                                        <a href={this.state.file} download>
-                                                            <Button bsStyle='info'>Download Game</Button>
-                                                        </a>
-                                                        {downloadable}
-                                                    </Form>
-                                                </Col>
-                                            </Row>
-                                        </Grid>
 
+                                    <Col md={6} mdOffset={2} sm={6} smOffset={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        {slideshow}
+                                    </Col>
+                                    <Col md={2} mdOffset={1} sm={2} smOffset={1} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                        <Form>
+                                            <FormGroup>
+                                                <ControlLabel>Creator</ControlLabel>
+                                                <a href={creatorLink}><FormControl.Static>{this.state.gamedata.gameCreatorName}</FormControl.Static></a>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <ControlLabel>Date Published</ControlLabel>
+                                                <FormControl.Static>{date.toLocaleDateString("en-US", options)}</FormControl.Static>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <ControlLabel>Genres</ControlLabel>
+                                                <FormControl.Static>{genreList}</FormControl.Static>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <ControlLabel>Available On Arcade Machines</ControlLabel>
+                                                {glyph}
+                                            </FormGroup>
+                                            <a href={this.state.file} download>
+                                                <Button bsStyle='info'>Download Game</Button>
+                                            </a>
+                                            {downloadable}
+                                        </Form>
                                     </Col>
                                 </Row>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
@@ -495,7 +489,7 @@ class ReviewPage extends Component {
                                     </Col>
                                 </Row>
                                 <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                                    <Col className="reviewPanel" md={7} mdOffset={2} style={{ backgroundColor: '#272727'}}>
+                                    <Col className="reviewPanel" md={7} mdOffset={2} style={{ backgroundColor: '#272727' }}>
                                         <Table>
                                             <thead>
                                                 <tr>
@@ -527,7 +521,7 @@ class ReviewPage extends Component {
                                             <FormGroup controlId="reviewComments">
                                                 <ControlLabel>Review Comments</ControlLabel>
                                                 <FormControl componentClass="textarea" placeholder="Review Comments" onChange={this.handleReviewCommentsChange} />
-                                                <HelpBlock style={{color:'white'}}>Must have a review comment to sumbit the review</HelpBlock>
+                                                <HelpBlock style={{ color: 'white' }}>Must have a review comment to sumbit the review</HelpBlock>
                                             </FormGroup>
                                         </Form>
                                         <Row style={{ marginLeft: 0, marginRight: 0 }}>
