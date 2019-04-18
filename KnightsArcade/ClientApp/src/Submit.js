@@ -453,7 +453,7 @@ class Submit extends Component {
             return;
         }
 
-        
+
 
         else {
             items.forEach(function (file) {
@@ -744,10 +744,33 @@ class Submit extends Component {
     }
 
     render() {
-        return (
-            <div className="BodyWrap">
+        if (!Auth.user) {
+            return (
                 <div className="Submit">
-                    <NaviBar />
+                    <div className="BodyWrap">
+                        <NaviBar box={"submit"} />
+                        <div>
+                            <Grid fluid>
+                                <Row className="NoUser" style={{ marginLeft: 0, marginRight: 0 }}>
+                                    <Col sm={8} smOffset={4}>
+                                        <h2>
+                                            You must be logged in to use this page
+                                    </h2>
+                                    </Col>
+                                </Row>
+                            </Grid>
+                        </div>
+                    </div>
+                    <Footer />
+                </div>
+
+
+            )
+        }
+        return (
+            <div className="Submit">
+                <div className="BodyWrap">
+                    <NaviBar box={"submit"} />
                     <Jumbotron style={{ marginBottom: 10, backgroundColor: '#272727' }}>
                         <Grid fluid>
                             <Row>
@@ -772,13 +795,13 @@ class Submit extends Component {
                                     <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateDesc()}>
                                         <ControlLabel className='text'>Description</ControlLabel>
                                         <FormControl componentClass="textarea" placeholder="Description" onChange={this.handleDescriptionChange} />
-                                        <HelpBlock style={{color:'lightGray'}}>Must be at least 100 characters.</HelpBlock>
+                                        <HelpBlock style={{ color: 'lightGray' }}>Must be at least 100 characters.</HelpBlock>
                                     </FormGroup>
 
                                     <FormGroup controlId="formControlsTextarea" validationState={this.getValidationStateControls()}>
                                         <ControlLabel className='text'>Controls</ControlLabel>
                                         <FormControl componentClass="textarea" placeholder="Controls" onChange={this.handleControlsChange} />
-                                        <HelpBlock style={{color:'lightGray'}}>Must be at least 30 characters.</HelpBlock>
+                                        <HelpBlock style={{ color: 'lightGray' }}>Must be at least 30 characters.</HelpBlock>
                                     </FormGroup>
 
                                     <FormGroup>
@@ -829,7 +852,7 @@ class Submit extends Component {
                                             maxFiles={4}
                                             onupdatefiles={this.handleUpdateFiles}
                                         />
-                                        <HelpBlock style={{color:'lightGray'}}>All images must be either .jpg, .jpeg, or .png</HelpBlock>
+                                        <HelpBlock style={{ color: 'lightGray' }}>All images must be either .jpg, .jpeg, or .png</HelpBlock>
                                     </FormGroup>
 
                                     <Row>
@@ -863,7 +886,7 @@ class Submit extends Component {
                                             </Col>
                                         </FormGroup>
                                     </Row>
-                                    <HelpBlock style={{color:'lightGray'}}>Must choose at least one.</HelpBlock>
+                                    <HelpBlock style={{ color: 'lightGray' }}>Must choose at least one.</HelpBlock>
                                     <Row>
                                         <Col md={12}>
                                             <FormGroup>

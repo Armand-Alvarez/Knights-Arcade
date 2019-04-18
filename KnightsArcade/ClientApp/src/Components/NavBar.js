@@ -19,6 +19,7 @@ export default class NaviBar extends Component {
             gamesStyleName: "",
             aboutStylename: "",
             locationStyleName: "",
+            submitStyleName: "",
             adminStyleName: "",
             box: props.box
         };
@@ -43,6 +44,9 @@ export default class NaviBar extends Component {
                 break;
             case "admin":
                 this.setState({ adminStyleName: "underline" });
+                break;
+            case "submit":
+                this.setState({ submitStyleName: "underline" });
                 break;
             default:
                 console.log(this.state.isAdmin);
@@ -122,14 +126,16 @@ export default class NaviBar extends Component {
                             <NavItem eventKey={3} href="Locations" className={this.state.locationStyleName}>
                                 Arcade Machine Locations
 							</NavItem>
-                            <NavItem eventKey={4} href="Admin" className={this.state.adminStyleName}>
+                            <NavItem eventKey={4} href="Submit" className={this.state.submitStyleName}>
+                                Submit A Game
+                            </NavItem>
+                            <NavItem eventKey={5} href="Admin" className={this.state.adminStyleName}>
                                 Admin
 							</NavItem>
                         </Nav>
                         <Nav pullRight>
                             {this.state.loggedIn ?
                                 <NavDropdown eventKey={3} title={this.state.username} id="basic-nav-dropdown">
-                                    <MenuItem eventKey={3.2} href="Submit">Submit A Game</MenuItem>
                                     <MenuItem eventKey={3.3} href="MyProfile">My Account</MenuItem>
                                     <MenuItem divider />
                                     <MenuItem eventKey={3.3} href="/" onClick={this.handleLogOut}>Log Out</MenuItem>

@@ -688,7 +688,6 @@ class Resubmit extends Component {
             gameId: this.state.gameId,
             gameName: this.state.titleValue,
             gameCreatorName: this.state.username,
-            gameCreatorId: "",
             gameCreatorEmail: this.state.email,
             gameDescription: this.state.descriptionValue,
             gameControls: this.state.controlsValue,
@@ -705,8 +704,12 @@ class Resubmit extends Component {
             gameGenreAction: this.state.Action,
             gameGenreRhythm: this.state.Rhythm,
             gameGenrePlatformer: this.state.Platformer,
+            gameOnArcade: false,
             gamePath: this.state.titleValue + "/" + this.state.gameFileName,
+            gameStatus: "t",
             gameImg: imgNames,
+            gameSubmissionDateUtc: null,
+            gameReviewDateUtc: null,
             gameAvailableToDownload: this.state.gameAvailableToDownload,
             gameReviewCommends: null
         }
