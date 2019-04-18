@@ -113,3 +113,8 @@
     padding: 26.5em;
     overflow: hidden;
 }
+
+.adminPopupText{
+    color: blue;
+    font-size: medium;
+}

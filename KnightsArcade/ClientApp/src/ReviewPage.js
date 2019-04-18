@@ -276,7 +276,7 @@ class ReviewPage extends Component {
 
         if (this.state.gamedata.gameStatus === "a") {
             status =
-                <Row>
+                <Row style={{marginLeft: 0, marginRight: 0}}>
                     <Col mdOffset={2}>
                         <h1 className="GameStatusText">This game has already been accepted</h1>
                     </Col>
@@ -284,7 +284,7 @@ class ReviewPage extends Component {
         }
         if (this.state.gamedata.gameStatus === "d") {
             status =
-                <Row>
+                <Row style={{ marginLeft: 0, marginRight: 0 }}>
                     <Col mdOffset={2}>
                         <h1 className="GameStatusText">This game has already been denied</h1>
                     </Col>
@@ -292,7 +292,7 @@ class ReviewPage extends Component {
         }
         if (this.state.gamedata.gameStatus === "r") {
             status =
-                <Row>
+                <Row style={{ marginLeft: 0, marginRight: 0 }}>
                     <Col mdOffset={2}>
                         <h1 className="GameStatusText">This game is currently awaiting resubmission</h1>
                     </Col>
@@ -544,8 +544,8 @@ class ReviewPage extends Component {
                                 lockScroll={true}
                             >
                                 <a href="/admin"><div className="ReviewModal">
-                                    <span>{this.state.reviewMessage}</span><br></br>
-                                    <span>Click here to return to the administration page if you are not automatically redirected</span><br></br>
+                                    <p className="adminPopupText">{this.state.reviewMessage}</p><br></br>
+                                    <p className="adminPopupText">Click here to return to the administration page if you are not automatically redirected</p><br></br>
                                 </div></a>
                             </Popup>
                             <Popup
@@ -555,8 +555,8 @@ class ReviewPage extends Component {
                                 lockScroll={true}
                             >
                                 <div className="ErrorModal">
-                                    <span>{this.state.errorAlertMessage}</span><br></br>
-                                    <span>Please reload the page and try again</span>
+                                    <p className="adminPopupText">{this.state.errorAlertMessage}</p><br></br>
+                                    <p className="adminPopupText">Please reload the page and try again</p>
                                 </div>
                             </Popup>
 
