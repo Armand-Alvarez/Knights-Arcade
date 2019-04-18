@@ -226,12 +226,12 @@ class ReviewPage extends Component {
             console.log(res);
             if (res.status < 205) {
                 parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, gameName);
-                if (reviewType = "a") {
+                if (reviewType == "a") {
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been accepted successfully" })
                     setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
-                if (reviewType = "d") {
+                if (reviewType == "d") {
                     axios.delete('/api/v1/Restricted/rds/games/game?gameId=' + gameId, {
                         headers: {
                             'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
@@ -247,22 +247,22 @@ class ReviewPage extends Component {
                     parent.setState({ reviewMessage: "The game has been denied successfully" })
                     setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
-                if (reviewType = "r") {
+                if (reviewType == "r") {
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
                     setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
             }
             else if (res.status > 399) {
-                if (reviewType = "a") {
+                if (reviewType == "a") {
                     parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
                     parent.setState({ errorAlert: true });
                 }
-                if (reviewType = "d") {
+                if (reviewType == "d") {
                     parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
                     parent.setState({ errorAlert: true });
                 }
-                if (reviewType = "r") {
+                if (reviewType == "r") {
                     parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
                     parent.setState({ errorAlert: true });
                 }
