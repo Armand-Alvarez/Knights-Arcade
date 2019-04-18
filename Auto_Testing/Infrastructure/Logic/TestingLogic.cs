@@ -43,15 +43,18 @@ namespace Auto_Testing.Infrastructure.Logic
 
 		public void RunAllEntryTests()
 		{
-			try
-			{
-				TestsQueue testsQueue = _webData.GetFirstTestQueue(_client);
+            TestsQueue testsQueue = _webData.GetFirstTestQueue(_client);
 
+            try
+            {
 				while (testsQueue != null)
 				{
 					lock (_sync)
 					{
-						Tests testProcess = new Tests();
+						Tests testProcess = new Tests()
+                        {
+                            GameId = testsQueue.GameId
+                        };
 						testProcess.GameId = testsQueue.GameId;
 						RunSingleEntryTest(testsQueue, testProcess);
 					}
@@ -66,7 +69,15 @@ namespace Auto_Testing.Infrastructure.Logic
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(e.Message, e);
+                _logger.LogError(e.Message, e);
+                _webData.DeleteTestQueue((int)testsQueue.GameId, _client);
+                _webData.PostTestingLog(new TestingLog()
+                {
+                    GameId = testsQueue.GameId,
+                    TestlogAttempt = -1,
+                    TestlogDatetimeUtc = DateTime.Now,
+                    TestlogLog = "There was an error with the tests and the program has crashed due to: " + e.Message + " It will attempt to shutdown."
+                }, _client);
 				SendEmail();
 				DeleteFolder();
 				_webData.StopAutomatedTestingEC2(_client);
@@ -103,10 +114,20 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-
 				while (testsQueue.RetryCount < 3)
 				{
-					TestingLog testLog = new TestingLog();
+                    testProcess.Test5min = false;
+                    testProcess.TestAttempts = testsQueue.RetryCount;
+                    testProcess.TestCloseOn3 = false;
+                    testProcess.TestCloseOnEscape = false;
+                    testProcess.TestCloses = false;
+                    testProcess.TestOpens = false;
+                    testProcess.TestNumExeFiles = 0;
+                    testProcess.TestAverageRam = null;
+                    testProcess.TestFolderFileNames = null;
+                    testProcess.TestPeakRam = null;
+
+                    TestingLog testLog = new TestingLog();
 
 					_webData.PutTestsQueue(testsQueue, _client);
 
@@ -118,12 +139,9 @@ namespace Auto_Testing.Infrastructure.Logic
 					//Retry to pull game if it failed the first time
 					if (myGame == null)
 					{
-						testProcess.TestOpens = false;
-						testProcess.Test5min = false;
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
-
+                        testLog.TestlogLog = "No valid game found with this ID.";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+                        _webData.PostTestingLog(testLog, _client);
 						continue;
 					}
 
@@ -150,10 +168,6 @@ namespace Auto_Testing.Infrastructure.Logic
 					//Retry tests if process does not start
 					if (!(bool)testProcess.TestOpens)
 					{
-						testProcess.Test5min = false;
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Failed Start Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
@@ -167,9 +181,6 @@ namespace Auto_Testing.Infrastructure.Logic
 					//Retry tests if process does not stay open for 5 min
 					if ((bool)!testProcess.Test5min)
 					{
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Failed Sleep Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
@@ -183,9 +194,6 @@ namespace Auto_Testing.Infrastructure.Logic
 					//Retry tests if the program is unable to record the game's RAM usage
 					if (testProcess.TestAverageRam == null)
 					{
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Average RAM Test Failed";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
@@ -199,9 +207,6 @@ namespace Auto_Testing.Infrastructure.Logic
 					//Retry tests if the program is unable to record the game's RAM usage
 					if (testProcess.TestPeakRam == null)
 					{
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game Peak RAM Test Failed";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
@@ -213,21 +218,23 @@ namespace Auto_Testing.Infrastructure.Logic
 					int i = CloseOn3(exeFiles[0]);
 
 					if (i == 0)
-						testProcess.TestCloseOn3 = true;
+                    {
+                        testProcess.TestCloseOn3 = true;
+                        testLog.TestlogLog = "Game shut down on 3 press.";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-					else if (i == 1)
-						testProcess.TestCloseOn3 = false;
+                        _webData.PostTestingLog(testLog, _client);
+                    }
+                    else if (i == 1)
+                    {
+                        testLog.TestlogLog = "Game did not shut down on 3 press.";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-					//Retry tests if the program is unable to restart after passing "3" test
-					else if (i == 2)
+                        _webData.PostTestingLog(testLog, _client);
+                    }
+                    //Retry tests if the program is unable to restart after passing "3" test
+                    else if (i == 2)
 					{
-						testProcess.TestOpens = false;
-						testProcess.Test5min = false;
-						testProcess.TestAverageRam = null;
-						testProcess.TestPeakRam = null;
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game passed 'close on 3' test but failed to restart";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
@@ -235,33 +242,32 @@ namespace Auto_Testing.Infrastructure.Logic
 						continue;
 					}
 
-					//Log if game did not shut down after "3" press
-					if ((bool)!testProcess.TestCloseOn3)
-					{
-						testLog.TestlogLog = "Game failed 'close on 3' test";
-						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
-					}
-
 					//Test whether game will close on "Escape" key press
 					i = EscapeFile(exeFiles[0]);
 
 					//Log if game did not shut down after "Escape" press
 					if (i == 0)
-						testProcess.TestCloseOnEscape = true;
+                    {
+                        testProcess.TestCloseOnEscape = true;
 
-					else if (i == 1)
-						testProcess.TestCloseOnEscape = false;
+                        testLog.TestlogLog = "Game shut down after Escape press";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
-					//Retry tests if the program is unable to restart after passing "3" test
-					else if (i == 2)
+                        _webData.PostTestingLog(testLog, _client);
+                    }
+                    else if (i == 1)
+                    {
+                        testProcess.TestCloseOnEscape = false;
+
+                        testLog.TestlogLog = "Game did not down after Escape press";
+                        testLog.TestlogDatetimeUtc = DateTime.UtcNow;
+
+                        _webData.PostTestingLog(testLog, _client);
+                    }
+
+                    //Retry tests if the program is unable to restart after passing "3" test
+                    else if (i == 2)
 					{
-						testProcess.TestOpens = false;
-						testProcess.Test5min = false;
-						testProcess.TestAverageRam = null;
-						testProcess.TestPeakRam = null;
-						testProcess.TestCloseOn3 = false;
-						testProcess.TestCloseOnEscape = false;
-						testProcess.TestCloses = false;
 						testLog.TestlogLog = "Game passed 'close on Escape' test but failed to restart";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
 
@@ -274,10 +280,12 @@ namespace Auto_Testing.Infrastructure.Logic
 					{
 						testLog.TestlogLog = "Game failed 'close on Escape' test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
-					}
 
-					//stop .exe, check to see if it stopped
-					testProcess.TestCloses = StopFile(exeFiles[0]);
+                        _webData.PostTestingLog(testLog, _client);
+                    }
+
+                    //stop .exe, check to see if it stopped
+                    testProcess.TestCloses = StopFile(exeFiles[0]);
 
 					if ((bool)!testProcess.TestCloses)
 					{
@@ -296,15 +304,22 @@ namespace Auto_Testing.Infrastructure.Logic
 						myGame.GameStatus = "p";
 
 						if ((testsQueue.RetryCount - 1) == 0)
-							testLog.TestlogLog = "Game Passed all essential tests on first try";
+                        {
+                            testLog.TestlogLog = "Game Passed all essential tests on first try";
 
-						else if ((testsQueue.RetryCount - 1) == 1)
-							testLog.TestlogLog = "Game Passed all essential tests after 1 retry";
+                        }
+                        else if ((testsQueue.RetryCount - 1) == 1)
+                        {
+                            testLog.TestlogLog = "Game Passed all essential tests after 1 retry";
 
-						else if ((testsQueue.RetryCount - 1) == 2)
-							testLog.TestlogLog = "Game Passed all essential tests after 2 retries";
+                        }
+                        else if ((testsQueue.RetryCount - 1) == 2)
+                        {
+                            testLog.TestlogLog = "Game Passed all essential tests after 2 retries";
 
-						_webData.PostTestingLog(testLog, _client);
+                        }
+
+                        _webData.PostTestingLog(testLog, _client);
 						_webData.PutGames(myGame, _client);
 
 						break;
@@ -318,7 +333,16 @@ namespace Auto_Testing.Infrastructure.Logic
 
 			catch (Exception e)
 			{
-				_logger.LogError(e.Message, e);
+                _webData.PostTestingLog(new TestingLog()
+                {
+                    GameId = testsQueue.GameId,
+                    TestlogAttempt = (int)testsQueue.RetryCount,
+                    TestlogDatetimeUtc = DateTime.UtcNow,
+                    TestlogLog = "There was an error with the testing process, and it has crashed during this test"
+                }, _client);
+                _webData.DeleteTestQueue(testsQueue.GameId, _client);
+                _webData.PutTests(testProcess, _client);
+                _logger.LogError(e.Message, e);
 			}
 		}
 
