@@ -253,7 +253,7 @@ class ReviewPage extends Component {
                     setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
             }
-            else if (res.status < 400) {
+            else if (res.status > 399) {
                 if (reviewType = "a") {
                     parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
                     parent.setState({ errorAlert: true });
