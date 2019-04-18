@@ -194,7 +194,7 @@ export class Admin extends Component {
                         </Jumbotron>
                         <Grid bsClass="container">
                             <Tabs defaultActiveKey={activeTab} id="Admin-tabs">
-                                <Tab eventKey="ReviewSubmissions" title="Review Submissions">
+                                <Tab tabClassName="adminTab" eventKey="ReviewSubmissions" title="Review Submissions">
                                     <div className="admin_review_container">
                                         <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border:'0' }}>
                                             <ListGroupItem style={{ backgroundColor: '#121212', border:'0' }}> {
@@ -206,7 +206,7 @@ export class Admin extends Component {
                                         </ListGroup>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="ManageGames" title="Manage Games">
+                                <Tab tabClassName="adminTab" eventKey="ManageGames" title="Manage Games">
                                     <div className="admin_games_container">
                                         <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border: '0' }}>
                                             <ListGroupItem style={{ backgroundColor: '#121212', border: '0' }}> {
@@ -217,7 +217,7 @@ export class Admin extends Component {
                                         </ListGroup>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="ManageUsers" title="Manage Users">
+                                <Tab tabClassName="adminTab" eventKey="ManageUsers" title="Manage Users">
                                     <div className="admin_users_container">
                                         <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border: '0' }}>
                                             <ListGroupItem style={{ backgroundColor: '#121212', border: '0' }}> {
@@ -228,7 +228,7 @@ export class Admin extends Component {
                                         </ListGroup>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="TestingQueue" title="Testing Queue">
+                                <Tab tabClassName="adminTab" eventKey="TestingQueue" title="Testing Queue">
                                     <div className="admin_testqueue_container">
                                         <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border: '0' }}>
                                             <ListGroupItem style={{ backgroundColor: '#121212', border: '0' }}> {
@@ -240,7 +240,7 @@ export class Admin extends Component {
                                         </ListGroup>
                                     </div>
                                 </Tab>
-                                <Tab eventKey="ArcadeLocations" title="Arcade Machine Locations">
+                                <Tab tabClassName="adminTab" eventKey="ArcadeLocations" title="Arcade Machine Locations">
                                     <div className="admin_arcade_container">
                                         <Button className="addArcadeButton" bsStyle="success" onClick={this.handleNewMachine}>Add Arcade Machine Location</Button>
                                         <ListGroup style={{ marginBottom: 10, backgroundColor: '#121212', border:'0' }}>
