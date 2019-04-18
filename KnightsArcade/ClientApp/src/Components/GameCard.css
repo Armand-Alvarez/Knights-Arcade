@@ -5,10 +5,10 @@
 .game-card__card {
     border-style: solid;
     border-color: lightgray;
-    border-width: 0.5px;
+    border-width: 1px;
     display: flex;
     flex-direction: row;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     background-color: #242424;
 }
 

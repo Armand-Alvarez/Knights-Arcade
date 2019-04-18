@@ -3,6 +3,13 @@
 
 }
 
+.adminTab{
+    color: white;
+    border-color: white;
+    border: 1px;
+    background-color: #424242;
+}
+
 .ToPendingButton {
     float: right;
     width: 15em;

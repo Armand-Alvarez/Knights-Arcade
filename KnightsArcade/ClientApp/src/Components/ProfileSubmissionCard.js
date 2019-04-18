@@ -76,7 +76,7 @@ export default class GameCard extends Component {
         }
         const gameData = this.props.gameData;
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const date = new Date(gameData.gameDateUtc);
+        const date = new Date(gameData.gameSubmissionDateUtc);
 
         if (this.props.gameData.gameStatus === 'r' || this.props.gameData.gameStatus === 'a') { 
             return (

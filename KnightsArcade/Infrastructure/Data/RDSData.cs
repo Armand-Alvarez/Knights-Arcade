@@ -92,6 +92,9 @@ namespace KnightsArcade.Infrastructure.Data
             if (game.GameAvailableToDownload != null) { updatedGame.GameAvailableToDownload = game.GameAvailableToDownload; }
             if (game.GameOnArcade != null) { updatedGame.GameOnArcade = game.GameOnArcade; }
             if (game.GameReviewDateUtc != null) { updatedGame.GameReviewDateUtc = game.GameReviewDateUtc; }
+            if (game.GameCreatorEmail != null) { updatedGame.GameCreatorEmail = game.GameCreatorEmail; }
+            if (game.GameReviewComments != null) { updatedGame.GameReviewComments = game.GameReviewComments; }
+            if (game.GameSubmissionDateUtc != null) { updatedGame.GameSubmissionDateUtc = game.GameSubmissionDateUtc; }
 
             knightsContext.Entry<Games>(updatedGame).State = EntityState.Modified;
             knightsContext.SaveChanges();
