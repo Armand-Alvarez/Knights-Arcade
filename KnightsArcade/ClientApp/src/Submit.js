@@ -80,6 +80,8 @@ class Submit extends Component {
             imgValidation: false,
             imgDimensions: false,
             imgDimensionRatio: false,
+            imgDimensionsArr: false,
+            imgRatioArr: false,
             img1URL: "",
             img1File: "",
             img1FileName: "",
@@ -436,6 +438,7 @@ class Submit extends Component {
     }
 
     handleUpdateFiles(items) {
+        const myParent = this;
         this.setState({
             imgFiles: items.map(item => item.file)
         });
@@ -449,7 +452,51 @@ class Submit extends Component {
             this.setState({ imagesValidation: true });
             return;
         }
+
+        
+
         else {
+            items.forEach(function (file) {
+                try {
+                    var img = new Image();
+
+                    img.src = window.URL.createObjectURL(file);
+
+                    img.onload = function () {
+                        var width = img.naturalWidth,
+                            height = img.naturalHeight;
+
+                        window.URL.revokeObjectURL(img.src);
+
+                        if (width / height === 16 / 9) {
+                            myParent.setState({ imgRatioArr: true });
+                            myParent.setState({ imgDimensionsArr: true });
+                            if (width < 1280) {
+                                myParent.setState({ imgDimensionsArr: false });
+                                return;
+                            }
+                            if (height < 720) {
+                                myParent.setState({ imgDimensionsArr: false });
+                                return;
+                            }
+                            if (width > 2560) {
+                                myParent.setState({ imgDimensionsArr: false });
+                                return;
+                            }
+                            if (height > 1440) {
+                                myParent.setState({ imgDimensionsArr: false });
+                                return;
+                            }
+                        }
+                        else {
+                            return false;
+                        }
+                    };
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            });
             for (var indexI = 0; indexI < imgNames.length; indexI++) {
                 result = 'error';
 
@@ -575,6 +622,20 @@ class Submit extends Component {
             console.log("Invalid image dimensions");
             throw ("Invalid image dimensions");
         }
+        if (!this.state.imgDimensionsArr) {
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Image must be at least 720p, but no larger than 1440p" });
+            this.setState({ errorAlert: true });
+            console.log("Invalid image dimensions");
+            throw ("Invalid image dimensions");
+        }
+        if (!this.state.imgRatioArr) {
+            this.setState({ loadingModal: false });
+            this.setState({ errorAlertMessage: "Image dimensions must be a 16:9 ratio." });
+            this.setState({ errorAlert: true });
+            console.log("Invalid image ratio");
+            throw ("Invalid image ratio");
+        }
         if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
             !this.state.Rhythm && !this.state.Sports && !this.state.Shooter && !this.state.Puzzle &&
             !this.state.Survival && !this.state.Fighting && !this.state.Platformer && !this.state.Strategy) {
@@ -672,6 +733,7 @@ class Submit extends Component {
 
             e.preventDefault();
             this.checkState();
+            alert('I AM ACCEPTED');
             this.postNewEntry();
         }
         catch (e) {
@@ -743,8 +805,8 @@ class Submit extends Component {
                                             </FormGroup>
                                         </Col>
                                         <Col md={6}>
-                                            <FormGroup validationState={this.getValidationStateImg()}>
-                                                <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG) Must be 16:9, min 720p, max 1440p</ControlLabel>
+                                            <FormGroup>
+                                                <ControlLabel className='text'>Default Display Image (JPG, JPEG, PNG) Must be 16:9, min 720p, max 1440p, 1080p for best results</ControlLabel>
                                                 <FormControl
                                                     type="file"
                                                     onChange={this.handleImg0Change}
@@ -757,12 +819,12 @@ class Submit extends Component {
                                             <FormGroup>
                                                 <FormControl.Static>
                                                     Please ensure that the only exe in the zip is your game executable.
-                                                    Images must be 16:9. Minimum Size: 720p, Maximum Size: 1440p.
+                                                    Images must be 16:9. Minimum Size: 720p, Maximum Size: 1440p. 1080p for best results.
                                             </FormControl.Static>
                                             </FormGroup>
                                         </Col>
                                     </Row>
-                                    <FormGroup validationState={this.getValidationStateImages()}>
+                                    <FormGroup>
                                         <ControlLabel className='text'>Additional images for Slideshow (Max 4, Optional)</ControlLabel>
                                         <FilePond
                                             className="file-pond"

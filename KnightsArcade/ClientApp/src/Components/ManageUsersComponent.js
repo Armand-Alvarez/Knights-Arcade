@@ -49,18 +49,6 @@ export class ManageUsersComponent extends Component {
                         <Image width={240} height={135} src={this.state.imgUrl} />
                         <p>Major: {this.props.userData.userMajor}</p>
                         <p></p>
-
-                        <ButtonToolbar>
-                            {/* Button allows Admin to delete a user */}
-                            <Button
-                                onClick={this.handleDelete}
-                                bsStyle="danger">
-                                Delete
-              </Button>
-
-                            <div className='button__container'>
-                            </div>
-                        </ButtonToolbar>
                     </Panel.Body>
                 </Panel>
             </div>
