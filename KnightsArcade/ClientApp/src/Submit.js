@@ -509,7 +509,7 @@ class Submit extends Component {
             to: this.state.email,
             from: "noreply@knightsarcade.com",
             subject: "Your game has been submitted!",
-            body: "You game has been submitted! Now that you're game has been submitted, it will be sent to automated testing. Once automated testing is finished, it will be available for review by an administrator. You will recieve an email when your game has been reviewed. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
+            body: "Your game has been submitted! Now that you're game has been submitted, it will be sent to automated testing. Once automated testing is finished, it will be available for review by an administrator. You will recieve an email when your game has been reviewed. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
         }
 
         axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {

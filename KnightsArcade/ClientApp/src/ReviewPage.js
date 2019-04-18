@@ -178,6 +178,10 @@ class ReviewPage extends Component {
             });
     }
 
+    getFileFolderOnS3(filePath) {
+        
+    }
+
     submitReview(reviewType) {
         const parent = this;
         const submissionData = {
@@ -210,6 +214,9 @@ class ReviewPage extends Component {
             gameReviewComments: this.state.reviewCommentsValue
         }
         const creatorName = this.state.gamedata.gameCreatorName;
+        const gameId = this.state.gamedata.gameId;
+        const gamePath = this.state.gamedata.gamePath;
+        const gameImg = this.state.gamedata.gameImg;
         axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
@@ -224,6 +231,17 @@ class ReviewPage extends Component {
                     setTimeout(function () { window.location.replace("/admin"); }, 1500);
                 }
                 if (reviewType = "d") {
+                    axios.delete('/api/v1/Restricted/rds/games/game?gameId=' + gameId, {
+                        headers: {
+                            'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+                        }
+                    }).catch(err => console.log(err));
+                    Storage.remove(gamePath).catch(err => console.log(err));
+                    gameImg.foreach(function (img) {
+                        Storage.remove(img).catch(err => console.log(err));
+                    });
+                    Storage.remove(gamePath).catch(err => console.log(err));
+
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been denied successfully" })
                     setTimeout(function () { window.location.replace("/admin"); }, 1500);
