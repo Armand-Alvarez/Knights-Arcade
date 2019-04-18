@@ -295,13 +295,13 @@ namespace Auto_Testing.Infrastructure.Logic
 						myGame.GameReviewDateUtc = DateTime.UtcNow;
 						myGame.GameStatus = "p";
 
-						if (testsQueue.RetryCount == 0)
+						if ((testsQueue.RetryCount - 1) == 0)
 							testLog.TestlogLog = "Game Passed all essential tests on first try";
 
-						else if (testsQueue.RetryCount == 1)
+						else if ((testsQueue.RetryCount - 1) == 1)
 							testLog.TestlogLog = "Game Passed all essential tests after 1 retry";
 
-						else if (testsQueue.RetryCount == 2)
+						else if ((testsQueue.RetryCount - 1) == 2)
 							testLog.TestlogLog = "Game Passed all essential tests after 2 retries";
 
 						_webData.PostTestingLog(testLog, _client);
