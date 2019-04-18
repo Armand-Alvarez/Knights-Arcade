@@ -211,7 +211,7 @@ class ReviewPage extends Component {
             gameReviewComments: this.state.reviewCommentsValue
         }
 
-        axios.put('/api/v1/Restricted/rds/submissions/submission', submissionData, {
+        axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }

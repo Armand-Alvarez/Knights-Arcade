@@ -97,49 +97,26 @@ namespace KnightsArcade.Infrastructure.Logic
 
         public void PutNewEntry(GamesEntry updateEntry)
         {
-            Games updateGame = new Games()
-            {
-                GameId = updateEntry.GameId,
-                GameControls = updateEntry.GameControls,
-                GameCreatorName = updateEntry.GameCreatorName,
-                GameDescription = updateEntry.GameDescription,
-                GameGenreAction = updateEntry.GameGenreAction,
-                GameGenreAdventure = updateEntry.GameGenreAdventure,
-                GameGenreFighting = updateEntry.GameGenreFighting,
-                GameGenrePuzzle = updateEntry.GameGenrePuzzle,
-                GameGenreRacing = updateEntry.GameGenreRacing,
-                GameGenreRhythm = updateEntry.GameGenreRhythm,
-                GameGenreRpg = updateEntry.GameGenreRpg,
-                GameGenreShooter = updateEntry.GameGenreShooter,
-                GameGenreSports = updateEntry.GameGenreSports,
-                GameGenreStrategy = updateEntry.GameGenreStrategy,
-                GameGenreSurvival = updateEntry.GameGenreSurvival,
-                GameGenrePlatformer = updateEntry.GameGenrePlatformer,
-                GameName = updateEntry.GameName,
-                GamePath = updateEntry.GamePath,
-                GameVideoLink = updateEntry.GameVideoLink,
-                GameOnArcade = false,
-                GameStatus = "t",
-                GameSubmissionDateUtc = DateTime.UtcNow,
-                GameAvailableToDownload = updateEntry.GameAvailableToDownload
-            };
-            char[] s = new char[5];
-            updateGame = InsertArrayToColumn(updateGame, updateEntry);
+            Games postedGame = _rdsData.GetGames(updateEntry.GameName);
+
+            GamesEntry oldEntry = GamesToGamesEntry(postedGame);
+            GamesEntry newEntry = UpdateEntry(oldEntry, updateEntry);
+
+            Games newGamesUpdate = GamesEntryToGames(newEntry);
+
+            _rdsData.PutGames(newGamesUpdate);
 
             try
             {
-                _rdsData.PutGames(updateGame);
-                Games postedGame = _rdsData.GetGames(updateGame.GameName);
-
                 TestsQueue newTestQueue = new TestsQueue()
                 {
-                    GameId = updateEntry.GameId,
+                    GameId = newGamesUpdate.GameId,
                     RetryCount = 0
                 };
 
                 try
                 {
-                    _rdsData.DeleteTestsQueue((int)updateEntry.GameId);
+                    _rdsData.DeleteTestsQueue((int)newGamesUpdate.GameId);
                 }
                 catch(Exception e)
                 {
@@ -149,7 +126,7 @@ namespace KnightsArcade.Infrastructure.Logic
 
                 Tests newTest = new Tests()
                 {
-                    GameId = postedGame.GameId,
+                    GameId = newGamesUpdate.GameId,
                     Test5min = false,
                     TestCloses = false,
                     TestOpens = false,
@@ -164,7 +141,7 @@ namespace KnightsArcade.Infrastructure.Logic
 
                 try
                 {
-                    _rdsData.DeleteTests((int)postedGame.GameId);
+                    _rdsData.DeleteTests((int)newGamesUpdate.GameId);
                 }
                 catch(Exception e)
                 {
@@ -178,7 +155,6 @@ namespace KnightsArcade.Infrastructure.Logic
             catch (Exception e)
             {
                 _logger.LogError(e.Message, e);
-                CleanUpOnCrash((int)updateEntry.GameId);
                 throw new Exception(e.Message);
             }
         }
@@ -555,6 +531,116 @@ namespace KnightsArcade.Infrastructure.Logic
             }
 
             return stringArr;
+        }
+
+        public GamesEntry UpdateEntry(GamesEntry old, GamesEntry newInfo)
+        {
+            if(newInfo.GameAvailableToDownload != null)
+            {
+                old.GameAvailableToDownload = newInfo.GameAvailableToDownload;
+            }
+            if(newInfo.GameControls != null)
+            {
+                old.GameControls = newInfo.GameControls;
+            }
+            if(newInfo.GameCreatorEmail != null)
+            {
+                old.GameCreatorEmail = newInfo.GameCreatorEmail;
+            }
+            if(newInfo.GameCreatorName != null)
+            {
+                old.GameCreatorName = newInfo.GameCreatorName;
+            }
+            if(newInfo.GameDescription != null)
+            {
+                old.GameDescription = newInfo.GameDescription;
+            }
+            if(newInfo.GameGenreAction != null)
+            {
+                old.GameGenreAction = newInfo.GameGenreAction;
+            }
+            if(newInfo.GameGenreAdventure != null)
+            {
+                old.GameGenreAdventure = newInfo.GameGenreAdventure;
+            }
+            if(newInfo.GameGenreFighting != null)
+            {
+                old.GameGenreFighting = newInfo.GameGenreFighting;
+            }
+            if(newInfo.GameGenrePlatformer != null)
+            {
+                old.GameGenrePlatformer = newInfo.GameGenrePlatformer;
+            }
+            if(newInfo.GameGenrePuzzle != null)
+            {
+                old.GameGenrePuzzle = newInfo.GameGenrePuzzle;
+            }
+            if(newInfo.GameGenreRacing != null)
+            {
+                old.GameGenreRacing = newInfo.GameGenreRacing;
+            }
+            if(newInfo.GameGenreRhythm != null)
+            {
+                old.GameGenreRhythm = newInfo.GameGenreRhythm;
+            }
+            if(newInfo.GameGenreRpg != null)
+            {
+                old.GameGenreRpg = newInfo.GameGenreRpg;
+            }
+            if(newInfo.GameGenreShooter != null)
+            {
+                old.GameGenreShooter = newInfo.GameGenreShooter;
+            }
+            if(newInfo.GameGenreSports != null)
+            {
+                old.GameGenreSports = newInfo.GameGenreSports;
+            }
+            if(newInfo.GameGenreStrategy != null)
+            {
+                old.GameGenreStrategy = newInfo.GameGenreStrategy;
+            }
+            if(newInfo.GameGenreSurvival != null)
+            {
+                old.GameGenreSurvival = newInfo.GameGenreSurvival;
+            }
+            if(newInfo.GameImg != null)
+            {
+                old.GameImg = newInfo.GameImg;
+            }
+            if(newInfo.GameName != null)
+            {
+                old.GameName = newInfo.GameName;
+            }
+            if(newInfo.GameOnArcade != null)
+            {
+                old.GameOnArcade = newInfo.GameOnArcade;
+            }
+            if(newInfo.GamePath != null)
+            {
+                old.GamePath = newInfo.GamePath;
+            }
+            if(newInfo.GameReviewComments != null)
+            {
+                old.GameReviewComments = newInfo.GameReviewComments;
+            }
+            if(newInfo.GameReviewDateUtc != null)
+            {
+                old.GameReviewDateUtc = newInfo.GameReviewDateUtc;
+            }
+            if(newInfo.GameStatus != null)
+            {
+                old.GameStatus = newInfo.GameStatus;
+            }
+            if(newInfo.GameSubmissionDateUtc != null)
+            {
+                old.GameSubmissionDateUtc = newInfo.GameSubmissionDateUtc;
+            }
+            if(newInfo.GameVideoLink != null)
+            {
+                old.GameVideoLink = newInfo.GameVideoLink;
+            }
+
+            return old;
         }
 
         //Cleanup database in case on table crashed and doesn't complete all.
