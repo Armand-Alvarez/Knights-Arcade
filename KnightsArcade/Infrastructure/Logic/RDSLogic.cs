@@ -97,7 +97,7 @@ namespace KnightsArcade.Infrastructure.Logic
 
         public void PutNewEntry(GamesEntry updateEntry)
         {
-            Games postedGame = _rdsData.GetGames(updateEntry.GameName);
+            Games postedGame = _rdsData.GetGames((int)updateEntry.GameId);
 
             GamesEntry oldEntry = GamesToGamesEntry(postedGame);
             GamesEntry newEntry = UpdateEntry(oldEntry, updateEntry);

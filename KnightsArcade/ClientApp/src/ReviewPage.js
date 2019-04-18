@@ -179,7 +179,6 @@ class ReviewPage extends Component {
     }
 
     submitReview(reviewType) {
-
         const parent = this;
         const submissionData = {
             gameId: this.state.gamedata.gameId,
@@ -210,7 +209,7 @@ class ReviewPage extends Component {
             gameReviewDateUtc: new Date().toUTCString(),
             gameReviewComments: this.state.reviewCommentsValue
         }
-
+        const creatorName = this.state.gamedata.gameCreatorName;
         axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
@@ -218,7 +217,7 @@ class ReviewPage extends Component {
         }).then(function (res, error) {
             console.log(res);
             if (res.status < 205) {
-                parent.sendEmail(parent.state.gameData.gameCreatorName, reviewType, parent.state.reviewCommentsValue, parent.state.gameName);
+                parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, parent.state.gameName);
                 if (reviewType = "a") {
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been accepted successfully" })
@@ -252,8 +251,6 @@ class ReviewPage extends Component {
         }
         ).catch(error => {
             console.log(error.message);
-
-            ;
         });
 
     }
