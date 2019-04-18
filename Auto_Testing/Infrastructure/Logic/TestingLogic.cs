@@ -44,6 +44,10 @@ namespace Auto_Testing.Infrastructure.Logic
 		public void RunAllEntryTests()
 		{
             TestsQueue testsQueue = _webData.GetFirstTestQueue(_client);
+            Tests testProcess = new Tests()
+            {
+                GameId = testsQueue.GameId
+            };
 
             try
             {
@@ -51,10 +55,6 @@ namespace Auto_Testing.Infrastructure.Logic
 				{
 					lock (_sync)
 					{
-						Tests testProcess = new Tests()
-                        {
-                            GameId = testsQueue.GameId
-                        };
 						testProcess.GameId = testsQueue.GameId;
 						RunSingleEntryTest(testsQueue, testProcess);
 					}
@@ -71,6 +71,12 @@ namespace Auto_Testing.Infrastructure.Logic
 			{
                 _logger.LogError(e.Message, e);
                 _webData.DeleteTestQueue((int)testsQueue.GameId, _client);
+                _webData.PutGames(new GamesEntry()
+                {
+                    GameId = testsQueue.GameId,
+                    GameStatus = "p"
+                }, _client);
+                _webData.PutTests(testProcess, _client);
                 _webData.PostTestingLog(new TestingLog()
                 {
                     GameId = testsQueue.GameId,
@@ -338,7 +344,12 @@ namespace Auto_Testing.Infrastructure.Logic
                     GameId = testsQueue.GameId,
                     TestlogAttempt = (int)testsQueue.RetryCount,
                     TestlogDatetimeUtc = DateTime.UtcNow,
-                    TestlogLog = "There was an error with the testing process, and it has crashed during this test"
+                    TestlogLog = "There was an error with the testing process, and it has crashed during this test. The error: " + e.Message
+                }, _client);
+                _webData.PutGames(new GamesEntry()
+                {
+                    GameId = testsQueue.GameId,
+                    GameStatus = "p"
                 }, _client);
                 _webData.DeleteTestQueue(testsQueue.GameId, _client);
                 _webData.PutTests(testProcess, _client);
@@ -415,7 +426,7 @@ namespace Auto_Testing.Infrastructure.Logic
 		{
 			try
 			{
-				Thread.Sleep(300000);
+				Thread.Sleep(600000);
 
 				return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(exeFile)).Length > 0;
 			}
