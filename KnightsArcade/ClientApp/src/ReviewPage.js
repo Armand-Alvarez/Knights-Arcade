@@ -156,18 +156,18 @@ class ReviewPage extends Component {
         axios.get('/api/v1/Public/rds/users/user?username=' + username)
             .then(res => {
                 var user = res.data;
-                var review = ""
+                var review = "";
                 if (status == "a")
-                    review = "has been accepted"
-                else if (status == "a")
-                    review = "has been denied"
-                if (status == "a")
-                    review = "needs to be resubmitted"
+                    review = "has been accepted."
+                else if (status == "d")
+                    review = "has been denied."
+                if (status == "r")
+                    review = "needs to be resubmitted."
                 const email = {
                     to: user.userEmail,
                     from: "noreply@knightsarcade.com",
                     subject: "Your game has been reviewed!",
-                    body: "Your game " + gameName + " has been reviewed. The administrator's feedback: " + comments + ". If not denied, you can also checkout information about your game on your profile page. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
+                    body: "Your game " + gameName + " has been reviewed. It " + review + " The administrator's feedback: " + comments + ". If not denied, you can also checkout information about your game on your profile page. This email does not recieve replies if you wish to contact an administrator please send an email to knightsarcade@gmail.com."
                 }
 
                 axios.post('/api/v1/Restricted/smtp/gmail/sendemail', email, {
@@ -217,6 +217,7 @@ class ReviewPage extends Component {
         const gameId = this.state.gamedata.gameId;
         const gamePath = this.state.gamedata.gamePath;
         const gameImg = this.state.gamedata.gameImg;
+        const gameName = this.state.gamedata.gameName;
         axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
             headers: {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
@@ -224,7 +225,7 @@ class ReviewPage extends Component {
         }).then(function (res, error) {
             console.log(res);
             if (res.status < 205) {
-                parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, parent.state.gameName);
+                parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, gameName);
                 if (reviewType = "a") {
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been accepted successfully" })
@@ -237,7 +238,7 @@ class ReviewPage extends Component {
                         }
                     }).catch(err => console.log(err));
                     Storage.remove(gamePath).catch(err => console.log(err));
-                    gameImg.foreach(function (img) {
+                    gameImg.forEach(function (img) {
                         Storage.remove(img).catch(err => console.log(err));
                     });
                     Storage.remove(gamePath).catch(err => console.log(err));
