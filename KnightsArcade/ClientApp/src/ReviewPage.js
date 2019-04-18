@@ -218,59 +218,60 @@ class ReviewPage extends Component {
         const gamePath = this.state.gamedata.gamePath;
         const gameImg = this.state.gamedata.gameImg;
         const gameName = this.state.gamedata.gameName;
-        axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
-            headers: {
-                'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
-            }
-        }).then(function (res, error) {
-            console.log(res);
-            if (res.status < 205) {
-                parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, gameName);
-                if (reviewType = "a") {
-                    parent.setState({ reviewModal: true });
-                    parent.setState({ reviewMessage: "The game has been accepted successfully" })
-                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                }
-                if (reviewType = "d") {
-                    axios.delete('/api/v1/Restricted/rds/games/game?gameId=' + gameId, {
-                        headers: {
-                            'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
-                        }
-                    }).catch(err => console.log(err));
-                    Storage.remove(gamePath).catch(err => console.log(err));
-                    gameImg.forEach(function (img) {
-                        Storage.remove(img).catch(err => console.log(err));
-                    });
-                    Storage.remove(gamePath).catch(err => console.log(err));
+        console.log(submissionData);
+        //axios.put('/api/v1/Restricted/rds/resubmit', submissionData, {
+        //    headers: {
+        //        'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+        //    }
+        //}).then(function (res, error) {
+        //    console.log(res);
+        //    if (res.status < 205) {
+        //        parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, gameName);
+        //        if (reviewType === "a") {
+        //            parent.setState({ reviewModal: true });
+        //            parent.setState({ reviewMessage: "The game has been accepted successfully" })
+        //            setTimeout(function () { window.location.replace("/admin"); }, 1500);
+        //        }
+        //        if (reviewType === "d") {
+        //            axios.delete('/api/v1/Restricted/rds/games/game?gameId=' + gameId, {
+        //                headers: {
+        //                    'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
+        //                }
+        //            }).catch(err => console.log(err));
+        //            Storage.remove(gamePath).catch(err => console.log(err));
+        //            gameImg.forEach(function (img) {
+        //                Storage.remove(img).catch(err => console.log(err));
+        //            });
+        //            Storage.remove(gamePath).catch(err => console.log(err));
 
-                    parent.setState({ reviewModal: true });
-                    parent.setState({ reviewMessage: "The game has been denied successfully" })
-                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                }
-                if (reviewType = "r") {
-                    parent.setState({ reviewModal: true });
-                    parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
-                    setTimeout(function () { window.location.replace("/admin"); }, 1500);
-                }
-            }
-            else if (res.status < 400) {
-                if (reviewType = "a") {
-                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                    parent.setState({ errorAlert: true });
-                }
-                if (reviewType = "d") {
-                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                    parent.setState({ errorAlert: true });
-                }
-                if (reviewType = "r") {
-                    parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
-                    parent.setState({ errorAlert: true });
-                }
-            }
-        }
-        ).catch(error => {
-            console.log(error.message);
-        });
+        //            parent.setState({ reviewModal: true });
+        //            parent.setState({ reviewMessage: "The game has been denied successfully" })
+        //            setTimeout(function () { window.location.replace("/admin"); }, 1500);
+        //        }
+        //        if (reviewType === "r") {
+        //            parent.setState({ reviewModal: true });
+        //            parent.setState({ reviewMessage: "The game has been flagged for resubmission successfully" })
+        //            setTimeout(function () { window.location.replace("/admin"); }, 1500);
+        //        }
+        //    }
+        //    else if (res.status > 399) {
+        //        if (reviewType === "a") {
+        //            parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+        //            parent.setState({ errorAlert: true });
+        //        }
+        //        if (reviewType === "d") {
+        //            parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+        //            parent.setState({ errorAlert: true });
+        //        }
+        //        if (reviewType === "r") {
+        //            parent.setState({ errorAlertMessage: "There was an error submitting the review. Please reload and try again." });
+        //            parent.setState({ errorAlert: true });
+        //        }
+        //    }
+        //}
+        //).catch(error => {
+        //    console.log(error.message);
+        //});
 
     }
 
