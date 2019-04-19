@@ -23,7 +23,7 @@ export default class GameCard extends Component {
                     imgUrl: result
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => { });
 
         if (this.props.gameData.gameStatus === 'a') {
             this.setState({

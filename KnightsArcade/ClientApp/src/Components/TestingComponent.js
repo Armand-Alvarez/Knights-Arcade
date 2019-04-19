@@ -28,7 +28,7 @@ export class TestingComponent extends Component {
                     imgUrl: result
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => { });
 
     }
 
@@ -88,7 +88,7 @@ export class TestingComponent extends Component {
                     imgUrl: result
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => { });
     }
 
     render(props) { 

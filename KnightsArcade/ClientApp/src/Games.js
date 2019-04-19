@@ -135,7 +135,6 @@ class Games extends Component {
             Strategy: false,
             Survival: false,
         });
-        console.log(eventKey);
         switch (eventKey) {
             case 0:
                 this.setState({
@@ -229,7 +228,6 @@ class Games extends Component {
                 });
                 break;
         }
-        console.log("asasas");
         if (this.state.gamesList.length < 3) {
             this.setState({ scrolls: false });
         }
@@ -239,7 +237,6 @@ class Games extends Component {
     }
 
     handleSortBySelect(eventKey) {
-        console.log(eventKey.target.value);
         switch (eventKey.target.value) {
             case "Game Title":
                 this.setState({

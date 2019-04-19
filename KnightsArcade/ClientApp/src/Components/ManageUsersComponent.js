@@ -26,7 +26,7 @@ export class ManageUsersComponent extends Component {
                     imgUrl: result
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => { });
     }
 
     // todo: add delete to swagger

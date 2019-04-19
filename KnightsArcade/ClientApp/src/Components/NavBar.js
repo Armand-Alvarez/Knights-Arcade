@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Image } from 'react-bootstrap';
 import axios from 'axios';
 import './NavBar.css';
 import { Auth, AuthClass } from 'aws-amplify';
+import { request } from 'http';
 
 export default class NaviBar extends Component {
     constructor(props) {
         super(props);
-        console.log(props.box);
         this.handleLogOut = this.handleLogOut.bind(this);
 
         this.state = {
@@ -49,7 +49,6 @@ export default class NaviBar extends Component {
                 this.setState({ submitStyleName: "underline" });
                 break;
             default:
-                console.log(this.state.isAdmin);
                 break;
         }
         Auth.currentAuthenticatedUser({
@@ -63,7 +62,6 @@ export default class NaviBar extends Component {
             .then(() => {
                 axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)
                     .then(async (response) => {
-                        console.log(response);
                         if (response.status === 204) {
                             const user = {
                                 username: this.state.username,
@@ -81,11 +79,9 @@ export default class NaviBar extends Component {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                     });
             })
             .catch(err => {
-                console.log(err);
                 this.setState({ loggedIn: false });
             });
     }
@@ -101,8 +97,10 @@ export default class NaviBar extends Component {
 
     handleLogOut() {
         Auth.signOut()
-            .then(data => console.log(data))
-            .catch(err => console.log(err));
+            .then(data => {
+            })
+            .catch(err => {
+            });
     }
 
     render(props) {
@@ -111,7 +109,7 @@ export default class NaviBar extends Component {
                 <Navbar className="nav-bar" inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand className={this.state.headerStyleName}>
-                            <a href="/">Knights Arcade</a>
+                            <Image style={{cursor:'pointer', padding:5}} src={require('../Images/mediumsmalllogo.png')} />
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>

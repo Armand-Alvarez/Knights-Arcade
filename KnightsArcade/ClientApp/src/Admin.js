@@ -81,7 +81,6 @@ export class Admin extends Component {
             .then(res => {
                 const arcademachines = res.data;
                 this.setState({ arcadeMachines: arcademachines })
-                console.log(arcademachines);
             })
     }
 

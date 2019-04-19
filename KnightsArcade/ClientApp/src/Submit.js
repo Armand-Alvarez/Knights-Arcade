@@ -115,7 +115,6 @@ class Submit extends Component {
             this.setState({ email: user.attributes.email });
         })
             .catch(err => {
-                console.log(err);
             });
 
     }
@@ -256,12 +255,10 @@ class Submit extends Component {
 
         const length = this.state.controlsValue.length;
         if (length >= 30) {
-            console.log("Control validation: true");
             this.setState({ controlValidation: true });
             return;
         }
         this.setState({ controlValidation: false });
-        console.log("Control validation: false");
     }
 
     handleCloseErrorAlert(e) {
@@ -326,7 +323,6 @@ class Submit extends Component {
 
     handleGameFileChange(e) {
         try {
-            console.log(e.target.files[0]);
             const file = e.target.files[0]
             this.setState({
                 gameURL: URL.createObjectURL(file),
@@ -358,7 +354,6 @@ class Submit extends Component {
                 gameFileName: null
             });
             this.setState({ gameFileValidation: false });
-            console.log(e);
             return;
         }
     }
@@ -380,7 +375,6 @@ class Submit extends Component {
             });
         }
         catch (e) {
-            console.log(e);
         }
         try {
             var img = new Image();
@@ -415,7 +409,6 @@ class Submit extends Component {
             };
         }
         catch (e) {
-            console.log(e);
         }
         var validExtensions = [".png", ".jpg", ".jpeg"];
         var imgName = e.target.files[0].name;
@@ -445,7 +438,6 @@ class Submit extends Component {
 
         var validExtensions = [".png", ".jpg", ".jpeg"];
         var imgNames = items.map(item => item.file);
-        console.log(imgNames[0]);
 
         var result = 'error';
         if (!imgNames[0]) {
@@ -494,7 +486,6 @@ class Submit extends Component {
                     };
                 }
                 catch (e) {
-                    console.log(e);
                 }
             });
             for (var indexI = 0; indexI < imgNames.length; indexI++) {
@@ -521,11 +512,9 @@ class Submit extends Component {
     saveGame() {
         Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
             .then(() => {
-                console.log('successfully saved game file!');
                 window.location.href = 'MyProfile';
             })
             .catch(err => {
-                console.log('error uploading game file!', err);
                 throw (err);
             })
         return;
@@ -534,10 +523,8 @@ class Submit extends Component {
     saveImg0() {
         Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File)
             .then(() => {
-                console.log('successfully saved file!');
             })
             .catch(err => {
-                console.log('error uploading image0 file!', err);
                 throw (err);
             })
         return;
@@ -546,8 +533,8 @@ class Submit extends Component {
     saveAdditionalImages() {
         for (var i = 0; i < this.state.imgFiles.length; i++) {
             Storage.put(this.state.titleValue + "/" + this.state.imgFiles[i].name, this.state.imgFiles[i])
-                .then(result => console.log("img saved to S3!")) // {key: "test.txt"}
-                .catch(err => console.log(err));
+                .then(result => { }) // {key: "test.txt"}
+                .catch(err => { });
         }
     }
 
@@ -577,63 +564,54 @@ class Submit extends Component {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input a valid game title for submission." });
             this.setState({ errorAlert: true });
-            console.log("Invalid game title");
             throw ("Invalid game title");
         }
         if (!this.state.descriptionValue || !this.state.descriptionValidation) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input a valid game description for submission." });
             this.setState({ errorAlert: true });
-            console.log("Invalid game description");
             throw ("Invalid game description");
         }
         if (!this.state.controlsValue || !this.state.controlValidation) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input valid game controls for submission." });
             this.setState({ errorAlert: true });
-            console.log("Invalid game controls");
             throw ("Invalid game controls");
         }
         if (!this.state.gameFile || !this.state.gameFileValidation) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input a valid game file for submission." });
             this.setState({ errorAlert: true });
-            console.log("Invalid game file");
             throw ("Invalid game file");
         }
         if (!this.state.img0File || !this.state.imgValidation || !this.state.imagesValidation) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please input valid image(s) for submission." });
             this.setState({ errorAlert: true });
-            console.log("Invalid image");
             throw ("Invalid image");
         }
         if (!this.state.imgDimensionRatio) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Image dimensions must be a 16:9 ratio." });
             this.setState({ errorAlert: true });
-            console.log("Invalid image ratio");
             throw ("Invalid image ratio");
         }
         if (!this.state.imgDimensions) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Image must be at least 720p, but no larger than 1440p" });
             this.setState({ errorAlert: true });
-            console.log("Invalid image dimensions");
             throw ("Invalid image dimensions");
         }
         if (!this.state.imgDimensionsArr) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Image must be at least 720p, but no larger than 1440p" });
             this.setState({ errorAlert: true });
-            console.log("Invalid image dimensions");
             throw ("Invalid image dimensions");
         }
         if (!this.state.imgRatioArr) {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Image dimensions must be a 16:9 ratio." });
             this.setState({ errorAlert: true });
-            console.log("Invalid image ratio");
             throw ("Invalid image ratio");
         }
         if (!this.state.Action && !this.state.Adventure && !this.state.Racing && !this.state.RPG &&
@@ -642,7 +620,6 @@ class Submit extends Component {
             this.setState({ loadingModal: false });
             this.setState({ errorAlertMessage: "Please select at least one genre." });
             this.setState({ errorAlert: true });
-            console.log("No genres selected");
             throw ("No genres selected");
         }
     }
@@ -695,28 +672,23 @@ class Submit extends Component {
         })
             .then(function (res, error) {
                 if (res.status === 201) {
-                    console.log(res);
                     self.postToS3();
                     self.sendEmail();
                 }
                 else if (res.status === 409) {
-                    console.log("409");
                     this.setState({ loadingModal: false });
                     this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
                     this.setState({ errorAlert: true });
                     throw ("That game name already exists. Please use another.");
                 }
                 else {
-                    console.log("Other");
                     this.setState({ loadingModal: false });
                     this.setState({ errorAlertMessage: "There was an error with your submission. Please reload and try again." });
                     this.setState({ errorAlert: true });
                     throw ("There was an error with your submission. Please reload and try again.");
                 }
             }).catch(error => {
-                console.log(error);
                 var errorDupMessage = "Request failed with status code 409";
-                console.log(error.message);
                 if (error.message.substring(0, errorDupMessage.length) === errorDupMessage)
                     this.setState({ errorAlertMessage: "That game name already exists. Please use another." });
                 else
@@ -737,7 +709,6 @@ class Submit extends Component {
         }
         catch (e) {
             this.setState({ errorAlertMessage: e });
-            console.log(e);
             this.setState({ loadingModal: false });
             this.setState({ errorAlert: true });
         }

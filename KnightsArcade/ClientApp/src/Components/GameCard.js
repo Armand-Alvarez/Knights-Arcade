@@ -21,7 +21,7 @@ export default class GameCard extends Component {
 		    		imgUrl: result
 		    	});
 		    })
-		    .catch(err => console.log(err));
+            .catch(err => { });
 
     }
 
@@ -34,7 +34,7 @@ export default class GameCard extends Component {
                     imgUrl: result
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => { });
     }
 
     render(props) {

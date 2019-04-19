@@ -43,7 +43,7 @@ class MyProfile extends Component {
         }).then(() => {
             //Checks to make sure the user is in the database. First database input is done on NavBar.
             axios.get('/api/v1/Public/rds/users/user?username=' + this.state.username)
-                .catch(err => console.log(err))
+                .catch(err => { })
                 .then(async (response) => {
                     if (response.status === 204) {
                         const user = {
@@ -58,7 +58,7 @@ class MyProfile extends Component {
                             headers: {
                                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                             }
-                        }).catch(err => console.log(err))
+                        }).catch(err => { })
                             .then(() => window.location.reload());
                     }
                     else if (response.status === 200) {
@@ -80,7 +80,7 @@ class MyProfile extends Component {
                         this.setState({ games: response.data });
                     });
             })
-            .catch(err => console.log(err))
+            .catch(err => { })
     }
 
     handleEditName() {
@@ -134,18 +134,15 @@ class MyProfile extends Component {
             })
             .then(() => { window.location.reload(); })
             .catch((err) => {
-                console.log(err);
             });
     }
 
     handleSaveImg() {
         Storage.put(this.state.imgURL, this.state.imgFile)
             .then(() => {
-                console.log('successfully saved file!');
                 this.handleSave();
             })
             .catch(err => {
-                console.log('error uploading image0 file!', err);
                 throw (err);
             })
         return;

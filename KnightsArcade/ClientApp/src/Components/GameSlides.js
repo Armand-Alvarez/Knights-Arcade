@@ -66,12 +66,11 @@ export class GameSlides extends Component {
     handleGameThreeDescriptionChange(e) {
         this.setState({ GameThreeDescription: e.target.value });
     }
-    
+
     getApprovedGames() {
         const random = 3;
         axios.get('/api/v1/Public/rds/games/randomgamesapproved?random=' + random)
             .then((response) => {
-                console.log(response.data);
                 return response.data;
             })
             .then(async (data) => {
@@ -88,65 +87,62 @@ export class GameSlides extends Component {
                     this.setState({ GameThreeDescription: data[2].gameDescription })
                     this.setState({ GameThreeImage: await Storage.get(data[2].gameImg[0]) })
                     this.setState({ GameThreeId: data[2].gameId })
-                    console.log(Storage.get(data[0].gameImg[0]));
                 }
             })
             .catch(function (error) {
-                console.log(error);
             });
     }
 
     updateVariables
 
     getThreeRandom(data) {
-        console.log(data);
     }
 
-    
+
     render() {
         const GameOneLink = "/game?gameId=" + this.state.GameOneId;
         const GameTwoLink = "/game?gameId=" + this.state.GameTwoId;
         const GameThreeLink = "/game?gameId=" + this.state.GameThreeId;
-    return (
-      <div>
-        <Grid>
-        <Row>
-        <Col md={8} mdOffset={2}>
-        <Carousel className="slides">
-        <Carousel.Item>
-            <a href = {GameOneLink}>
-            <img width={900} height={500} src={this.state.GameOneImage} />
-            <Carousel.Caption>
-            <h3 className="Slideshowtext">{this.state.GameOneTitle}</h3>
-            <p className="Slideshowtext">{this.state.GameOneDescription}</p>
-            </Carousel.Caption>
-            </a>
-        </Carousel.Item>
-        <Carousel.Item>
-            <a href= {GameTwoLink}>
-            <img width={900} height={500} src={this.state.GameTwoImage} />
-            <Carousel.Caption>
-            <h3 className="Slideshowtext">{this.state.GameTwoTitle}</h3>
-            <p className="Slideshowtext">{this.state.GameTwoDescription}</p>
-            </Carousel.Caption>
-            </a>
-        </Carousel.Item>
-        <Carousel.Item>
-            <a href = {GameThreeLink}>
-            <img width={900} height={500} src={this.state.GameThreeImage} />
-            <Carousel.Caption>
-            <h3 className="Slideshowtext">{this.state.GameThreeTitle}</h3>
-            <p className="Slideshowtext">{this.state.GameThreeDescription}</p>
-            </Carousel.Caption>
-            </a>
-        </Carousel.Item>
-        </Carousel>
-        </Col>
-        </Row>
-        </Grid>
-      </div>
-    )
-  }
+        return (
+            <div>
+                <Grid>
+                    <Row>
+                        <Col md={8} mdOffset={2}>
+                            <Carousel className="slides">
+                                <Carousel.Item>
+                                    <a href={GameOneLink}>
+                                        <img width={900} height={500} src={this.state.GameOneImage} />
+                                        <Carousel.Caption>
+                                            <h3 className="Slideshowtext">{this.state.GameOneTitle}</h3>
+                                            <p className="Slideshowtext">{this.state.GameOneDescription}</p>
+                                        </Carousel.Caption>
+                                    </a>
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <a href={GameTwoLink}>
+                                        <img width={900} height={500} src={this.state.GameTwoImage} />
+                                        <Carousel.Caption>
+                                            <h3 className="Slideshowtext">{this.state.GameTwoTitle}</h3>
+                                            <p className="Slideshowtext">{this.state.GameTwoDescription}</p>
+                                        </Carousel.Caption>
+                                    </a>
+                                </Carousel.Item>
+                                <Carousel.Item>
+                                    <a href={GameThreeLink}>
+                                        <img width={900} height={500} src={this.state.GameThreeImage} />
+                                        <Carousel.Caption>
+                                            <h3 className="Slideshowtext">{this.state.GameThreeTitle}</h3>
+                                            <p className="Slideshowtext">{this.state.GameThreeDescription}</p>
+                                        </Carousel.Caption>
+                                    </a>
+                                </Carousel.Item>
+                            </Carousel>
+                        </Col>
+                    </Row>
+                </Grid>
+            </div>
+        )
+    }
 }
 
 export default GameSlides

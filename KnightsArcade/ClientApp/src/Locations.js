@@ -51,7 +51,6 @@ export class Locations extends Component {
                     machine.places = places;
                 });
                 this.setState({ machineLabels: machineLabels });
-                console.log(machineLabels)
             })
     }
 

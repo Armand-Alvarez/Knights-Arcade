@@ -223,7 +223,6 @@ class ReviewPage extends Component {
                 'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
             }
         }).then(function (res, error) {
-            console.log(res);
             if (res.status < 205) {
                 parent.sendEmail(creatorName, reviewType, parent.state.reviewCommentsValue, gameName);
                 if (reviewType == "a") {
@@ -236,12 +235,12 @@ class ReviewPage extends Component {
                         headers: {
                             'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                         }
-                    }).catch(err => console.log(err));
-                    Storage.remove(gamePath).catch(err => console.log(err));
+                    }).catch(err => { });
+                    Storage.remove(gamePath).catch(err => { });
                     gameImg.forEach(function (img) {
-                        Storage.remove(img).catch(err => console.log(err));
+                        Storage.remove(img).catch(err => { });
                     });
-                    Storage.remove(gamePath).catch(err => console.log(err));
+                    Storage.remove(gamePath).catch(err => { });
 
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been denied successfully" })
@@ -269,7 +268,6 @@ class ReviewPage extends Component {
             }
         }
         ).catch(error => {
-            console.log(error.message);
         });
 
     }
