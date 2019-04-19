@@ -153,9 +153,9 @@ namespace KnightsArcade.Infrastructure.Data
 
             Tests updatedTest = GetTests((int)test.GameId);
 
-            if (test.Test5min != null)
+            if (test.Test10min != null)
             {
-                updatedTest.Test5min = test.Test5min;
+                updatedTest.Test10min = test.Test10min;
             }
             if (test.TestAttempts != null)
             {

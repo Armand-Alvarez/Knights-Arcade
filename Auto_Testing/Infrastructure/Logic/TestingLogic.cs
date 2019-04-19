@@ -122,7 +122,7 @@ namespace Auto_Testing.Infrastructure.Logic
 			{
 				while (testsQueue.RetryCount < 3)
 				{
-                    testProcess.Test5min = false;
+                    testProcess.Test10min = false;
                     testProcess.TestAttempts = testsQueue.RetryCount;
                     testProcess.TestCloseOn3 = false;
                     testProcess.TestCloseOnEscape = false;
@@ -182,10 +182,10 @@ namespace Auto_Testing.Infrastructure.Logic
 					}
 
 					//Check to see if game still running after 5 min
-					testProcess.Test5min = SleepFile(exeFiles[0]);
+					testProcess.Test10min = SleepFile(exeFiles[0]);
 
 					//Retry tests if process does not stay open for 5 min
-					if ((bool)!testProcess.Test5min)
+					if ((bool)!testProcess.Test10min)
 					{
 						testLog.TestlogLog = "Game Failed Sleep Test";
 						testLog.TestlogDatetimeUtc = DateTime.UtcNow;
@@ -304,7 +304,7 @@ namespace Auto_Testing.Infrastructure.Logic
 
 
 					//If all tests passed, update game object and stop rechecking
-					if ((bool)testProcess.TestOpens && (bool)testProcess.Test5min && (bool)testProcess.TestCloses)
+					if ((bool)testProcess.TestOpens && (bool)testProcess.Test10min && (bool)testProcess.TestCloses)
 					{
 						myGame.GameReviewDateUtc = DateTime.UtcNow;
 						myGame.GameStatus = "p";

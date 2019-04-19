@@ -71,7 +71,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 Tests newTest = new Tests()
                 {
                     GameId = postedGame.GameId,
-                    Test5min = false,
+                    Test10min = false,
                     TestCloses = false,
                     TestOpens = false,
                     TestAttempts = 0,
@@ -127,7 +127,7 @@ namespace KnightsArcade.Infrastructure.Logic
                 Tests newTest = new Tests()
                 {
                     GameId = newGamesUpdate.GameId,
-                    Test5min = false,
+                    Test10min = false,
                     TestCloses = false,
                     TestOpens = false,
                     TestAttempts = 0,

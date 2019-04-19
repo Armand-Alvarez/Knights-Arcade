@@ -191,8 +191,8 @@ namespace Auto_Testing.Models
 					.HasColumnName("game_id")
 					.HasColumnType("int(11)");
 
-				entity.Property(e => e.Test5min)
-					.HasColumnName("test_5min")
+				entity.Property(e => e.Test10min)
+					.HasColumnName("test_10min")
 					.HasColumnType("bit(1)");
 
 				entity.Property(e => e.TestAttempts)
