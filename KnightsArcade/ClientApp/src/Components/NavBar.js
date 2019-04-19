@@ -109,7 +109,7 @@ export default class NaviBar extends Component {
                 <Navbar className="nav-bar" inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand className={this.state.headerStyleName}>
-                            <Image style={{cursor:'pointer', padding:5}} src={require('../Images/mediumsmalllogo.png')} />
+                            <a href="/" style={{padding:'5px'}}><Image style={{ cursor: 'pointer', height: '38px' }} src={require('../Images/mediumsmalllogo.png')} /></a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
@@ -153,7 +153,7 @@ export default class NaviBar extends Component {
                 <Navbar className="nav-bar" inverse collapseOnSelect>
                     <Navbar.Header className={this.state.headerStyleName}>
                         <Navbar.Brand >
-                            <a href="/">Knights Arcade</a>
+                            <a href="/" style={{ padding: '5px' }}><Image style={{ cursor: 'pointer', height: '38px' }} src={require('../Images/mediumsmalllogo.png')} /></a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
@@ -171,7 +171,6 @@ export default class NaviBar extends Component {
                         </Nav>
                         <Nav pullRight>
                             {this.state.loggedIn ?
-
                                 <NavDropdown eventKey={3} title={this.state.username} id="basic-nav-dropdown">
                                     <MenuItem eventKey={3.2} href="Submit">Submit A Game</MenuItem>
                                     <MenuItem eventKey={3.3} href="MyProfile">My Account</MenuItem>

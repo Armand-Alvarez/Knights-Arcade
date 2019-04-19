@@ -24,8 +24,6 @@
 .slides::before {
     border-radius: 0px;
     content: '';
-    width: 770px;
-    height: 437px;
     top: -10px;
     left: -10px;
     right: -10px;
