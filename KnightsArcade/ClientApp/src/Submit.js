@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row, HelpBlock, Jumbotron } from 'react-bootstrap';
+import { Thumbnail, FormGroup, FormControl, ControlLabel, Form, Button, Col, Checkbox, Grid, Row, HelpBlock, Jumbotron } from 'react-bootstrap';
 import NaviBar from './Components/NavBar';
 import './Submit.css';
 import axios from 'axios';
@@ -864,6 +864,10 @@ class Submit extends Component {
                                                 <ControlLabel>Check the box below if you want your game available for download on the website</ControlLabel>
                                                 <Checkbox className='text' onChange={this.handleAvailable}>Web Download</Checkbox>
                                             </FormGroup>
+                                        </Col>
+                                        <Col md={12}>
+                                            <p>Make sure your controls match the following for your game to be playable on the UCF Arcade Machines.</p>
+                                            <Thumbnail src={require('./Images/controls.jpg')}></Thumbnail>
                                         </Col>
                                         <FormGroup>
                                             <Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>

@@ -74,6 +74,12 @@ class About extends Component {
                                     <p className='text'>
                                         Sponsor: Peter Smith
                                 </p>
+                                    <p className='text'>
+                                        Link to SVAD Arcade Facebook Page:
+                                </p>
+                                    <p className="text">
+                                    https://www.facebook.com/svadarcade/
+                                </p>
                                 </Col>
                                 <Col md={6} mdPull={6}>
                                     <Thumbnail src={require('./Images/workers2.png')}></Thumbnail>
