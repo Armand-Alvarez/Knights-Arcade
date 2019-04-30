@@ -24,6 +24,7 @@ export default class NaviBar extends Component {
             box: props.box
         };
 
+        console.log(Auth);
 
         document.title = "Knights Arcade";
     }
@@ -168,11 +169,13 @@ export default class NaviBar extends Component {
                             <NavItem eventKey={3} href="Locations" className={this.state.locationStyleName}>
                                 Arcade Machine Locations
 								</NavItem>
+                            <NavItem eventKey={4} href="Submit" className={this.state.submitStyleName}>
+                                Submit A Game
+                            </NavItem>
                         </Nav>
                         <Nav pullRight>
                             {this.state.loggedIn ?
                                 <NavDropdown eventKey={3} title={this.state.username} id="basic-nav-dropdown">
-                                    <MenuItem eventKey={3.2} href="Submit">Submit A Game</MenuItem>
                                     <MenuItem eventKey={3.3} href="MyProfile">My Account</MenuItem>
                                     <MenuItem divider />
                                     <MenuItem eventKey={3.3} href="/" onClick={this.handleLogOut}>Log Out</MenuItem>
