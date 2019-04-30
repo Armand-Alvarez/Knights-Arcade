@@ -48,12 +48,12 @@ class GameAdvert extends Component {
                     }
                 })
                 .then(async (gamedata) => {
-                    this.setState({ gameImage0: await Storage.get(this.state.gamedata.gameImg[0]) })
-                    this.setState({ gameImage1: await Storage.get(this.state.gamedata.gameImg[1]) })
-                    this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2]) })
-                    this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3]) })
-                    this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4]) })
-                    this.setState({ file: await Storage.get(this.state.gamedata.gamePath) })
+                    this.setState({ gameImage0: await Storage.get(this.state.gamedata.gameImg[0], { level: 'public' }) })
+                    this.setState({ gameImage1: await Storage.get(this.state.gamedata.gameImg[1], { level: 'public' }) })
+                    this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2], { level: 'public' }) })
+                    this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3], { level: 'public' }) })
+                    this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4], { level: 'public' }) })
+                    this.setState({ file: await Storage.get(this.state.gamedata.gamePath, { level: 'public' }) })
                 })
         }
         catch{

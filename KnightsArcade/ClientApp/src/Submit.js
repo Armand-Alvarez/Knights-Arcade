@@ -510,7 +510,7 @@ class Submit extends Component {
     }
 
     saveGame() {
-        Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
+        Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile, { level: 'public' })
             .then(() => {
                 window.location.href = 'MyProfile';
             })
@@ -521,7 +521,7 @@ class Submit extends Component {
     }
 
     saveImg0() {
-        Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File)
+        Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File, { level: 'public' })
             .then(() => {
             })
             .catch(err => {
@@ -532,7 +532,7 @@ class Submit extends Component {
 
     saveAdditionalImages() {
         for (var i = 0; i < this.state.imgFiles.length; i++) {
-            Storage.put(this.state.titleValue + "/" + this.state.imgFiles[i].name, this.state.imgFiles[i])
+            Storage.put(this.state.titleValue + "/" + this.state.imgFiles[i].name, this.state.imgFiles[i], { level: 'public' })
                 .then(result => { }) // {key: "test.txt"}
                 .catch(err => { });
         }

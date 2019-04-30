@@ -1,12 +1,12 @@
 {
 	"auth": {
-		"cognitod5ccb08d": {
+		"cognito1e8c73cc": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}
 	},
 	"storage": {
-		"amplifys3storage": {
+		"knightsarcade": {
 			"service": "S3",
 			"providerPlugin": "awscloudformation"
 		}

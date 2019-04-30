@@ -17,7 +17,7 @@ export default class GameCard extends Component {
     componentDidMount() {
 
         const imgPath = this.props.gameData.gameImg[0];
-        Storage.get(imgPath)
+        Storage.get(imgPath, { level: 'public' })
             .then(result => {
                 this.setState({
                     imgUrl: result

@@ -174,12 +174,12 @@ class Resubmit extends Component {
                     }
                 })
                 .then(async (gamedata) => {
-                    this.setState({ gameImage0: await Storage.get(this.state.gameImg0) })
-                    this.setState({ gameImage1: await Storage.get(this.state.gameImg1) })
-                    this.setState({ gameImage2: await Storage.get(this.state.gameImg2) })
-                    this.setState({ gameImage3: await Storage.get(this.state.gameImg3) })
-                    this.setState({ gameImage4: await Storage.get(this.state.gameImg4) })
-                    this.setState({ gameFile: await Storage.get(this.state.gamePath) })
+                    this.setState({ gameImage0: await Storage.get(this.state.gameImg0, { level: 'public' }) })
+                    this.setState({ gameImage1: await Storage.get(this.state.gameImg1, { level: 'public' }) })
+                    this.setState({ gameImage2: await Storage.get(this.state.gameImg2, { level: 'public' }) })
+                    this.setState({ gameImage3: await Storage.get(this.state.gameImg3, { level: 'public' }) })
+                    this.setState({ gameImage4: await Storage.get(this.state.gameImg4, { level: 'public' }) })
+                    this.setState({ gameFile: await Storage.get(this.state.gamePath, { level: 'public' }) })
                 })
 
 
@@ -535,7 +535,7 @@ class Resubmit extends Component {
     }
 
     saveGame() {
-        Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile)
+        Storage.put(this.state.titleValue + "/" + this.state.gameFileName, this.state.gameFile, { level: 'public' })
             .then(() => {
                 setTimeout(function () { window.location.href = 'MyProfile' }, 2500);
             })
@@ -561,7 +561,7 @@ class Resubmit extends Component {
     }
 
     saveImg0() {
-        Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File)
+        Storage.put(this.state.titleValue + "/" + this.state.img0FileName, this.state.img0File, { level: 'public' })
             .then(() => {
             })
             .catch(err => {
@@ -572,7 +572,7 @@ class Resubmit extends Component {
 
     saveAdditionalImages() {
         for (var i = 0; i < this.state.imgFiles.length; i++) {
-            Storage.put(this.state.titleValue + "/" + this.state.imgFiles[i].name, this.state.imgFiles[i])
+            Storage.put(this.state.titleValue + "/" + this.state.imgFiles[i].name, this.state.imgFiles[i], { level: 'public' })
                 .then(result => { }) // {key: "test.txt"}
                 .catch(err => { });
         }

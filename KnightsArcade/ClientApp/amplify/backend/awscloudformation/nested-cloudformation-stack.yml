@@ -78,11 +78,48 @@
 				}
 			}
 		},
-		"authcognitod5ccb08d": {
+		"authcognito1e8c73cc": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/lientpp-20190206204505-deployment/amplify-cfn-templates/auth/cognitod5ccb08d-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/clientapp-20190429212927-deployment/amplify-cfn-templates/auth/cognito1e8c73cc-cloudformation-template.yml",
 				"Parameters": {
+					"identityPoolName": "cognito1e8c73cc_identitypool_1e8c73cc",
+					"allowUnauthenticatedIdentities": true,
+					"lambdaLogPolicy": "cognito1e8c73cc_lambda_log_policy",
+					"openIdLambdaRoleName": "cognito1e8c73cc_openid_lambda_role",
+					"openIdRolePolicy": "cognito1e8c73cc_openid_pass_role_policy",
+					"openIdLambdaIAMPolicy": "cognito1e8c73cc_openid_lambda_iam_policy",
+					"openIdLogPolicy": "cognito1e8c73cc_openid_lambda_log_policy",
+					"userPoolName": "cognito1e8c73cc_userpool_1e8c73cc",
+					"autoVerifiedAttributes": "email",
+					"mfaConfiguration": "OFF",
+					"mfaTypes": "SMS Text Message",
+					"roleName": "cognito1e8c73cc_sns-role",
+					"roleExternalId": "cognito1e8c73cc_role_external_id",
+					"policyName": "cognito1e8c73cc-sns-policy",
+					"smsAuthenticationMessage": "Your authentication code is {####}",
+					"smsVerificationMessage": "Your verification code is {####}",
+					"emailVerificationSubject": "Your verification code",
+					"emailVerificationMessage": "Your verification code is {####}",
+					"defaultPasswordPolicy": false,
+					"passwordPolicyMinLength": 8,
+					"passwordPolicyCharacters": "Requires Lowercase,Requires Uppercase,Requires Numbers,Requires Symbols",
+					"requiredAttributes": "email,phone_number",
+					"userpoolClientName": "cognito1e8c73cc_app_client",
+					"userpoolClientGenerateSecret": true,
+					"userpoolClientRefreshTokenValidity": 30,
+					"userpoolClientWriteAttributes": "email",
+					"userpoolClientReadAttributes": "email",
+					"mfaLambdaRole": "cognito1e8c73cc_totp_lambda_role",
+					"mfaLambdaLogPolicy": "cognito1e8c73cc_totp_lambda_log_policy",
+					"mfaPassRolePolicy": "cognito1e8c73cc_totp_pass_role_policy",
+					"mfaLambdaIAMPolicy": "cognito1e8c73cc_totp_lambda_iam_policy",
+					"userpoolClientLambdaRole": "cognito1e8c73cc_userpoolclient_lambda_role",
+					"userpoolClientLogPolicy": "cognito1e8c73cc_userpoolclient_lambda_log_policy",
+					"userpoolClientLambdaPolicy": "cognito1e8c73cc_userpoolclient_lambda_iam_policy",
+					"userpoolClientSetAttributes": false,
+					"resourceName": "cognito1e8c73cc",
+					"authSelections": "identityPoolAndUserPool",
 					"authRoleName": {
 						"Ref": "AuthRoleName"
 					},
@@ -101,67 +138,41 @@
 							"Arn"
 						]
 					},
-					"identityPoolName": "cognitod5ccb08d_identitypool_d5ccb08d",
-					"allowUnauthenticatedIdentities": false,
-					"thirdPartyAuth": false,
-					"lambdaLogPolicy": "cognitod5ccb08d_lambda_log_policy",
-					"openIdLambdaRoleName": "cognitod5ccb08d_openid_lambda_role",
-					"openIdRolePolicy": "cognitod5ccb08d_openid_pass_role_policy",
-					"openIdLambdaIAMPolicy": "cognitod5ccb08d_openid_lambda_iam_policy",
-					"openIdLogPolicy": "cognitod5ccb08d_openid_lambda_log_policy",
-					"userPoolName": "cognitod5ccb08d_userpool_d5ccb08d",
-					"autoVerifiedAttributes": "email",
-					"mfaConfiguration": "OFF",
-					"mfaTypes": "SMS Text Message",
-					"roleName": "cognitod5ccb08d_sns-role",
-					"roleExternalId": "cognitod5ccb08d_role_external_id",
-					"policyName": "cognitod5ccb08d-sns-policy",
-					"smsAuthenticationMessage": "Your authentication code is {####}",
-					"smsVerificationMessage": "Your verification code is {####}",
-					"emailVerificationSubject": "Your verification code",
-					"emailVerificationMessage": "Your verification code is {####}",
-					"defaultPasswordPolicy": false,
-					"passwordPolicyMinLength": 8,
-					"passwordPolicyCharacters": "Requires Lowercase,Requires Uppercase,Requires Numbers,Requires Symbols",
-					"requiredAttributes": "email",
-					"userpoolClientName": "cognitod5ccb08d_app_client",
-					"userpoolClientGenerateSecret": true,
-					"userpoolClientRefreshTokenValidity": 30,
-					"userpoolClientReadAttributes": "email",
-					"mfaLambdaRole": "cognitod5ccb08d_totp_lambda_role",
-					"mfaLambdaLogPolicy": "cognitod5ccb08d_totp_lambda_log_policy",
-					"mfaPassRolePolicy": "cognitod5ccb08d_totp_pass_role_policy",
-					"mfaLambdaIAMPolicy": "cognitod5ccb08d_totp_lambda_iam_policy",
-					"userpoolClientLambdaRole": "cognitod5ccb08d_userpoolclient_lambda_role",
-					"userpoolClientLogPolicy": "cognitod5ccb08d_userpoolclient_lambda_log_policy",
-					"userpoolClientLambdaPolicy": "cognitod5ccb08d_userpoolclient_lambda_iam_policy",
-					"userpoolClientSetAttributes": false,
 					"useDefault": "default",
-					"unAuthRoleName": "lientpp-20190206204505-unauthRole",
-					"unAuthRoleArn": "arn:aws:iam::433093349422:role/lientpp-20190206204505-unauthRole",
-					"resourceName": "cognitod5ccb08d",
-					"authSelections": "identityPoolAndUserPool",
-					"env": "NONE"
+					"env": "env"
 				}
 			}
 		},
-		"storageamplifys3storage": {
+		"storageknightsarcade": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/lientpp-20190206204505-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/clientapp-20190429212927-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
-					"bucketName": "knightsarcades3",
-					"authPolicyName": "s3_amplify_54e5ce27",
-					"unauthPolicyName": "s3_amplify_54e5ce27",
+					"bucketName": "knightsarcade",
+					"authPolicyName": "s3_amplify_ca400cee",
+					"unauthPolicyName": "s3_amplify_ca400cee",
 					"authRoleName": {
 						"Ref": "AuthRoleName"
 					},
 					"unauthRoleName": {
 						"Ref": "UnauthRoleName"
 					},
-					"authPermissions": "rw",
-					"unauthPermissions": "",
-					"env": "NONE"
+					"selectedGuestPermissions": "s3:GetObject,s3:ListBucket",
+					"selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+					"s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PublicPolicy": "Public_policy_a93c4897",
+					"s3PermissionsAuthenticatedUploads": "s3:PutObject",
+					"s3UploadsPolicy": "Uploads_policy_a93c4897",
+					"s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3ProtectedPolicy": "Protected_policy_213794de",
+					"s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PrivatePolicy": "Private_policy_213794de",
+					"AuthenticatedAllowList": "ALLOW",
+					"s3ReadPolicy": "read_policy_a93c4897",
+					"s3PermissionsGuestPublic": "s3:GetObject",
+					"s3PermissionsGuestUploads": "DISALLOW",
+					"GuestAllowList": "ALLOW",
+					"env": "env"
 				}
 			}
 		}

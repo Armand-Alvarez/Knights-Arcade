@@ -1,5 +1,7 @@
 {
     "projectName": "ClientApp",
+    "version": "2.0",
+    "frontend": "javascript",
     "javascript": {
         "framework": "react",
         "config": {
@@ -11,7 +13,5 @@
     },
     "providers": [
         "awscloudformation"
-    ],
-    "frontend": "javascript",
-    "version": "2.0"
+    ]
 }

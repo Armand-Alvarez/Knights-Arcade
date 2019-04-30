@@ -77,12 +77,12 @@ class ReviewPage extends Component {
                 this.setState({ numImages: gamedata.gameImg.length });
             })
             .then(async (gamedata) => {
-                this.setState({ gameImage0: await Storage.get(this.state.gamedata.gameImg[0]) })
-                this.setState({ gameImage1: await Storage.get(this.state.gamedata.gameImg[1]) })
-                this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2]) })
-                this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3]) })
-                this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4]) })
-                this.setState({ file: await Storage.get(this.state.gamedata.gamePath) })
+                this.setState({ gameImage0: await Storage.get(this.state.gamedata.gameImg[0], { level: 'public' }) })
+                this.setState({ gameImage1: await Storage.get(this.state.gamedata.gameImg[1], { level: 'public' }) })
+                this.setState({ gameImage2: await Storage.get(this.state.gamedata.gameImg[2], { level: 'public' }) })
+                this.setState({ gameImage3: await Storage.get(this.state.gamedata.gameImg[3], { level: 'public' }) })
+                this.setState({ gameImage4: await Storage.get(this.state.gamedata.gameImg[4], { level: 'public' }) })
+                this.setState({ file: await Storage.get(this.state.gamedata.gamePath, { level: 'public' }) })
             })
 
         axios.get(getTestRequest)
@@ -236,11 +236,11 @@ class ReviewPage extends Component {
                             'Authorization': "Bearer " + Auth.user.signInUserSession.accessToken.jwtToken
                         }
                     }).catch(err => { });
-                    Storage.remove(gamePath).catch(err => { });
+                    Storage.remove(gamePath, { level: 'public' }).catch(err => { });
                     gameImg.forEach(function (img) {
-                        Storage.remove(img).catch(err => { });
+                        Storage.remove(img, { level: 'public' }).catch(err => { });
                     });
-                    Storage.remove(gamePath).catch(err => { });
+                    Storage.remove(gamePath, { level: 'public' }).catch(err => { });
 
                     parent.setState({ reviewModal: true });
                     parent.setState({ reviewMessage: "The game has been denied successfully" })

@@ -67,7 +67,7 @@ class MyProfile extends Component {
                             lastName: response.data.userLastName,
                             fullName: response.data.userFirstName + " " + response.data.userLastName,
                             major: response.data.userMajor,
-                            imgSrc: await Storage.get(response.data.userImagePath),
+                            imgSrc: await Storage.get(response.data.userImagePath, { level: 'public' }),
                             imgURL: response.data.userImagePath
                         })
                     }
@@ -138,7 +138,7 @@ class MyProfile extends Component {
     }
 
     handleSaveImg() {
-        Storage.put(this.state.imgURL, this.state.imgFile)
+        Storage.put(this.state.imgURL, this.state.imgFile, { level: 'public' })
             .then(() => {
                 this.handleSave();
             })

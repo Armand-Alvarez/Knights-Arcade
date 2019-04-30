@@ -77,15 +77,15 @@ export class GameSlides extends Component {
                 if (data.length === random) {
                     this.setState({ GameOneTitle: data[0].gameName })
                     this.setState({ GameOneDescription: data[0].gameDescription })
-                    this.setState({ GameOneImage: await Storage.get(data[0].gameImg[0]) })
+                    this.setState({ GameOneImage: await Storage.get(data[0].gameImg[0], { level: 'public' }) })
                     this.setState({ GameOneId: data[0].gameId })
                     this.setState({ GameTwoTitle: data[1].gameName })
                     this.setState({ GameTwoDescription: data[1].gameDescription })
-                    this.setState({ GameTwoImage: await Storage.get(data[1].gameImg[0]) })
+                    this.setState({ GameTwoImage: await Storage.get(data[1].gameImg[0], { level: 'public' }) })
                     this.setState({ GameTwoId: data[1].gameId })
                     this.setState({ GameThreeTitle: data[2].gameName })
                     this.setState({ GameThreeDescription: data[2].gameDescription })
-                    this.setState({ GameThreeImage: await Storage.get(data[2].gameImg[0]) })
+                    this.setState({ GameThreeImage: await Storage.get(data[2].gameImg[0], { level: 'public' }) })
                     this.setState({ GameThreeId: data[2].gameId })
                 }
             })

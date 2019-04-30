@@ -19,7 +19,7 @@ export class ManageUsersComponent extends Component {
 
     componentDidMount() {
         const imgPath = this.props.userData.userImagePath;
-        Storage.get(imgPath)
+        Storage.get(imgPath, { level: 'public' })
             .then(result => {
                 this.setState({
                     imgName: this.props.userData.userImg,
